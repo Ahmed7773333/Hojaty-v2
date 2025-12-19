@@ -1,0 +1,58 @@
+name: Telegram Release
+
+on:
+  push:
+    branches: [ dev, main ]
+  workflow_dispatch:
+
+jobs:
+  build_and_send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      # ---------- KEYSTORE ----------
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
+
+      - name: Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEY_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=my-release-key.jks" >> android/key.properties
+
+      # ---------- BUILD & DEPLOY ----------
+      - name: Build & Send via Fastlane
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PROJECT_NAME: "Hojaty"
+        run: |
+          cd android
+          bundle install
+
+          if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
+            echo "DEV branch → sending arm64-v8a APK"
+            bundle exec fastlane telegram_apk
+          elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "MAIN branch → sending AAB"
+            bundle exec fastlane telegram_aab
+          fi
