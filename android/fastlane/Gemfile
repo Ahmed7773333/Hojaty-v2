@@ -1,6 +1,14 @@
 source "https://rubygems.org"
 
-gem "fastlane"
+# Force a modern version
+gem "fastlane", ">= 2.230.0"
 
-plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
+# Required for Ruby 3.x compatibility
+gem "abbrev"
+gem "ostruct"
+gem "mutex_m"
+gem "base64"
+gem "bigdecimal"
+
+plugins_path = File.join(File.dirname(__FILE__), 'Pluginfile')
 eval_gemfile(plugins_path) if File.exist?(plugins_path)
