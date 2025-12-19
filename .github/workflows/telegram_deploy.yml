@@ -58,8 +58,7 @@ jobs:
           # 3. Use bundler to update fastlane inside the local environment
           bundle update fastlane
 
-          # 4. Make Gradle executable (crucial for Linux runners)
-          chmod +x ../../gradlew
+          
 
           # 5. Run Fastlane lane based on branch
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
