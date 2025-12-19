@@ -17,7 +17,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: true
+          bundler-cache: false   # we handle bundler version manually
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -47,12 +47,19 @@ jobs:
           PROJECT_NAME: "Hojaty"
         run: |
           cd android
-          bundle install
 
+          # Install exact Bundler version required by Gemfile.lock
+          gem install bundler:4.0.2
+
+          # Configure local bundle path and install gems
+          bundle _4.0.2_ config set path 'vendor/bundle'
+          bundle _4.0.2_ install
+
+          # Run Fastlane depending on branch
           if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
             echo "DEV branch → sending arm64-v8a APK"
-            bundle exec fastlane telegram_apk
+            bundle _4.0.2_ exec fastlane telegram_apk
           elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "MAIN branch → sending AAB"
-            bundle exec fastlane telegram_aab
+            bundle _4.0.2_ exec fastlane telegram_aab
           fi
