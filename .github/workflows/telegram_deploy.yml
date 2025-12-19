@@ -49,19 +49,19 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           PROJECT_NAME: "Hojaty"
         run: |
-          # Move to your specific nested fastlane directory
+          # 1. Enter the directory where Gemfile lives
           cd android/fastlane/fastlane
 
-          # Ensure bundler is ready
+          # 2. Force install the modern bundler
           gem install bundler:4.0.2
-          
-          # Install dependencies from Gemfile
-          bundle install
 
-          # Update fastlane to the latest version as requested
-          bundle exec gem update fastlane
+          # 3. Use bundler to update fastlane inside the local environment
+          bundle update fastlane
 
-          # Run Fastlane lane based on branch
+          # 4. Make Gradle executable (crucial for Linux runners)
+          chmod +x ../../gradlew
+
+          # 5. Run Fastlane lane based on branch
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "Running DEV branch lane..."
             bundle exec fastlane android telegram_apk
