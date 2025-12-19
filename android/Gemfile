@@ -1,0 +1,11 @@
+source "https://rubygems.org"
+
+gem "fastlane"
+
+# Fixes for Ruby 3.4+
+gem "abbrev"
+gem "ostruct"
+gem "mutex_m"
+gem "bigdecimal"
+gem "csv"
+gem "drb"

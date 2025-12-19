@@ -34,7 +34,7 @@ class HomeView extends StatelessWidget {
               case HomeStatus.loading:
                 return const CircularProgressIndicator();
               case HomeStatus.loaded:
-                return const Text('Data Loaded ✅');
+                return const Text('Data  ✅');
               case HomeStatus.error:
                 return Text('Error: ${state.message}');
             }
