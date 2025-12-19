@@ -18,8 +18,8 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
-          bundler-cache: false   # handle bundler manually
+          ruby-version: '3.2'
+          bundler-cache: false 
 
       # ---------- Flutter ----------
       - name: Setup Flutter
@@ -49,22 +49,21 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           PROJECT_NAME: "Hojaty"
         run: |
-          cd android
+          # IMPORTANT: We go to the folder where your Gemfile lives.
+          # Based on your previous logs, this is:
+          cd android/fastlane/fastlane
 
-          # Install exact Bundler version
+          # Install Bundler
           gem install bundler:4.0.2
 
-          # Configure local bundle path and install gems
-          bundle _4.0.2_ config set path 'vendor/bundle'
-          bundle _4.0.2_ install
+          # Install Gems (including the telegram plugin)
+          bundle install
 
           # Run Fastlane lane based on branch
-          if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
-            echo "DEV branch → sending arm64-v8a APK"
-            bundle _4.0.2_ exec fastlane android telegram_apk
-          elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
-            echo "MAIN branch → sending AAB"
-            bundle _4.0.2_ exec fastlane android telegram_aab
-          else
-            echo "Branch ${GITHUB_REF_NAME} has no Fastlane lane configured"
+          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "Running DEV branch lane..."
+            bundle exec fastlane android telegram_apk
+          elif [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "Running MAIN branch lane..."
+            bundle exec fastlane android telegram_aab
           fi

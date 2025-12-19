@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.000393">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: flutter build apk --release --split-per-abi --build-name=1.0.1766159343 --build-number=1766159343" time="7.433532">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: telegram" time="16.692587">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

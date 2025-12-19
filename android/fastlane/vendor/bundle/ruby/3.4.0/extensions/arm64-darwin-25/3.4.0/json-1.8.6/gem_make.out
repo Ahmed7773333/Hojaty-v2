@@ -1,0 +1,16 @@
+current directory: /Users/a1/Flutter Projects/hojaty/android/fastlane/vendor/bundle/ruby/3.4.0/gems/json-1.8.6/ext/json
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/a1/Flutter Projects/hojaty/android/fastlane/vendor/bundle/ruby/3.4.0/gems/json-1.8.6/ext/json
+make -j9 DESTDIR\= sitearchdir\=./.gem.20251219-37205-8w80tm sitelibdir\=./.gem.20251219-37205-8w80tm clean
+
+current directory: /Users/a1/Flutter Projects/hojaty/android/fastlane/vendor/bundle/ruby/3.4.0/gems/json-1.8.6/ext/json
+make -j9 DESTDIR\= sitearchdir\=./.gem.20251219-37205-8w80tm sitelibdir\=./.gem.20251219-37205-8w80tm
+make: Nothing to be done for `all'.
+
+current directory: /Users/a1/Flutter Projects/hojaty/android/fastlane/vendor/bundle/ruby/3.4.0/gems/json-1.8.6/ext/json
+make -j9 DESTDIR\= sitearchdir\=./.gem.20251219-37205-8w80tm sitelibdir\=./.gem.20251219-37205-8w80tm install
+
+current directory: /Users/a1/Flutter Projects/hojaty/android/fastlane/vendor/bundle/ruby/3.4.0/gems/json-1.8.6/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20251219-37205-8w80tm sitelibdir\=./.gem.20251219-37205-8w80tm clean
