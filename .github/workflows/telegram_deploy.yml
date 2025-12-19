@@ -55,6 +55,8 @@ jobs:
 
           # 2. Install modern Bundler
           gem install bundler:4.0.2
+          bundle add fastlane-plugin-telegram
+
 
           # 3. Re-generate the lockfile with modern gems
           bundle install
