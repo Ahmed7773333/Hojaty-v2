@@ -56,7 +56,7 @@ jobs:
           gem install bundler:4.0.2
 
           # 3. Use bundler to update fastlane inside the local environment
-          bundle update fastlane
+          sudo gem update fastlane
 
           
 
