@@ -2,23 +2,26 @@ name: Telegram Release
 
 on:
   push:
-    branches: [ dev, main ]
-  workflow_dispatch:
+    branches: [ dev, main ]   # triggers on dev or main
+  workflow_dispatch:          # allows manual trigger
 
 jobs:
   build_and_send:
     runs-on: ubuntu-latest
 
     steps:
+      # ---------- Checkout ----------
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # ---------- Ruby & Bundler ----------
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.0'
-          bundler-cache: false   # we handle bundler version manually
+          bundler-cache: false   # handle bundler manually
 
+      # ---------- Flutter ----------
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -48,18 +51,20 @@ jobs:
         run: |
           cd android
 
-          # Install exact Bundler version required by Gemfile.lock
+          # Install exact Bundler version
           gem install bundler:4.0.2
 
           # Configure local bundle path and install gems
           bundle _4.0.2_ config set path 'vendor/bundle'
           bundle _4.0.2_ install
 
-          # Run Fastlane depending on branch
+          # Run Fastlane lane based on branch
           if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
             echo "DEV branch → sending arm64-v8a APK"
-            bundle _4.0.2_ exec fastlane telegram_apk
+            bundle _4.0.2_ exec fastlane android telegram_apk
           elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "MAIN branch → sending AAB"
-            bundle _4.0.2_ exec fastlane telegram_aab
+            bundle _4.0.2_ exec fastlane android telegram_aab
+          else
+            echo "Branch ${GITHUB_REF_NAME} has no Fastlane lane configured"
           fi
