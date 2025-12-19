@@ -51,9 +51,13 @@ jobs:
         run: |
           # 1. Enter the directory where Gemfile lives
           cd android/fastlane/fastlane
+          rm -f Gemfile.lock
 
-          # 2. Force install the modern bundler
+          # 2. Install modern Bundler
           gem install bundler:4.0.2
+
+          # 3. Re-generate the lockfile with modern gems
+          bundle install
 
           # 3. Use bundler to update fastlane inside the local environment
           sudo gem update fastlane
