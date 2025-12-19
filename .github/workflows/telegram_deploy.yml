@@ -19,7 +19,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: false 
+          bundler-cache: true # Speeds up subsequent runs
 
       # ---------- Flutter ----------
       - name: Setup Flutter
@@ -49,15 +49,17 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           PROJECT_NAME: "Hojaty"
         run: |
-          # IMPORTANT: We go to the folder where your Gemfile lives.
-          # Based on your previous logs, this is:
+          # Move to your specific nested fastlane directory
           cd android/fastlane/fastlane
 
-          # Install Bundler
+          # Ensure bundler is ready
           gem install bundler:4.0.2
-
-          # Install Gems (including the telegram plugin)
+          
+          # Install dependencies from Gemfile
           bundle install
+
+          # Update fastlane to the latest version as requested
+          bundle exec gem update fastlane
 
           # Run Fastlane lane based on branch
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
