@@ -3,5 +3,15 @@
   "home": "الرئيسية",
   "radio": "الراديو",
   "azkar": "الأذكار",
-  "settings": "الإعدادات"
+  "settings": "الإعدادات",
+  "appearance": "المظهر",
+  "system": "النظام",
+  "light": "فاتح",
+  "dark": "داكن",
+  "language": "اللغة",
+  "english": "English",
+  "arabic": "العربية",
+  "location": "الموقع",
+  "currentCity": "المدينة الحالية",
+  "unknown": "غير معروف"
 }

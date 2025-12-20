@@ -8,24 +8,23 @@ import '../presentation/bloc/settings_bloc.dart';
 
 Future<void> initSettingsInjector() async {
   // BLoC
-  injector.registerFactory(() => SettingsBloc(
-        getSettings: injector(),
-      ));
+  injector.registerFactory(() => SettingsBloc(getSettings: injector()));
 
   // UseCases
   injector.registerLazySingleton(() => GetSettingsUseCase(injector()));
 
   // Repositories
-  injector.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(
-        remote: injector(),
-        local: injector(),
-      ));
+  injector.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(),
+  );
 
   // DataSources
   // Note: Registering as RemoteDataSourceImpl/LocalDataSourceImpl
   // If they required dependencies (like ApiConsumer), they would be passed here.
   injector.registerLazySingleton<SettingsRemoteDataSource>(
-      () => SettingsRemoteDataSource());
+    () => SettingsRemoteDataSource(),
+  );
   injector.registerLazySingleton<SettingsLocalDataSource>(
-      () => SettingsLocalDataSource());
+    () => SettingsLocalDataSource(),
+  );
 }

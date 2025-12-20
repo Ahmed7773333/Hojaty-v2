@@ -22,4 +22,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settings => 'الإعدادات';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get system => 'النظام';
+
+  @override
+  String get light => 'فاتح';
+
+  @override
+  String get dark => 'داكن';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get location => 'الموقع';
+
+  @override
+  String get currentCity => 'المدينة الحالية';
+
+  @override
+  String get unknown => 'غير معروف';
 }
