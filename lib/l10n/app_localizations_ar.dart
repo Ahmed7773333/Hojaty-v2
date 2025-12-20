@@ -10,4 +10,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appTitle => 'حجتي';
+
+  @override
+  String get home => 'الرئيسية';
+
+  @override
+  String get radio => 'الراديو';
+
+  @override
+  String get azkar => 'الأذكار';
+
+  @override
+  String get settings => 'الإعدادات';
 }

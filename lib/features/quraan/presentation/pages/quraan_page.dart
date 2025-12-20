@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../di/quraan_injector.dart';
 import '../../../../core/di/injector.dart';
 import '../bloc/quraan_bloc.dart';
 import '../bloc/quraan_event.dart';

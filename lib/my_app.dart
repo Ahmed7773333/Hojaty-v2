@@ -17,7 +17,7 @@ class HojatyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
+      providers: const [
         // BlocProvider(
         //   create: (_) => injector<AuthBloc>()..add(CheckAuthStatusEvent()),
         // ),

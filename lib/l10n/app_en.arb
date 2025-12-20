@@ -2,5 +2,21 @@
   "appTitle": "Hojaty",
   "@appTitle": {
     "description": "The title of the application"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home tab title"
+  },
+  "radio": "Radio",
+  "@radio": {
+    "description": "Radio tab title"
+  },
+  "azkar": "Azkar",
+  "@azkar": {
+    "description": "Azkar tab title"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings tab title"
   }
 }

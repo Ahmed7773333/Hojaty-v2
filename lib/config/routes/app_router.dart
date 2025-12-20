@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'custom_routes.dart';
+
+import '../../features/home/presentation/pages/home_layout.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -14,8 +15,8 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const SplashPage());
       // case AppRoutes.login:
       //   return RightRouting(const LoginPage());
-      // case AppRoutes.home:
-      //   return RightRouting(const HomePage());
+      case AppRoutes.home:
+        return MaterialPageRoute(builder: (_) => const HomeLayout());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

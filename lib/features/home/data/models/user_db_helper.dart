@@ -1,8 +1,7 @@
 import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive/hive.dart';
-import 'package:hojaty/core/constants/app_constants.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'user_db.dart';
 import 'package:geocoding/geocoding.dart';
 
