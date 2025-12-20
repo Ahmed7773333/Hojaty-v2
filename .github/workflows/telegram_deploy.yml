@@ -54,7 +54,6 @@ jobs:
           rm -f Gemfile.lock
 
           # 2. Install modern Bundler
-          gem install bundler:4.0.2
           gem install bundler:2.7.2
           bundle _2.7.2_ add fastlane-plugin-telegram
           

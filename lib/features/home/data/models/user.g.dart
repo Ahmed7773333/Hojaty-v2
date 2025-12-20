@@ -5,7 +5,6 @@ part of 'user_db.dart';
 // ***************************************************************************
 // TypeAdapterGenerator
 // ***************************************************************************
-
 class UserAdapter extends TypeAdapter<User> {
   @override
   final int typeId = 0;
@@ -17,18 +16,16 @@ class UserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
 
-    final field_0 = fields[0];
-    final field_1 = fields[1];
-    final field_2 = fields[2];
-    final field_3 = fields[3];
-    final field_4 = fields[4];
+    final double? lat = fields[0] as double?;
+    final double? lng = fields[1] as double?;
 
     return User(
-      lastKnownLocation:
-          Coordinates(([field_0] as double?) ?? 0, ([field_1] as double?) ?? 0),
-      cityName: [field_2] as String?,
-      themeMode: ThemeMode.values[(field_3 as int?) ?? 0],
-      isEnglish: field_4 as bool?,
+      lastKnownLocation: (lat != null && lng != null)
+          ? Coordinates(lat, lng)
+          : null,
+      cityName: fields[2] as String?,
+      themeMode: ThemeMode.values[(fields[3] as int?) ?? 0],
+      isEnglish: fields[4] as bool?,
     );
   }
 
@@ -49,12 +46,12 @@ class UserAdapter extends TypeAdapter<User> {
   }
 
   @override
-  int get hashCode => typeId.hashCode;
-
-  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is UserAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
+
+  @override
+  int get hashCode => typeId.hashCode;
 }

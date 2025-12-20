@@ -1,0 +1,42 @@
+{
+  "appTitle": "Hojaty",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Home tab title"
+  },
+  "radio": "Radio",
+  "@radio": {
+    "description": "Radio tab title"
+  },
+  "azkar": "Azkar",
+  "@azkar": {
+    "description": "Azkar tab title"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  "appearance": "Appearance",
+  "@appearance": { "description": "Appearance section header" },
+  "system": "System",
+  "@system": { "description": "System theme option" },
+  "light": "Light",
+  "@light": { "description": "Light theme option" },
+  "dark": "Dark",
+  "@dark": { "description": "Dark theme option" },
+  "language": "Language",
+  "@language": { "description": "Language section header" },
+  "english": "English",
+  "@english": { "description": "English language option" },
+  "arabic": "Arabic",
+  "@arabic": { "description": "Arabic language option" },
+  "location": "Location",
+  "@location": { "description": "Location section header" },
+  "currentCity": "Current City",
+  "@currentCity": { "description": "Current city label" },
+  "unknown": "Unknown",
+  "@unknown": { "description": "Unknown value placeholder" }
+}

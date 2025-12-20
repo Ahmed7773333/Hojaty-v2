@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../di/azkar_injector.dart';
 import '../../../../core/di/injector.dart';
 import '../bloc/azkar_bloc.dart';
 import '../bloc/azkar_event.dart';

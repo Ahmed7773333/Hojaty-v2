@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
@@ -7,3 +8,17 @@ abstract class SettingsEvent extends Equatable {
 }
 
 class LoadSettingsEvent extends SettingsEvent {}
+
+class UpdateThemeEvent extends SettingsEvent {
+  final ThemeMode themeMode;
+  const UpdateThemeEvent(this.themeMode);
+  @override
+  List<Object> get props => [themeMode];
+}
+
+class UpdateLanguageEvent extends SettingsEvent {
+  final bool isEnglish;
+  const UpdateLanguageEvent(this.isEnglish);
+  @override
+  List<Object> get props => [isEnglish];
+}
