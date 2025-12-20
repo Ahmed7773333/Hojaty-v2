@@ -50,7 +50,7 @@ jobs:
           PROJECT_NAME: "Hojaty"
         run: |
           # 1. Enter the directory where Gemfile lives
-          cd android/fastlane/fastlane
+          cd android
           rm -f Gemfile.lock
 
           # 2. Install modern Bundler
