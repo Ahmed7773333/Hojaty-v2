@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:timegates/l10n/app_localizations.dart';
+// import 'package:hojaty/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
   // AppLocalizations get strings => AppLocalizations.of(this)!;

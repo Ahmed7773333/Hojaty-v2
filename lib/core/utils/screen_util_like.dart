@@ -3,7 +3,7 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
-import '../../main.dart'; // Changed from my_app.dart
+import '../../my_app.dart'; // Changed from my_app.dart
 
 class ScreenUtil {
   ScreenUtil._();
@@ -26,7 +26,7 @@ class ScreenUtil {
     double designH = 812,
   }) {
     // Changed from MyApp
-    final ctx = context ?? HojatyApp.navigatorKey.currentContext; 
+    final ctx = context ?? HojatyApp.navigatorKey.currentContext;
     if (ctx == null) {
       // If no context available, do nothing now — will auto-init later on demand
       designWidth = designW;
