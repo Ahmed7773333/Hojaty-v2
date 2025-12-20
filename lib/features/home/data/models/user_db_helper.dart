@@ -18,12 +18,17 @@ class UserDbHelper {
     Coordinates? currentLocation;
     String city = 'موقع غير معروف';
 
-    LocationPermission permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      Position position = await Geolocator.getCurrentPosition();
-      currentLocation = Coordinates(position.latitude, position.longitude);
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
       try {
+        Position position = await Geolocator.getCurrentPosition();
+        currentLocation = Coordinates(position.latitude, position.longitude);
+
         List<Placemark> placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,
@@ -33,7 +38,7 @@ class UserDbHelper {
           city = placemarks.first.locality ?? city;
         }
       } catch (e) {
-        debugPrint('Geocoding error: $e');
+        debugPrint('Geocoding or Location error: $e');
       }
     }
 
@@ -41,12 +46,7 @@ class UserDbHelper {
       await Hive.openBox<User>(boxName);
     }
     if (getById() == null) {
-      await add(
-          key,
-          User(
-            lastKnownLocation: currentLocation,
-            cityName: city,
-          ));
+      await add(key, User(lastKnownLocation: currentLocation, cityName: city));
     }
   }
 
@@ -74,8 +74,9 @@ class UserDbHelper {
 
   /// Deletes every item whose value satisfies [test].
   static Future<int> deleteWhere(Condition test) async {
-    final keysToDelete =
-        _box.keys.where((k) => test(_box.get(k) as User)).toList();
+    final keysToDelete = _box.keys
+        .where((k) => test(_box.get(k) as User))
+        .toList();
     await _box.deleteAll(keysToDelete);
     return keysToDelete.length;
   }

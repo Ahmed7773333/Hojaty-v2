@@ -15,7 +15,7 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const SplashPage());
       // case AppRoutes.login:
       //   return RightRouting(const LoginPage());
-      case AppRoutes.home:
+      case AppRoutes.splash:
         return MaterialPageRoute(builder: (_) => const HomeLayout());
       default:
         return MaterialPageRoute(

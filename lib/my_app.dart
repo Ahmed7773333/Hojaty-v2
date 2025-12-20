@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 
@@ -16,32 +15,24 @@ class HojatyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: const [
-        // BlocProvider(
-        //   create: (_) => injector<AuthBloc>()..add(CheckAuthStatusEvent()),
-        // ),
-        // Add other global BLoCs here
+    return MaterialApp(
+      navigatorKey: HojatyApp.navigatorKey, // Assign the key
+      title: 'Hojaty',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Or control this with a BLoC
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('ar'), // Arabic
       ],
-      child: MaterialApp(
-        navigatorKey: HojatyApp.navigatorKey, // Assign the key
-        title: 'Hojaty',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system, // Or control this with a BLoC
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        supportedLocales: const [
-          Locale('en'), // English
-          Locale('ar'), // Arabic
-        ],
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-      ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }
