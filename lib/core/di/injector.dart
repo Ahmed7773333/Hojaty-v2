@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hojaty/features/azkar/di/azkar_injector.dart';
 import 'package:hojaty/features/home/di/home_injector.dart';
 import 'package:hojaty/features/prayers/di/prayers_injector.dart';
+import 'package:hojaty/features/quraan/di/quraan_injector.dart';
 import 'package:hojaty/features/radio/di/radio_injector.dart';
 import 'package:hojaty/features/settings/di/settings_injector.dart';
 import '../network/api_consumer.dart';
@@ -25,6 +26,7 @@ Future<void> setupInjector() async {
   initPrayersInjector();
   initRadioInjector();
   initSettingsInjector();
+  initQuraanInjector();
 
   // Features
   // await initAuthInjector();
