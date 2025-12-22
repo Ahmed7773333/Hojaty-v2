@@ -19,15 +19,29 @@ class User extends HiveObject {
   @HiveField(3)
   bool? isEnglish;
 
+  @HiveField(4)
+  int? tasbihNumber;
+
+  @HiveField(5)
+  bool? isSoundEnabled;
+
+  @HiveField(6)
+  bool? isVibrateEnabled;
+
   User({
     this.lastKnownLocation,
     this.cityName,
     this.themeMode,
     this.isEnglish,
+    this.tasbihNumber,
+    this.isSoundEnabled,
+    this.isVibrateEnabled,
   });
 
   // ----------------- UI getters/setters -----------------
-  Coordinates get uiLastKnownLocation => lastKnownLocation ?? const Coordinates(30.108772, 31.319205); // Cairo, Egy
+  Coordinates get uiLastKnownLocation =>
+      lastKnownLocation ??
+      const Coordinates(30.108772, 31.319205); // Cairo, Egy
 
   set uiLastKnownLocation(Coordinates? v) {
     lastKnownLocation = v;
@@ -44,7 +58,7 @@ class User extends HiveObject {
     } catch (_) {}
   }
 
-  ThemeMode? get uiThemeMode => themeMode ?? ThemeMode.system;
+  ThemeMode get uiThemeMode => themeMode ?? ThemeMode.system;
   set uiThemeMode(ThemeMode? v) {
     themeMode = v;
     try {
@@ -52,7 +66,7 @@ class User extends HiveObject {
     } catch (_) {}
   }
 
-  bool? get uiIsEnglish => isEnglish ?? false;
+  bool get uiIsEnglish => isEnglish ?? false;
   set uiIsEnglish(bool? v) {
     isEnglish = v;
     try {
@@ -60,17 +74,66 @@ class User extends HiveObject {
     } catch (_) {}
   }
 
+  int get tasbihNumberUI => tasbihNumber ?? 0;
+  set tasbihNumberUI(int? v) {
+    tasbihNumber = v;
+    try {
+      save();
+    } catch (_) {}
+  }
+
+  bool get uiIsSoundEnabled => isSoundEnabled ?? true;
+  set uiIsSoundEnabled(bool? v) {
+    isSoundEnabled = v;
+    try {
+      save();
+    } catch (_) {}
+  }
+
+  bool get uiIsVibrateEnabled => isVibrateEnabled ?? true;
+  set uiIsVibrateEnabled(bool? v) {
+    isVibrateEnabled = v;
+    try {
+      save();
+    } catch (_) {}
+  }
+
+  void increaseTashbih() {
+    tasbihNumber = tasbihNumberUI + 1;
+    save();
+  }
+
+  void decreaseTashbih() {
+    tasbihNumber = tasbihNumberUI - 1;
+    save();
+  }
+
+  void resetTashbihNumber() {
+    tasbihNumber = 0;
+    save();
+  }
+
+  void changeTasbihNumber(bool increment) {
+    if (increment) {
+      increaseTashbih();
+    } else {
+      decreaseTashbih();
+    }
+  }
+
   User copyWith({
     Coordinates? lastKnownLocation,
     String? cityName,
     ThemeMode? themeMode,
     bool? isEnglish,
+    int? tasbihNumber,
   }) {
     return User(
       lastKnownLocation: lastKnownLocation ?? this.lastKnownLocation,
       cityName: cityName ?? this.cityName,
       themeMode: themeMode ?? this.themeMode,
       isEnglish: isEnglish ?? this.isEnglish,
+      tasbihNumber: tasbihNumber ?? this.tasbihNumber,
     );
   }
 
@@ -79,7 +142,10 @@ class User extends HiveObject {
       'lastKnownLocation': lastKnownLocation,
       'cityName': cityName,
       'themeMode': themeMode?.index,
-      'isEnglish': isEnglish ,
+      'isEnglish': isEnglish,
+      'tasbihNumber': tasbihNumber,
+      'isSoundEnabled': isSoundEnabled,
+      'isVibrateEnabled': isVibrateEnabled,
     };
   }
 

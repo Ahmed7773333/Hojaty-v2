@@ -20,6 +20,15 @@ class PrayersHelper {
     return prayerTimes;
   }
 
+  Map<String, String> arNames = {
+    'fajrAfter': 'الفجر',
+    'sunrise': 'الشروق',
+    'dhuhr': 'الظهر',
+    'asr': 'العصر',
+    'maghrib': 'المغرب',
+    'isha': 'العشاء',
+  };
+
   /// Calculates prayer times for today.
   Future<Map<String, DateTime>> getTodayPrayerTimes() async {
     final prayerTimes = getPrayerTimes(now);
@@ -42,11 +51,10 @@ class PrayersHelper {
     Map<String, DateTime> times,
   ) async {
     final prayerTimes = getPrayerTimes(now);
-
     MapEntry<String, DateTime>? next;
 
     next = MapEntry(
-      prayerTimes.nextPrayer().name,
+      arNames[prayerTimes.nextPrayer().name] ?? '',
       prayerTimes.timeForPrayer(prayerTimes.nextPrayer()).toLocal(),
     );
     return next;

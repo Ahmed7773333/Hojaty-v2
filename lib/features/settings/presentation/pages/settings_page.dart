@@ -56,7 +56,7 @@ class SettingsView extends StatelessWidget {
                 SettingsSectionHeader(title: context.strings.appearance),
                 const SizedBox(height: 10),
                 ThemeSelector(
-                  currentTheme: user.uiThemeMode!,
+                  currentTheme: user.uiThemeMode,
                   onThemeChanged: (mode) {
                     context.read<SettingsBloc>().add(UpdateThemeEvent(mode));
                   },
@@ -65,7 +65,7 @@ class SettingsView extends StatelessWidget {
                 SettingsSectionHeader(title: context.strings.language),
                 const SizedBox(height: 10),
                 LanguageSelector(
-                  isEnglish: user.uiIsEnglish!,
+                  isEnglish: user.uiIsEnglish,
                   onLanguageChanged: (isEnglish) {
                     context.read<SettingsBloc>().add(
                       UpdateLanguageEvent(isEnglish),

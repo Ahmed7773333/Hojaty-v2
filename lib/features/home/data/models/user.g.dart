@@ -26,13 +26,16 @@ class UserAdapter extends TypeAdapter<User> {
       cityName: fields[2] as String?,
       themeMode: ThemeMode.values[(fields[3] as int?) ?? 0],
       isEnglish: fields[4] as bool?,
+      tasbihNumber: fields[5] as int?,
+      isSoundEnabled: fields[6] as bool?,
+      isVibrateEnabled: fields[7] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.lastKnownLocation?.latitude)
       ..writeByte(1)
@@ -42,7 +45,13 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(3)
       ..write(obj.themeMode?.index)
       ..writeByte(4)
-      ..write(obj.isEnglish);
+      ..write(obj.isEnglish)
+      ..writeByte(5)
+      ..write(obj.tasbihNumber)
+      ..writeByte(6)
+      ..write(obj.isSoundEnabled)
+      ..writeByte(7)
+      ..write(obj.isVibrateEnabled);
   }
 
   @override

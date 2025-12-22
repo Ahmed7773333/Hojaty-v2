@@ -17,7 +17,9 @@ class LanguageSelector extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: context.colors.outlineVariant.withOpacity(0.3)),
+        side: BorderSide(
+          color: context.colors.outlineVariant.withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         children: [
@@ -28,7 +30,7 @@ class LanguageSelector extends StatelessWidget {
           ),
           Divider(
             height: 1,
-            color: context.colors.outlineVariant.withOpacity(0.3),
+            color: context.colors.outlineVariant.withValues(alpha: 0.3),
           ),
           _LanguageOption(
             label: context.strings.arabic,

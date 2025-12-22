@@ -20,23 +20,75 @@
     "description": "Settings tab title"
   },
   "appearance": "Appearance",
-  "@appearance": { "description": "Appearance section header" },
+  "@appearance": {
+    "description": "Appearance section header"
+  },
   "system": "System",
-  "@system": { "description": "System theme option" },
+  "@system": {
+    "description": "System theme option"
+  },
   "light": "Light",
-  "@light": { "description": "Light theme option" },
+  "@light": {
+    "description": "Light theme option"
+  },
   "dark": "Dark",
-  "@dark": { "description": "Dark theme option" },
+  "@dark": {
+    "description": "Dark theme option"
+  },
   "language": "Language",
-  "@language": { "description": "Language section header" },
+  "@language": {
+    "description": "Language section header"
+  },
   "english": "English",
-  "@english": { "description": "English language option" },
+  "@english": {
+    "description": "English language option"
+  },
   "arabic": "Arabic",
-  "@arabic": { "description": "Arabic language option" },
+  "@arabic": {
+    "description": "Arabic language option"
+  },
   "location": "Location",
-  "@location": { "description": "Location section header" },
+  "@location": {
+    "description": "Location section header"
+  },
   "currentCity": "Current City",
-  "@currentCity": { "description": "Current city label" },
+  "@currentCity": {
+    "description": "Current city label"
+  },
   "unknown": "Unknown",
-  "@unknown": { "description": "Unknown value placeholder" }
+  "@unknown": {
+    "description": "Unknown value placeholder"
+  },
+  "sebhaTitle": "Sebha",
+  "@sebhaTitle": {
+    "description": "Sebha page title"
+  },
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button label"
+  },
+  "sound": "Sound",
+  "@sound": {
+    "description": "Sound toggle label"
+  },
+  "vibrate": "Vibrate",
+  "@vibrate": {
+    "description": "Vibrate toggle label"
+  },
+  "resetDialogTitle": "Reset Counter",
+  "@resetDialogTitle": {
+    "description": "Title of the reset confirmation dialog"
+  },
+  "resetDialogContent": "Do you want to reset the counter to zero?",
+  "@resetDialogContent": {
+    "description": "Content of the reset confirmation dialog"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button label"
+  }
 }

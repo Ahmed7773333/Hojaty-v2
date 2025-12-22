@@ -46,6 +46,7 @@ class UserDbHelper {
       await Hive.openBox<User>(boxName);
     }
     if (getById() == null) {
+      debugPrint('first Time');
       await add(key, User(lastKnownLocation: currentLocation, cityName: city));
     }
   }

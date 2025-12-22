@@ -13,5 +13,13 @@
   "arabic": "العربية",
   "location": "الموقع",
   "currentCity": "المدينة الحالية",
-  "unknown": "غير معروف"
+  "unknown": "غير معروف",
+  "sebhaTitle": "السبحة",
+  "reset": "إعادة",
+  "sound": "الصوت",
+  "vibrate": "اهتزاز",
+  "resetDialogTitle": "إعادة تعيين",
+  "resetDialogContent": "هل تريد إعادة ضبط العداد إلى الصفر؟",
+  "cancel": "إلغاء",
+  "confirm": "موافق"
 }

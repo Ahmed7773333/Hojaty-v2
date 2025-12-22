@@ -52,4 +52,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknown => 'Unknown';
+
+  @override
+  String get sebhaTitle => 'Sebha';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get sound => 'Sound';
+
+  @override
+  String get vibrate => 'Vibrate';
+
+  @override
+  String get resetDialogTitle => 'Reset Counter';
+
+  @override
+  String get resetDialogContent => 'Do you want to reset the counter to zero?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get confirm => 'Confirm';
 }

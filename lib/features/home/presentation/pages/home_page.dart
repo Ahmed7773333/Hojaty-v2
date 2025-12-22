@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
+import '../../../../core/utils/screen_util_like.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../widgets/home_bottom_sheet_widget.dart';
@@ -28,12 +29,12 @@ class HomeView extends StatelessWidget {
       body: Stack(
         children: [
           // 1. Background Layer: Prayer Times
-          const Positioned.fill(
+          Positioned.fill(
             child: Padding(
               padding: EdgeInsets.only(
-                top: 100,
+                top: 60.h,
               ), // Push down to not hide behind header
-              child: PrayersBackgroundWidget(),
+              child: const PrayersBackgroundWidget(),
             ),
           ),
 
@@ -48,12 +49,12 @@ class HomeView extends StatelessWidget {
           ),
 
           // 3. Top Layer: Next Prayer Persistent Header
-          const SafeArea(
+          SafeArea(
             child: Align(
               alignment: Alignment.topCenter,
               child: SizedBox(
-                height: 120, // Dedicate height for the header
-                child: NextPrayerHeaderWidget(),
+                height: 120.h, // Dedicate height for the header
+                child: const NextPrayerHeaderWidget(),
               ),
             ),
           ),

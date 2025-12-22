@@ -21,22 +21,27 @@ class PrayersBackgroundWidget extends StatelessWidget {
             final nextPrayer = nextSnapshot.data?.key;
 
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-              color: context.colors.surface, // Background color
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header/Date could go here
-                  const SizedBox(height: 60), // Space for top header
-                  ...prayers.entries.map((entry) {
-                    final isNext = entry.key == nextPrayer;
-                    return _PrayerItem(
-                      name: entry.key,
-                      time: entry.value,
-                      isNext: isNext,
-                    );
-                  }),
-                ],
+              color: context.colors.surface,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 40,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header/Date could go here
+                    const SizedBox(height: 60), // Space for top header
+                    ...prayers.entries.map((entry) {
+                      final isNext = entry.key == nextPrayer;
+                      return _PrayerItem(
+                        name: entry.key,
+                        time: entry.value,
+                        isNext: isNext,
+                      );
+                    }),
+                  ],
+                ),
               ),
             );
           },

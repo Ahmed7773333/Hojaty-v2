@@ -187,6 +187,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
+
+  /// Sebha page title
+  ///
+  /// In en, this message translates to:
+  /// **'Sebha'**
+  String get sebhaTitle;
+
+  /// Reset button label
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// Sound toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get sound;
+
+  /// Vibrate toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrate'**
+  String get vibrate;
+
+  /// Title of the reset confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Counter'**
+  String get resetDialogTitle;
+
+  /// Content of the reset confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to reset the counter to zero?'**
+  String get resetDialogContent;
+
+  /// Cancel button label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Confirm button label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hojaty/features/home/presentation/pages/sebha_page.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 
 class ServicesGridWidget extends StatelessWidget {
@@ -33,24 +34,33 @@ class _ServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colors.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.widgets_outlined, size: 32, color: context.colors.primary),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: context.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        context.push(const SebhaPage());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colors.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.widgets_outlined,
+              size: 32,
+              color: context.colors.primary,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: context.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

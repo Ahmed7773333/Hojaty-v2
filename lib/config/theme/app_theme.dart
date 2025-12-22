@@ -39,10 +39,7 @@ class AppTheme {
             fontSize: 12,
           );
         }
-        return const TextStyle(
-          color: AppColor.onTertiary,
-          fontSize: 12,
-        );
+        return const TextStyle(color: AppColor.onTertiary, fontSize: 12);
       }),
     ),
   );
@@ -66,7 +63,7 @@ class AppTheme {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: const Color(0xFF1E1E1E),
-      indicatorColor: AppColor.greenLink.withOpacity(0.2),
+      indicatorColor: AppColor.greenLink.withValues(alpha: 0.2),
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       iconTheme: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -82,10 +79,7 @@ class AppTheme {
             fontSize: 12,
           );
         }
-        return const TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        );
+        return const TextStyle(color: Colors.grey, fontSize: 12);
       }),
     ),
   );

@@ -52,4 +52,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unknown => 'غير معروف';
+
+  @override
+  String get sebhaTitle => 'السبحة';
+
+  @override
+  String get reset => 'إعادة';
+
+  @override
+  String get sound => 'الصوت';
+
+  @override
+  String get vibrate => 'اهتزاز';
+
+  @override
+  String get resetDialogTitle => 'إعادة تعيين';
+
+  @override
+  String get resetDialogContent => 'هل تريد إعادة ضبط العداد إلى الصفر؟';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get confirm => 'موافق';
 }
