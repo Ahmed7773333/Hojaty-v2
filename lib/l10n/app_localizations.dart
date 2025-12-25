@@ -235,6 +235,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get confirm;
+
+  /// Search button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get quranSearch;
+
+  /// Hezps button label
+  ///
+  /// In en, this message translates to:
+  /// **'Hezps'**
+  String get quranHezps;
+
+  /// Tafseer button label
+  ///
+  /// In en, this message translates to:
+  /// **'Tafseer'**
+  String get quranTafseer;
+
+  /// Juzs button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Juzs'**
+  String get quranJuzs;
+
+  /// Error message when page is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Page {pageNum} not found'**
+  String quranPageNotFound(int pageNum);
+
+  /// Label for Juz
+  ///
+  /// In en, this message translates to:
+  /// **'Juz'**
+  String get quranJuzLabel;
+
+  /// Label for Hizb
+  ///
+  /// In en, this message translates to:
+  /// **'Hizb'**
+  String get quranHizbLabel;
+
+  /// Label for Page
+  ///
+  /// In en, this message translates to:
+  /// **'Page'**
+  String get quranPageLabel;
+
+  /// Generic navigation message
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to {destination}'**
+  String navigateTo(String destination);
+
+  /// Label for next prayer header
+  ///
+  /// In en, this message translates to:
+  /// **'Next Prayer'**
+  String get nextPrayer;
+
+  /// Prefix for remaining time
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining: '**
+  String get remaining;
+
+  /// Service placeholder label
+  ///
+  /// In en, this message translates to:
+  /// **'Service {number}'**
+  String service(int number);
+
+  /// Title for Quran card
+  ///
+  /// In en, this message translates to:
+  /// **'The Holy Quran'**
+  String get holyQuran;
+
+  /// Subtitle for Quran card
+  ///
+  /// In en, this message translates to:
+  /// **'Your Daily Wird'**
+  String get dailyWird;
+
+  /// Generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String errorMessage(String message);
 }
 
 class _AppLocalizationsDelegate

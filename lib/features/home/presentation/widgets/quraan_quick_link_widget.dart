@@ -35,14 +35,14 @@ class QuraanQuickLinkWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'القرآن الكريم',
+                  context.strings.holyQuran,
                   style: context.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: context.colors.onPrimaryContainer,
                   ),
                 ),
                 Text(
-                  'وردك اليومي',
+                  context.strings.dailyWird,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: context.colors.onPrimaryContainer.withValues(
                       alpha: 0.8,

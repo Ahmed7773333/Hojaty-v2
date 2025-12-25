@@ -1,4 +1,5 @@
 {
+  "@@locale":"en",
   "appTitle": "Hojaty",
   "@appTitle": {
     "description": "The title of the application"
@@ -90,5 +91,85 @@
   "confirm": "Confirm",
   "@confirm": {
     "description": "Confirm button label"
+  },
+  "quranSearch": "Search",
+  "@quranSearch": {
+    "description": "Search button tooltip"
+  },
+  "quranHezps": "Hezps",
+  "@quranHezps": {
+    "description": "Hezps button label"
+  },
+  "quranTafseer": "Tafseer",
+  "@quranTafseer": {
+    "description": "Tafseer button label"
+  },
+  "quranJuzs": "Juzs",
+  "@quranJuzs": {
+    "description": "Juzs button tooltip"
+  },
+  "quranPageNotFound": "Page {pageNum} not found",
+  "@quranPageNotFound": {
+    "description": "Error message when page is missing",
+    "placeholders": {
+      "pageNum": {
+        "type": "int"
+      }
+    }
+  },
+  "quranJuzLabel": "Juz",
+  "@quranJuzLabel": {
+    "description": "Label for Juz"
+  },
+  "quranHizbLabel": "Hizb",
+  "@quranHizbLabel": {
+    "description": "Label for Hizb"
+  },
+  "quranPageLabel": "Page",
+  "@quranPageLabel": {
+    "description": "Label for Page"
+  },
+  "navigateTo": "Navigate to {destination}",
+  "@navigateTo": {
+    "description": "Generic navigation message",
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "nextPrayer": "Next Prayer",
+  "@nextPrayer": {
+    "description": "Label for next prayer header"
+  },
+  "remaining": "Remaining: ",
+  "@remaining": {
+    "description": "Prefix for remaining time"
+  },
+  "service": "Service {number}",
+  "@service": {
+    "description": "Service placeholder label",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "holyQuran": "The Holy Quran",
+  "@holyQuran": {
+    "description": "Title for Quran card"
+  },
+  "dailyWird": "Your Daily Wird",
+  "@dailyWird": {
+    "description": "Subtitle for Quran card"
+  },
+  "errorMessage": "Error: {message}",
+  "@errorMessage": {
+    "description": "Generic error message",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
   }
 }

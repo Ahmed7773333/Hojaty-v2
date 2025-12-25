@@ -2,7 +2,7 @@ name: hojaty
 description: A new Flutter project, "Hojaty".
 publish_to: 'none'
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ^3.10.3
@@ -57,6 +57,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/jsons/
+    - assets/pages-hafs/
 
   # fonts:
   #   - family: Poppins

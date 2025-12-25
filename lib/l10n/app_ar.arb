@@ -1,4 +1,5 @@
 {
+  "@@locale":"ar",
   "appTitle": "حجتي",
   "home": "الرئيسية",
   "radio": "الراديو",
@@ -21,5 +22,20 @@
   "resetDialogTitle": "إعادة تعيين",
   "resetDialogContent": "هل تريد إعادة ضبط العداد إلى الصفر؟",
   "cancel": "إلغاء",
-  "confirm": "موافق"
+  "confirm": "موافق",
+  "quranSearch": "بحث",
+  "quranHezps": "الأحزاب",
+  "quranTafseer": "التفسير",
+  "quranJuzs": "الأجزاء",
+  "quranPageNotFound": "الصفحة {pageNum} غير موجودة",
+  "quranJuzLabel": "الجزء",
+  "quranHizbLabel": "الحزب",
+  "quranPageLabel": "صفحة",
+  "navigateTo": "الانتقال إلى {destination}",
+  "nextPrayer": "الصلاة القادمة",
+  "remaining": "متبقي: ",
+  "service": "خدمة {number}",
+  "holyQuran": "القرآن الكريم",
+  "dailyWird": "وردك اليومي",
+  "errorMessage": "خطأ: {message}"
 }

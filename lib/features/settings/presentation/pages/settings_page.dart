@@ -43,7 +43,9 @@ class SettingsView extends StatelessWidget {
           }
 
           if (state.status == SettingsStatus.error) {
-            return Center(child: Text('Error: ${state.message}'));
+            return Center(
+              child: Text(context.strings.errorMessage(state.message)),
+            );
           }
 
           final user = state.user!;

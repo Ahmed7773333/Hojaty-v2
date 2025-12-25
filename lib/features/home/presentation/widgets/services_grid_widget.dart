@@ -8,7 +8,10 @@ class ServicesGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 9 Placeholders as requested
-    final services = List.generate(9, (index) => 'خدمة ${index + 1}');
+    final services = List.generate(
+      9,
+      (index) => context.strings.service(index + 1),
+    );
 
     return GridView.builder(
       shrinkWrap: true,

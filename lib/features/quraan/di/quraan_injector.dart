@@ -8,24 +8,23 @@ import '../presentation/bloc/quraan_bloc.dart';
 
 Future<void> initQuraanInjector() async {
   // BLoC
-  injector.registerFactory(() => QuraanBloc(
-        getQuraan: injector(),
-      ));
+  injector.registerFactory(() => QuraanBloc(injector()));
 
   // UseCases
   injector.registerLazySingleton(() => GetQuraanUseCase(injector()));
 
   // Repositories
-  injector.registerLazySingleton<QuraanRepository>(() => QuraanRepositoryImpl(
-        remote: injector(),
-        local: injector(),
-      ));
+  injector.registerLazySingleton<QuraanRepository>(
+    () => QuraanRepositoryImpl(remote: injector(), local: injector()),
+  );
 
   // DataSources
   // Note: Registering as RemoteDataSourceImpl/LocalDataSourceImpl
   // If they required dependencies (like ApiConsumer), they would be passed here.
   injector.registerLazySingleton<QuraanRemoteDataSource>(
-      () => QuraanRemoteDataSource());
+    () => QuraanRemoteDataSource(),
+  );
   injector.registerLazySingleton<QuraanLocalDataSource>(
-      () => QuraanLocalDataSource());
+    () => QuraanLocalDataSource(),
+  );
 }

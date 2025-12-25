@@ -45,7 +45,7 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'الصلاة القادمة',
+                        context.strings.nextPrayer,
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: context.colors.onSurfaceVariant,
                         ),
@@ -77,7 +77,7 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                           color: context.colors.secondary,
                           fontWeight: FontWeight.w600,
                         ),
-                        prefix: 'متبقي: ',
+                        prefix: context.strings.remaining,
                       ),
                     ],
                   ),

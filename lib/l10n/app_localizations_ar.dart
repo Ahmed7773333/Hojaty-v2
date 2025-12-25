@@ -76,4 +76,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirm => 'موافق';
+
+  @override
+  String get quranSearch => 'بحث';
+
+  @override
+  String get quranHezps => 'الأحزاب';
+
+  @override
+  String get quranTafseer => 'التفسير';
+
+  @override
+  String get quranJuzs => 'الأجزاء';
+
+  @override
+  String quranPageNotFound(int pageNum) {
+    return 'الصفحة $pageNum غير موجودة';
+  }
+
+  @override
+  String get quranJuzLabel => 'الجزء';
+
+  @override
+  String get quranHizbLabel => 'الحزب';
+
+  @override
+  String get quranPageLabel => 'صفحة';
+
+  @override
+  String navigateTo(String destination) {
+    return 'الانتقال إلى $destination';
+  }
+
+  @override
+  String get nextPrayer => 'الصلاة القادمة';
+
+  @override
+  String get remaining => 'متبقي: ';
+
+  @override
+  String service(int number) {
+    return 'خدمة $number';
+  }
+
+  @override
+  String get holyQuran => 'القرآن الكريم';
+
+  @override
+  String get dailyWird => 'وردك اليومي';
+
+  @override
+  String errorMessage(String message) {
+    return 'خطأ: $message';
+  }
 }
