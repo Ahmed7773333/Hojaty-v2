@@ -1,5 +1,5 @@
 {
-  "@@locale":"en",
+  "@@locale": "en",
   "appTitle": "Hojaty",
   "@appTitle": {
     "description": "The title of the application"
@@ -171,5 +171,45 @@
         "type": "String"
       }
     }
+  },
+  "surahs": "Surahs",
+  "@surahs": {
+    "description": "Surahs button label"
+  },
+  "itsNumber": "its Number",
+  "@itsNumber": {
+    "description": "Label for number"
+  },
+  "safha": "Page",
+  "@safha": {
+    "description": "Label for page"
+  },
+  "firstQuarter": "First Quarter",
+  "@firstQuarter": {
+    "description": "Label for first quarter of Hizb"
+  },
+  "secondQuarter": "Second Quarter",
+  "@secondQuarter": {
+    "description": "Label for second quarter of Hizb"
+  },
+  "thirdQuarter": "Third Quarter",
+  "@thirdQuarter": {
+    "description": "Label for third quarter of Hizb"
+  },
+  "fourthQuarter": "Fourth Quarter",
+  "@fourthQuarter": {
+    "description": "Label for fourth quarter of Hizb"
+  },
+  "ayat": "Ayat",
+  "@ayat": {
+    "description": "Label for verses"
+  },
+  "quranSearchHint": "Search in Quran",
+  "@quranSearchHint": {
+    "description": "Hint text for Quran search"
+  },
+  "quranNoResults": "No results found",
+  "@quranNoResults": {
+    "description": "Message shown when no search results are found"
   }
 }

@@ -129,4 +129,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorMessage(String message) {
     return 'Error: $message';
   }
+
+  @override
+  String get surahs => 'Surahs';
+
+  @override
+  String get itsNumber => 'its Number';
+
+  @override
+  String get safha => 'Page';
+
+  @override
+  String get firstQuarter => 'First Quarter';
+
+  @override
+  String get secondQuarter => 'Second Quarter';
+
+  @override
+  String get thirdQuarter => 'Third Quarter';
+
+  @override
+  String get fourthQuarter => 'Fourth Quarter';
+
+  @override
+  String get ayat => 'Ayat';
+
+  @override
+  String get quranSearchHint => 'Search in Quran';
+
+  @override
+  String get quranNoResults => 'No results found';
 }

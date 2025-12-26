@@ -15,7 +15,7 @@ Future<void> initQuraanInjector() async {
 
   // Repositories
   injector.registerLazySingleton<QuraanRepository>(
-    () => QuraanRepositoryImpl(remote: injector(), local: injector()),
+    () => QuraanRepositoryImpl( local: injector()),
   );
 
   // DataSources

@@ -1,8 +1,7 @@
-import '../../data/models/quraanmodel.dart';
-// import 'package:dartz/dartz.dart';
-// import '../../../../core/error/failures.dart';
+import '../../data/models/page_data.dart';
 
 abstract class QuraanRepository {
-  // Future<Either<Failure, QuraanModel>> getQuraan();
-  Future<QuraanModel> getQuraan();
+  Future<List<PageData>> getQuranPages();
+  Future<int> getLastPage();
+  Future<void> saveLastPage(int pageNumber);
 }

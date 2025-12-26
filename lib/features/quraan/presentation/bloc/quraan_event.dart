@@ -26,3 +26,11 @@ class PageChanged extends QuraanEvent {
   @override
   List<Object?> get props => [pageNumber];
 }
+
+class SearchQuraan extends QuraanEvent {
+  final String query;
+  const SearchQuraan(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}

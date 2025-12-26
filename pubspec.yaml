@@ -2,7 +2,7 @@ name: hojaty
 description: A new Flutter project, "Hojaty".
 publish_to: 'none'
 
-version: 1.0.2+3
+version: 1.1.8+30
 
 environment:
   sdk: ^3.10.3
@@ -59,9 +59,17 @@ flutter:
     - assets/jsons/
     - assets/pages-hafs/
 
-  # fonts:
-  #   - family: Poppins
-  #     fonts:
-  #       - asset: assets/fonts/Poppins-Regular.ttf
-  #       - asset: assets/fonts/Poppins-Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Noto Kufi Arabic
+      fonts:
+        - asset: assets/fonts/NotoKufiArabic-Regular.ttf
+        - asset: assets/fonts/NotoKufiArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NotoKufiArabic-Bold.ttf
+          weight: 700
+    - family: Elgharib
+      fonts:
+        - asset: assets/fonts/Elgharib-A591.ttf
+    - family: Hafs Smart
+      fonts:
+        - asset: assets/fonts/HafsSmart_08.ttf

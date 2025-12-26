@@ -13,5 +13,5 @@ class GetQuraanUseCase {
   //   return await repository.getQuraan();
   // }
   
-  Future call() => repository.getQuraan();
+  Future call() => repository.getQuranPages();
 }

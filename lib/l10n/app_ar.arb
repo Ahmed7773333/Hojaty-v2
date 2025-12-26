@@ -1,5 +1,5 @@
 {
-  "@@locale":"ar",
+  "@@locale": "ar",
   "appTitle": "حجتي",
   "home": "الرئيسية",
   "radio": "الراديو",
@@ -37,5 +37,15 @@
   "service": "خدمة {number}",
   "holyQuran": "القرآن الكريم",
   "dailyWird": "وردك اليومي",
-  "errorMessage": "خطأ: {message}"
+  "errorMessage": "خطأ: {message}",
+  "surahs": "سور",
+  "itsNumber": "رقمها",
+  "safha": "صفحة",
+  "firstQuarter": "الربع الأول",
+  "secondQuarter": "الربع الثاني",
+  "thirdQuarter": "الربع الثالث",
+  "fourthQuarter": "الربع الرابع",
+  "ayat": "آيات",
+  "quranSearchHint": "بحث في القرآن",
+  "quranNoResults": "لا نتائج"
 }

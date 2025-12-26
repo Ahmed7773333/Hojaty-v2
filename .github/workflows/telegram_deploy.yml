@@ -1,27 +1,24 @@
-name: Telegram Release
+name: Android Internal Testing
 
 on:
   push:
-    branches: [ dev, main ]   # triggers on dev or main
-  workflow_dispatch:          # allows manual trigger
+    branches: [ dev ]
+  workflow_dispatch:
 
 jobs:
-  build_and_send:
+  build_and_upload:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------- Checkout ----------
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # ---------- Ruby & Bundler ----------
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: true # Speeds up subsequent runs
+          bundler-cache: true
 
-      # ---------- Flutter ----------
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -30,7 +27,7 @@ jobs:
       - name: Flutter Pub Get
         run: flutter pub get
 
-      # ---------- KEYSTORE ----------
+      # ---------- Decode Keystore ----------
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
@@ -42,36 +39,21 @@ jobs:
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=my-release-key.jks" >> android/key.properties
 
-      # ---------- BUILD & DEPLOY ----------
-      - name: Build & Send via Fastlane
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          PROJECT_NAME: "Hojaty"
+      # ---------- Setup Fastlane ----------
+      - name: Install Fastlane
         run: |
-          # 1. Enter the directory where Gemfile lives
           cd android
-          rm -f Gemfile.lock
-
-          # 2. Install modern Bundler
           gem install bundler:2.7.2
-          bundle _2.7.2_ add fastlane-plugin-telegram
-          
-
-
-          # 3. Re-generate the lockfile with modern gems
+          bundle _2.7.2_ init
+          bundle _2.7.2_ add fastlane
           bundle install
 
-          # 3. Use bundler to update fastlane inside the local environment
-          sudo gem update fastlane
-
-          
-
-          # 5. Run Fastlane lane based on branch
-          if [[ "${{ github.ref_name }}" == "dev" ]]; then
-            echo "Running DEV branch lane..."
-            bundle exec fastlane android telegram_apk
-          elif [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "Running MAIN branch lane..."
-            bundle exec fastlane android telegram_aab
-          fi
+      # ---------- Run Internal Testing lane ----------
+      - name: Build & Upload to Internal Testing
+        env:
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY_BASE64 }} # Base64 encoded JSON
+          PACKAGE_NAME: "com.wolf.hojaty"
+        run: |
+          cd android
+          echo "$PLAY_STORE_JSON_KEY" | base64 --decode > play_store_key.json
+          bundle exec fastlane android internal_test

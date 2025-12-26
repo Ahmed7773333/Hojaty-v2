@@ -4,9 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hojaty/features/azkar/di/azkar_injector.dart';
 import 'package:hojaty/features/home/di/home_injector.dart';
 import 'package:hojaty/features/prayers/di/prayers_injector.dart';
-import '../../features/quraan/data/repositories/quraan_repository.dart';
 
-import '../../features/quraan/presentation/bloc/quraan_bloc.dart';
+import '../../features/quraan/di/quraan_injector.dart';
 import 'package:hojaty/features/radio/di/radio_injector.dart';
 import 'package:hojaty/features/settings/di/settings_injector.dart';
 import '../network/api_consumer.dart';
@@ -22,10 +21,10 @@ Future<void> setupInjector() async {
   );
 
   // Repositories
-  injector.registerLazySingleton<QuraanRepository>(() => QuraanRepository());
+  // injector.registerLazySingleton<QuraanRepository>(() => QuraanRepository());
 
   // BLoCs
-  injector.registerFactory(() => QuraanBloc(injector()));
+  // injector.registerFactory(() => QuraanBloc(injector()));
 
   // Core
   injector.registerSingleton<ApiConsumer>(DioClient(injector<Dio>()));
@@ -34,8 +33,7 @@ Future<void> setupInjector() async {
   initPrayersInjector();
   initRadioInjector();
   initSettingsInjector();
-  initSettingsInjector();
-  // initQuraanInjector(); // Replaced by manual registration above
+  initQuraanInjector(); // Replaced by manual registration above
 
   // Features
   // await initAuthInjector();

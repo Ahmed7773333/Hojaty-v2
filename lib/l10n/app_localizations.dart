@@ -325,6 +325,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {message}'**
   String errorMessage(String message);
+
+  /// Surahs button label
+  ///
+  /// In en, this message translates to:
+  /// **'Surahs'**
+  String get surahs;
+
+  /// Label for number
+  ///
+  /// In en, this message translates to:
+  /// **'its Number'**
+  String get itsNumber;
+
+  /// Label for page
+  ///
+  /// In en, this message translates to:
+  /// **'Page'**
+  String get safha;
+
+  /// Label for first quarter of Hizb
+  ///
+  /// In en, this message translates to:
+  /// **'First Quarter'**
+  String get firstQuarter;
+
+  /// Label for second quarter of Hizb
+  ///
+  /// In en, this message translates to:
+  /// **'Second Quarter'**
+  String get secondQuarter;
+
+  /// Label for third quarter of Hizb
+  ///
+  /// In en, this message translates to:
+  /// **'Third Quarter'**
+  String get thirdQuarter;
+
+  /// Label for fourth quarter of Hizb
+  ///
+  /// In en, this message translates to:
+  /// **'Fourth Quarter'**
+  String get fourthQuarter;
+
+  /// Label for verses
+  ///
+  /// In en, this message translates to:
+  /// **'Ayat'**
+  String get ayat;
+
+  /// Hint text for Quran search
+  ///
+  /// In en, this message translates to:
+  /// **'Search in Quran'**
+  String get quranSearchHint;
+
+  /// Message shown when no search results are found
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get quranNoResults;
 }
 
 class _AppLocalizationsDelegate

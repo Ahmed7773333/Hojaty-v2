@@ -119,6 +119,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.4.1)
       xcpretty-travis-formatter (>= 0.0.3, < 2.0.0)
+    fastlane-plugin-telegram (0.1.4)
     fastlane-sirp (1.0.0)
       sysrandom (~> 1.0)
     gh_inspector (1.1.3)
@@ -233,8 +234,9 @@ DEPENDENCIES
   base64
   bigdecimal
   fastlane (>= 2.230.0)
+  fastlane-plugin-telegram (~> 0.1.4)
   mutex_m
   ostruct
 
 BUNDLED WITH
-   2.5.23
+   2.7.2

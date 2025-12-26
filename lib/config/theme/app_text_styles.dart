@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  // Assuming 'Noto Kufi Arabic' is the font family based on method names.
-  // We can define the font family as a constant or just rely on global theme if set.
-  static const String fontFamily = 'Noto Kufi Arabic';
-  // It's likely not set globally if they are explicit here.
-  // Since I saw `assets/fonts` in pubspec, maybe I should check font family name?
-  // User didn't ask me to check fonts. I will assume standard TextStyle usage.
+  static const String notoKufiArabic = 'Noto Kufi Arabic';
+  static const String elgharib = 'Elgharib';
+  static const String hafsSmart = 'Hafs Smart';
 
   static const TextStyle notoKufiArabicHeading24 = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: notoKufiArabic,
     fontSize: 24,
-    fontWeight: FontWeight.w700, // as seen in existing usage
+    fontWeight: FontWeight.w700,
   );
 
   static const TextStyle notoKufiArabicHeading20 = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: notoKufiArabic,
     fontSize: 20,
-    fontWeight: FontWeight.w600, // assumption
+    fontWeight: FontWeight.w600,
   );
 
   static const TextStyle notoKufiArabicBody13Medium = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: notoKufiArabic,
     fontSize: 13,
     fontWeight: FontWeight.w500,
+  );
+
+  static const TextStyle elgharibStyle = TextStyle(
+    fontFamily: elgharib,
+    fontSize: 16,
+  );
+
+  static const TextStyle hafsSmartStyle = TextStyle(
+    fontFamily: hafsSmart,
+    fontSize: 26,
+    fontWeight: .bold,
   );
 }
