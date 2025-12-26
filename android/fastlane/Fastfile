@@ -16,7 +16,8 @@ platform :android do
       json_key: "play_store_key.json", # Base64-decoded JSON service account
       package_name: "com.wolfdev.hojaty",   # e.g., com.wolf.hojaty
       track: "internal",
-      aab: aab_path
+      aab: aab_path,
+      release_status: "draft"
     )
 
     UI.message("✅ Internal Testing build uploaded successfully!")
