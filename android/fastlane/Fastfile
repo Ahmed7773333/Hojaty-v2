@@ -13,8 +13,8 @@ platform :android do
 
     # Upload to Internal Testing track
     supply(
-      json_key: ENV['PLAY_STORE_JSON'], # Base64-decoded JSON service account
-      package_name: ENV['PACKAGE_NAME'],   # e.g., com.wolf.hojaty
+      json_key: "play_store_key.json", # Base64-decoded JSON service account
+      package_name: "com.wolfdev.hojaty",   # e.g., com.wolf.hojaty
       track: "internal",
       aab: aab_path
     )

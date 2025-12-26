@@ -45,7 +45,8 @@ jobs:
 
       - name: Run Fastlane
         env:
-          PACKAGE_NAME: ${{ secrets.PACKAGE_NAME }}
+          PLAY_STORE_JSON: "play_store_key.json" # Tell Fastlane where the file is
+          PACKAGE_NAME: "com.wolfdev.hojaty"
         run: |
           cd android
           # Install fastlane only if not in Gemfile
