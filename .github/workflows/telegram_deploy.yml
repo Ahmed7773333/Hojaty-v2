@@ -32,7 +32,7 @@ jobs:
       - name: Decode Keystore & Play Store Key
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
-          echo "${{ secrets.PLAY_STORE_JSON_KEY_BASE64 }}" | base64 --decode > android/play_store_key.json
+          echo "${{ secrets.PLAY_STORE_JSON }}" | base64 --decode > android/play_store_key.json
 
       - name: Create key.properties
         run: |
