@@ -18,42 +18,36 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
+          working-directory: android # This helps bundler find your Gemfile
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
 
       - name: Flutter Pub Get
         run: flutter pub get
 
-      # ---------- Decode Keystore ----------
-      - name: Decode Keystore
+      - name: Decode Keystore & Play Store Key
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
+          echo "${{ secrets.PLAY_STORE_JSON_KEY_BASE64 }}" | base64 --decode > android/play_store_key.json
 
       - name: Create key.properties
         run: |
-          echo "storePassword=${{ secrets.KEY_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=my-release-key.jks" >> android/key.properties
+          cat <<EOF > android/key.properties
+          storePassword=${{ secrets.KEY_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=my-release-key.jks
+          EOF
 
-      # ---------- Setup Fastlane ----------
-      - name: Install Fastlane
-        run: |
-          cd android
-          gem install bundler:2.7.2
-          bundle _2.7.2_ init
-          bundle _2.7.2_ add fastlane
-          bundle install
-
-      # ---------- Run Internal Testing lane ----------
-      - name: Build & Upload to Internal Testing
+      - name: Run Fastlane
         env:
-          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY_BASE64 }} # Base64 encoded JSON
-          PACKAGE_NAME: "com.wolf.hojaty"
+          PACKAGE_NAME: ${{ secrets.PACKAGE_NAME }}
         run: |
           cd android
-          echo "$PLAY_STORE_JSON_KEY" | base64 --decode > play_store_key.json
+          # Install fastlane only if not in Gemfile
+          bundle install || (bundle init && bundle add fastlane && bundle install)
           bundle exec fastlane android internal_test
