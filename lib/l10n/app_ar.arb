@@ -47,5 +47,16 @@
   "fourthQuarter": "الربع الرابع",
   "ayat": "آيات",
   "quranSearchHint": "بحث في القرآن",
-  "quranNoResults": "لا نتائج"
+  "quranNoResults": "لا نتائج",
+  "madina_live": "بث مباشر المدينة",
+  "makkah_live": "بث مباشر مكة",
+  "surahs_list": "قائمة السور",
+  "readers_list":"قائمة القراء",
+  "listen_to_surah": "استماع للسورة",
+  "offline_available": "متاح بدون إنترنت",
+  "download": "تحميل",
+  "downloading": "جاري التحميل...",
+  "download_success": "تم التحميل بنجاح",
+  "download_failed": "فشل التحميل",
+  "playback_speed": "سرعة التشغيل"
 }

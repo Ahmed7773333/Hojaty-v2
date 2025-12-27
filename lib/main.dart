@@ -9,6 +9,8 @@ void main() async {
   // Initialize dependencies
   await setupInjector();
   await Hive.initFlutter();
-  await UserDbHelper.init();
+  await UserDbHelper.initDatabase();
+  // Start fetching location in background, don't wait for it
+  UserDbHelper.updateLocation();
   runApp(const HojatyApp());
 }

@@ -1,27 +1,59 @@
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failures.dart';
+// import '../../../../core/network/network_info.dart';
 import '../../domain/repositories/radio_repository.dart';
-import '../../domain/datasources/radio_remote_data_source.dart';
-import '../../domain/datasources/radio_local_data_source.dart';
-import '../models/radiomodel.dart';
-// import 'package:dartz/dartz.dart';
-// import '../../../../core/error/failures.dart';
-// import '../../../../core/error/exceptions.dart';
+import '../datasources/local/radio_local_data_source.dart';
+import '../datasources/remote/radio_remote_data_source.dart';
+import '../models/readers_response.dart';
 
 class RadioRepositoryImpl implements RadioRepository {
-  final RadioRemoteDataSource remote;
-  final RadioLocalDataSource local;
+  final RadioRemoteDataSource remoteDataSource;
+  final RadioLocalDataSource localDataSource;
 
   RadioRepositoryImpl({
-    required this.remote,
-    required this.local,
+    required this.remoteDataSource,
+    required this.localDataSource,
   });
 
   @override
-  Future<RadioModel> getRadio() async {
-    final cached = await local.load();
-    if (cached != null) return cached;
+  Future<Either<Failure, void>> getRadio() async {
+    // Legacy placeholder
+    return const Right(null);
+  }
 
-    final data = await remote.fetch();
-    await local.save(data);
-    return data;
+  @override
+  Future<Either<Failure, ReadersResponseModel>> getReciters({
+    required String language,
+  }) async {
+    try {
+      // Map 'en' to 'eng' for API if needed
+      final apiLanguage = language == 'en' ? 'eng' : language;
+
+      final cached = await localDataSource.getCachedReciters(apiLanguage);
+      if (cached != null) {
+        return Right(cached);
+      }
+
+      // If missing, fetch BOTH 'ar' and 'eng' to ensure we have data for language switching
+      // We run these concurrently for better performance
+      final results = await Future.wait([
+        remoteDataSource.getReciters(language: 'ar'),
+        remoteDataSource.getReciters(language: 'eng'),
+      ]);
+
+      final arData = results[0];
+      final enData = results[1];
+
+      // Cache both
+      await localDataSource.cacheReciters('ar', arData);
+      await localDataSource.cacheReciters('eng', enData);
+
+      // Return the requested one
+      if (apiLanguage == 'head' || apiLanguage == 'ar') return Right(arData);
+      return Right(enData);
+    } catch (e) {
+      // If offline and no cache, return failure
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

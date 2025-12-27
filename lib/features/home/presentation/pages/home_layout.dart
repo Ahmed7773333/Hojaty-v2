@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../features/azkar/presentation/pages/azkar_page.dart';
 import '../../../../features/home/presentation/pages/home_page.dart';
+import '../../../../features/radio/presentation/bloc/radio_bloc.dart';
 import '../../../../features/radio/presentation/pages/radio_page.dart';
 import '../../../../features/settings/presentation/pages/settings_page.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
@@ -15,11 +18,14 @@ class HomeLayout extends StatefulWidget {
 class _HomeLayoutState extends State<HomeLayout> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    HomePage(),
-    RadioPage(),
-    AzkarPage(),
-    SettingsPage(),
+  final List<Widget> _pages = [
+    const HomePage(),
+    BlocProvider(
+      create: (_) => injector<RadioBloc>(),
+      child: const RadioPage(),
+    ),
+    const AzkarPage(),
+    const SettingsPage(),
   ];
 
   void _onItemTapped(int index) {

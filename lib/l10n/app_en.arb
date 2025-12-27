@@ -211,5 +211,49 @@
   "quranNoResults": "No results found",
   "@quranNoResults": {
     "description": "Message shown when no search results are found"
+  },
+  "madina_live": "Madina Live",
+  "@madina_live": {
+    "description": "Title for Madina Live Stream card"
+  },
+  "makkah_live": "Makkah Live",
+  "@makkah_live": {
+    "description": "Title for Makkah Live Stream card"
+  },
+  "surahs_list": "Surahs List",
+  "@surahs_list": {
+    "description": "Header for Surahs list"
+  },
+  "listen_to_surah": "Listen to Surah",
+  "@listen_to_surah": {
+    "description": "Button or action to listen to a Surah"
+  },
+  "offline_available": "Available Offline",
+  "@offline_available": {
+    "description": "Message indicating content is downloaded"
+  },
+  "download": "Download",
+  "@download": {
+    "description": "Download button label"
+  },
+  "downloading": "Downloading...",
+  "@downloading": {
+    "description": "Downloading status message"
+  },
+  "download_success": "Downloaded successfully",
+  "@download_success": {
+    "description": "Download success message"
+  },
+  "download_failed": "Download failed",
+  "@download_failed": {
+    "description": "Download failure message"
+  },
+  "playback_speed": "Playback Speed",
+  "@playback_speed": {
+    "description": "Playback speed option"
+  },
+  "readers_list": "Reciters List",
+  "@readers_list": {
+    "description": "Header for list of reciters"
   }
 }

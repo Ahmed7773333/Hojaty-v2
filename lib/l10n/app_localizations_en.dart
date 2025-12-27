@@ -159,4 +159,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranNoResults => 'No results found';
+
+  @override
+  String get madina_live => 'Madina Live';
+
+  @override
+  String get makkah_live => 'Makkah Live';
+
+  @override
+  String get surahs_list => 'Surahs List';
+
+  @override
+  String get listen_to_surah => 'Listen to Surah';
+
+  @override
+  String get offline_available => 'Available Offline';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get downloading => 'Downloading...';
+
+  @override
+  String get download_success => 'Downloaded successfully';
+
+  @override
+  String get download_failed => 'Download failed';
+
+  @override
+  String get playback_speed => 'Playback Speed';
+
+  @override
+  String get readers_list => 'Reciters List';
 }

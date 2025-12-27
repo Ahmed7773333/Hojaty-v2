@@ -385,6 +385,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results found'**
   String get quranNoResults;
+
+  /// Title for Madina Live Stream card
+  ///
+  /// In en, this message translates to:
+  /// **'Madina Live'**
+  String get madina_live;
+
+  /// Title for Makkah Live Stream card
+  ///
+  /// In en, this message translates to:
+  /// **'Makkah Live'**
+  String get makkah_live;
+
+  /// Header for Surahs list
+  ///
+  /// In en, this message translates to:
+  /// **'Surahs List'**
+  String get surahs_list;
+
+  /// Button or action to listen to a Surah
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to Surah'**
+  String get listen_to_surah;
+
+  /// Message indicating content is downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Available Offline'**
+  String get offline_available;
+
+  /// Download button label
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// Downloading status message
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading...'**
+  String get downloading;
+
+  /// Download success message
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded successfully'**
+  String get download_success;
+
+  /// Download failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed'**
+  String get download_failed;
+
+  /// Playback speed option
+  ///
+  /// In en, this message translates to:
+  /// **'Playback Speed'**
+  String get playback_speed;
+
+  /// Header for list of reciters
+  ///
+  /// In en, this message translates to:
+  /// **'Reciters List'**
+  String get readers_list;
 }
 
 class _AppLocalizationsDelegate
