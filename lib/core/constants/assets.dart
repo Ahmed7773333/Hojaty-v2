@@ -7,4 +7,5 @@ class Assets {
   static const String azkarTarget = '${graphicsPath}azkartarget.png';
   static const String setTarget = '${graphicsPath}settarget.png';
   static const String continueReading = '${graphicsPath}continuereading.jpeg';
+  static const String playlistCard = '${graphicsPath}playlist_card.png';
 }

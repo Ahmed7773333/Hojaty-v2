@@ -31,6 +31,6 @@ class AppTextStyles {
   static const TextStyle hafsSmartStyle = TextStyle(
     fontFamily: hafsSmart,
     fontSize: 26,
-    fontWeight: .bold,
+    fontWeight: FontWeight.bold,
   );
 }

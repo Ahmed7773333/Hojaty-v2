@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get playlists => 'Playlists';
+
+  @override
   String get appTitle => 'Hojaty';
 
   @override
@@ -192,4 +195,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get readers_list => 'Reciters List';
+
+  @override
+  String get search => 'Search';
 }

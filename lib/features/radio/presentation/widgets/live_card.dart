@@ -7,19 +7,24 @@ class LiveCard extends StatelessWidget {
   final String title;
   final String imagePath;
   final String streamUrl;
+  final VoidCallback? onTap;
 
-  const LiveCard({super.key, 
+  const LiveCard({
+    super.key,
     required this.title,
     required this.imagePath,
     required this.streamUrl,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.push(LiveStreamPage(streamUrl: streamUrl, title: title));
-      },
+      onTap:
+          onTap ??
+          () {
+            context.push(LiveStreamPage(streamUrl: streamUrl, title: title));
+          },
       child: Container(
         height: 150,
         decoration: BoxDecoration(

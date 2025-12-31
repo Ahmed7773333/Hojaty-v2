@@ -3,6 +3,7 @@ class Surah {
   final int number;
   final String nameEn;
   final String nameAr;
+   int get idUi=> int.tryParse(id)??0;
 
   const Surah(this.id, this.number, this.nameEn, this.nameAr);
 }

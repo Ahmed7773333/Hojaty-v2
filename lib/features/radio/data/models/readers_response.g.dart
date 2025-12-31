@@ -2,8 +2,11 @@
 
 part of 'readers_response.dart';
 
-class ReadersResponseModelAdapter
-    extends TypeAdapter<ReadersResponseModel> {
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class ReadersResponseModelAdapter extends TypeAdapter<ReadersResponseModel> {
   @override
   final int typeId = 1;
 
@@ -11,7 +14,7 @@ class ReadersResponseModelAdapter
   ReadersResponseModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ReadersResponseModel(
       reciters: (fields[0] as List?)?.cast<Reciters>(),
@@ -45,7 +48,7 @@ class RecitersAdapter extends TypeAdapter<Reciters> {
   Reciters read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Reciters(
       id: fields[0] as int?,
@@ -88,7 +91,7 @@ class MoshafAdapter extends TypeAdapter<Moshaf> {
   Moshaf read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Moshaf(
       id: fields[0] as int?,

@@ -9,6 +9,9 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get playlists => 'قوائم التشغيل';
+
+  @override
   String get appTitle => 'حجتي';
 
   @override
@@ -192,4 +195,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get readers_list => 'قائمة القراء';
+
+  @override
+  String get search => 'بحث';
 }

@@ -10,6 +10,13 @@ import '../../../../core/utils/extensions/context_extensions.dart';
 import '../widgets/audio_controls_widget.dart';
 import '../widgets/download_status_widget.dart';
 import '../widgets/reciter_info_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/injector.dart';
+import '../../data/models/playlist_item.dart';
+import '../../data/models/playlist_model.dart';
+import '../bloc/radio_bloc.dart';
+import '../bloc/radio_event.dart';
+import '../bloc/radio_state.dart';
 
 class SurahAudioPage extends StatefulWidget {
   final Surah surah;
@@ -141,112 +148,225 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.strings.localeName == 'ar'
-              ? widget.surah.nameAr
-              : widget.surah.nameEn,
+    return BlocProvider(
+      create: (context) => injector<RadioBloc>()..add(LoadPlaylistsEvent()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            context.strings.localeName == 'ar'
+                ? widget.surah.nameAr
+                : widget.surah.nameEn,
+          ),
+          centerTitle: true,
+          actions: [
+            BlocBuilder<RadioBloc, RadioState>(
+              builder: (context, state) {
+                final isFav = state.isFavorite(
+                  widget.surah.idUi,
+                  widget.reciterName,
+                );
+                return IconButton(
+                  icon: Icon(
+                    isFav ? Icons.favorite : Icons.favorite_border,
+                    color: isFav ? Colors.red : null,
+                  ),
+                  onPressed: () {
+                    context.read<RadioBloc>().add(
+                      ToggleFavoriteEvent(_playlistItem),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // 1. Info & Image
-              ReciterInfoWidget(
-                reciterName: widget.reciterName,
-                surahNameEn: widget.surah.nameEn,
-                surahNameAr: widget.surah.nameAr,
-              ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // 1. Info & Image
+                ReciterInfoWidget(
+                  reciterName: widget.reciterName,
+                  surahNameEn: widget.surah.nameEn,
+                  surahNameAr: widget.surah.nameAr,
+                ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              // 2. Progress Bar
-              StreamBuilder<Duration>(
-                stream: _audioPlayer.positionStream,
-                builder: (context, snapshot) {
-                  final position = snapshot.data ?? Duration.zero;
-                  final duration = _audioPlayer.duration ?? Duration.zero;
-                  final buffered = _audioPlayer.bufferedPosition;
+                // 2. Progress Bar
+                StreamBuilder<Duration>(
+                  stream: _audioPlayer.positionStream,
+                  builder: (context, snapshot) {
+                    final position = snapshot.data ?? Duration.zero;
+                    final duration = _audioPlayer.duration ?? Duration.zero;
+                    final buffered = _audioPlayer.bufferedPosition;
 
-                  return ProgressBar(
-                    progress: position,
-                    buffered: buffered,
-                    total: duration,
-                    onSeek: (duration) {
-                      _audioPlayer.seek(duration);
-                    },
-                    baseBarColor: Colors.grey[300],
-                    progressBarColor: Theme.of(context).primaryColor,
-                    bufferedBarColor: Colors.grey[400],
-                    thumbColor: Theme.of(context).primaryColor,
-                    barHeight: 6.0,
-                    thumbRadius: 8.0,
-                    timeLabelPadding: 8.0,
-                    timeLabelTextStyle: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
-                    ),
-                  );
-                },
-              ),
+                    return ProgressBar(
+                      progress: position,
+                      buffered: buffered,
+                      total: duration,
+                      onSeek: (duration) {
+                        _audioPlayer.seek(duration);
+                      },
+                      baseBarColor: Colors.grey[300],
+                      progressBarColor: Theme.of(context).primaryColor,
+                      bufferedBarColor: Colors.grey[400],
+                      thumbColor: Theme.of(context).primaryColor,
+                      barHeight: 6.0,
+                      thumbRadius: 8.0,
+                      timeLabelPadding: 8.0,
+                      timeLabelTextStyle: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    );
+                  },
+                ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              // 3. Audio Controls
-              StreamBuilder<PlayerState>(
-                stream: _audioPlayer.playerStateStream,
-                builder: (context, snapshot) {
-                  final playerState = snapshot.data;
-                  final processingState = playerState?.processingState;
-                  final playing = playerState?.playing;
+                // 3. Audio Controls
+                StreamBuilder<PlayerState>(
+                  stream: _audioPlayer.playerStateStream,
+                  builder: (context, snapshot) {
+                    final playerState = snapshot.data;
+                    final processingState = playerState?.processingState;
+                    final playing = playerState?.playing;
 
-                  if (processingState == ProcessingState.loading ||
-                      processingState == ProcessingState.buffering) {
-                    return const CircularProgressIndicator();
-                  }
+                    if (processingState == ProcessingState.loading ||
+                        processingState == ProcessingState.buffering) {
+                      return const CircularProgressIndicator();
+                    }
 
-                  return AudioControlsWidget(
-                    audioPlayer: _audioPlayer,
-                    isPlaying: playing ?? false,
-                    onPlayPause: () {
-                      if (playing == true) {
-                        _audioPlayer.pause();
-                      } else {
-                        _audioPlayer.play();
-                      }
-                    },
-                    onSeekForward: () {
-                      _audioPlayer.seek(
-                        _audioPlayer.position + const Duration(seconds: 10),
-                      );
-                    },
-                    onSeekBackward: () {
-                      _audioPlayer.seek(
-                        _audioPlayer.position - const Duration(seconds: 10),
-                      );
-                    },
-                    onChangeSpeed: _showSpeedDialog,
-                  );
-                },
-              ),
+                    return AudioControlsWidget(
+                      audioPlayer: _audioPlayer,
+                      isPlaying: playing ?? false,
+                      onPlayPause: () {
+                        if (playing == true) {
+                          _audioPlayer.pause();
+                        } else {
+                          _audioPlayer.play();
+                        }
+                      },
+                      onSeekForward: () {
+                        _audioPlayer.seek(
+                          _audioPlayer.position + const Duration(seconds: 10),
+                        );
+                      },
+                      onSeekBackward: () {
+                        _audioPlayer.seek(
+                          _audioPlayer.position - const Duration(seconds: 10),
+                        );
+                      },
+                      onChangeSpeed: _showSpeedDialog,
+                    );
+                  },
+                ),
 
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              // 4. Download Status / Button
-              DownloadStatusWidget(
-                isDownloading: _isDownloading,
-                downloadProgress: _downloadProgress,
-                isDownloaded: _localFilePath != null,
-                onDownload: _downloadSurah,
-              ),
-            ],
+                // 4. Download Status / Button
+                DownloadStatusWidget(
+                  isDownloading: _isDownloading,
+                  downloadProgress: _downloadProgress,
+                  isDownloaded: _localFilePath != null,
+                  onDownload: _downloadSurah,
+                ),
+
+                const SizedBox(height: 20),
+
+                // 5. Add to Playlist Button
+                BlocBuilder<RadioBloc, RadioState>(
+                  builder: (context, state) {
+                    return ElevatedButton.icon(
+                      onPressed: () {
+                        _showAddToPlaylistDialog(context, state.playlists);
+                      },
+                      icon: const Icon(Icons.playlist_add),
+                      label: const Text("Add to Playlist"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  PlaylistItem get _playlistItem => PlaylistItem(
+    surahId: int.tryParse(widget.surah.id) ?? 0,
+    surahNameAr: widget.surah.nameAr,
+    surahNameEn: widget.surah.nameEn,
+    reciterName: widget.reciterName,
+    reciterLetter: widget.reciterName.isNotEmpty ? widget.reciterName[0] : '?',
+    serverUrl: widget.serverUrl,
+  );
+
+  void _showAddToPlaylistDialog(
+    BuildContext context,
+    List<PlaylistModel> playlists,
+  ) {
+    if (playlists.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("No playlists available. Create one first!"),
+        ),
+      );
+      return;
+    }
+
+    // Capture the bloc to use inside the dialog
+    final radioBloc = context.read<RadioBloc>();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Add to Playlist"),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: playlists.length,
+            itemBuilder: (context, index) {
+              final playlist = playlists[index];
+              if (playlist.isSystem == true &&
+                  playlist.id != 'favorites_playlist')
+                return const SizedBox.shrink();
+              if (playlist.id == 'favorites_playlist')
+                return const SizedBox.shrink();
+
+              return ListTile(
+                title: Text(playlist.name),
+                leading: const Icon(Icons.queue_music),
+                onTap: () {
+                  radioBloc.add(
+                    AddToPlaylistEvent(
+                      playlistId: playlist.id,
+                      item: _playlistItem,
+                    ),
+                  );
+                  Navigator.pop(context); // Close dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Added to ${playlist.name}")),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+        ],
       ),
     );
   }

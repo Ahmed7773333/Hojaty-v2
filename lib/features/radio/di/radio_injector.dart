@@ -7,9 +7,13 @@ import '../domain/repositories/radio_repository.dart';
 import '../domain/usecases/get_reciters_usecase.dart';
 import '../presentation/bloc/radio_bloc.dart';
 
+import '../data/datasources/local/playlists_local_data_source.dart';
+
 Future<void> initRadioInjector() async {
   // BLoC
-  injector.registerFactory(() => RadioBloc(getReciters: injector()));
+  injector.registerFactory(
+    () => RadioBloc(getReciters: injector(), playlistsDataSource: injector()),
+  );
 
   // UseCases
   injector.registerLazySingleton(() => GetRecitersUseCase(injector()));
@@ -28,5 +32,8 @@ Future<void> initRadioInjector() async {
   );
   injector.registerLazySingleton<RadioLocalDataSource>(
     () => RadioLocalDataSourceImpl(),
+  );
+  injector.registerLazySingleton<PlaylistsLocalDataSource>(
+    () => PlaylistsLocalDataSource(),
   );
 }

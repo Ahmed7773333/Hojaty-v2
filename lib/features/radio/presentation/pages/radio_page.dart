@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/constants/assets.dart';
 import '../bloc/radio_bloc.dart';
+import 'playlists_screen.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -24,7 +26,9 @@ class _RadioPageState extends State<RadioPage> {
     // Use addPostFrameCallback to ensure context is available and safe
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final locale = context.strings.localeName;
-      context.read<RadioBloc>().add(LoadRadioEvent(language: locale));
+      final bloc = context.read<RadioBloc>();
+      bloc.add(LoadRadioEvent(language: locale));
+      bloc.add(LoadPlaylistsEvent());
     });
   }
 
@@ -63,6 +67,15 @@ class _RadioPageState extends State<RadioPage> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 16),
+                  LiveCard(
+                    title: context.strings.playlists,
+                    imagePath: Assets.playlistCard,
+                    streamUrl: '',
+                    onTap: () {
+                      context.push(const PlaylistsScreen());
+                    },
                   ),
                   const SizedBox(height: 16),
                   // Search Field

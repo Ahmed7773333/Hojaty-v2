@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/models/playlist_model.dart';
+import '../../data/datasources/local/playlists_local_data_source.dart';
 import '../../data/models/readers_response.dart';
 import '../../domain/usecases/get_reciters_usecase.dart';
 import 'radio_event.dart';
@@ -7,10 +9,20 @@ import 'radio_state.dart';
 
 class RadioBloc extends Bloc<RadioEvent, RadioState> {
   final GetRecitersUseCase getReciters;
+  final PlaylistsLocalDataSource playlistsDataSource;
 
-  RadioBloc({required this.getReciters}) : super(const RadioState()) {
+  RadioBloc({required this.getReciters, required this.playlistsDataSource})
+    : super(const RadioState()) {
     on<LoadRadioEvent>(_onLoad);
     on<SearchRecitersEvent>(_onSearch);
+
+    // Playlist Events
+    on<LoadPlaylistsEvent>(_onLoadPlaylists);
+    on<CreatePlaylistEvent>(_onCreatePlaylist);
+    on<DeletePlaylistEvent>(_onDeletePlaylist);
+    on<AddToPlaylistEvent>(_onAddToPlaylist);
+    on<ToggleFavoriteEvent>(_onToggleFavorite);
+    on<RemoveFromPlaylistEvent>(_onRemoveFromPlaylist);
   }
 
   FutureOr<void> _onLoad(LoadRadioEvent event, Emitter<RadioState> emit) async {
@@ -121,6 +133,140 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
   bool _matches(String? text, String query) {
     if (text == null) return false;
     return _normalize(text).contains(query);
+  }
+
+  // Playlist Handlers
+
+  Future<void> _onLoadPlaylists(
+    LoadPlaylistsEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    emit(state.copyWith(playlistsStatus: PlaylistsStatus.loading));
+    try {
+      await playlistsDataSource.init();
+      final playlists = await playlistsDataSource.getPlaylists();
+      final downloads = await playlistsDataSource.getDownloads();
+
+      final downloadsPlaylist = PlaylistModel(
+        id: 'downloads_playlist',
+        name: 'Downloads',
+        isSystem: true,
+        items: downloads,
+      );
+
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.loaded,
+          playlists: playlists,
+          downloadsPlaylist: downloadsPlaylist,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onCreatePlaylist(
+    CreatePlaylistEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    try {
+      await playlistsDataSource.createPlaylist(event.name);
+      add(LoadPlaylistsEvent());
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDeletePlaylist(
+    DeletePlaylistEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    try {
+      await playlistsDataSource.deletePlaylist(event.playlistId);
+      add(LoadPlaylistsEvent());
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onAddToPlaylist(
+    AddToPlaylistEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    try {
+      await playlistsDataSource.addToPlaylist(event.playlistId, event.item);
+      add(LoadPlaylistsEvent());
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onToggleFavorite(
+    ToggleFavoriteEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    try {
+      if (state.isFavorite(event.item.surahId, event.item.reciterName)) {
+        await playlistsDataSource.removeFromPlaylist(
+          'favorites_playlist',
+          event.item,
+        );
+      } else {
+        await playlistsDataSource.addToPlaylist(
+          'favorites_playlist',
+          event.item,
+        );
+      }
+      add(LoadPlaylistsEvent());
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onRemoveFromPlaylist(
+    RemoveFromPlaylistEvent event,
+    Emitter<RadioState> emit,
+  ) async {
+    try {
+      await playlistsDataSource.removeFromPlaylist(
+        event.playlistId,
+        event.item,
+      );
+      add(LoadPlaylistsEvent());
+    } catch (e) {
+      emit(
+        state.copyWith(
+          playlistsStatus: PlaylistsStatus.error,
+          playlistErrorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   String _normalize(String text) {
