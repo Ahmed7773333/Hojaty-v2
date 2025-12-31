@@ -198,4 +198,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get search => 'بحث';
+
+  @override
+  String get duaas => 'أدعية';
+
+  @override
+  String get prophet => 'النبي';
+
+  @override
+  String get prophets_stories => 'قصص الأنبياء';
+
+  @override
+  String get qibla => 'القبلة';
+
+  @override
+  String get ramadan => 'رمضان';
+
+  @override
+  String get ahadith => 'أحاديث';
+
+  @override
+  String get allah_names => 'أسماء الله الحسنى';
 }

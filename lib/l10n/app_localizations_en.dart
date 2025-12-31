@@ -198,4 +198,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search => 'Search';
+
+  @override
+  String get duaas => 'Duaas';
+
+  @override
+  String get prophet => 'The Prophet';
+
+  @override
+  String get prophets_stories => 'Stories of Prophets';
+
+  @override
+  String get qibla => 'Qibla';
+
+  @override
+  String get ramadan => 'Ramadan';
+
+  @override
+  String get ahadith => 'Ahadith';
+
+  @override
+  String get allah_names => 'Names of Allah';
 }

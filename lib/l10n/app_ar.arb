@@ -59,5 +59,13 @@
   "downloading": "جاري التحميل...",
   "download_success": "تم التحميل بنجاح",
   "download_failed": "فشل التحميل",
-  "playback_speed": "سرعة التشغيل","search": "بحث"
+  "playback_speed": "سرعة التشغيل",
+  "search": "بحث",
+  "duaas": "أدعية",
+  "prophet": "النبي",
+  "prophets_stories": "قصص الأنبياء",
+  "qibla": "القبلة",
+  "ramadan": "رمضان",
+  "ahadith": "أحاديث",
+  "allah_names": "أسماء الله الحسنى"
 }

@@ -463,6 +463,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
+
+  /// No description provided for @duaas.
+  ///
+  /// In en, this message translates to:
+  /// **'Duaas'**
+  String get duaas;
+
+  /// No description provided for @prophet.
+  ///
+  /// In en, this message translates to:
+  /// **'The Prophet'**
+  String get prophet;
+
+  /// No description provided for @prophets_stories.
+  ///
+  /// In en, this message translates to:
+  /// **'Stories of Prophets'**
+  String get prophets_stories;
+
+  /// No description provided for @qibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla'**
+  String get qibla;
+
+  /// No description provided for @ramadan.
+  ///
+  /// In en, this message translates to:
+  /// **'Ramadan'**
+  String get ramadan;
+
+  /// No description provided for @ahadith.
+  ///
+  /// In en, this message translates to:
+  /// **'Ahadith'**
+  String get ahadith;
+
+  /// No description provided for @allah_names.
+  ///
+  /// In en, this message translates to:
+  /// **'Names of Allah'**
+  String get allah_names;
 }
 
 class _AppLocalizationsDelegate

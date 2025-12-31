@@ -257,5 +257,12 @@
   "@readers_list": {
     "description": "Header for list of reciters"
   },
-  "search": "Search"
+  "search": "Search",
+  "duaas": "Duaas",
+  "prophet": "The Prophet",
+  "prophets_stories": "Stories of Prophets",
+  "qibla": "Qibla",
+  "ramadan": "Ramadan",
+  "ahadith": "Ahadith",
+  "allah_names": "Names of Allah"
 }
