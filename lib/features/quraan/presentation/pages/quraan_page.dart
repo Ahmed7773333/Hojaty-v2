@@ -110,9 +110,6 @@ class QuraanView extends StatelessWidget {
 
                 QuraanBottomBar(
                   isVisible: state.isOverlayVisible,
-                  juzText: _getJuzText(state),
-                  hizbText: _getHizbText(state),
-                  pageText: _getPageText(state),
                   onHomeTap: () {
                     Navigator.of(context).pop();
                   },

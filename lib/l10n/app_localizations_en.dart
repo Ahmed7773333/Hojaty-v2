@@ -219,4 +219,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allah_names => 'Names of Allah';
+
+  @override
+  String get quranIndex => 'Index';
 }

@@ -505,6 +505,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Names of Allah'**
   String get allah_names;
+
+  /// No description provided for @quranIndex.
+  ///
+  /// In en, this message translates to:
+  /// **'Index'**
+  String get quranIndex;
 }
 
 class _AppLocalizationsDelegate

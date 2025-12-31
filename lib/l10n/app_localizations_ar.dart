@@ -219,4 +219,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get allah_names => 'أسماء الله الحسنى';
+
+  @override
+  String get quranIndex => 'الفهرس';
 }
