@@ -87,7 +87,7 @@ class PageData {
 
 class PageDataAdapter extends TypeAdapter<PageData> {
   @override
-  final int typeId = 1;
+  final int typeId = 4;
 
   @override
   PageData read(BinaryReader reader) {

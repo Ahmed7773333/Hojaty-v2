@@ -1,6 +1,6 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class LiveStreamPage extends StatefulWidget {
   final String streamUrl;
@@ -17,52 +17,44 @@ class LiveStreamPage extends StatefulWidget {
 }
 
 class _LiveStreamPageState extends State<LiveStreamPage> {
-  late VideoPlayerController _videoPlayerController;
-  ChewieController? _chewieController;
+  late YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _initPlayer();
-  }
-
-  Future<void> _initPlayer() async {
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.streamUrl),
-    );
-
-    await _videoPlayerController.initialize();
-
-    setState(() {
-      _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
+    final videoId = YoutubePlayer.convertUrlToId(widget.streamUrl) ?? '';
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        isLive: true,
         autoPlay: true,
-        looping: true,
-        // isLive: true,
-        allowedScreenSleep: false,
-        aspectRatio: _videoPlayerController.value.aspectRatio,
-      );
-    });
+        forceHD: true,
+        enableCaption: false,
+      ),
+    );
   }
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
-    _chewieController?.dispose();
+    _controller.dispose();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: Center(
-        child:
-            _chewieController != null &&
-                _chewieController!.videoPlayerController.value.isInitialized
-            ? Chewie(controller: _chewieController!)
-            : const CircularProgressIndicator(),
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        showVideoProgressIndicator: true,
+        liveUIColor: Colors.red,
       ),
+      builder: (context, player) {
+        return Scaffold(
+          appBar: AppBar(title: Text(widget.title)),
+          body: Center(child: player),
+        );
+      },
     );
   }
 }

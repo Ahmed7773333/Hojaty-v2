@@ -2,7 +2,7 @@ name: Android Internal Testing
 
 on:
   push:
-    branches: [ radio ]
+    branches: [ dev ]
   workflow_dispatch:
 
 jobs:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hojaty/features/radio/data/models/readers_response.dart';
+import '../../../quraan/data/models/page_data.dart';
 import 'user_db.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -19,6 +20,7 @@ class UserDbHelper {
     Hive.registerAdapter(ReadersResponseModelAdapter());
     Hive.registerAdapter(MoshafAdapter());
     Hive.registerAdapter(RecitersAdapter());
+    Hive.registerAdapter(PageDataAdapter());
     if (!Hive.isBoxOpen(boxName)) {
       await Hive.openBox<User>(boxName);
     }

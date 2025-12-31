@@ -6,7 +6,13 @@ import '../../features/quraan/data/models/surah_model.dart';
 class AppConstants {
   static const String baseUrl = 'https://api.example.com';
   static const String authTokenKey = 'auth_token';
-    static const Map<int, SurahInfo> surahMap = {
+
+  static const String makkahLiveStreamUrl =
+      "https://www.youtube.com/watch?v=A5HmxxOt0Vg";
+  static const String madinaLiveStreamUrl =
+      "https://www.youtube.com/watch?v=zZmE-NRMpxo";
+
+  static const Map<int, SurahInfo> surahMap = {
     1: SurahInfo(
       number: 1,
       name: 'الفاتحة',
@@ -2672,5 +2678,4 @@ class AppConstants {
     'الحزب التاسع والخمسون',
     'الحزب الستون',
   ];
- 
 }

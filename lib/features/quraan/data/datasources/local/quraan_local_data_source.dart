@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../models/page_data.dart';
@@ -9,11 +10,21 @@ class QuraanLocalDataSource {
   static const String _lastPageKey = 'last_page';
 
   Future<void> init() async {
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(PageDataAdapter());
+    try {
+      await Hive.openBox<PageData>(_boxName);
+    } catch (e) {
+      debugPrint('Error opening $_boxName: $e');
+      await Hive.deleteBoxFromDisk(_boxName);
+      await Hive.openBox<PageData>(_boxName);
     }
-    await Hive.openBox<PageData>(_boxName);
-    await Hive.openBox(_settingsBoxName);
+
+    try {
+      await Hive.openBox(_settingsBoxName);
+    } catch (e) {
+      debugPrint('Error opening $_settingsBoxName: $e');
+      await Hive.deleteBoxFromDisk(_settingsBoxName);
+      await Hive.openBox(_settingsBoxName);
+    }
   }
 
   Future<List<PageData>> getPages() async {

@@ -4,6 +4,7 @@ import '../../../../core/utils/extensions/context_extensions.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../widgets/live_card.dart';
 import 'reader_surahs_page.dart';
 
@@ -50,8 +51,7 @@ class _RadioPageState extends State<RadioPage> {
                         child: LiveCard(
                           title: context.strings.madina_live,
                           imagePath: 'assets/images/madina.jpg',
-                          streamUrl:
-                              'https://win.holol.com/live/sunnah/playlist.m3u8',
+                          streamUrl: AppConstants.madinaLiveStreamUrl,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -59,8 +59,7 @@ class _RadioPageState extends State<RadioPage> {
                         child: LiveCard(
                           title: context.strings.makkah_live,
                           imagePath: 'assets/images/makka.jpg',
-                          streamUrl:
-                              'https://win.holol.com/live/quran/playlist.m3u8',
+                          streamUrl: AppConstants.makkahLiveStreamUrl,
                         ),
                       ),
                     ],
