@@ -79,7 +79,7 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: context.strings.search ?? "Search",
+                      hintText: context.strings.search,
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -98,8 +98,9 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
                             final surahIdStr = _filteredSurahIds[index];
                             final surahNumber = int.tryParse(surahIdStr);
 
-                            if (surahNumber == null)
+                            if (surahNumber == null) {
                               return const SizedBox.shrink();
+                            }
 
                             final surah = SurahsList.all.firstWhere(
                               (s) => s.number == surahNumber,
@@ -107,8 +108,9 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
                                   const Surah('000', 0, "Unknown", "Unknown"),
                             );
 
-                            if (surah.number == 0)
+                            if (surah.number == 0) {
                               return const SizedBox.shrink();
+                            }
 
                             return Card(
                               margin: const EdgeInsets.symmetric(

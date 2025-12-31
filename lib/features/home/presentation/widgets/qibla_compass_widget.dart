@@ -15,8 +15,6 @@ class QiblaCompassWidget extends StatefulWidget {
 
 class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
   bool _hasPermissions = false;
-  CompassEvent? _lastRead;
-  DateTime? _lastReadAt;
   double? _qiblaDirection; // Bearing from North to Qibla
   String _error = '';
 
@@ -50,8 +48,8 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
       const double kaabaLat = 21.422487;
       const double kaabaLng = 39.826206;
 
-      final double phiK = kaabaLat * math.pi / 180.0;
-      final double lambdaK = kaabaLng * math.pi / 180.0;
+      const double phiK = kaabaLat * math.pi / 180.0;
+      const double lambdaK = kaabaLng * math.pi / 180.0;
       final double phi = lat * math.pi / 180.0;
       final double lambda = lng * math.pi / 180.0;
 

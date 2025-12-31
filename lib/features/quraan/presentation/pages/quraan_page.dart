@@ -133,31 +133,6 @@ class QuraanView extends StatelessWidget {
     );
   }
 
-  String _getJuzText(QuraanState state) {
-    if (state.quranPages.isEmpty) return 'الجزء -';
-    final pageData = state.quranPages[state.currentPage];
-    return pageData?.juzName ?? 'الجزء ${pageData?.juzNumber ?? '-'}';
-  }
 
-  String _getHizbText(QuraanState state) {
-    if (state.quranPages.isEmpty) return 'الحزب -';
-    final pageData = state.quranPages[state.currentPage];
-    return pageData?.quarterName ?? '';
-  }
 
-  String _getPageText(QuraanState state) {
-    if (state.quranPages.isEmpty) {
-      return 'صفحة ${state.currentPage}';
-    }
-    final pageData = state.quranPages[state.currentPage];
-    if (pageData == null) {
-      return 'صفحة ${state.currentPage}';
-    }
-
-    final surah =
-        (pageData.surahsNames != null && pageData.surahsNames!.isNotEmpty)
-        ? pageData.surahsNames!.first
-        : '';
-    return '$surah - صفحة ${state.currentPage}';
-  }
 }

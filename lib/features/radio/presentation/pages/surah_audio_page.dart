@@ -337,10 +337,12 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
             itemBuilder: (context, index) {
               final playlist = playlists[index];
               if (playlist.isSystem == true &&
-                  playlist.id != 'favorites_playlist')
+                  playlist.id != 'favorites_playlist') {
                 return const SizedBox.shrink();
-              if (playlist.id == 'favorites_playlist')
+              }
+              if (playlist.id == 'favorites_playlist') {
                 return const SizedBox.shrink();
+              }
 
               return ListTile(
                 title: Text(playlist.name),
