@@ -10,6 +10,7 @@ import '../widgets/custom_bottom_nav_bar.dart';
 import '../../data/models/user_db_helper.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/services/notification_service.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key});
@@ -36,6 +37,7 @@ class _HomeLayoutState extends State<HomeLayout> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _restoreLastRoute();
+      NotificationService.schedulePrayerNotifications();
     });
   }
 
