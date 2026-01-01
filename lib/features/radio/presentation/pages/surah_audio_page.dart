@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:hojaty/core/services/audio_player_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../../core/constants/surahs_list.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../widgets/audio_controls_widget.dart';
 import '../widgets/download_status_widget.dart';
 import '../widgets/reciter_info_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +35,7 @@ class SurahAudioPage extends StatefulWidget {
 }
 
 class _SurahAudioPageState extends State<SurahAudioPage> {
-  late AudioPlayer _audioPlayer;
+  late AudioHandler _audioHandler;
   bool _isDownloading = false;
   double _downloadProgress = 0.0;
   String? _localFilePath;
@@ -43,7 +43,7 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
+    _audioHandler = injector<AudioHandler>();
     _checkIfFileExistsAndInit();
   }
 
@@ -52,18 +52,35 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
     final fileName = "${widget.reciterName}_${widget.surah.id}.mp3";
     final file = File("${dir.path}/$fileName");
 
+    // Update MediaItem first
+    final mediaItem = MediaItem(
+      id: widget.surah.id,
+      album: widget.reciterName,
+      title: context.strings.localeName == 'ar'
+          ? widget.surah.nameAr
+          : widget.surah.nameEn,
+      artist: widget.reciterName,
+      artUri: Uri.parse(
+        "https://i.imgur.com/s6E6R2u.png",
+      ), // Placeholder or app icon
+      extras: {'surahId': widget.surah.id},
+    );
+    _audioHandler.addQueueItem(mediaItem);
+
     if (await file.exists()) {
       setState(() {
         _localFilePath = file.path;
       });
-      await _audioPlayer.setFilePath(file.path);
+      if (_audioHandler is AudioPlayerHandler) {
+        await (_audioHandler as AudioPlayerHandler).setFilePath(file.path);
+        _audioHandler.play();
+      }
     } else {
       // Stream form URL
       final url = "${widget.serverUrl}${widget.surah.id}.mp3";
-      try {
-        await _audioPlayer.setUrl(url);
-      } catch (e) {
-        debugPrint("Error loading URL: $e");
+      if (_audioHandler is AudioPlayerHandler) {
+        await (_audioHandler as AudioPlayerHandler).setUrl(url);
+        _audioHandler.play();
       }
     }
   }
@@ -98,11 +115,11 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
         });
 
         // Switch to the local file for playback
-        final wasPlaying = _audioPlayer.playing;
-        final position = _audioPlayer.position;
-        await _audioPlayer.setFilePath(savePath);
-        if (wasPlaying) _audioPlayer.play();
-        _audioPlayer.seek(position);
+        if (_audioHandler is AudioPlayerHandler) {
+          final wasPlaying = _audioHandler.playbackState.value.playing;
+          await (_audioHandler as AudioPlayerHandler).setFilePath(savePath);
+          if (wasPlaying) _audioHandler.play();
+        }
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(context.strings.download_success)),
@@ -129,7 +146,7 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
           children: [0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map((speed) {
             return SimpleDialogOption(
               onPressed: () {
-                _audioPlayer.setSpeed(speed);
+                _audioHandler.setSpeed(speed);
                 Navigator.pop(context);
               },
               child: Text("${speed}x"),
@@ -138,12 +155,6 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
   }
 
   @override
@@ -197,30 +208,29 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
 
                 // 2. Progress Bar
                 StreamBuilder<Duration>(
-                  stream: _audioPlayer.positionStream,
+                  stream: AudioService.position,
                   builder: (context, snapshot) {
                     final position = snapshot.data ?? Duration.zero;
-                    final duration = _audioPlayer.duration ?? Duration.zero;
-                    final buffered = _audioPlayer.bufferedPosition;
-
-                    return ProgressBar(
-                      progress: position,
-                      buffered: buffered,
-                      total: duration,
-                      onSeek: (duration) {
-                        _audioPlayer.seek(duration);
+                    return StreamBuilder<MediaItem?>(
+                      stream: _audioHandler.mediaItem,
+                      builder: (context, mediaSnapshot) {
+                        final duration =
+                            mediaSnapshot.data?.duration ?? Duration.zero;
+                        return ProgressBar(
+                          progress: position,
+                          total: duration,
+                          onSeek: (duration) {
+                            _audioHandler.seek(duration);
+                          },
+                          baseBarColor: Colors.grey[300],
+                          progressBarColor: Theme.of(context).primaryColor,
+                          bufferedBarColor: Colors.grey[400],
+                          thumbColor: Theme.of(context).primaryColor,
+                          barHeight: 6.0,
+                          thumbRadius: 8.0,
+                          timeLabelPadding: 8.0,
+                        );
                       },
-                      baseBarColor: Colors.grey[300],
-                      progressBarColor: Theme.of(context).primaryColor,
-                      bufferedBarColor: Colors.grey[400],
-                      thumbColor: Theme.of(context).primaryColor,
-                      barHeight: 6.0,
-                      thumbRadius: 8.0,
-                      timeLabelPadding: 8.0,
-                      timeLabelTextStyle: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
                     );
                   },
                 ),
@@ -228,39 +238,68 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
                 const SizedBox(height: 20),
 
                 // 3. Audio Controls
-                StreamBuilder<PlayerState>(
-                  stream: _audioPlayer.playerStateStream,
+                StreamBuilder<PlaybackState>(
+                  stream: _audioHandler.playbackState,
                   builder: (context, snapshot) {
-                    final playerState = snapshot.data;
-                    final processingState = playerState?.processingState;
-                    final playing = playerState?.playing;
+                    final playbackState = snapshot.data;
+                    final processingState = playbackState?.processingState;
+                    final playing = playbackState?.playing;
 
-                    if (processingState == ProcessingState.loading ||
-                        processingState == ProcessingState.buffering) {
+                    if (processingState == AudioProcessingState.loading ||
+                        processingState == AudioProcessingState.buffering) {
                       return const CircularProgressIndicator();
                     }
 
-                    return AudioControlsWidget(
-                      audioPlayer: _audioPlayer,
-                      isPlaying: playing ?? false,
-                      onPlayPause: () {
-                        if (playing == true) {
-                          _audioPlayer.pause();
-                        } else {
-                          _audioPlayer.play();
-                        }
-                      },
-                      onSeekForward: () {
-                        _audioPlayer.seek(
-                          _audioPlayer.position + const Duration(seconds: 10),
-                        );
-                      },
-                      onSeekBackward: () {
-                        _audioPlayer.seek(
-                          _audioPlayer.position - const Duration(seconds: 10),
-                        );
-                      },
-                      onChangeSpeed: _showSpeedDialog,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.speed),
+                          onPressed: _showSpeedDialog,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.replay_10),
+                          onPressed: () {
+                            if (_audioHandler is AudioPlayerHandler) {
+                              final pos = (_audioHandler as AudioPlayerHandler)
+                                  .position;
+                              _audioHandler.seek(
+                                pos - const Duration(seconds: 10),
+                              );
+                            }
+                          },
+                        ),
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: IconButton(
+                            icon: Icon(
+                              playing == true ? Icons.pause : Icons.play_arrow,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              if (playing == true) {
+                                _audioHandler.pause();
+                              } else {
+                                _audioHandler.play();
+                              }
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.forward_10),
+                          onPressed: () {
+                            if (_audioHandler is AudioPlayerHandler) {
+                              final pos = (_audioHandler as AudioPlayerHandler)
+                                  .position;
+                              _audioHandler.seek(
+                                pos + const Duration(seconds: 10),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),

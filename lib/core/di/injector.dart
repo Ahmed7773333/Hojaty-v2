@@ -10,6 +10,8 @@ import 'package:hojaty/features/radio/di/radio_injector.dart';
 import 'package:hojaty/features/settings/di/settings_injector.dart';
 import '../network/api_consumer.dart';
 import '../network/dio_client.dart';
+import 'package:audio_service/audio_service.dart';
+import '../services/audio_player_handler.dart';
 
 final injector = GetIt.instance;
 
@@ -19,6 +21,19 @@ Future<void> setupInjector() async {
   injector.registerSingleton<FlutterSecureStorage>(
     const FlutterSecureStorage(),
   );
+
+  // Audio Handler
+  final audioHandler = await AudioService.init(
+    builder: () => AudioPlayerHandler(),
+    config: const AudioServiceConfig(
+      androidNotificationChannelId: 'com.wolfdev.hojaty.channel.audio',
+      androidNotificationChannelName: 'Hojaty Audio',
+      androidNotificationOngoing: true,
+    ),
+  );
+  injector.registerSingleton<AudioHandler>(audioHandler);
+  // Also register concrete type for easier access to custom methods if needed,
+  // though casting AudioHandler is safer pattern, but here we registered the instance.
 
   // Repositories
   // injector.registerLazySingleton<QuraanRepository>(() => QuraanRepository());

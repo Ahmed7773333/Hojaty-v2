@@ -89,5 +89,10 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>تشغيل الصوت داخل التطبيق.</string>
 
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
+
 </dict>
 </plist>
