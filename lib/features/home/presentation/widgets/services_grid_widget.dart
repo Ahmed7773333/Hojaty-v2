@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
+import '../../../../config/routes/app_router.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../pages/ahadith_page.dart';
-import '../pages/allah_names_page.dart';
-import '../pages/azkar_page.dart';
-import '../pages/duaas_page.dart';
-import '../pages/prophet_page.dart';
-import '../pages/prophets_stories_page.dart';
-import '../pages/qibla_page.dart';
-import '../pages/ramadan_page.dart';
-import '../pages/sebha_page.dart';
 
 class ServiceData {
   final String label;
   final String assetPath;
-  final Widget destination;
+  final String routeName;
 
   ServiceData({
     required this.label,
     required this.assetPath,
-    required this.destination,
+    required this.routeName,
   });
 }
 
@@ -33,47 +25,47 @@ class ServicesGridWidget extends StatelessWidget {
       ServiceData(
         label: context.strings.azkar,
         assetPath: Assets.azkar,
-        destination: const AzkarPage(),
+        routeName: AppRoutes.azkar,
       ),
       ServiceData(
         label: context.strings.duaas,
         assetPath: Assets.duaas,
-        destination: const DuaasPage(),
+        routeName: AppRoutes.duaas,
       ),
       ServiceData(
         label: context.strings.prophet,
         assetPath: Assets.prophet,
-        destination: const ProphetPage(),
+        routeName: AppRoutes.prophet,
       ),
       ServiceData(
         label: context.strings.prophets_stories,
         assetPath: Assets.prophetsStories,
-        destination: const ProphetsStoriesPage(),
+        routeName: AppRoutes.prophetsStories,
       ),
       ServiceData(
         label: context.strings.qibla,
         assetPath: Assets.qibla,
-        destination: const QiblaPage(),
+        routeName: AppRoutes.qibla,
       ),
       ServiceData(
         label: context.strings.ramadan,
         assetPath: Assets.ramdan,
-        destination: const RamadanPage(),
+        routeName: AppRoutes.ramadan,
       ),
       ServiceData(
         label: context.strings.sebhaTitle,
         assetPath: Assets.tasbeh,
-        destination: const SebhaPage(),
+        routeName: AppRoutes.sebha,
       ),
       ServiceData(
         label: context.strings.ahadith,
         assetPath: Assets.ahadith,
-        destination: const AhadithPage(),
+        routeName: AppRoutes.ahadith,
       ),
       ServiceData(
         label: context.strings.allah_names,
         assetPath: Assets.allahNames,
-        destination: const AllahNamesPage(),
+        routeName: AppRoutes.allahNames,
       ),
     ];
 
@@ -103,7 +95,7 @@ class _ServiceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(service.destination);
+        context.pushNamed(service.routeName);
       },
       child: Container(
         decoration: BoxDecoration(

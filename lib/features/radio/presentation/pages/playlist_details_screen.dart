@@ -5,8 +5,9 @@ import '../../../../core/di/injector.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
-import 'surah_audio_page.dart';
+import '../../../../config/routes/app_router.dart';
 import '../../../../core/constants/surahs_list.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
   final PlaylistModel playlist;
@@ -50,15 +51,13 @@ class PlaylistDetailsScreen extends StatelessWidget {
                       item.surahNameAr,
                     );
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => SurahAudioPage(
-                          surah: surah,
-                          serverUrl: item.serverUrl,
-                          reciterName: item.reciterName,
-                        ),
-                      ),
+                    context.pushNamed(
+                      AppRoutes.surahAudio,
+                      extra: {
+                        'surah': surah,
+                        'serverUrl': item.serverUrl,
+                        'reciterName': item.reciterName,
+                      },
                     );
                   },
                   trailing:

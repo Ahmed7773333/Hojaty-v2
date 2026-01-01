@@ -28,6 +28,9 @@ class User extends HiveObject {
   @HiveField(6)
   bool? isVibrateEnabled;
 
+  @HiveField(7)
+  String? lastRoute;
+
   User({
     this.lastKnownLocation,
     this.cityName,
@@ -36,6 +39,7 @@ class User extends HiveObject {
     this.tasbihNumber,
     this.isSoundEnabled,
     this.isVibrateEnabled,
+    this.lastRoute,
   });
 
   // ----------------- UI getters/setters -----------------
@@ -98,6 +102,14 @@ class User extends HiveObject {
     } catch (_) {}
   }
 
+  String? get uiLastRoute => lastRoute;
+  set uiLastRoute(String? v) {
+    lastRoute = v;
+    try {
+      save();
+    } catch (_) {}
+  }
+
   void increaseTashbih() {
     tasbihNumber = tasbihNumberUI + 1;
     save();
@@ -127,6 +139,7 @@ class User extends HiveObject {
     ThemeMode? themeMode,
     bool? isEnglish,
     int? tasbihNumber,
+    String? lastRoute,
   }) {
     return User(
       lastKnownLocation: lastKnownLocation ?? this.lastKnownLocation,
@@ -134,6 +147,7 @@ class User extends HiveObject {
       themeMode: themeMode ?? this.themeMode,
       isEnglish: isEnglish ?? this.isEnglish,
       tasbihNumber: tasbihNumber ?? this.tasbihNumber,
+      lastRoute: lastRoute ?? this.lastRoute,
     );
   }
 
@@ -146,6 +160,7 @@ class User extends HiveObject {
       'tasbihNumber': tasbihNumber,
       'isSoundEnabled': isSoundEnabled,
       'isVibrateEnabled': isVibrateEnabled,
+      'lastRoute': lastRoute,
     };
   }
 
@@ -157,6 +172,7 @@ class User extends HiveObject {
           ? ThemeMode.values[m['themeMode'] as int]
           : null),
       isEnglish: m['isEnglish'] as bool?,
+      lastRoute: m['lastRoute'] as String?,
     );
   }
 }

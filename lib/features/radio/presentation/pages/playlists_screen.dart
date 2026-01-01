@@ -5,7 +5,7 @@ import '../../../../core/di/injector.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
-import 'playlist_details_screen.dart';
+import '../../../../config/routes/app_router.dart';
 
 class PlaylistsScreen extends StatelessWidget {
   const PlaylistsScreen({super.key});
@@ -38,9 +38,7 @@ class PlaylistsScreen extends StatelessWidget {
               if (state.playlistsStatus == PlaylistsStatus.loading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state.playlistsStatus == PlaylistsStatus.error) {
-                return Center(
-                  child: Text(state.playlistErrorMessage),
-                );
+                return Center(child: Text(state.playlistErrorMessage));
               }
 
               final playlists = state.playlists;
@@ -96,12 +94,7 @@ class PlaylistsScreen extends StatelessWidget {
         subtitle: Text(count),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => PlaylistDetailsScreen(playlist: playlist),
-            ),
-          );
+          context.pushNamed(AppRoutes.playlistDetails, extra: playlist);
         },
         onLongPress: !isSystem
             ? () {

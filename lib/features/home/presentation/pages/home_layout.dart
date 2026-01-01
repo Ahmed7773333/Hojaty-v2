@@ -7,6 +7,9 @@ import '../../../../features/radio/presentation/bloc/radio_bloc.dart';
 import '../../../../features/radio/presentation/pages/radio_page.dart';
 import '../../../../features/settings/presentation/pages/settings_page.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
+import '../../data/models/user_db_helper.dart';
+import '../../../../config/routes/app_router.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key});
@@ -27,6 +30,30 @@ class _HomeLayoutState extends State<HomeLayout> {
     const AzkarPage(),
     const SettingsPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _restoreLastRoute();
+    });
+  }
+
+  void _restoreLastRoute() {
+    try {
+      final user = UserDbHelper.getById();
+      final lastRoute = user?.uiLastRoute;
+      if (lastRoute != null &&
+          lastRoute.isNotEmpty &&
+          lastRoute != AppRoutes.splash &&
+          lastRoute != AppRoutes.login &&
+          lastRoute != AppRoutes.home) {
+        context.pushNamed(lastRoute);
+      }
+    } catch (e) {
+      debugPrint('Error restoring last route: $e');
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {

@@ -222,4 +222,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranIndex => 'الفهرس';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get prophetNames => 'أسماء النبي';
 }

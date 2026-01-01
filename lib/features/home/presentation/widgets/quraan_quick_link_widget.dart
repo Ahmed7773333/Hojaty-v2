@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../features/quraan/presentation/pages/quraan_page.dart';
+import '../../../../config/routes/app_router.dart';
 
 class QuraanQuickLinkWidget extends StatelessWidget {
   const QuraanQuickLinkWidget({super.key});
@@ -9,7 +9,7 @@ class QuraanQuickLinkWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(const QuraanPage());
+        context.pushNamed(AppRoutes.quraan);
       },
       child: Container(
         height: 100,

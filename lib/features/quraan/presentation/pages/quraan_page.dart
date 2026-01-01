@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/di/injector.dart';
-import 'package:hojaty/features/quraan/presentation/pages/fehres.dart';
+import '../../../../config/routes/app_router.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
 import '../bloc/quraan_bloc.dart';
 import '../bloc/quraan_event.dart';
 import '../bloc/quraan_state.dart';
 import '../widgets/quraan_bottom_bar.dart';
 import '../widgets/quraan_top_bar.dart';
 import '../widgets/quraan_view_widget.dart';
-import '../pages/search.dart';
-import '../pages/juzs.dart';
-import '../pages/tafseer.dart';
 
 class QuraanPage extends StatelessWidget {
   const QuraanPage({super.key});
@@ -73,37 +71,25 @@ class QuraanView extends StatelessWidget {
                     if (state.quranPages.isNotEmpty) {
                       final pageData = state.quranPages[state.currentPage];
                       final tafseerText = pageData?.tafseer?.join('\n\n') ?? '';
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => TafseerPage(
-                            content: tafseerText,
-                            pageNum: state.currentPage.toString(),
-                          ),
-                        ),
+                      context.pushNamed(
+                        AppRoutes.tafseer,
+                        extra: {
+                          'content': tafseerText,
+                          'pageNum': state.currentPage.toString(),
+                        },
                       );
                     }
                   },
                   onHezpsTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<QuraanBloc>(),
-                          child: const Guzs(),
-                        ),
-                      ),
+                    context.pushNamed(
+                      AppRoutes.juzs,
+                      extra: context.read<QuraanBloc>(),
                     );
                   },
                   onSearchTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<QuraanBloc>(),
-                          child: const SearchPage(),
-                        ),
-                      ),
+                    context.pushNamed(
+                      AppRoutes.search,
+                      extra: context.read<QuraanBloc>(),
                     );
                   },
                 ),
@@ -114,14 +100,9 @@ class QuraanView extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   onJuzTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<QuraanBloc>(),
-                          child: const FehrsPage(),
-                        ),
-                      ),
+                    context.pushNamed(
+                      AppRoutes.fehres,
+                      extra: context.read<QuraanBloc>(),
                     );
                   },
                 ),
@@ -132,7 +113,4 @@ class QuraanView extends StatelessWidget {
       },
     );
   }
-
-
-
 }

@@ -29,13 +29,14 @@ class UserAdapter extends TypeAdapter<User> {
       tasbihNumber: fields[5] as int?,
       isSoundEnabled: fields[6] as bool?,
       isVibrateEnabled: fields[7] as bool?,
+      lastRoute: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.lastKnownLocation?.latitude)
       ..writeByte(1)
@@ -51,7 +52,9 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(6)
       ..write(obj.isSoundEnabled)
       ..writeByte(7)
-      ..write(obj.isVibrateEnabled);
+      ..write(obj.isVibrateEnabled)
+      ..writeByte(8)
+      ..write(obj.lastRoute);
   }
 
   @override

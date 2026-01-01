@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../../features/home/data/models/user_db_helper.dart';
 // import 'package:hojaty/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
@@ -15,6 +16,7 @@ extension LocalizationExtension on BuildContext {
 extension RoutingExtension on BuildContext {
   /// 🔹 Push a route by name with optional arguments
   Future<T?> pushNamed<T extends Object?>(String routeName, {Object? extra}) {
+    _saveRoute(routeName);
     return Navigator.of(this).pushNamed<T>(routeName, arguments: extra);
   }
 
@@ -24,6 +26,7 @@ extension RoutingExtension on BuildContext {
     TO? result,
     Object? extra,
   }) {
+    _saveRoute(routeName);
     return Navigator.of(
       this,
     ).pushReplacementNamed<T, TO>(routeName, result: result, arguments: extra);
@@ -35,6 +38,7 @@ extension RoutingExtension on BuildContext {
     bool Function(Route<dynamic>)? predicate,
     Object? extra,
   }) {
+    _saveRoute(routeName);
     return Navigator.of(this).pushNamedAndRemoveUntil<T>(
       routeName,
       predicate ?? (Route<dynamic> route) => false,
@@ -48,6 +52,7 @@ extension RoutingExtension on BuildContext {
   }) async {
     // Pop until route with name == routeName
     Navigator.of(this).popUntil((ModalRoute.withName(routeName)));
+    _saveRoute(routeName);
 
     // Then optionally pop one more with a result
     // return Navigator.of(this).maybePop<T>(extra as T?);
@@ -108,9 +113,21 @@ extension RoutingExtension on BuildContext {
 
   /// 🔹 Push and clear the entire navigation stack
   Future<T?> go<T extends Object?>(String routeName, {Object? extra}) {
+    _saveRoute(routeName);
     return Navigator.of(
       this,
     ).pushNamedAndRemoveUntil<T>(routeName, (route) => false, arguments: extra);
+  }
+
+  void _saveRoute(String routeName) {
+    try {
+      final user = UserDbHelper.getById();
+      if (user != null) {
+        user.uiLastRoute = routeName;
+      }
+    } catch (e) {
+      debugPrint('Error saving route: $e');
+    }
   }
 
   /// 🔹 Pop the current screen

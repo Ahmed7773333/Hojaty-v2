@@ -511,6 +511,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Index'**
   String get quranIndex;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @prophetNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Names of Prophet'**
+  String get prophetNames;
 }
 
 class _AppLocalizationsDelegate

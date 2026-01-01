@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/surahs_list.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../data/models/readers_response.dart';
-import 'surah_audio_page.dart';
+import '../../../../config/routes/app_router.dart';
 
 class ReaderSurahsPage extends StatefulWidget {
   final Reciters reciter;
@@ -128,12 +128,14 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
                                 trailing: const Icon(Icons.play_arrow),
                                 onTap: () {
                                   if (_serverUrl != null) {
-                                    context.push(
-                                      SurahAudioPage(
-                                        surah: surah,
-                                        serverUrl: _serverUrl!,
-                                        reciterName: widget.reciter.name ?? "",
-                                      ),
+                                    context.pushNamed(
+                                      AppRoutes.surahAudio,
+                                      extra: {
+                                        'surah': surah,
+                                        'serverUrl': _serverUrl!,
+                                        'reciterName':
+                                            widget.reciter.name ?? "",
+                                      },
                                     );
                                   }
                                 },

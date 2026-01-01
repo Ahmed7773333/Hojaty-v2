@@ -222,4 +222,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranIndex => 'Index';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get prophetNames => 'Names of Prophet';
 }

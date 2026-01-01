@@ -7,7 +7,7 @@ import '../../../../core/utils/screen_util_like.dart';
 import '../bloc/quraan_bloc.dart';
 import '../bloc/quraan_event.dart';
 import '../bloc/quraan_state.dart';
-import 'tafseer.dart';
+import '../../../../config/routes/app_router.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -122,14 +122,12 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => TafseerPage(
-                                      content: res.tafseer,
-                                      pageNum: res.pageNum.toString(),
-                                    ),
-                                  ),
+                                context.pushNamed(
+                                  AppRoutes.tafseer,
+                                  extra: {
+                                    'content': res.tafseer,
+                                    'pageNum': res.pageNum.toString(),
+                                  },
                                 );
                               },
                               child: Text(context.strings.quranTafseer),
