@@ -22,16 +22,19 @@ Future<void> setupInjector() async {
     const FlutterSecureStorage(),
   );
 
-  // Audio Handler
-  final audioHandler = await AudioService.init(
-    builder: () => AudioPlayerHandler(),
-    config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.wolfdev.hojaty.channel.audio',
-      androidNotificationChannelName: 'Hojaty Audio',
-      androidNotificationOngoing: true,
-    ),
-  );
-  injector.registerSingleton<AudioHandler>(audioHandler);
+  // Audio Handler - Lazy initialization for faster startup
+  // Audio service is only initialized when first accessed (e.g., opening audio player)
+  injector.registerSingletonAsync<AudioHandler>(() async {
+    return await AudioService.init(
+      builder: () => AudioPlayerHandler(),
+      config: const AudioServiceConfig(
+        androidNotificationChannelId: 'com.wolfdev.hojaty.channel.audio',
+        androidNotificationChannelName: 'Hojaty Audio',
+        androidNotificationOngoing: true,
+        androidNotificationIcon: 'mipmap/launcher_icon',
+      ),
+    );
+  });
   // Also register concrete type for easier access to custom methods if needed,
   // though casting AudioHandler is safer pattern, but here we registered the instance.
 

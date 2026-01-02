@@ -13,6 +13,12 @@ class AudioPlayerHandler extends BaseAudioHandler
         stop();
       }
     });
+    // Listen to duration changes and update mediaItem
+    _player.durationStream.listen((duration) {
+      if (duration != null && mediaItem.value != null) {
+        mediaItem.add(mediaItem.value!.copyWith(duration: duration));
+      }
+    });
   }
 
   @override
@@ -30,6 +36,45 @@ class AudioPlayerHandler extends BaseAudioHandler
   @override
   Future<void> setSpeed(double speed) => _player.setSpeed(speed);
 
+  @override
+  Future<void> playFromUri(Uri uri, [Map<String, dynamic>? extras]) async {
+    debugPrint("AudioPlayerHandler: playFromUri called with $uri");
+    try {
+      final duration = await _player.setAudioSource(AudioSource.uri(uri));
+      debugPrint(
+        "AudioPlayerHandler: Audio source set successfully, duration: $duration",
+      );
+      // Update mediaItem with the duration if we have one
+      if (duration != null && mediaItem.value != null) {
+        mediaItem.add(mediaItem.value!.copyWith(duration: duration));
+      }
+      await _player.play();
+    } catch (e) {
+      debugPrint("AudioPlayerHandler Error loading audio: $e");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> fastForward() async {
+    final newPosition = _player.position + const Duration(seconds: 10);
+    if (newPosition < (_player.duration ?? Duration.zero)) {
+      await _player.seek(newPosition);
+    } else {
+      await _player.seek(_player.duration);
+    }
+  }
+
+  @override
+  Future<void> rewind() async {
+    final newPosition = _player.position - const Duration(seconds: 10);
+    if (newPosition >= Duration.zero) {
+      await _player.seek(newPosition);
+    } else {
+      await _player.seek(Duration.zero);
+    }
+  }
+
   Future<void> setUrl(String url) async {
     try {
       await _player.setUrl(url);
@@ -44,6 +89,11 @@ class AudioPlayerHandler extends BaseAudioHandler
     } catch (e) {
       debugPrint("Error loading file path: $e");
     }
+  }
+
+  /// Sets the current media item for display in notifications and UI
+  void setMediaItem(MediaItem item) {
+    mediaItem.add(item);
   }
 
   Stream<Duration> get positionStream => _player.positionStream;

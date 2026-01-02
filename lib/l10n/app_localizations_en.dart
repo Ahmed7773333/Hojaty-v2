@@ -228,4 +228,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get prophetNames => 'Names of Prophet';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get share_file_not_downloaded =>
+      'File not downloaded. Download first or share link?';
+
+  @override
+  String get share_link => 'Share Link';
+
+  @override
+  String get add_to_playlist => 'Add to Playlist';
+
+  @override
+  String get no_playlists_available =>
+      'No playlists available. Create one first!';
+
+  @override
+  String added_to_playlist(String name) {
+    return 'Added to $name';
+  }
 }

@@ -70,5 +70,11 @@
   "allah_names": "أسماء الله الحسنى",
   "quranIndex": "الفهرس",
   "close": "إغلاق",
-  "prophetNames": "أسماء النبي"
+  "prophetNames": "أسماء النبي",
+  "share": "مشاركة",
+  "share_file_not_downloaded": "الملف غير محمّل. هل تريد تحميله أولاً أم مشاركة الرابط؟",
+  "share_link": "مشاركة الرابط",
+  "add_to_playlist": "إضافة إلى قائمة التشغيل",
+  "no_playlists_available": "لا توجد قوائم تشغيل. أنشئ واحدة أولاً!",
+  "added_to_playlist": "تمت الإضافة إلى {name}"
 }

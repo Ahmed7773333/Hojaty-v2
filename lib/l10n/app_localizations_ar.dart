@@ -228,4 +228,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prophetNames => 'أسماء النبي';
+
+  @override
+  String get share => 'مشاركة';
+
+  @override
+  String get share_file_not_downloaded =>
+      'الملف غير محمّل. هل تريد تحميله أولاً أم مشاركة الرابط؟';
+
+  @override
+  String get share_link => 'مشاركة الرابط';
+
+  @override
+  String get add_to_playlist => 'إضافة إلى قائمة التشغيل';
+
+  @override
+  String get no_playlists_available => 'لا توجد قوائم تشغيل. أنشئ واحدة أولاً!';
+
+  @override
+  String added_to_playlist(String name) {
+    return 'تمت الإضافة إلى $name';
+  }
 }

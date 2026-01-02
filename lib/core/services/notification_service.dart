@@ -9,8 +9,8 @@ class NotificationService {
 
   static Future<void> initializeNotifications() async {
     await AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
-      null,
+      // Use the app's launcher icon for notifications
+      'resource://mipmap/launcher_icon',
       [
         NotificationChannel(
           channelGroupKey: 'adhan_channel_group',
@@ -161,5 +161,40 @@ class NotificationService {
 
   static Future<void> cancelAll() async {
     await AwesomeNotifications().cancelAll();
+  }
+
+  /// Shows a test notification immediately (for testing purposes)
+  static Future<void> showTestNotification() async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 9999, // Unique ID for test notification
+        channelKey: _channelKey,
+        title: 'Test Notification',
+        body: 'This is a test notification for prayer times.',
+        bigPicture: 'asset://assets/images/madina.jpg',
+        notificationLayout: NotificationLayout.BigPicture,
+        category: NotificationCategory.Alarm,
+        wakeUpScreen: true,
+        fullScreenIntent: true,
+        autoDismissible: false,
+        payload: {'prayer': 'Test'},
+        customSound: 'resource://raw/azan',
+      ),
+      actionButtons: [
+        NotificationActionButton(
+          key: 'STOP_AZAN',
+          label: 'Stop Azan',
+          actionType: ActionType.DismissAction,
+          autoDismissible: true,
+        ),
+        NotificationActionButton(
+          key: 'OPEN_APP',
+          label: 'Open App',
+          actionType: ActionType.Default,
+          autoDismissible: true,
+        ),
+      ],
+    );
+    debugPrint('Test notification shown');
   }
 }

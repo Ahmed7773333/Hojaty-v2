@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
-import '../../../../features/azkar/presentation/pages/azkar_page.dart';
 import '../../../../features/home/presentation/pages/home_page.dart';
 import '../../../../features/radio/presentation/bloc/radio_bloc.dart';
 import '../../../../features/radio/presentation/pages/radio_page.dart';
@@ -28,7 +27,7 @@ class _HomeLayoutState extends State<HomeLayout> {
       create: (_) => injector<RadioBloc>(),
       child: const RadioPage(),
     ),
-    const AzkarPage(),
+    // const AzkarPage(),
     const SettingsPage(),
   ];
 

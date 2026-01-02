@@ -1,22 +1,25 @@
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:hojaty/core/services/audio_player_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/constants/surahs_list.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../widgets/download_status_widget.dart';
-import '../widgets/reciter_info_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
+import '../../../../core/services/audio_player_handler.dart';
 import '../../data/models/playlist_item.dart';
-import '../../data/models/playlist_model.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
+import '../widgets/add_to_playlist_dialog.dart';
+import '../widgets/audio_controls_widget.dart';
+import '../widgets/audio_progress_bar_widget.dart';
+import '../widgets/download_status_widget.dart';
+import '../widgets/reciter_info_widget.dart';
 
 class SurahAudioPage extends StatefulWidget {
   final Surah surah;
@@ -35,16 +38,31 @@ class SurahAudioPage extends StatefulWidget {
 }
 
 class _SurahAudioPageState extends State<SurahAudioPage> {
-  late AudioHandler _audioHandler;
+  AudioHandler? _audioHandler;
   bool _isDownloading = false;
   double _downloadProgress = 0.0;
   String? _localFilePath;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _audioHandler = injector<AudioHandler>();
-    _checkIfFileExistsAndInit();
+    _initAudioHandler();
+  }
+
+  @override
+  void dispose() {
+    // Stop audio when leaving the page
+    _audioHandler?.stop();
+    super.dispose();
+  }
+
+  Future<void> _initAudioHandler() async {
+    _audioHandler = await injector.getAsync<AudioHandler>();
+    if (mounted) {
+      setState(() => _isLoading = false);
+      _checkIfFileExistsAndInit();
+    }
   }
 
   Future<void> _checkIfFileExistsAndInit() async {
@@ -60,35 +78,38 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
           ? widget.surah.nameAr
           : widget.surah.nameEn,
       artist: widget.reciterName,
-      artUri: Uri.parse(
-        "https://i.imgur.com/s6E6R2u.png",
-      ), // Placeholder or app icon
       extras: {'surahId': widget.surah.id},
     );
-    _audioHandler.addQueueItem(mediaItem);
+    (_audioHandler! as AudioPlayerHandler).setMediaItem(mediaItem);
 
     if (await file.exists()) {
-      setState(() {
-        _localFilePath = file.path;
-      });
-      if (_audioHandler is AudioPlayerHandler) {
-        await (_audioHandler as AudioPlayerHandler).setFilePath(file.path);
-        _audioHandler.play();
+      setState(() => _localFilePath = file.path);
+      try {
+        await _audioHandler!.playFromUri(Uri.file(file.path));
+      } catch (e) {
+        _showError("Error playing local file: $e");
       }
     } else {
-      // Stream form URL
       final url = "${widget.serverUrl}${widget.surah.id}.mp3";
-      if (_audioHandler is AudioPlayerHandler) {
-        await (_audioHandler as AudioPlayerHandler).setUrl(url);
-        _audioHandler.play();
+      debugPrint(url);
+      try {
+        await _audioHandler!.playFromUri(Uri.parse(url));
+      } catch (e) {
+        _showError("Error streaming audio: $e. Check internet.");
       }
     }
   }
 
+  void _showError(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    }
+  }
+
   Future<void> _downloadSurah() async {
-    setState(() {
-      _isDownloading = true;
-    });
+    setState(() => _isDownloading = true);
 
     try {
       final dir = await getApplicationDocumentsDirectory();
@@ -101,9 +122,7 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
         savePath,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            setState(() {
-              _downloadProgress = received / total;
-            });
+            setState(() => _downloadProgress = received / total);
           }
         },
       );
@@ -114,12 +133,10 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
           _isDownloading = false;
         });
 
-        // Switch to the local file for playback
-        if (_audioHandler is AudioPlayerHandler) {
-          final wasPlaying = _audioHandler.playbackState.value.playing;
-          await (_audioHandler as AudioPlayerHandler).setFilePath(savePath);
-          if (wasPlaying) _audioHandler.play();
-        }
+        // Switch to local file for playback
+        final wasPlaying = _audioHandler!.playbackState.value.playing;
+        await _audioHandler!.playFromUri(Uri.file(savePath));
+        if (wasPlaying) _audioHandler!.play();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(context.strings.download_success)),
@@ -127,49 +144,110 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
       }
     } catch (e) {
       if (mounted) {
-        setState(() {
-          _isDownloading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("${context.strings.download_failed}: $e")),
+        setState(() => _isDownloading = false);
+        _showError("${context.strings.download_failed}: $e");
+      }
+    }
+  }
+
+  Future<void> _shareAudio() async {
+    final surahName = context.strings.localeName == 'ar'
+        ? widget.surah.nameAr
+        : widget.surah.nameEn;
+
+    if (_localFilePath != null) {
+      // Share the actual audio file
+      final file = XFile(_localFilePath!);
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [file],
+          text: '$surahName - ${widget.reciterName}',
+          subject: surahName,
+        ),
+      );
+    } else {
+      // File not downloaded - ask user if they want to download first or share URL
+      final shouldDownload = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(context.strings.share),
+          content: Text(context.strings.share_file_not_downloaded),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(context.strings.share_link),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(context.strings.download),
+            ),
+          ],
+        ),
+      );
+
+      if (shouldDownload == true) {
+        await _downloadSurah();
+        // After download, share the file
+        if (_localFilePath != null) {
+          final file = XFile(_localFilePath!);
+          await SharePlus.instance.share(
+            ShareParams(
+              files: [file],
+              text: '$surahName - ${widget.reciterName}',
+              subject: surahName,
+            ),
+          );
+        }
+      } else if (shouldDownload == false) {
+        // Share URL
+        final url = "${widget.serverUrl}${widget.surah.id}.mp3";
+        await SharePlus.instance.share(
+          ShareParams(
+            text: '$surahName - ${widget.reciterName}\n$url',
+            subject: surahName,
+          ),
         );
       }
     }
   }
 
-  void _showSpeedDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(
-          title: Text(context.strings.playback_speed),
-          children: [0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map((speed) {
-            return SimpleDialogOption(
-              onPressed: () {
-                _audioHandler.setSpeed(speed);
-                Navigator.pop(context);
-              },
-              child: Text("${speed}x"),
-            );
-          }).toList(),
-        );
-      },
-    );
-  }
+  PlaylistItem get _playlistItem => PlaylistItem(
+    surahId: int.tryParse(widget.surah.id) ?? 0,
+    surahNameAr: widget.surah.nameAr,
+    surahNameEn: widget.surah.nameEn,
+    reciterName: widget.reciterName,
+    reciterLetter: widget.reciterName.isNotEmpty ? widget.reciterName[0] : '?',
+    serverUrl: widget.serverUrl,
+  );
 
   @override
   Widget build(BuildContext context) {
+    final surahTitle = context.strings.localeName == 'ar'
+        ? widget.surah.nameAr
+        : widget.surah.nameEn;
+
+    // Show loading state while audio handler is being initialized
+    if (_isLoading || _audioHandler == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(surahTitle), centerTitle: true),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return BlocProvider(
       create: (context) => injector<RadioBloc>()..add(LoadPlaylistsEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            context.strings.localeName == 'ar'
-                ? widget.surah.nameAr
-                : widget.surah.nameEn,
-          ),
+          title: Text(surahTitle),
           centerTitle: true,
           actions: [
+            // Share Button
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: _shareAudio,
+              tooltip: context.strings.share,
+            ),
+            // Favorite Button
             BlocBuilder<RadioBloc, RadioState>(
               builder: (context, state) {
                 final isFav = state.isFavorite(
@@ -197,7 +275,7 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // 1. Info & Image
+                // 1. Reciter Info
                 ReciterInfoWidget(
                   reciterName: widget.reciterName,
                   surahNameEn: widget.surah.nameEn,
@@ -207,102 +285,12 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
                 const SizedBox(height: 20),
 
                 // 2. Progress Bar
-                StreamBuilder<Duration>(
-                  stream: AudioService.position,
-                  builder: (context, snapshot) {
-                    final position = snapshot.data ?? Duration.zero;
-                    return StreamBuilder<MediaItem?>(
-                      stream: _audioHandler.mediaItem,
-                      builder: (context, mediaSnapshot) {
-                        final duration =
-                            mediaSnapshot.data?.duration ?? Duration.zero;
-                        return ProgressBar(
-                          progress: position,
-                          total: duration,
-                          onSeek: (duration) {
-                            _audioHandler.seek(duration);
-                          },
-                          baseBarColor: Colors.grey[300],
-                          progressBarColor: Theme.of(context).primaryColor,
-                          bufferedBarColor: Colors.grey[400],
-                          thumbColor: Theme.of(context).primaryColor,
-                          barHeight: 6.0,
-                          thumbRadius: 8.0,
-                          timeLabelPadding: 8.0,
-                        );
-                      },
-                    );
-                  },
-                ),
+                AudioProgressBarWidget(audioHandler: _audioHandler!),
 
                 const SizedBox(height: 20),
 
                 // 3. Audio Controls
-                StreamBuilder<PlaybackState>(
-                  stream: _audioHandler.playbackState,
-                  builder: (context, snapshot) {
-                    final playbackState = snapshot.data;
-                    final processingState = playbackState?.processingState;
-                    final playing = playbackState?.playing;
-
-                    if (processingState == AudioProcessingState.loading ||
-                        processingState == AudioProcessingState.buffering) {
-                      return const CircularProgressIndicator();
-                    }
-
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.speed),
-                          onPressed: _showSpeedDialog,
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.replay_10),
-                          onPressed: () {
-                            if (_audioHandler is AudioPlayerHandler) {
-                              final pos = (_audioHandler as AudioPlayerHandler)
-                                  .position;
-                              _audioHandler.seek(
-                                pos - const Duration(seconds: 10),
-                              );
-                            }
-                          },
-                        ),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          child: IconButton(
-                            icon: Icon(
-                              playing == true ? Icons.pause : Icons.play_arrow,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              if (playing == true) {
-                                _audioHandler.pause();
-                              } else {
-                                _audioHandler.play();
-                              }
-                            },
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.forward_10),
-                          onPressed: () {
-                            if (_audioHandler is AudioPlayerHandler) {
-                              final pos = (_audioHandler as AudioPlayerHandler)
-                                  .position;
-                              _audioHandler.seek(
-                                pos + const Duration(seconds: 10),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                AudioControlsWidget(audioHandler: _audioHandler!),
 
                 const SizedBox(height: 30),
 
@@ -321,10 +309,15 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
                   builder: (context, state) {
                     return ElevatedButton.icon(
                       onPressed: () {
-                        _showAddToPlaylistDialog(context, state.playlists);
+                        showAddToPlaylistDialog(
+                          context: context,
+                          playlists: state.playlists,
+                          item: _playlistItem,
+                          radioBloc: context.read<RadioBloc>(),
+                        );
                       },
                       icon: const Icon(Icons.playlist_add),
-                      label: const Text("Add to Playlist"),
+                      label: Text(context.strings.add_to_playlist),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                       ),
@@ -335,79 +328,6 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  PlaylistItem get _playlistItem => PlaylistItem(
-    surahId: int.tryParse(widget.surah.id) ?? 0,
-    surahNameAr: widget.surah.nameAr,
-    surahNameEn: widget.surah.nameEn,
-    reciterName: widget.reciterName,
-    reciterLetter: widget.reciterName.isNotEmpty ? widget.reciterName[0] : '?',
-    serverUrl: widget.serverUrl,
-  );
-
-  void _showAddToPlaylistDialog(
-    BuildContext context,
-    List<PlaylistModel> playlists,
-  ) {
-    if (playlists.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("No playlists available. Create one first!"),
-        ),
-      );
-      return;
-    }
-
-    // Capture the bloc to use inside the dialog
-    final radioBloc = context.read<RadioBloc>();
-
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Add to Playlist"),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: playlists.length,
-            itemBuilder: (context, index) {
-              final playlist = playlists[index];
-              if (playlist.isSystem == true &&
-                  playlist.id != 'favorites_playlist') {
-                return const SizedBox.shrink();
-              }
-              if (playlist.id == 'favorites_playlist') {
-                return const SizedBox.shrink();
-              }
-
-              return ListTile(
-                title: Text(playlist.name),
-                leading: const Icon(Icons.queue_music),
-                onTap: () {
-                  radioBloc.add(
-                    AddToPlaylistEvent(
-                      playlistId: playlist.id,
-                      item: _playlistItem,
-                    ),
-                  );
-                  Navigator.pop(context); // Close dialog
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Added to ${playlist.name}")),
-                  );
-                },
-              );
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
-          ),
-        ],
       ),
     );
   }

@@ -523,6 +523,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Names of Prophet'**
   String get prophetNames;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @share_file_not_downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'File not downloaded. Download first or share link?'**
+  String get share_file_not_downloaded;
+
+  /// No description provided for @share_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Link'**
+  String get share_link;
+
+  /// No description provided for @add_to_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Playlist'**
+  String get add_to_playlist;
+
+  /// No description provided for @no_playlists_available.
+  ///
+  /// In en, this message translates to:
+  /// **'No playlists available. Create one first!'**
+  String get no_playlists_available;
+
+  /// No description provided for @added_to_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to {name}'**
+  String added_to_playlist(String name);
 }
 
 class _AppLocalizationsDelegate

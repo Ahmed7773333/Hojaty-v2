@@ -1,105 +1,100 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'playback_speed_dialog.dart';
 
+/// A reusable audio controls widget that works with AudioHandler
 class AudioControlsWidget extends StatelessWidget {
-  final AudioPlayer audioPlayer;
-  final bool isPlaying;
-  final VoidCallback onPlayPause;
-  final VoidCallback onSeekForward;
-  final VoidCallback onSeekBackward;
-  final VoidCallback onChangeSpeed;
+  final AudioHandler audioHandler;
 
-  const AudioControlsWidget({
-    super.key,
-    required this.audioPlayer,
-    required this.isPlaying,
-    required this.onPlayPause,
-    required this.onSeekForward,
-    required this.onSeekBackward,
-    required this.onChangeSpeed,
-  });
+  const AudioControlsWidget({super.key, required this.audioHandler});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Speed Control
-        IconButton(
-          onPressed: onChangeSpeed,
-          icon: const Icon(Icons.speed),
-          tooltip: "Speed",
-        ),
-        const SizedBox(width: 16),
+    return StreamBuilder<PlaybackState>(
+      stream: audioHandler.playbackState,
+      builder: (context, snapshot) {
+        final playbackState = snapshot.data;
+        final processingState = playbackState?.processingState;
+        final playing = playbackState?.playing ?? false;
 
-        // Rewind 10s
-        IconButton(
-          onPressed: onSeekBackward,
-          icon: const Icon(Icons.replay_10_rounded),
-          iconSize: 32,
-        ),
+        // Show loading indicator while buffering
+        if (processingState == AudioProcessingState.loading ||
+            processingState == AudioProcessingState.buffering) {
+          return const SizedBox(
+            height: 80,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-        const SizedBox(width: 16),
-
-        // Play/Pause Main Button
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.4),
-                blurRadius: 10,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: IconButton(
-            iconSize: 48,
-            color: Colors.white,
-            icon: Icon(
-              isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Speed Control
+            IconButton(
+              onPressed: () {
+                showPlaybackSpeedDialog(
+                  context: context,
+                  onSpeedSelected: (speed) {
+                    audioHandler.setSpeed(speed);
+                  },
+                );
+              },
+              icon: const Icon(Icons.speed),
+              tooltip: "Speed",
             ),
-            onPressed: onPlayPause,
-          ),
-        ),
+            const SizedBox(width: 8),
 
-        const SizedBox(width: 16),
+            // Rewind 10s
+            IconButton(
+              onPressed: () => audioHandler.rewind(),
+              icon: const Icon(Icons.replay_10_rounded),
+              iconSize: 32,
+            ),
 
-        // Forward 10s
-        IconButton(
-          onPressed: onSeekForward,
-          icon: const Icon(Icons.forward_10_rounded),
-          iconSize: 32,
-        ),
+            const SizedBox(width: 8),
 
-        const SizedBox(width: 16),
+            // Play/Pause Main Button
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(
+                      context,
+                    ).primaryColor.withValues(alpha: 0.4),
+                    blurRadius: 10,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: IconButton(
+                iconSize: 48,
+                color: Colors.white,
+                icon: Icon(
+                  playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                ),
+                onPressed: () {
+                  if (playing) {
+                    audioHandler.pause();
+                  } else {
+                    audioHandler.play();
+                  }
+                },
+              ),
+            ),
 
-        // Extra placeholder for alignment or future features (like loop)
-        IconButton(
-          onPressed: () {
-            // Loop toggle logic could go here
-            final mode = audioPlayer.loopMode == LoopMode.one
-                ? LoopMode.off
-                : LoopMode.one;
-            audioPlayer.setLoopMode(mode);
-          },
-          icon: StreamBuilder<LoopMode>(
-            stream: audioPlayer.loopModeStream,
-            builder: (context, snapshot) {
-              final loopMode = snapshot.data ?? LoopMode.off;
-              return Icon(
-                loopMode == LoopMode.one
-                    ? Icons.repeat_one_rounded
-                    : Icons.repeat_rounded,
-                color: loopMode == LoopMode.off
-                    ? Colors.grey
-                    : Theme.of(context).primaryColor,
-              );
-            },
-          ),
-        ),
-      ],
+            const SizedBox(width: 8),
+
+            // Forward 10s
+            IconButton(
+              onPressed: () => audioHandler.fastForward(),
+              icon: const Icon(Icons.forward_10_rounded),
+              iconSize: 32,
+            ),
+          ],
+        );
+      },
     );
   }
 }

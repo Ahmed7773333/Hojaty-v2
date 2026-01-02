@@ -28,11 +28,11 @@ class CustomBottomNavBar extends StatelessWidget {
           selectedIcon: const Icon(Icons.radio),
           label: context.strings.radio,
         ),
-        NavigationDestination(
-          icon: const Icon(Icons.menu_book_outlined),
-          selectedIcon: const Icon(Icons.menu_book),
-          label: context.strings.azkar,
-        ),
+        // NavigationDestination(
+        //   icon: const Icon(Icons.menu_book_outlined),
+        //   selectedIcon: const Icon(Icons.menu_book),
+        //   label: context.strings.azkar,
+        // ),
         NavigationDestination(
           icon: const Icon(CupertinoIcons.settings),
           selectedIcon: const Icon(CupertinoIcons.settings_solid),

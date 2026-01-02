@@ -267,5 +267,18 @@
   "allah_names": "Names of Allah",
   "quranIndex": "Index",
   "close": "Close",
-  "prophetNames": "Names of Prophet"
+  "prophetNames": "Names of Prophet",
+  "share": "Share",
+  "share_file_not_downloaded": "File not downloaded. Download first or share link?",
+  "share_link": "Share Link",
+  "add_to_playlist": "Add to Playlist",
+  "no_playlists_available": "No playlists available. Create one first!",
+  "added_to_playlist": "Added to {name}",
+  "@added_to_playlist": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

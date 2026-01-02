@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
+import '../../../../core/services/notification_service.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
@@ -78,6 +79,21 @@ class SettingsView extends StatelessWidget {
                 SettingsSectionHeader(title: context.strings.location),
                 const SizedBox(height: 10),
                 LocationCard(cityName: user.uiCityName),
+                const SizedBox(height: 32),
+                // Test Notification Button
+                ElevatedButton.icon(
+                  onPressed: () {
+                    NotificationService.showTestNotification();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Test notification sent!')),
+                    );
+                  },
+                  icon: const Icon(Icons.notifications_active),
+                  label: const Text('Test Prayer Notification'),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                ),
               ],
             ),
           );

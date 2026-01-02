@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         applicationId = "com.wolfdev.hojaty"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName

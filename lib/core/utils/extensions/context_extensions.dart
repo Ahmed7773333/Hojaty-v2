@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../features/home/data/models/user_db_helper.dart';
-// import 'package:hojaty/l10n/app_localizations.dart';
+import '../../../config/routes/app_router.dart';
 
 extension LocalizationExtension on BuildContext {
   AppLocalizations get strings => AppLocalizations.of(this)!;
@@ -119,8 +119,24 @@ extension RoutingExtension on BuildContext {
     ).pushNamedAndRemoveUntil<T>(routeName, (route) => false, arguments: extra);
   }
 
+  // Routes that require arguments and cannot be restored without them
+  static const List<String> _routesWithRequiredArgs = [
+    AppRoutes.surahAudio,
+    AppRoutes.liveStream,
+    AppRoutes.playlistDetails,
+    AppRoutes.readerSurahs,
+    AppRoutes.tafseer,
+    AppRoutes.fehres,
+    AppRoutes.juzs,
+    AppRoutes.search,
+  ];
+
   void _saveRoute(String routeName) {
     try {
+      // Don't save routes that require arguments - they can't be restored
+      if (_routesWithRequiredArgs.contains(routeName)) {
+        return;
+      }
       final user = UserDbHelper.getById();
       if (user != null) {
         user.uiLastRoute = routeName;
@@ -130,8 +146,20 @@ extension RoutingExtension on BuildContext {
     }
   }
 
-  /// 🔹 Pop the current screen
+  void _clearSavedRoute() {
+    try {
+      final user = UserDbHelper.getById();
+      if (user != null) {
+        user.uiLastRoute = null;
+      }
+    } catch (e) {
+      debugPrint('Error clearing route: $e');
+    }
+  }
+
+  /// 🔹 Pop the current screen and clear saved route
   void pop<T extends Object?>([T? result]) {
+    _clearSavedRoute();
     Navigator.of(this).pop<T>(result);
   }
 
