@@ -49,7 +49,6 @@ class AboutAppPage extends StatelessWidget {
               future: PackageInfo.fromPlatform(),
               builder: (context, snapshot) {
                 final version = snapshot.data?.version ?? '';
-                final buildNumber = snapshot.data?.buildNumber ?? '';
                 return Text(
                   '${context.strings.version} $version',
                   style: context.textTheme.bodyMedium?.copyWith(
