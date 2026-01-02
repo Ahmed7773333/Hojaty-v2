@@ -249,4 +249,56 @@ class AppLocalizationsAr extends AppLocalizations {
   String added_to_playlist(String name) {
     return 'تمت الإضافة إلى $name';
   }
+
+  @override
+  String get hadith_search_hint => 'بحث في الأحاديث';
+
+  @override
+  String get no_hadith_found => 'لا توجد أحاديث';
+
+  @override
+  String get hadith_number => 'حديث رقم';
+
+  @override
+  String get show_description => 'عرض الشرح';
+
+  @override
+  String get hide_description => 'إخفاء الشرح';
+
+  @override
+  String get about_app => 'عن التطبيق';
+
+  @override
+  String get privacy_policy => 'سياسة الخصوصية';
+
+  @override
+  String get contact_us => 'تواصل معنا';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get show_notifications => 'عرض الإشعارات';
+
+  @override
+  String get refresh_location => 'تحديث الموقع';
+
+  @override
+  String get version => 'الإصدار';
+
+  @override
+  String get developed_by => 'تم التطوير بواسطة';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get website => 'الموقع الإلكتروني';
+
+  @override
+  String get privacy_policy_text =>
+      'تشرح سياسة الخصوصية هذه كيفية استخدام تطبيقنا لبياناتك...';
+
+  @override
+  String get app_description => 'حجتي هو رفيقك الإسلامي الشامل...';
 }

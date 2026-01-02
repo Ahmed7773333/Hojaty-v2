@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/injector.dart';
 import '../../../../core/services/notification_service.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../config/routes/app_router.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
 import '../bloc/settings_state.dart';
@@ -16,10 +16,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => injector<SettingsBloc>()..add(LoadSettingsEvent()),
-      child: const SettingsView(),
-    );
+    return const SettingsView();
   }
 }
 
@@ -78,26 +75,90 @@ class SettingsView extends StatelessWidget {
                 const SizedBox(height: 24),
                 SettingsSectionHeader(title: context.strings.location),
                 const SizedBox(height: 10),
-                LocationCard(cityName: user.uiCityName),
-                const SizedBox(height: 32),
-                // Test Notification Button
-                ElevatedButton.icon(
-                  onPressed: () {
-                    NotificationService.showTestNotification();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Test notification sent!')),
-                    );
+                LocationCard(
+                  cityName: user.uiCityName,
+                  onRefresh: () {
+                    context.read<SettingsBloc>().add(RefreshLocationEvent());
                   },
-                  icon: const Icon(Icons.notifications_active),
-                  label: const Text('Test Prayer Notification'),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
+                ),
+                const SizedBox(height: 24),
+                _buildListTile(
+                  context,
+                  title: context.strings.notifications,
+                  icon: Icons.notifications_outlined,
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.notifications),
+                ),
+                _buildListTile(
+                  context,
+                  title: context.strings.about_app,
+                  icon: Icons.info_outline,
+                  onTap: () => Navigator.pushNamed(context, AppRoutes.aboutApp),
+                ),
+                _buildListTile(
+                  context,
+                  title: context.strings.privacy_policy,
+                  icon: Icons.privacy_tip_outlined,
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.privacyPolicy),
+                ),
+                _buildListTile(
+                  context,
+                  title: context.strings.contact_us,
+                  icon: Icons.contact_support_outlined,
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.contactUs),
+                ),
+                const SizedBox(height: 32),
+                // Test Notification Button (dev only or hidden?)
+                // Creating a subtle version
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      NotificationService.showTestNotification();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Test notification sent!'),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Test Notification',
+                      style: TextStyle(
+                        color: context.colors.onSurfaceVariant.withValues(
+                          alpha: 0.5,
+                        ),
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildListTile(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: context.colors.surfaceContainerHighest.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: context.colors.primary),
+        title: Text(title, style: context.textTheme.bodyLarge),
+        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        onTap: onTap,
       ),
     );
   }

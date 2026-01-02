@@ -250,4 +250,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String added_to_playlist(String name) {
     return 'Added to $name';
   }
+
+  @override
+  String get hadith_search_hint => 'Search in Ahadith';
+
+  @override
+  String get no_hadith_found => 'No hadith found';
+
+  @override
+  String get hadith_number => 'Hadith No.';
+
+  @override
+  String get show_description => 'Show explanation';
+
+  @override
+  String get hide_description => 'Hide explanation';
+
+  @override
+  String get about_app => 'About App';
+
+  @override
+  String get privacy_policy => 'Privacy Policy';
+
+  @override
+  String get contact_us => 'Contact Us';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get show_notifications => 'Show Notifications';
+
+  @override
+  String get refresh_location => 'Refresh Location';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get developed_by => 'Developed by';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get privacy_policy_text =>
+      'This privacy policy explains how our app uses your data...';
+
+  @override
+  String get app_description =>
+      'Hojaty is your comprehensive Islamic companion app...';
 }

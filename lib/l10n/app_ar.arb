@@ -76,5 +76,22 @@
   "share_link": "مشاركة الرابط",
   "add_to_playlist": "إضافة إلى قائمة التشغيل",
   "no_playlists_available": "لا توجد قوائم تشغيل. أنشئ واحدة أولاً!",
-  "added_to_playlist": "تمت الإضافة إلى {name}"
+  "added_to_playlist": "تمت الإضافة إلى {name}",
+  "hadith_search_hint": "بحث في الأحاديث",
+  "no_hadith_found": "لا توجد أحاديث",
+  "hadith_number": "حديث رقم",
+  "show_description": "عرض الشرح",
+  "hide_description": "إخفاء الشرح",
+  "about_app": "عن التطبيق",
+  "privacy_policy": "سياسة الخصوصية",
+  "contact_us": "تواصل معنا",
+  "notifications": "الإشعارات",
+  "show_notifications": "عرض الإشعارات",
+  "refresh_location": "تحديث الموقع",
+  "version": "الإصدار",
+  "developed_by": "تم التطوير بواسطة",
+  "email": "البريد الإلكتروني",
+  "website": "الموقع الإلكتروني",
+  "privacy_policy_text": "تشرح سياسة الخصوصية هذه كيفية استخدام تطبيقنا لبياناتك...",
+  "app_description": "حجتي هو رفيقك الإسلامي الشامل..."
 }

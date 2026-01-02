@@ -13,6 +13,10 @@ import '../../features/home/presentation/pages/prophets_stories_page.dart';
 import '../../features/home/presentation/pages/qibla_page.dart';
 import '../../features/home/presentation/pages/ramadan_page.dart';
 import '../../features/home/presentation/pages/sebha_page.dart';
+import '../../features/settings/presentation/pages/about_app_page.dart';
+import '../../features/settings/presentation/pages/contact_us_page.dart';
+import '../../features/settings/presentation/pages/notifications_page.dart';
+import '../../features/settings/presentation/pages/privacy_policy_page.dart';
 
 import '../../features/radio/presentation/pages/radio_page.dart';
 import '../../features/radio/presentation/pages/live_stream_page.dart';
@@ -66,6 +70,10 @@ class AppRoutes {
 
   // Settings
   static const String settings = '/settings';
+  static const String aboutApp = '/about_app';
+  static const String privacyPolicy = '/privacy_policy';
+  static const String contactUs = '/contact_us';
+  static const String notifications = '/notifications';
 }
 
 class AppRouter {
@@ -164,6 +172,14 @@ class AppRouter {
       // Settings
       case AppRoutes.settings:
         return MaterialPageRoute(builder: (_) => const SettingsPage());
+      case AppRoutes.aboutApp:
+        return MaterialPageRoute(builder: (_) => const AboutAppPage());
+      case AppRoutes.privacyPolicy:
+        return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
+      case AppRoutes.contactUs:
+        return MaterialPageRoute(builder: (_) => const ContactUsPage());
+      case AppRoutes.notifications:
+        return MaterialPageRoute(builder: (_) => const NotificationsPage());
 
       default:
         return MaterialPageRoute(

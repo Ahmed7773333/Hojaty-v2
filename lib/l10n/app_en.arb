@@ -280,5 +280,22 @@
         "type": "String"
       }
     }
-  }
+  },
+  "hadith_search_hint": "Search in Ahadith",
+  "no_hadith_found": "No hadith found",
+  "hadith_number": "Hadith No.",
+  "show_description": "Show explanation",
+  "hide_description": "Hide explanation",
+  "about_app": "About App",
+  "privacy_policy": "Privacy Policy",
+  "contact_us": "Contact Us",
+  "notifications": "Notifications",
+  "show_notifications": "Show Notifications",
+  "refresh_location": "Refresh Location",
+  "version": "Version",
+  "developed_by": "Developed by",
+  "email": "Email",
+  "website": "Website",
+  "privacy_policy_text": "This privacy policy explains how our app uses your data...",
+  "app_description": "Hojaty is your comprehensive Islamic companion app..."
 }

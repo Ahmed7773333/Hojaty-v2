@@ -31,6 +31,9 @@ class User extends HiveObject {
   @HiveField(7)
   String? lastRoute;
 
+  @HiveField(8)
+  bool? showNotifications;
+
   User({
     this.lastKnownLocation,
     this.cityName,
@@ -40,9 +43,20 @@ class User extends HiveObject {
     this.isSoundEnabled,
     this.isVibrateEnabled,
     this.lastRoute,
+    this.showNotifications,
   });
 
   // ----------------- UI getters/setters -----------------
+  // ... existing getters/setters ...
+
+  bool get uiShowNotifications => showNotifications ?? true;
+  set uiShowNotifications(bool? v) {
+    showNotifications = v;
+    try {
+      save();
+    } catch (_) {}
+  }
+
   Coordinates get uiLastKnownLocation =>
       lastKnownLocation ??
       const Coordinates(30.108772, 31.319205); // Cairo, Egy
@@ -140,6 +154,7 @@ class User extends HiveObject {
     bool? isEnglish,
     int? tasbihNumber,
     String? lastRoute,
+    bool? showNotifications,
   }) {
     return User(
       lastKnownLocation: lastKnownLocation ?? this.lastKnownLocation,
@@ -148,6 +163,7 @@ class User extends HiveObject {
       isEnglish: isEnglish ?? this.isEnglish,
       tasbihNumber: tasbihNumber ?? this.tasbihNumber,
       lastRoute: lastRoute ?? this.lastRoute,
+      showNotifications: showNotifications ?? this.showNotifications,
     );
   }
 
@@ -161,6 +177,7 @@ class User extends HiveObject {
       'isSoundEnabled': isSoundEnabled,
       'isVibrateEnabled': isVibrateEnabled,
       'lastRoute': lastRoute,
+      'showNotifications': showNotifications,
     };
   }
 
@@ -173,6 +190,7 @@ class User extends HiveObject {
           : null),
       isEnglish: m['isEnglish'] as bool?,
       lastRoute: m['lastRoute'] as String?,
+      showNotifications: m['showNotifications'] as bool?,
     );
   }
 }

@@ -4,6 +4,7 @@ class Assets {
 
   static const String allahNamesJson = '${jsonPath}names_of_allah.json';
   static const String prophetNamesJson = '${jsonPath}names_of_moahmed.json';
+  static const String hadithJson = '${jsonPath}hadith.json';
 
   static const String headSebha = '${graphicsPath}head_sebha_logo.png';
   static const String bodySebha = '${graphicsPath}body_sebha_logo.png';

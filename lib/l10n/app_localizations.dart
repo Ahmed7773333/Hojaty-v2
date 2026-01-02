@@ -559,6 +559,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added to {name}'**
   String added_to_playlist(String name);
+
+  /// No description provided for @hadith_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in Ahadith'**
+  String get hadith_search_hint;
+
+  /// No description provided for @no_hadith_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No hadith found'**
+  String get no_hadith_found;
+
+  /// No description provided for @hadith_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Hadith No.'**
+  String get hadith_number;
+
+  /// No description provided for @show_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Show explanation'**
+  String get show_description;
+
+  /// No description provided for @hide_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide explanation'**
+  String get hide_description;
+
+  /// No description provided for @about_app.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get about_app;
+
+  /// No description provided for @privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacy_policy;
+
+  /// No description provided for @contact_us.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contact_us;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @show_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Notifications'**
+  String get show_notifications;
+
+  /// No description provided for @refresh_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Location'**
+  String get refresh_location;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// No description provided for @developed_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed by'**
+  String get developed_by;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @website.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get website;
+
+  /// No description provided for @privacy_policy_text.
+  ///
+  /// In en, this message translates to:
+  /// **'This privacy policy explains how our app uses your data...'**
+  String get privacy_policy_text;
+
+  /// No description provided for @app_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Hojaty is your comprehensive Islamic companion app...'**
+  String get app_description;
 }
 
 class _AppLocalizationsDelegate

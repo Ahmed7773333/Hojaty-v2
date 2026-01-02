@@ -3,8 +3,9 @@ import '../../../../core/utils/extensions/context_extensions.dart';
 
 class LocationCard extends StatelessWidget {
   final String cityName;
+  final VoidCallback? onRefresh;
 
-  const LocationCard({super.key, required this.cityName});
+  const LocationCard({super.key, required this.cityName, this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,13 @@ class LocationCard extends StatelessWidget {
         subtitle: Text(
           cityName.isNotEmpty ? cityName : context.strings.unknown,
         ),
+        trailing: onRefresh != null
+            ? IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: onRefresh,
+                tooltip: context.strings.refresh_location,
+              )
+            : null,
       ),
     );
   }

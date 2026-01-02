@@ -1,200 +1,149 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'dart:io';
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:hojaty/features/prayers/data/models/prayers/prayers_helper.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../../features/home/data/models/user_db_helper.dart';
 
 class NotificationService {
-  static const String _channelKey = 'adhan_channel';
-  static const String _channelName = 'Adhan Notifications';
-  static const String _channelDescription = 'Notifications for prayer times';
-
+  /// Initialize notification permissions
   static Future<void> initializeNotifications() async {
-    await AwesomeNotifications().initialize(
-      // Use the app's launcher icon for notifications
-      'resource://mipmap/launcher_icon',
-      [
-        NotificationChannel(
-          channelGroupKey: 'adhan_channel_group',
-          channelKey: _channelKey,
-          channelName: _channelName,
-          channelDescription: _channelDescription,
-          defaultColor: const Color(0xFF9D50DD),
-          ledColor: Colors.white,
-          importance: NotificationImportance.Max,
-          soundSource: 'resource://raw/azan', // For Android
-          playSound: true,
-          enableVibration: true,
-          criticalAlerts: true,
-        ),
-      ],
-      // Channel groups are only visual and are optional
-      channelGroups: [
-        NotificationChannelGroup(
-          channelGroupKey: 'adhan_channel_group',
-          channelGroupName: 'Adhan Group',
-        ),
-      ],
-      debug: true,
-    );
+    try {
+      // Request notification permission on Android 13+
+      if (Platform.isAndroid) {
+        final status = await Permission.notification.status;
+        if (status.isDenied) {
+          await Permission.notification.request();
+        }
 
-    await _requestPermission();
-    await _configureListeners();
-  }
-
-  static Future<void> _requestPermission() async {
-    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
-    if (!isAllowed) {
-      await AwesomeNotifications().requestPermissionToSendNotifications();
-    }
-  }
-
-  static Future<void> _configureListeners() async {
-    await AwesomeNotifications().setListeners(
-      onActionReceivedMethod: onActionReceivedMethod,
-      onNotificationCreatedMethod: onNotificationCreatedMethod,
-      onNotificationDisplayedMethod: onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod: onDismissActionReceivedMethod,
-    );
-  }
-
-  /// Use this method to detect when a new notification or a schedule is created
-  @pragma("vm:entry-point")
-  static Future<void> onNotificationCreatedMethod(
-    ReceivedNotification receivedNotification,
-  ) async {
-    debugPrint('onNotificationCreatedMethod');
-  }
-
-  /// Use this method to detect every time that a new notification is displayed
-  @pragma("vm:entry-point")
-  static Future<void> onNotificationDisplayedMethod(
-    ReceivedNotification receivedNotification,
-  ) async {
-    debugPrint('onNotificationDisplayedMethod');
-  }
-
-  /// Use this method to detect if the user dismissed a notification
-  @pragma("vm:entry-point")
-  static Future<void> onDismissActionReceivedMethod(
-    ReceivedAction receivedAction,
-  ) async {
-    debugPrint('onDismissActionReceivedMethod');
-    if (receivedAction.buttonKeyPressed == 'STOP_AZAN') {
-      await AwesomeNotifications().cancel(receivedAction.id!);
-    }
-  }
-
-  /// Use this method to detect when the user taps on a notification or action button
-  @pragma("vm:entry-point")
-  static Future<void> onActionReceivedMethod(
-    ReceivedAction receivedAction,
-  ) async {
-    debugPrint('onActionReceivedMethod');
-
-    // Always stop the sound when any action is received (tap or button)
-    // Scheduling with precise alarms might keep playing sound, so we explicitly cancel/stop.
-    // However, clicking the notification automatically dismisses it usually,
-    // but extracting logic:
-
-    if (receivedAction.buttonKeyPressed == 'STOP_AZAN') {
-      // Stop action
-      debugPrint('Stop Azan button pressed');
-    } else {
-      // Normal tap, app opens.
-      // Sound should stop if notification is dismissed.
-      debugPrint('Notification tapped');
-    }
-  }
-
-  static Future<void> schedulePrayerNotifications() async {
-    // Cancel all previous schedules to avoid duplicates
-    await AwesomeNotifications().cancelAllSchedules();
-    // await AwesomeNotifications().cancelAll();
-
-    final prayersHelper = PrayersHelper();
-    final prayerTimes = await prayersHelper.getTodayPrayerTimes();
-
-    int id = 1;
-    final now = DateTime.now();
-
-    for (var entry in prayerTimes.entries) {
-      final prayerName = entry.key;
-      final prayerTime = entry.value;
-
-      if (prayerTime.isAfter(now)) {
-        await AwesomeNotifications().createNotification(
-          content: NotificationContent(
-            id: id,
-            channelKey: _channelKey,
-            title: 'Time for $prayerName',
-            body: 'It is now time for $prayerName prayer.',
-            bigPicture: 'asset://assets/images/madina.jpg',
-            notificationLayout: NotificationLayout.BigPicture,
-            category: NotificationCategory.Alarm, // To make it like an alarm
-            wakeUpScreen: true,
-            fullScreenIntent: true,
-            autoDismissible: false, // User must interact
-            payload: {'prayer': prayerName},
-            customSound: 'resource://raw/azan',
-          ),
-          actionButtons: [
-            NotificationActionButton(
-              key: 'STOP_AZAN',
-              label: 'Stop Azan',
-              actionType: ActionType
-                  .DismissAction, // Dismisses notification and stops sound
-              autoDismissible: true,
-            ),
-            NotificationActionButton(
-              key: 'OPEN_APP',
-              label: 'Open App',
-              actionType: ActionType.Default,
-              autoDismissible: true,
-            ),
-          ],
-          schedule: NotificationCalendar.fromDate(date: prayerTime),
-        );
-        debugPrint('Scheduled $prayerName at $prayerTime with ID $id');
-        id++;
+        // Check for exact alarm permission on Android 12+
+        await checkAndroidScheduleExactAlarmPermission();
       }
+      debugPrint('Notification service initialized');
+    } catch (e) {
+      debugPrint('Error initializing notifications: $e');
     }
   }
 
-  static Future<void> cancelAll() async {
-    await AwesomeNotifications().cancelAll();
+  /// Check and request exact alarm permission for Android 12+
+  static Future<void> checkAndroidScheduleExactAlarmPermission() async {
+    final status = await Permission.scheduleExactAlarm.status;
+    debugPrint('Schedule exact alarm permission: $status');
+    if (status.isDenied) {
+      debugPrint('Requesting schedule exact alarm permission...');
+      final res = await Permission.scheduleExactAlarm.request();
+      debugPrint(
+        'Schedule exact alarm permission ${res.isGranted ? '' : 'not '}granted.',
+      );
+    }
   }
 
-  /// Shows a test notification immediately (for testing purposes)
+  /// Schedule prayer alarms using the alarm package
+  static Future<void> schedulePrayerNotifications() async {
+    try {
+      // Cancel all previous alarms to avoid duplicates
+      await Alarm.stopAll();
+
+      final user = UserDbHelper.getById();
+      if (user != null && !user.uiShowNotifications) {
+        debugPrint('Notifications disabled by user');
+        return;
+      }
+
+      final isSound = user?.uiIsSoundEnabled ?? true;
+      final isVibrate = user?.uiIsVibrateEnabled ?? true;
+
+      final prayersHelper = PrayersHelper();
+      final prayerTimes = await prayersHelper.getTodayPrayerTimes();
+
+      int id = 1;
+      final now = DateTime.now();
+
+      for (var entry in prayerTimes.entries) {
+        final prayerName = entry.key;
+        final prayerTime = entry.value;
+
+        if (prayerTime.isAfter(now)) {
+          final alarmSettings = AlarmSettings(
+            id: id,
+            dateTime: prayerTime,
+            assetAudioPath: 'assets/azan.mp3',
+            loopAudio: false, // Azan should play once
+            vibrate: isVibrate,
+            warningNotificationOnKill: Platform.isIOS,
+            androidFullScreenIntent: true,
+            volumeSettings: VolumeSettings.fade(
+              volume: isSound ? 1.0 : 0.0,
+              fadeDuration: const Duration(seconds: 3),
+              volumeEnforced: true,
+            ),
+            notificationSettings: NotificationSettings(
+              title: 'حان وقت صلاة $prayerName',
+              body: 'حان الآن وقت صلاة $prayerName',
+              stopButton: 'إيقاف الأذان',
+              icon: 'notification_icon',
+            ),
+          );
+
+          await Alarm.set(alarmSettings: alarmSettings);
+          debugPrint('Scheduled $prayerName alarm at $prayerTime with ID $id');
+          id++;
+        }
+      }
+    } catch (e) {
+      debugPrint('Error scheduling prayer alarms: $e');
+    }
+  }
+
+  /// Cancel all scheduled alarms
+  static Future<void> cancelAll() async {
+    await Alarm.stopAll();
+  }
+
+  /// Stop a specific alarm by ID
+  static Future<void> stopAlarm(int id) async {
+    await Alarm.stop(id);
+  }
+
+  /// Shows a test alarm (triggers after 5 seconds for testing)
   static Future<void> showTestNotification() async {
-    await AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: 9999, // Unique ID for test notification
-        channelKey: _channelKey,
-        title: 'Test Notification',
-        body: 'This is a test notification for prayer times.',
-        bigPicture: 'asset://assets/images/madina.jpg',
-        notificationLayout: NotificationLayout.BigPicture,
-        category: NotificationCategory.Alarm,
-        wakeUpScreen: true,
-        fullScreenIntent: true,
-        autoDismissible: false,
-        payload: {'prayer': 'Test'},
-        customSound: 'resource://raw/azan',
-      ),
-      actionButtons: [
-        NotificationActionButton(
-          key: 'STOP_AZAN',
-          label: 'Stop Azan',
-          actionType: ActionType.DismissAction,
-          autoDismissible: true,
+    try {
+      // Request permissions first
+      if (Platform.isAndroid) {
+        final notificationStatus = await Permission.notification.status;
+        if (notificationStatus.isDenied) {
+          await Permission.notification.request();
+        }
+        await checkAndroidScheduleExactAlarmPermission();
+      }
+
+      final testAlarmTime = DateTime.now().add(const Duration(seconds: 5));
+
+      final alarmSettings = AlarmSettings(
+        id: 9999, // Unique ID for test alarm
+        dateTime: testAlarmTime,
+        assetAudioPath: 'assets/azan.mp3',
+        loopAudio: false,
+        vibrate: true,
+        warningNotificationOnKill: Platform.isIOS,
+        androidFullScreenIntent: true,
+        volumeSettings: VolumeSettings.fade(
+          volume: 1.0,
+          fadeDuration: const Duration(seconds: 2),
+          volumeEnforced: true,
         ),
-        NotificationActionButton(
-          key: 'OPEN_APP',
-          label: 'Open App',
-          actionType: ActionType.Default,
-          autoDismissible: true,
+        notificationSettings: const NotificationSettings(
+          title: 'اختبار الأذان',
+          body: 'هذا اختبار لتنبيه صلاة',
+          stopButton: 'إيقاف',
+          icon: 'notification_icon',
         ),
-      ],
-    );
-    debugPrint('Test notification shown');
+      );
+
+      await Alarm.set(alarmSettings: alarmSettings);
+      debugPrint('Test alarm scheduled for $testAlarmTime (in 5 seconds)');
+    } catch (e) {
+      debugPrint('Error scheduling test alarm: $e');
+    }
   }
 }

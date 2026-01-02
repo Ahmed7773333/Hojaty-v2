@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hojaty/features/home/data/models/user_db_helper.dart';
 import 'package:hojaty/core/services/notification_service.dart';
+import 'package:alarm/alarm.dart';
 import 'core/di/injector.dart';
 import 'my_app.dart';
 
@@ -37,6 +38,9 @@ class _AppLoaderState extends State<AppLoader> {
 
       // Initialize user database (registers adapters and opens box)
       await UserDbHelper.initDatabase();
+
+      // Initialize alarm service for prayer notifications
+      await Alarm.init();
 
       // Initialize dependency injection (including audio service)
       // This is the heaviest operation - runs in background

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadSettingsEvent extends SettingsEvent {}
@@ -22,3 +22,24 @@ class UpdateLanguageEvent extends SettingsEvent {
   @override
   List<Object> get props => [isEnglish];
 }
+
+class UpdateNotificationSettingsEvent extends SettingsEvent {
+  final bool? showNotifications;
+  final bool? isSoundEnabled;
+  final bool? isVibrateEnabled;
+
+  const UpdateNotificationSettingsEvent({
+    this.showNotifications,
+    this.isSoundEnabled,
+    this.isVibrateEnabled,
+  });
+
+  @override
+  List<Object?> get props => [
+    showNotifications,
+    isSoundEnabled,
+    isVibrateEnabled,
+  ];
+}
+
+class RefreshLocationEvent extends SettingsEvent {}
