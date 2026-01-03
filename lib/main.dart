@@ -131,7 +131,7 @@ class _AppLoaderState extends State<AppLoader> {
                   Icon(Icons.menu_book_rounded, size: 80, color: Colors.white),
                   SizedBox(height: 24),
                   Text(
-                    'حُجيتي',
+                    'حُجتي',
                     style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,

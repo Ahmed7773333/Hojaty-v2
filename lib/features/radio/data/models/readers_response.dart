@@ -42,6 +42,16 @@ class Reciters {
       });
     }
   }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['letter'] = letter;
+    if (moshaf != null) {
+      data['moshaf'] = moshaf!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 @HiveType(typeId: 3)
@@ -75,5 +85,15 @@ class Moshaf {
     surahTotal = json['surah_total'];
     moshafType = json['moshaf_type'];
     surahList = json['surah_list'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['server'] = server;
+    data['surah_total'] = surahTotal;
+    data['moshaf_type'] = moshafType;
+    data['surah_list'] = surahList;
+    return data;
   }
 }

@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/constants/assets.dart';
 import '../bloc/radio_bloc.dart';
-import 'playlists_screen.dart';
 import '../bloc/radio_event.dart';
 import '../bloc/radio_state.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../widgets/live_card.dart';
-import 'reader_surahs_page.dart';
+import '../../../../config/routes/app_router.dart';
 
 class RadioPage extends StatefulWidget {
   const RadioPage({super.key});
@@ -74,7 +73,7 @@ class _RadioPageState extends State<RadioPage> {
                     imagePath: Assets.playlistCard,
                     streamUrl: '',
                     onTap: () {
-                      context.push(const PlaylistsScreen());
+                      context.pushNamed(AppRoutes.playlists);
                     },
                   ),
                   const SizedBox(height: 16),
@@ -153,7 +152,10 @@ class _RadioPageState extends State<RadioPage> {
                       ),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
-                        context.push(ReaderSurahsPage(reciter: reciter));
+                        context.pushNamed(
+                          AppRoutes.readerSurahs,
+                          extra: reciter,
+                        );
                       },
                     ),
                   );

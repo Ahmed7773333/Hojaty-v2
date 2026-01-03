@@ -2,9 +2,10 @@
 
 part of 'user_db.dart';
 
-// ***************************************************************************
+// **************************************************************************
 // TypeAdapterGenerator
-// ***************************************************************************
+// **************************************************************************
+
 class UserAdapter extends TypeAdapter<User> {
   @override
   final int typeId = 0;
@@ -15,28 +16,28 @@ class UserAdapter extends TypeAdapter<User> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-
-    final double? lat = fields[0] as double?;
-    final double? lng = fields[1] as double?;
-
+    final lat = fields[0] as double?;
+    final lng = fields[1] as double?;
     return User(
       lastKnownLocation: (lat != null && lng != null)
           ? Coordinates(lat, lng)
           : null,
       cityName: fields[2] as String?,
-      themeMode: ThemeMode.values[(fields[3] as int?) ?? 0],
+      themeMode: fields[3] != null ? ThemeMode.values[fields[3] as int] : null,
       isEnglish: fields[4] as bool?,
       tasbihNumber: fields[5] as int?,
       isSoundEnabled: fields[6] as bool?,
       isVibrateEnabled: fields[7] as bool?,
       lastRoute: fields[8] as String?,
+      showNotifications: fields[9] as bool?,
+      lastRouteArguments: (fields[10] as Map?)?.cast<String, dynamic>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.lastKnownLocation?.latitude)
       ..writeByte(1)
@@ -54,8 +55,15 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(7)
       ..write(obj.isVibrateEnabled)
       ..writeByte(8)
-      ..write(obj.lastRoute);
+      ..write(obj.lastRoute)
+      ..writeByte(9)
+      ..write(obj.showNotifications)
+      ..writeByte(10)
+      ..write(obj.lastRouteArguments);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,7 +71,4 @@ class UserAdapter extends TypeAdapter<User> {
       other is UserAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
-
-  @override
-  int get hashCode => typeId.hashCode;
 }

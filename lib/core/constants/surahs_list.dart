@@ -3,9 +3,21 @@ class Surah {
   final int number;
   final String nameEn;
   final String nameAr;
-   int get idUi=> int.tryParse(id)??0;
+  int get idUi => int.tryParse(id) ?? 0;
 
   const Surah(this.id, this.number, this.nameEn, this.nameAr);
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'number': number, 'nameEn': nameEn, 'nameAr': nameAr};
+  }
+
+  static Surah fromJson(Map<String, dynamic> json) {
+    return Surah(
+      json['id'] as String,
+      json['number'] as int,
+      json['nameEn'] as String,
+      json['nameAr'] as String,
+    );
+  }
 }
 
 class SurahsList {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../pages/live_stream_page.dart';
+import '../../../../config/routes/app_router.dart';
 
 class LiveCard extends StatelessWidget {
   final String title;
@@ -23,7 +23,10 @@ class LiveCard extends StatelessWidget {
       onTap:
           onTap ??
           () {
-            context.push(LiveStreamPage(streamUrl: streamUrl, title: title));
+            context.pushNamed(
+              AppRoutes.liveStream,
+              extra: {'streamUrl': streamUrl, 'title': title},
+            );
           },
       child: Container(
         height: 150,

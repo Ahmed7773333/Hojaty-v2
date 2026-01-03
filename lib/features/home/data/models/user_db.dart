@@ -2,7 +2,7 @@ import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'user.g.dart';
+part 'user_db.g.dart';
 
 @HiveType(typeId: 0, adapterName: 'UserAdapter')
 class User extends HiveObject {
@@ -10,28 +10,28 @@ class User extends HiveObject {
   @HiveField(0)
   Coordinates? lastKnownLocation;
 
-  @HiveField(1)
+  @HiveField(2)
   String? cityName;
 
-  @HiveField(2)
+  @HiveField(3)
   ThemeMode? themeMode;
 
-  @HiveField(3)
+  @HiveField(4)
   bool? isEnglish;
 
-  @HiveField(4)
+  @HiveField(5)
   int? tasbihNumber;
 
-  @HiveField(5)
+  @HiveField(6)
   bool? isSoundEnabled;
 
-  @HiveField(6)
+  @HiveField(7)
   bool? isVibrateEnabled;
 
-  @HiveField(7)
+  @HiveField(8)
   String? lastRoute;
 
-  @HiveField(8)
+  @HiveField(9)
   bool? showNotifications;
 
   User({
@@ -44,7 +44,11 @@ class User extends HiveObject {
     this.isVibrateEnabled,
     this.lastRoute,
     this.showNotifications,
+    this.lastRouteArguments,
   });
+
+  @HiveField(10)
+  Map<String, dynamic>? lastRouteArguments;
 
   // ----------------- UI getters/setters -----------------
   // ... existing getters/setters ...
@@ -155,6 +159,7 @@ class User extends HiveObject {
     int? tasbihNumber,
     String? lastRoute,
     bool? showNotifications,
+    Map<String, dynamic>? lastRouteArguments,
   }) {
     return User(
       lastKnownLocation: lastKnownLocation ?? this.lastKnownLocation,
@@ -164,6 +169,7 @@ class User extends HiveObject {
       tasbihNumber: tasbihNumber ?? this.tasbihNumber,
       lastRoute: lastRoute ?? this.lastRoute,
       showNotifications: showNotifications ?? this.showNotifications,
+      lastRouteArguments: lastRouteArguments ?? this.lastRouteArguments,
     );
   }
 
@@ -178,6 +184,7 @@ class User extends HiveObject {
       'isVibrateEnabled': isVibrateEnabled,
       'lastRoute': lastRoute,
       'showNotifications': showNotifications,
+      'lastRouteArguments': lastRouteArguments,
     };
   }
 
@@ -191,6 +198,9 @@ class User extends HiveObject {
       isEnglish: m['isEnglish'] as bool?,
       lastRoute: m['lastRoute'] as String?,
       showNotifications: m['showNotifications'] as bool?,
+      lastRouteArguments: m['lastRouteArguments'] != null
+          ? Map<String, dynamic>.from(m['lastRouteArguments'] as Map)
+          : null,
     );
   }
 }

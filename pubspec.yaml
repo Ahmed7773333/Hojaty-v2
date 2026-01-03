@@ -2,7 +2,7 @@ name: hojaty
 description: A new Flutter project, "Hojaty".
 publish_to: 'none'
 
-version: 1.1.13+37
+version: 1.1.14+38
 
 environment:
   sdk: ^3.10.3
