@@ -22,4 +22,5 @@ class Assets {
   static const String tasbeh = '${graphicsPath}tasbeh.png';
   static const String ahadith = '${graphicsPath}ahadith.png';
   static const String allahNames = '${graphicsPath}allah_names.png';
+  static const String quraanCard = '${graphicsPath}quraan card.png';
 }

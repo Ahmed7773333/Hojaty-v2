@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
+import '../providers/prayer_times_provider.dart';
 import '../widgets/home_bottom_sheet_widget.dart';
-import '../widgets/next_prayer_header_widget.dart';
 import '../widgets/prayers_background_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,13 +16,23 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => injector<HomeBloc>()..add(LoadHomeEvent()),
-      child: const HomeView(),
+      child: ChangeNotifierProvider(
+        create: (_) => PrayerTimesProvider()..initialize(),
+        child: const HomeView(),
+      ),
     );
   }
 }
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // Track sheet position for animations
 
   @override
   Widget build(BuildContext context) {
@@ -31,33 +42,40 @@ class HomeView extends StatelessWidget {
           // 1. Background Layer: Prayer Times
           Positioned.fill(
             child: Padding(
-              padding: EdgeInsets.only(
-                top: 60.h,
-              ), // Push down to not hide behind header
+              padding: EdgeInsets.only(top: 60.h),
               child: const PrayersBackgroundWidget(),
             ),
           ),
 
           // 2. Interactive Layer: Bottom Sheet
-          DraggableScrollableSheet(
-            initialChildSize: 0.5,
-            minChildSize: 0.2, // Show at least a bit
-            maxChildSize: 0.85, // Leave top 15% for the Next Prayer Header
-            builder: (context, scrollController) {
-              return HomeBottomSheetWidget(scrollController: scrollController);
+          NotificationListener<DraggableScrollableNotification>(
+            onNotification: (notification) {
+              setState(() {
+              });
+              return true;
             },
-          ),
-
-          // 3. Top Layer: Next Prayer Persistent Header
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                height: 120.h, // Dedicate height for the header
-                child: const NextPrayerHeaderWidget(),
-              ),
+            child: DraggableScrollableSheet(
+              initialChildSize: 0.5,
+              minChildSize: 0.2,
+              maxChildSize: 0.85,
+              builder: (context, scrollController) {
+                return HomeBottomSheetWidget(
+                  scrollController: scrollController,
+                );
+              },
             ),
           ),
+
+          // // 3. Top Layer: Next Prayer Persistent Header
+          // SafeArea(
+          //   child: Align(
+          //     alignment: Alignment.topCenter,
+          //     child: SizedBox(
+          //       height: 130.h,
+          //       child: NextPrayerHeaderWidget(sheetPosition: _sheetPosition),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

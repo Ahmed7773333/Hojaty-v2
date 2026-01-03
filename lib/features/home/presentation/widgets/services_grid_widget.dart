@@ -23,6 +23,11 @@ class ServicesGridWidget extends StatelessWidget {
     // Defined using a getter or inside build to access context for localization
     final List<ServiceData> services = [
       ServiceData(
+        label: context.strings.allah_names,
+        assetPath: Assets.allahNames,
+        routeName: AppRoutes.allahNames,
+      ),
+      ServiceData(
         label: context.strings.azkar,
         assetPath: Assets.azkar,
         routeName: AppRoutes.azkar,
@@ -61,11 +66,6 @@ class ServicesGridWidget extends StatelessWidget {
         label: context.strings.ahadith,
         assetPath: Assets.ahadith,
         routeName: AppRoutes.ahadith,
-      ),
-      ServiceData(
-        label: context.strings.allah_names,
-        assetPath: Assets.allahNames,
-        routeName: AppRoutes.allahNames,
       ),
     ];
 
@@ -117,9 +117,10 @@ class _ServiceItem extends StatelessWidget {
                 service.label,
                 style: context.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 10,
                 ),
                 textAlign: TextAlign.center,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

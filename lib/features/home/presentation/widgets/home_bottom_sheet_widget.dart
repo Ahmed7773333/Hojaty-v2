@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import 'next_prayer_header_widget.dart';
 import 'quraan_quick_link_widget.dart';
 import 'services_grid_widget.dart';
 
@@ -38,15 +39,10 @@ class HomeBottomSheetWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const QuraanQuickLinkWidget(),
+          const NextPrayerHeaderWidget(sheetPosition: 0),
+
           const SizedBox(height: 24),
-          Text(
-            'خدماتنا',
-            style: context.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
+          const QuraanQuickLinkWidget(),
           const ServicesGridWidget(),
           const SizedBox(height: 100), // Bottom padding
         ],

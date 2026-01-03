@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hojaty/config/theme/app_color.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class LiveStreamPage extends StatefulWidget {
@@ -51,7 +52,16 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       ),
       builder: (context, player) {
         return Scaffold(
-          appBar: AppBar(title: Text(widget.title)),
+          backgroundColor: AppColor.darkBackground,
+          appBar: AppBar(
+            title: Text(
+              widget.title,
+              style: const TextStyle(color: AppColor.darkTextPrimary),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: const IconThemeData(color: AppColor.darkTextPrimary),
+          ),
           body: Center(child: player),
         );
       },

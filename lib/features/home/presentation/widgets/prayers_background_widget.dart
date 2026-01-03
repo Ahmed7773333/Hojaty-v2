@@ -1,104 +1,122 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../config/theme/app_color.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../prayers/data/models/prayers/prayers_helper.dart';
+import '../providers/prayer_times_provider.dart';
+import 'prayer_day_navigator.dart';
+import 'prayer_time_row.dart';
 
+/// Background widget displaying all prayer times for the selected day.
+/// Uses PrayerTimesProvider for data and supports day navigation.
 class PrayersBackgroundWidget extends StatelessWidget {
   const PrayersBackgroundWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, DateTime>>(
-      future: PrayersHelper().getTodayPrayerTimes(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+    return Consumer<PrayerTimesProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading && provider.currentPrayerTimes == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final prayers = snapshot.data!;
-        return FutureBuilder<MapEntry<String, DateTime>?>(
-          future: PrayersHelper().getNextPrayerTime(prayers),
-          builder: (context, nextSnapshot) {
-            final nextPrayer = nextSnapshot.data?.key;
+        final prayers = provider.currentPrayerTimes;
+        if (prayers == null) {
+          return Center(
+            child: Text('لا توجد بيانات', style: context.textTheme.bodyLarge),
+          );
+        }
 
-            return Container(
-              color: context.colors.surface,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 40,
+        // Determine next prayer (only relevant for today)
+        String? nextPrayerName;
+        if (provider.isToday && provider.nextPrayer != null) {
+          nextPrayerName = provider.nextPrayer!.key;
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColor.primaryColor,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 4),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header/Date could go here
-                    const SizedBox(height: 60), // Space for top header
-                    ...prayers.entries.map((entry) {
-                      final isNext = entry.key == nextPrayer;
-                      return _PrayerItem(
+              ],
+              border: Border.all(
+                color: AppColor.goldAccent.withValues(alpha: 0.2),
+                width: 1,
+              ),
+            ),
+            child: Column(
+              children: [
+                // Header with day navigator
+                Container(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColor.goldLight,
+                        AppColor.goldLight.withValues(alpha: 0.5),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      // Title
+                      Text(
+                        'مواقيت الصلاة',
+                        style: context.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.secondaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      // Day Navigator
+                      const PrayerDayNavigator(),
+                    ],
+                  ),
+                ),
+
+                // Divider
+                Container(
+                  height: 1,
+                  color: AppColor.goldAccent.withValues(alpha: 0.15),
+                ),
+
+                // Prayer Times List
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    itemCount: prayers.length,
+                    itemBuilder: (context, index) {
+                      final entry = prayers.entries.elementAt(index);
+                      final isNext = entry.key == nextPrayerName;
+
+                      return PrayerTimeRow(
                         name: entry.key,
                         time: entry.value,
                         isNext: isNext,
                       );
-                    }),
-                  ],
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
+              ],
+            ),
+          ),
         );
       },
-    );
-  }
-}
-
-class _PrayerItem extends StatelessWidget {
-  final String name;
-  final DateTime time;
-  final bool isNext;
-
-  const _PrayerItem({
-    required this.name,
-    required this.time,
-    this.isNext = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-      decoration: BoxDecoration(
-        color: isNext ? context.colors.primaryContainer : Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        border: isNext
-            ? Border.all(color: context.colors.primary, width: 1.5)
-            : Border.all(
-                color: context.colors.outlineVariant.withValues(alpha: 0.5),
-              ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: isNext ? FontWeight.bold : FontWeight.normal,
-              color: isNext
-                  ? context.colors.onPrimaryContainer
-                  : context.colors.onSurface,
-            ),
-          ),
-          Text(
-            PrayersHelper.formatTimeTo12Hour(time),
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: isNext ? FontWeight.bold : FontWeight.normal,
-              color: isNext
-                  ? context.colors.onPrimaryContainer
-                  : context.colors.onSurface,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
