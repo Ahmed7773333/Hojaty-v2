@@ -12,6 +12,7 @@ import '../network/api_consumer.dart';
 import '../network/dio_client.dart';
 import 'package:audio_service/audio_service.dart';
 import '../services/audio_player_handler.dart';
+import '../services/json_data_service.dart';
 
 final injector = GetIt.instance;
 
@@ -46,6 +47,7 @@ Future<void> setupInjector() async {
 
   // Core
   injector.registerSingleton<ApiConsumer>(DioClient(injector<Dio>()));
+  injector.registerSingleton<JsonDataService>(JsonDataService(injector<Dio>()));
   initHomeInjector();
   initAzkarInjector();
   initPrayersInjector();

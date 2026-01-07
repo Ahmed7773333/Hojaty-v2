@@ -26,7 +26,10 @@ import '../../features/radio/data/models/playlist_model.dart';
 import '../../features/radio/presentation/pages/reader_surahs_page.dart';
 import '../../features/radio/data/models/readers_response.dart';
 import '../../features/radio/presentation/pages/surah_audio_page.dart';
+
 import '../../core/constants/surahs_list.dart';
+import '../../core/di/injector.dart';
+import '../../features/quraan/presentation/bloc/quraan_event.dart';
 
 import '../../features/quraan/presentation/pages/quraan_page.dart';
 import '../../features/quraan/presentation/pages/fehres.dart';
@@ -144,15 +147,13 @@ class AppRouter {
       case AppRoutes.quraan:
         return MaterialPageRoute(builder: (_) => const QuraanPage());
       case AppRoutes.fehres:
-        final bloc = settings.arguments as QuraanBloc;
-        return MaterialPageRoute(
-          builder: (_) =>
-              BlocProvider.value(value: bloc, child: const FehrsPage()),
-        );
+        return MaterialPageRoute<int>(builder: (_) => const FehrsPage());
       case AppRoutes.juzs:
-        final bloc = settings.arguments as QuraanBloc;
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(value: bloc, child: const Guzs()),
+        return MaterialPageRoute<int>(
+          builder: (_) => BlocProvider(
+            create: (_) => injector<QuraanBloc>()..add(LoadQuraanData()),
+            child: const Guzs(),
+          ),
         );
       case AppRoutes.tafseer:
         final args = settings.arguments as Map<String, dynamic>;
@@ -163,10 +164,11 @@ class AppRouter {
           ),
         );
       case AppRoutes.search:
-        final bloc = settings.arguments as QuraanBloc;
-        return MaterialPageRoute(
-          builder: (_) =>
-              BlocProvider.value(value: bloc, child: const SearchPage()),
+        return MaterialPageRoute<int>(
+          builder: (_) => BlocProvider(
+            create: (_) => injector<QuraanBloc>()..add(LoadQuraanData()),
+            child: const SearchPage(),
+          ),
         );
 
       // Settings

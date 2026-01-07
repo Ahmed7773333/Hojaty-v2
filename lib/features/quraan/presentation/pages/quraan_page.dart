@@ -80,17 +80,21 @@ class QuraanView extends StatelessWidget {
                       );
                     }
                   },
-                  onHezpsTap: () {
-                    context.pushNamed(
+                  onHezpsTap: () async {
+                    final pageNum = await context.pushNamed<int>(
                       AppRoutes.juzs,
-                      extra: context.read<QuraanBloc>(),
                     );
+                    if (pageNum != null && context.mounted) {
+                      context.read<QuraanBloc>().add(JumpToPage(pageNum));
+                    }
                   },
-                  onSearchTap: () {
-                    context.pushNamed(
+                  onSearchTap: () async {
+                    final pageNum = await context.pushNamed<int>(
                       AppRoutes.search,
-                      extra: context.read<QuraanBloc>(),
                     );
+                    if (pageNum != null && context.mounted) {
+                      context.read<QuraanBloc>().add(JumpToPage(pageNum));
+                    }
                   },
                 ),
 
@@ -99,11 +103,13 @@ class QuraanView extends StatelessWidget {
                   onHomeTap: () {
                     Navigator.of(context).pop();
                   },
-                  onJuzTap: () {
-                    context.pushNamed(
+                  onJuzTap: () async {
+                    final pageNum = await context.pushNamed<int>(
                       AppRoutes.fehres,
-                      extra: context.read<QuraanBloc>(),
                     );
+                    if (pageNum != null && context.mounted) {
+                      context.read<QuraanBloc>().add(JumpToPage(pageNum));
+                    }
                   },
                 ),
               ],

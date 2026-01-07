@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../../../../core/constants/assets.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/services/json_data_service.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../data/models/prophet_name.dart';
@@ -23,8 +24,8 @@ class _ProphetPageState extends State<ProphetPage> {
   }
 
   Future<List<ProphetName>> _loadNames() async {
-    final String response = await rootBundle.loadString(
-      Assets.prophetNamesJson,
+    final String response = await injector<JsonDataService>().loadString(
+      Assets.prophetNamesJsonKey,
     );
     final Map<String, dynamic> jsonResponse = json.decode(response);
     final List<dynamic> data = jsonResponse['data'];

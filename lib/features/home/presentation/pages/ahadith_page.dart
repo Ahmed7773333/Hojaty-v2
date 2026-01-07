@@ -3,11 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../../../core/constants/assets.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../config/theme/app_text_styles.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/services/json_data_service.dart';
 import '../../data/models/hadith.dart';
 import '../widgets/hadith_empty_view.dart';
 import '../widgets/hadith_error_view.dart';
@@ -42,7 +43,9 @@ class _AhadithPageState extends State<AhadithPage> {
   }
 
   Future<List<Hadith>> _loadHadith() async {
-    final String response = await rootBundle.loadString(Assets.hadithJson);
+    final String response = await injector<JsonDataService>().loadString(
+      Assets.hadithJsonKey,
+    );
     // Offload parsing to a background isolate
     final hadithList = await compute(_parseHadith, response);
 

@@ -1,11 +1,16 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:hive_flutter/hive_flutter.dart';
+import '../../../../core/constants/assets.dart';
+import '../../../../core/services/json_data_service.dart';
 import '../models/quraan_page_model.dart';
 
 class QuraanRepository {
   static const String _quraanBoxName = 'quraan_settings';
   static const String _lastPageKey = 'last_quraan_page';
+
+  final JsonDataService _jsonDataService;
+
+  QuraanRepository(this._jsonDataService);
 
   // Cache the data so we only load it once
   Map<int, QuraanPageModel>? _cachedPages;
@@ -14,8 +19,8 @@ class QuraanRepository {
     if (_cachedPages != null) return _cachedPages!;
 
     try {
-      final String jsonString = await rootBundle.loadString(
-        'assets/jsons/quran_pages.json',
+      final String jsonString = await _jsonDataService.loadString(
+        Assets.quraanPagesJsonKey,
       );
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
 

@@ -23,4 +23,10 @@ class Assets {
   static const String ahadith = '${graphicsPath}ahadith.png';
   static const String allahNames = '${graphicsPath}allah_names.png';
   static const String quraanCard = '${graphicsPath}quraan card.png';
+  static const String quraanPagesJsonKey = 'quran_pages_json';
+  static const String hadithJsonKey = 'hadith_json';
+  static const String allahNamesJsonKey = 'names_of_allah_json';
+  static const String prophetNamesJsonKey = 'names_of_moahmed_json';
+  static const String azkarJsonKey = 'azkar_json';
+  static const String tafseerJsonKey = 'tafseer_json';
 }

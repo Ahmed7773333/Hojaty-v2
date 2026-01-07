@@ -50,13 +50,12 @@ class _HomeViewState extends State<HomeView> {
           // 2. Interactive Layer: Bottom Sheet
           NotificationListener<DraggableScrollableNotification>(
             onNotification: (notification) {
-              setState(() {
-              });
+              setState(() {});
               return true;
             },
             child: DraggableScrollableSheet(
               initialChildSize: 0.5,
-              minChildSize: 0.2,
+              minChildSize: 0.1,
               maxChildSize: 0.85,
               builder: (context, scrollController) {
                 return HomeBottomSheetWidget(

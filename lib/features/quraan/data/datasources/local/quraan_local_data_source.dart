@@ -1,10 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../models/page_data.dart';
+import 'package:hojaty/core/services/json_data_service.dart';
+import 'package:hojaty/core/constants/assets.dart';
 
 class QuraanLocalDataSource {
+  final JsonDataService _jsonDataService;
+
+  QuraanLocalDataSource(this._jsonDataService);
+
   static const String _boxName = 'quran_pages_box';
   static const String _settingsBoxName = 'quran_settings_box';
   static const String _lastPageKey = 'last_page';
@@ -31,8 +37,9 @@ class QuraanLocalDataSource {
     final box = Hive.box<PageData>(_boxName);
 
     if (box.isEmpty) {
-      final String jsonString = await rootBundle.loadString(
-        'assets/jsons/quran_pages.json',
+      // Load from JsonDataService (remote/cache) instead of assets
+      final String jsonString = await _jsonDataService.loadString(
+        Assets.quraanPagesJsonKey,
       );
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
 

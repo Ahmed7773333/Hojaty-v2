@@ -20,7 +20,7 @@ class PrayerDayNavigator extends StatelessWidget {
             children: [
               // Previous Day Button
               _NavigationButton(
-                icon: Icons.chevron_right, // RTL: right arrow goes to previous
+                icon: Icons.chevron_left, // RTL: right arrow goes to previous
                 onPressed: provider.dayOffset > -15
                     ? () => provider.goToPreviousDay()
                     : null,
@@ -71,7 +71,7 @@ class PrayerDayNavigator extends StatelessWidget {
 
               // Next Day Button
               _NavigationButton(
-                icon: Icons.chevron_left, // RTL: left arrow goes to next
+                icon: Icons.chevron_right, // RTL: left arrow goes to next
                 onPressed: provider.dayOffset < 15
                     ? () => provider.goToNextDay()
                     : null,

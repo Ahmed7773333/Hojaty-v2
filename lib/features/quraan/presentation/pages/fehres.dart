@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../config/theme/app_color.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/quraan_bloc.dart';
-import '../bloc/quraan_event.dart';
+// Removed QuraanBloc imports as they are no longer needed for navigation result pattern
 
 class FehrsPage extends StatefulWidget {
   const FehrsPage({super.key});
@@ -80,10 +79,7 @@ class _FehrsPageState extends State<FehrsPage>
                   child: InkWell(
                     borderRadius: BorderRadius.circular(14.r),
                     onTap: () {
-                      context.read<QuraanBloc>().add(
-                        JumpToPage(surah.pageNumber),
-                      );
-                      Navigator.pop(context);
+                      Navigator.pop(context, surah.pageNumber);
                     },
                     child: Padding(
                       padding: EdgeInsets.all(16.w),

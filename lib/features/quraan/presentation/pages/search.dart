@@ -80,13 +80,7 @@ class _SearchPageState extends State<SearchPage> {
               final res = result[index];
               return GestureDetector(
                 onTap: () {
-                  // Navigate to QuraanPage with this page.
-                  // Since search is pushed ON TOP of QuraanPage, we can pop with result or push replacement.
-                  // If we push replacement QuraanPage, we lose the stack history?
-                  // Better: pop and signal QuraanPage to change page.
-                  // Or just add event to Bloc and Pop.
-                  context.read<QuraanBloc>().add(JumpToPage(res.pageNum));
-                  Navigator.pop(context);
+                  Navigator.pop(context, res.pageNum);
                 },
                 child: Card(
                   elevation: 6,

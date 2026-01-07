@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../data/models/allah_name.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../../../../../core/constants/assets.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/services/json_data_service.dart';
 
 class AllahNamesPage extends StatefulWidget {
   const AllahNamesPage({super.key});
@@ -23,7 +24,9 @@ class _AllahNamesPageState extends State<AllahNamesPage> {
   }
 
   Future<List<AllahName>> _loadNames() async {
-    final String response = await rootBundle.loadString(Assets.allahNamesJson);
+    final String response = await injector<JsonDataService>().loadString(
+      Assets.allahNamesJsonKey,
+    );
     final List<dynamic> data = json.decode(response);
     return data.map((json) => AllahName.fromJson(json)).toList();
   }

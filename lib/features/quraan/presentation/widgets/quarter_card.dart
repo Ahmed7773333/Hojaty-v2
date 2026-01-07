@@ -5,7 +5,7 @@ import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/core/utils/helper.dart';
 import '../bloc/quraan_bloc.dart';
-import '../bloc/quraan_event.dart';
+
 import '../../../../config/theme/app_text_styles.dart';
 
 class QuarterCard extends StatelessWidget {
@@ -41,8 +41,7 @@ class QuarterCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(14.r),
           onTap: () {
-            context.read<QuraanBloc>().add(JumpToPage(pageNum));
-            Navigator.pop(context);
+            Navigator.pop(context, pageNum);
           },
           child: Padding(
             padding: EdgeInsets.all(16.w),

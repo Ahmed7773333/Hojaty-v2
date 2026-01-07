@@ -3,7 +3,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hojaty/features/home/data/models/user_db_helper.dart';
 import 'package:hojaty/core/services/notification_service.dart';
 import 'package:alarm/alarm.dart';
+import 'config/theme/app_color.dart';
 import 'core/di/injector.dart';
+import 'core/services/json_data_service.dart';
 import 'my_app.dart';
 
 void main() {
@@ -24,6 +26,7 @@ class AppLoader extends StatefulWidget {
 class _AppLoaderState extends State<AppLoader> {
   bool _isInitialized = false;
   String? _error;
+  double? _downloadProgress;
 
   @override
   void initState() {
@@ -45,6 +48,20 @@ class _AppLoaderState extends State<AppLoader> {
       // Initialize dependency injection (including audio service)
       // This is the heaviest operation - runs in background
       await setupInjector();
+
+      // Initialize JsonDataService and sync if needed
+      final jsonService = injector<JsonDataService>();
+      await jsonService.init();
+
+      if (!jsonService.isDataReady()) {
+        await for (final progress in jsonService.syncData()) {
+          if (mounted) {
+            setState(() {
+              _downloadProgress = progress;
+            });
+          }
+        }
+      }
 
       // Mark as initialized
       if (mounted) {
@@ -118,19 +135,23 @@ class _AppLoaderState extends State<AppLoader> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF1A237E), // Deep indigo
-                  Color(0xFF0D47A1), // Dark blue
+                  AppColor.goldLight, // Deep indigo
+                  AppColor.goldAccent, // Dark blue
                 ],
               ),
             ),
-            child: const Center(
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // App icon or logo
-                  Icon(Icons.menu_book_rounded, size: 80, color: Colors.white),
-                  SizedBox(height: 24),
-                  Text(
+                  const Icon(
+                    Icons.menu_book_rounded,
+                    size: 80,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
                     'حُجتي',
                     style: TextStyle(
                       fontSize: 36,
@@ -138,10 +159,20 @@ class _AppLoaderState extends State<AppLoader> {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
                   CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    value: _downloadProgress,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Colors.white,
+                    ),
                   ),
+                  if (_downloadProgress != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      'Downloading resources... ${(_downloadProgress! * 100).toInt()}%',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
                 ],
               ),
             ),
