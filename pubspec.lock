@@ -499,6 +499,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.7"
+  flutter_play_asset_delivery:
+    dependency: "direct main"
+    description:
+      name: flutter_play_asset_delivery
+      sha256: "9240034c6808bce435da171fcb9bd2055fb5826dcbaaeffe361e1e5ec5c8e701"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter_secure_storage:
     dependency: "direct main"
     description:

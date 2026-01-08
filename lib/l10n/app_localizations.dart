@@ -661,6 +661,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hojaty is your comprehensive Islamic companion app...'**
   String get app_description;
+
+  /// No description provided for @downloadQuranTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Quran Pages'**
+  String get downloadQuranTitle;
+
+  /// No description provided for @downloadQuranMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The Quran pages are not downloaded. Do you want to download them now? (Size: ~100MB)'**
+  String get downloadQuranMessage;
+
+  /// No description provided for @downloadQuranAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadQuranAction;
+
+  /// No description provided for @downloadQuranCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get downloadQuranCancel;
+
+  /// No description provided for @downloadingQuran.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading Quran Pages...'**
+  String get downloadingQuran;
+
+  /// No description provided for @downloadQuranSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran Pages downloaded successfully'**
+  String get downloadQuranSuccess;
+
+  /// No description provided for @downloadQuranError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download Quran Pages'**
+  String get downloadQuranError;
 }
 
 class _AppLocalizationsDelegate

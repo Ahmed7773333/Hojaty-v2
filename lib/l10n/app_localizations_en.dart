@@ -303,4 +303,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get app_description =>
       'Hojaty is your comprehensive Islamic companion app...';
+
+  @override
+  String get downloadQuranTitle => 'Download Quran Pages';
+
+  @override
+  String get downloadQuranMessage =>
+      'The Quran pages are not downloaded. Do you want to download them now? (Size: ~100MB)';
+
+  @override
+  String get downloadQuranAction => 'Download';
+
+  @override
+  String get downloadQuranCancel => 'Later';
+
+  @override
+  String get downloadingQuran => 'Downloading Quran Pages...';
+
+  @override
+  String get downloadQuranSuccess => 'Quran Pages downloaded successfully';
+
+  @override
+  String get downloadQuranError => 'Failed to download Quran Pages';
 }

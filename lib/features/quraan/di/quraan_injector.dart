@@ -5,6 +5,7 @@ import '../data/repositories/quraan_repository_impl.dart';
 import '../domain/repositories/quraan_repository.dart';
 import '../domain/usecases/get_quraan.dart';
 import '../presentation/bloc/quraan_bloc.dart';
+import '../data/services/quraan_pad_service.dart';
 
 Future<void> initQuraanInjector() async {
   // BLoC
@@ -27,4 +28,5 @@ Future<void> initQuraanInjector() async {
   injector.registerLazySingleton<QuraanLocalDataSource>(
     () => QuraanLocalDataSource(injector()),
   );
+  injector.registerLazySingleton(() => QuraanPadService());
 }

@@ -297,5 +297,12 @@
   "email": "Email",
   "website": "Website",
   "privacy_policy_text": "This privacy policy explains how our app uses your data...",
-  "app_description": "Hojaty is your comprehensive Islamic companion app..."
+  "app_description": "Hojaty is your comprehensive Islamic companion app...",
+  "downloadQuranTitle": "Download Quran Pages",
+  "downloadQuranMessage": "The Quran pages are not downloaded. Do you want to download them now? (Size: ~100MB)",
+  "downloadQuranAction": "Download",
+  "downloadQuranCancel": "Later",
+  "downloadingQuran": "Downloading Quran Pages...",
+  "downloadQuranSuccess": "Quran Pages downloaded successfully",
+  "downloadQuranError": "Failed to download Quran Pages"
 }

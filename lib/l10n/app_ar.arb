@@ -93,5 +93,12 @@
   "email": "البريد الإلكتروني",
   "website": "الموقع الإلكتروني",
   "privacy_policy_text": "تشرح سياسة الخصوصية هذه كيفية استخدام تطبيقنا لبياناتك...",
-  "app_description": "حجتي هو رفيقك الإسلامي الشامل..."
+  "app_description": "حجتي هو رفيقك الإسلامي الشامل...",
+  "downloadQuranTitle": "تحميل صفحات المصحف",
+  "downloadQuranMessage": "صفحات المصحف غير محملة. هل وريت تحميلها الآن؟ (الحجم: ~100 ميجابايت)",
+  "downloadQuranAction": "تحميل",
+  "downloadQuranCancel": "لاحقاً",
+  "downloadingQuran": "جاري تحميل صفحات المصحف...",
+  "downloadQuranSuccess": "تم تحميل صفحات المصحف بنجاح",
+  "downloadQuranError": "فشل تحميل صفحات المصحف"
 }

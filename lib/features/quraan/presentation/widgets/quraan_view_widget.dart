@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/features/quraan/data/services/quraan_pad_service.dart';
 import '../../data/models/page_data.dart';
 
 class QuraanViewWidget extends StatefulWidget {
@@ -107,17 +110,34 @@ class _QuraanViewWidgetState extends State<QuraanViewWidget> {
   }
 
   Widget _buildPageImage(int pageNum) {
+    // Using FutureBuilder to fetch path from PAD service
     return Container(
       color: const Color(0xFFFFF8E1), // Warm background color for paper feel
-      child: Image.asset(
-        'assets/pages-hafs/$pageNum.png',
-        fit: BoxFit.fill,
-        width: double.infinity,
-        height: double.infinity,
-        errorBuilder: (context, error, stackTrace) {
-          // Fallback to text if image fails or missing?
-          // For now just error text.
-          return Center(child: Text("Page $pageNum not found"));
+      child: FutureBuilder<String?>(
+        future: injector<QuraanPadService>().getPageImagePath(pageNum),
+        builder: (context, snapshot) {
+          // If we have data (path)
+          if (snapshot.hasData && snapshot.data != null) {
+            return Image.file(
+              File(snapshot.data!),
+              fit: BoxFit.fill,
+              width: double.infinity,
+              height: double.infinity,
+              errorBuilder: (context, error, stackTrace) {
+                return Center(child: Text("Page $pageNum error"));
+              },
+            );
+          }
+          // Loading or missing
+          // If connection state is done and no data, it means missing
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data == null) {
+            return Center(child: Text("Page $pageNum not found"));
+          }
+
+          // Show loading indicator or maybe placeholder while checking path?
+          // Accessing local file path should be fast, but it's async.
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

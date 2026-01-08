@@ -301,4 +301,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get app_description => 'حجتي هو رفيقك الإسلامي الشامل...';
+
+  @override
+  String get downloadQuranTitle => 'تحميل صفحات المصحف';
+
+  @override
+  String get downloadQuranMessage =>
+      'صفحات المصحف غير محملة. هل وريت تحميلها الآن؟ (الحجم: ~100 ميجابايت)';
+
+  @override
+  String get downloadQuranAction => 'تحميل';
+
+  @override
+  String get downloadQuranCancel => 'لاحقاً';
+
+  @override
+  String get downloadingQuran => 'جاري تحميل صفحات المصحف...';
+
+  @override
+  String get downloadQuranSuccess => 'تم تحميل صفحات المصحف بنجاح';
+
+  @override
+  String get downloadQuranError => 'فشل تحميل صفحات المصحف';
 }

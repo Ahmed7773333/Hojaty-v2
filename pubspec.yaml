@@ -45,6 +45,7 @@ dependencies:
   alarm: ^5.1.5
   url_launcher: ^6.3.2
   package_info_plus: ^8.3.1
+  flutter_play_asset_delivery: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +74,6 @@ flutter:
     - assets/images/
     - assets/fonts/
     # - assets/jsons/
-    - assets/pages-hafs/
     - assets/azan.mp3
 
   fonts:

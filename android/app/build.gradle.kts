@@ -44,6 +44,7 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        assetPacks = mutableSetOf(":quran_assets")
     }
 
     buildTypes {
