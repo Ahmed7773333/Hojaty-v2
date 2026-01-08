@@ -34,9 +34,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
+
 
     defaultConfig {
         applicationId = "com.wolfdev.hojaty"
@@ -44,16 +42,24 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        assetPacks = mutableSetOf(":quran_assets")
+        assetPacks += ":quran_assets"
     }
 
     buildTypes {
         release {
             // 3. Use the release signing config instead of debug
             signingConfig = signingConfigs.getByName("release")
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
         }
     }
 }
+
+kotlin {
+    jvmToolchain(17)
+}
+
 flutter {
     source = "../.."
 }
