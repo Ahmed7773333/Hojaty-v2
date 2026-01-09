@@ -31,7 +31,9 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: Container(
           decoration: BoxDecoration(
-            color: AppColor.surfaceColor,
+            color: context.isDarkMode
+                ? AppColor.darkCard
+                : AppColor.surfaceColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: TextField(
@@ -40,7 +42,9 @@ class _SearchPageState extends State<SearchPage> {
             decoration: InputDecoration(
               hintText: context.strings.quranSearchHint,
               hintStyle: AppTextStyles.notoKufiArabicHeading20.copyWith(
-                color: AppColor.secondaryColor,
+                color: context.isDarkMode
+                    ? AppColor.darkTextSecondary
+                    : AppColor.secondaryColor,
               ),
               hintTextDirection: TextDirection.rtl,
               border: InputBorder.none,
@@ -50,7 +54,9 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-              color: AppColor.secondaryColor,
+              color: context.isDarkMode
+                  ? AppColor.darkTextPrimary
+                  : AppColor.secondaryColor,
             ),
             onChanged: (value) {
               context.read<QuraanBloc>().add(SearchQuraan(value));
@@ -67,7 +73,9 @@ class _SearchPageState extends State<SearchPage> {
               child: Text(
                 context.strings.quranNoResults,
                 style: AppTextStyles.notoKufiArabicHeading24.copyWith(
-                  color: AppColor.secondaryColor,
+                  color: context.isDarkMode
+                      ? AppColor.darkTextPrimary
+                      : AppColor.secondaryColor,
                 ),
               ),
             );
@@ -86,12 +94,16 @@ class _SearchPageState extends State<SearchPage> {
                   elevation: 6,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.r),
-                    side: const BorderSide(
-                      color: AppColor.secondaryColor,
+                    side: BorderSide(
+                      color: context.isDarkMode
+                          ? AppColor.darkTeal
+                          : AppColor.secondaryColor,
                       width: 1.5,
                     ),
                   ),
-                  color: AppColor.primaryColor,
+                  color: context.isDarkMode
+                      ? AppColor.darkCard
+                      : AppColor.primaryColor,
                   child: Padding(
                     padding: EdgeInsets.all(20.w),
                     child: Column(
@@ -132,12 +144,20 @@ class _SearchPageState extends State<SearchPage> {
                                 Text(
                                   res.surahName,
                                   style: AppTextStyles.notoKufiArabicHeading20
-                                      .copyWith(color: Colors.black),
+                                      .copyWith(
+                                        color: context.isDarkMode
+                                            ? AppColor.darkTextPrimary
+                                            : Colors.black,
+                                      ),
                                 ),
                                 Text(
                                   '${context.strings.safha} ${res.pageNum}',
                                   style: AppTextStyles.notoKufiArabicHeading20
-                                      .copyWith(color: Colors.black),
+                                      .copyWith(
+                                        color: context.isDarkMode
+                                            ? AppColor.darkTextPrimary
+                                            : Colors.black,
+                                      ),
                                 ),
                               ],
                             ),

@@ -21,7 +21,7 @@ class PrayersHelper {
   }
 
   Map<String, String> arNames = {
-    'fajrAfter': 'الفجر',
+    'fajr': 'الفجر',
     'sunrise': 'الشروق',
     'dhuhr': 'الظهر',
     'asr': 'العصر',
@@ -51,13 +51,21 @@ class PrayersHelper {
     Map<String, DateTime> times,
   ) async {
     final prayerTimes = getPrayerTimes(now);
-    MapEntry<String, DateTime>? next;
+    final next = prayerTimes.nextPrayer();
 
-    next = MapEntry(
-      arNames[prayerTimes.nextPrayer().name] ?? '',
-      prayerTimes.timeForPrayer(prayerTimes.nextPrayer()).toLocal(),
-    );
-    return next;
+    // if (next.index == Prayer.none) {
+    //   // If none, it means we are after Isha, so next is Fajr of tomorrow
+    //   final tomorrow = now.add(const Duration(days: 1));
+    //   final tomorrowPrayerTimes = getPrayerTimes(tomorrow);
+    //   final tomorrowFajr = tomorrowPrayerTimes.fajr.toLocal();
+
+    //   return MapEntry(arNames['fajr'] ?? 'الفجر', tomorrowFajr);
+    // }
+
+    final nextName = arNames[next.name] ?? '';
+    final nextTime = prayerTimes.timeForPrayer(next).toLocal();
+
+    return MapEntry(nextName, nextTime);
   }
 
   /// Converts 24-hour DateTime to 12-hour formatted string (e.g., "05:30 ص").

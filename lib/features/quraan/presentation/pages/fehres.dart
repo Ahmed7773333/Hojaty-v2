@@ -40,7 +40,9 @@ class _FehrsPageState extends State<FehrsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
+        backgroundColor: context.isDarkMode
+            ? AppColor.darkSurface
+            : AppColor.primaryColor,
         elevation: 0,
         title: Text(
           context.strings.surahs,
@@ -50,14 +52,18 @@ class _FehrsPageState extends State<FehrsPage>
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: AppColor.secondaryColor,
+            color: context.isDarkMode
+                ? AppColor.darkTextPrimary
+                : AppColor.secondaryColor,
           ),
         ),
       ),
       body: Container(
-        color: Colors.grey.shade100,
+        color: context.isDarkMode
+            ? AppColor.darkBackground
+            : Colors.grey.shade100,
         child: SafeArea(
           child: ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
@@ -66,11 +72,15 @@ class _FehrsPageState extends State<FehrsPage>
               return FadeTransition(
                 opacity: _animation,
                 child: Card(
-                  color: AppColor.primaryColor,
+                  color: context.isDarkMode
+                      ? AppColor.darkCard
+                      : AppColor.primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14.r),
-                    side: const BorderSide(
-                      color: AppColor.secondaryColor,
+                    side: BorderSide(
+                      color: context.isDarkMode
+                          ? AppColor.darkTeal
+                          : AppColor.secondaryColor,
                       width: 1.4,
                     ),
                   ),
@@ -89,7 +99,11 @@ class _FehrsPageState extends State<FehrsPage>
                           Text(
                             surah.pageNumber.toString(),
                             style: AppTextStyles.notoKufiArabicHeading20
-                                .copyWith(color: Colors.black87),
+                                .copyWith(
+                                  color: context.isDarkMode
+                                      ? AppColor.darkTextPrimary
+                                      : Colors.black87,
+                                ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,7 +116,11 @@ class _FehrsPageState extends State<FehrsPage>
                               Text(
                                 '${context.strings.itsNumber}: ${surah.number}  ${context.strings.ayat}: ${surah.ayahCount}',
                                 textAlign: TextAlign.end,
-                                style: const TextStyle(color: Colors.black87),
+                                style: TextStyle(
+                                  color: context.isDarkMode
+                                      ? AppColor.darkTextSecondary
+                                      : Colors.black87,
+                                ),
                               ),
                             ],
                           ),

@@ -36,17 +36,23 @@ class PrayersBackgroundWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.primaryColor,
+              color: context.isDarkMode
+                  ? AppColor.darkCard
+                  : AppColor.primaryColor,
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: Colors.black.withValues(
+                    alpha: context.isDarkMode ? 0.3 : 0.08,
+                  ),
                   blurRadius: 20,
                   offset: const Offset(0, 4),
                 ),
               ],
               border: Border.all(
-                color: AppColor.goldAccent.withValues(alpha: 0.2),
+                color: context.isDarkMode
+                    ? AppColor.darkGold.withValues(alpha: 0.3)
+                    : AppColor.goldAccent.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -57,10 +63,15 @@ class PrayersBackgroundWidget extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        AppColor.goldLight,
-                        AppColor.goldLight.withValues(alpha: 0.5),
-                      ],
+                      colors: context.isDarkMode
+                          ? [
+                              AppColor.darkSurface,
+                              AppColor.darkSurface.withValues(alpha: 0.8),
+                            ]
+                          : [
+                              AppColor.goldLight,
+                              AppColor.goldLight.withValues(alpha: 0.5),
+                            ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -76,7 +87,7 @@ class PrayersBackgroundWidget extends StatelessWidget {
                         'مواقيت الصلاة',
                         style: context.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColor.secondaryColor,
+                          color: context.colors.onSurface,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -89,7 +100,9 @@ class PrayersBackgroundWidget extends StatelessWidget {
                 // Divider
                 Container(
                   height: 1,
-                  color: AppColor.goldAccent.withValues(alpha: 0.15),
+                  color: context.isDarkMode
+                      ? AppColor.darkGold.withValues(alpha: 0.2)
+                      : AppColor.goldAccent.withValues(alpha: 0.15),
                 ),
 
                 // Prayer Times List

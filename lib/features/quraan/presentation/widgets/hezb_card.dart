@@ -28,7 +28,7 @@ class HizbCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.r),
           ),
           elevation: 8,
-          color: Colors.grey.shade100,
+          color: context.isDarkMode ? AppColor.darkCard : Colors.grey.shade100,
           child: Padding(
             padding: EdgeInsets.all(20.w),
             child: Column(
@@ -46,7 +46,9 @@ class HizbCard extends StatelessWidget {
                 Text(
                   Helper.convertToArabicHizbs((index * 2) + 1),
                   style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-                    color: Colors.black87,
+                    color: context.isDarkMode
+                        ? AppColor.darkTextPrimary
+                        : Colors.black87,
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -78,7 +80,9 @@ class HizbCard extends StatelessWidget {
                 Text(
                   Helper.convertToArabicHizbs((index * 2) + 2),
                   style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-                    color: Colors.black87,
+                    color: context.isDarkMode
+                        ? AppColor.darkTextPrimary
+                        : Colors.black87,
                   ),
                 ),
                 SizedBox(height: 12.h),

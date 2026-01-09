@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../config/theme/app_color.dart';
@@ -28,30 +30,33 @@ class NextPrayerHeaderWidget extends StatelessWidget {
 
         final nextPrayerName = provider.nextPrayer!.key;
         final nextPrayerTime = provider.nextPrayer!.value;
-
+        log(nextPrayerName.toString());
         return Container(
           // margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            // Warm gradient instead of blue
-            gradient: const LinearGradient(
-              colors: [
-                AppColor.goldLight,
-                Color(0xFFFFF3E0), // Warmer orange-cream
-              ],
+            // Warm gradient with dark mode support
+            gradient: LinearGradient(
+              colors: context.isDarkMode
+                  ? [AppColor.darkSurface, AppColor.darkCard]
+                  : [AppColor.goldLight, const Color(0xFFFFF3E0)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: AppColor.goldAccent.withValues(alpha: 0.25),
+                color: context.isDarkMode
+                    ? Colors.black.withValues(alpha: 0.3)
+                    : AppColor.goldAccent.withValues(alpha: 0.25),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
             ],
             border: Border.all(
-              color: AppColor.goldAccent.withValues(alpha: 0.4),
+              color: context.isDarkMode
+                  ? AppColor.darkGold.withValues(alpha: 0.3)
+                  : AppColor.goldAccent.withValues(alpha: 0.4),
               width: 1,
             ),
           ),
@@ -67,7 +72,9 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                     Text(
                       context.strings.nextPrayer,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: AppColor.onTertiary,
+                        color: context.isDarkMode
+                            ? AppColor.darkTextSecondary
+                            : AppColor.onTertiary,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -75,7 +82,9 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                       nextPrayerName,
                       style: context.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColor.darkCard,
+                        color: context.isDarkMode
+                            ? AppColor.darkTextPrimary
+                            : AppColor.secondaryColor,
                       ),
                     ),
                   ],
@@ -91,7 +100,9 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                     PrayersHelper.formatTimeTo12Hour(nextPrayerTime),
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColor.secondaryColor,
+                      color: context.isDarkMode
+                          ? AppColor.darkTextPrimary
+                          : AppColor.secondaryColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -101,13 +112,17 @@ class NextPrayerHeaderWidget extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColor.darkCard.withValues(alpha: 0.12),
+                      color: context.isDarkMode
+                          ? AppColor.darkTeal.withValues(alpha: 0.2)
+                          : AppColor.darkCard.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: LiveTimerDisplay(
                       end: nextPrayerTime,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: AppColor.darkCard,
+                        color: context.isDarkMode
+                            ? AppColor.darkTextPrimary
+                            : AppColor.darkCard,
                         fontWeight: FontWeight.w600,
                       ),
                       prefix: context.strings.remaining,
@@ -121,5 +136,4 @@ class NextPrayerHeaderWidget extends StatelessWidget {
       },
     );
   }
-
 }

@@ -8,6 +8,7 @@ extension LocalizationExtension on BuildContext {
   ColorScheme get colors => Theme.of(this).colorScheme;
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 }
 
 /// 🌍 A complete BuildContext extension to handle all navigation types

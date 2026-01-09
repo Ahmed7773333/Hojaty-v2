@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/features/quraan/data/services/quraan_pad_service.dart';
+import '../../../../config/theme/app_color.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../data/models/page_data.dart';
 
 class QuraanViewWidget extends StatefulWidget {
@@ -111,8 +113,11 @@ class _QuraanViewWidgetState extends State<QuraanViewWidget> {
 
   Widget _buildPageImage(int pageNum) {
     // Using FutureBuilder to fetch path from PAD service
+    final isDark = context.isDarkMode;
     return Container(
-      color: const Color(0xFFFFF8E1), // Warm background color for paper feel
+      color: isDark
+          ? AppColor.darkBackground
+          : const Color(0xFFFFF8E1), // Warm background color for paper feel
       child: FutureBuilder<String?>(
         future: injector<QuraanPadService>().getPageImagePath(pageNum),
         builder: (context, snapshot) {

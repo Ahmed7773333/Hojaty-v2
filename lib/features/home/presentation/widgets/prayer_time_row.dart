@@ -27,20 +27,25 @@ class PrayerTimeRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 18),
       decoration: BoxDecoration(
         color: isNext
-            ? AppColor
-                  .goldLight // Warm gold instead of blue
-            : AppColor.primaryColor,
+            ? (context.isDarkMode
+                  ? AppColor.darkTeal.withValues(alpha: 0.2)
+                  : AppColor.goldLight)
+            : (context.isDarkMode
+                  ? AppColor.darkSurface
+                  : AppColor.primaryColor),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: isNext
-              ? AppColor.goldAccent
+              ? (context.isDarkMode ? AppColor.darkTeal : AppColor.goldAccent)
               : context.colors.outlineVariant.withValues(alpha: 0.4),
           width: isNext ? 1.5 : 1,
         ),
         boxShadow: isNext
             ? [
                 BoxShadow(
-                  color: AppColor.goldAccent.withValues(alpha: 0.2),
+                  color: context.isDarkMode
+                      ? AppColor.darkTeal.withValues(alpha: 0.3)
+                      : AppColor.goldAccent.withValues(alpha: 0.2),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -58,14 +63,24 @@ class PrayerTimeRow extends StatelessWidget {
                 height: 36,
                 decoration: BoxDecoration(
                   color: isNext
-                      ? AppColor.goldAccent.withValues(alpha: 0.2)
-                      : AppColor.surfaceColor,
+                      ? (context.isDarkMode
+                            ? AppColor.darkTeal.withValues(alpha: 0.3)
+                            : AppColor.goldAccent.withValues(alpha: 0.2))
+                      : (context.isDarkMode
+                            ? AppColor.darkCard
+                            : AppColor.surfaceColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
                   _getPrayerIcon(name),
                   size: 18,
-                  color: isNext ? AppColor.darkCard : AppColor.onTertiary,
+                  color: isNext
+                      ? (context.isDarkMode
+                            ? AppColor.darkTextPrimary
+                            : AppColor.darkCard)
+                      : (context.isDarkMode
+                            ? AppColor.darkTextSecondary
+                            : AppColor.onTertiary),
                 ),
               ),
               const SizedBox(width: 12),
@@ -74,7 +89,9 @@ class PrayerTimeRow extends StatelessWidget {
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: isNext ? FontWeight.bold : FontWeight.w500,
                   color: isNext
-                      ? AppColor.secondaryColor
+                      ? (context.isDarkMode
+                            ? AppColor.darkTextPrimary
+                            : AppColor.secondaryColor)
                       : context.colors.onSurface,
                 ),
               ),
@@ -94,7 +111,13 @@ class PrayerTimeRow extends StatelessWidget {
               PrayersHelper.formatTimeTo12Hour(time),
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: isNext ? FontWeight.bold : FontWeight.w500,
-                color: isNext ? AppColor.darkCard : AppColor.onTertiary,
+                color: isNext
+                    ? (context.isDarkMode
+                          ? AppColor.darkTextPrimary
+                          : AppColor.darkCard)
+                    : (context.isDarkMode
+                          ? AppColor.darkTextSecondary
+                          : AppColor.onTertiary),
                 letterSpacing: 0.5,
               ),
             ),

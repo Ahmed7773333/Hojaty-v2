@@ -31,10 +31,15 @@ class QuarterCard extends StatelessWidget {
     return FadeTransition(
       opacity: animation,
       child: Card(
-        color: AppColor.primaryColor,
+        color: context.isDarkMode ? AppColor.darkCard : AppColor.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.r),
-          side: const BorderSide(color: AppColor.secondaryColor, width: 1.4),
+          side: BorderSide(
+            color: context.isDarkMode
+                ? AppColor.darkTeal
+                : AppColor.secondaryColor,
+            width: 1.4,
+          ),
         ),
         elevation: 6,
         margin: EdgeInsets.symmetric(vertical: 6.h),
@@ -53,7 +58,9 @@ class QuarterCard extends StatelessWidget {
                 Text(
                   '${context.strings.safha} $pageNum',
                   style: AppTextStyles.hafsSmartStyle.copyWith(
-                    color: Colors.black87,
+                    color: context.isDarkMode
+                        ? AppColor.darkTextSecondary
+                        : Colors.black87,
                   ),
                 ),
               ],

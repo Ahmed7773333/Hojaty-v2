@@ -14,9 +14,9 @@ class TafseerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(
-        0xFFFFF8E1,
-      ), // AppColor.quranPage matches this? Using direct color to be safe/consistent
+      backgroundColor: context.isDarkMode
+          ? AppColor.darkBackground
+          : const Color(0xFFFFF8E1),
       appBar: AppBar(
         title: Text(
           '${context.strings.quranTafseer} ${context.strings.quranPageLabel} $pageNum',
@@ -31,7 +31,9 @@ class TafseerPage extends StatelessWidget {
             textAlign: TextAlign.justify,
             textDirection: TextDirection.rtl,
             style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-              color: AppColor.secondaryColor,
+              color: context.isDarkMode
+                  ? AppColor.darkTextPrimary
+                  : AppColor.secondaryColor,
             ),
           ),
         ),
