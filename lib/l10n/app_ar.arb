@@ -68,7 +68,6 @@
   "ramadan": "رمضان",
   "ahadith": "أحاديث",
   "allah_names": "أسماء الله الحسنى",
-  "quranIndex": "الفهرس",
   "close": "إغلاق",
   "prophetNames": "أسماء النبي",
   "share": "مشاركة",
@@ -100,5 +99,14 @@
   "downloadQuranCancel": "لاحقاً",
   "downloadingQuran": "جاري تحميل صفحات المصحف...",
   "downloadQuranSuccess": "تم تحميل صفحات المصحف بنجاح",
-  "downloadQuranError": "فشل تحميل صفحات المصحف"
+  "downloadQuranError": "فشل تحميل صفحات المصحف",
+  "qirat_hafs": "حفص",
+  "qirat_douri": "الدوري",
+  "qirat_qalon": "قالون",
+  "qirat_shubah": "شعبة",
+  "qirat_warsh": "ورش",
+  "select_qirat": "اختر القراءات",
+  "qiraat": "القراءات",
+  "download_selected": "تحميل المحدد",
+  "quranIndex": "الفهرس"
 }

@@ -506,12 +506,6 @@ abstract class AppLocalizations {
   /// **'Names of Allah'**
   String get allah_names;
 
-  /// No description provided for @quranIndex.
-  ///
-  /// In en, this message translates to:
-  /// **'Index'**
-  String get quranIndex;
-
   /// No description provided for @close.
   ///
   /// In en, this message translates to:
@@ -703,6 +697,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to download Quran Pages'**
   String get downloadQuranError;
+
+  /// No description provided for @qirat_hafs.
+  ///
+  /// In en, this message translates to:
+  /// **'Hafs'**
+  String get qirat_hafs;
+
+  /// No description provided for @qirat_douri.
+  ///
+  /// In en, this message translates to:
+  /// **'Douri'**
+  String get qirat_douri;
+
+  /// No description provided for @qirat_qalon.
+  ///
+  /// In en, this message translates to:
+  /// **'Qalon'**
+  String get qirat_qalon;
+
+  /// No description provided for @qirat_shubah.
+  ///
+  /// In en, this message translates to:
+  /// **'Shubah'**
+  String get qirat_shubah;
+
+  /// No description provided for @qirat_warsh.
+  ///
+  /// In en, this message translates to:
+  /// **'Warsh'**
+  String get qirat_warsh;
+
+  /// No description provided for @select_qirat.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Qira\'at'**
+  String get select_qirat;
+
+  /// No description provided for @qiraat.
+  ///
+  /// In en, this message translates to:
+  /// **'Readings'**
+  String get qiraat;
+
+  /// No description provided for @download_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Selected'**
+  String get download_selected;
+
+  /// No description provided for @quranIndex.
+  ///
+  /// In en, this message translates to:
+  /// **'Index'**
+  String get quranIndex;
 }
 
 class _AppLocalizationsDelegate

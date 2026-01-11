@@ -4,6 +4,8 @@ import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/features/quraan/data/services/quraan_pad_service.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../quraan/presentation/widgets/qirat_selection_dialog.dart';
+import '../../../quraan/domain/entities/qirat_type.dart';
 
 class QuraanQuickLinkWidget extends StatelessWidget {
   const QuraanQuickLinkWidget({super.key});
@@ -30,16 +32,20 @@ class QuraanQuickLinkWidget extends StatelessWidget {
   }
 
   Future<void> _handleTap(BuildContext context) async {
-    // Check if we need to download assets (Mainly for Android PAD)
-    final padService = injector<QuraanPadService>();
-    final isDownloaded = await padService.isPackDownloaded();
+    // Check if Hafs (default) is downloaded at least, or maybe we check what is selected preference?
+    // For QuickLink, usually it opens the Quran. If nothing is downloaded, we show dialog to download.
+    // Let's assume we need at least one downloaded.
 
-    // If downloaded (or logic indicates we shouldn't blocking), navigate.
-    // Note: on iOS if not configured, isPackDownloaded might return false always.
-    // If we only moved assets for Android, iOS users might not see images if we enforce this.
-    // But since we removed from pubspec, they are gone everywhere.
-    // Assuming cross-platform capability or Android focus as requested.
-    if (isDownloaded) {
+    final padService = injector<QuraanPadService>();
+    // Check if Hafs is downloaded as it's the default default.
+    // Or we could check if ANY is downloaded.
+    // For now, let's keep it simple: check Hafs.
+    // If user wants functionality to open even if Hafs missing but others present, we need to check preferences.
+    // But we haven't implemented preferences check here yet.
+
+    final isHafsDownloaded = await padService.isQiratDownloaded(QiratType.hafs);
+
+    if (isHafsDownloaded) {
       if (context.mounted) context.pushNamed(AppRoutes.quraan);
       return;
     }
@@ -49,104 +55,14 @@ class QuraanQuickLinkWidget extends StatelessWidget {
     }
   }
 
-  void _showDownloadDialog(BuildContext context) {
-    showDialog(
+  void _showDownloadDialog(BuildContext context) async {
+    final result = await showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(context.strings.downloadQuranTitle),
-        content: Text(context.strings.downloadQuranMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(context.strings.downloadQuranCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              _startDownload(context);
-            },
-            child: Text(context.strings.downloadQuranAction),
-          ),
-        ],
-      ),
+      builder: (ctx) => const QiratSelectionDialog(),
     );
-  }
 
-  Future<void> _startDownload(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => const _DownloadProgressDialog(),
-    );
-  }
-}
-
-class _DownloadProgressDialog extends StatefulWidget {
-  const _DownloadProgressDialog();
-
-  @override
-  State<_DownloadProgressDialog> createState() =>
-      _DownloadProgressDialogState();
-}
-
-class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
-  double progress = 0.0;
-  String? error;
-
-  @override
-  void initState() {
-    super.initState();
-    _download();
-  }
-
-  void _download() async {
-    try {
-      final padService = injector<QuraanPadService>();
-      await for (final p in padService.downloadPack()) {
-        if (mounted) {
-          setState(() {
-            progress = p;
-          });
-        }
-      }
-      if (mounted) {
-        Navigator.pop(context); // Pop dialog
-        context.pushNamed(AppRoutes.quraan);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.downloadQuranSuccess)),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          error = e.toString();
-        });
-      }
+    if (result == true && context.mounted) {
+      context.pushNamed(AppRoutes.quraan);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(context.strings.downloadingQuran),
-      content: error != null
-          ? Text(context.strings.errorMessage(error!))
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                LinearProgressIndicator(value: progress),
-                const SizedBox(height: 10),
-                Text("${(progress * 100).toInt()}%"),
-              ],
-            ),
-      actions: error != null
-          ? [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(context.strings.close),
-              ),
-            ]
-          : null,
-    );
   }
 }

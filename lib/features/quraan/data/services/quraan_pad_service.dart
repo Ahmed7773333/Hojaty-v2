@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:asset_delivery/asset_delivery.dart';
+import '../../domain/entities/qirat_type.dart';
 
 class QuraanPadService {
-  final String _assetPackName = 'quran_assets';
-
-  /// Checks if the asset pack is already downloaded and ready.
-  Future<bool> isPackDownloaded() async {
+  /// Checks if the asset pack for the given [qirat] is downloaded.
+  Future<bool> isQiratDownloaded(QiratType qirat) async {
     try {
-      final path = await getPageImagePath(1);
+      final path = await getPageImagePath(1, qirat: qirat);
       if (path != null) {
         return File(path).existsSync();
       }
@@ -18,16 +17,35 @@ class QuraanPadService {
     }
   }
 
-  /// Starts the download of the asset pack.
-  Stream<double> downloadPack() {
+  /// Checks if the default asset pack (Hafs) is downloaded.
+  /// Kept for compatibility, but prefer [isQiratDownloaded].
+  Future<bool> isPackDownloaded() async {
+    return isQiratDownloaded(QiratType.hafs);
+  }
+
+  /// Starts the download of a specific Qira'at asset pack.
+  Stream<double> downloadPack(QiratType qirat) {
     final controller = StreamController<double>();
+    final assetPackName = qirat.assetPackName;
 
     // Start fetch
-    AssetDelivery.fetch(_assetPackName).catchError((e) {
+    AssetDelivery.fetch(assetPackName).catchError((e) {
       controller.addError(e);
     });
 
     AssetDelivery.getAssetPackStatus((statusMap) {
+      // Filter status updates for our specific pack if possible,
+      // but the plugin might broadcast all.
+      // Ideally we check if the name matches, but the simple plugin might not expose it in the map easily
+      // depending on implementation. Assuming map contains relevant info or is global.
+      // However, usually `getAssetPackStatus` provides status for the requested pack if called after fetch.
+
+      final name = statusMap['name'] as String?;
+      if (name != null && name != assetPackName) {
+        // Ignore updates for other packs
+        return;
+      }
+
       final status = statusMap['status'] as String?;
       final progress =
           (statusMap['downloadProgress'] as num?)?.toDouble() ?? 0.0;
@@ -49,22 +67,24 @@ class QuraanPadService {
   }
 
   /// Gets the file path for a specific page image.
-  Future<String?> getPageImagePath(int pageNum) async {
+  Future<String?> getPageImagePath(
+    int pageNum, {
+    QiratType qirat = QiratType.hafs,
+  }) async {
     try {
       final assetPackPath = await AssetDelivery.getAssetPackPath(
-        assetPackName: _assetPackName,
+        assetPackName: qirat.assetPackName,
         // Arguments 'count', 'namingPattern', and 'fileExtension' are required by the API
         // but are only used on iOS. We provide dummy or plausible values.
         count: 604,
-        namingPattern: 'pages-hafs/',
+        namingPattern: '${qirat.folderName}/',
         fileExtension: 'png',
       );
 
       if (assetPackPath == null) return null;
 
       // Construct path to specific file.
-      // Assuming the asset pack contains the 'pages-hafs' directory.
-      return '$assetPackPath/pages-hafs/$pageNum.png';
+      return '$assetPackPath/${qirat.folderName}/$pageNum.png';
     } catch (e) {
       return null;
     }

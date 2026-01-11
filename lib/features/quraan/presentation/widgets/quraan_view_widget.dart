@@ -5,6 +5,8 @@ import 'package:hojaty/features/quraan/data/services/quraan_pad_service.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../data/models/page_data.dart';
+import '../../domain/entities/qirat_type.dart';
+import '../../domain/repositories/quraan_repository.dart';
 
 class QuraanViewWidget extends StatefulWidget {
   final int initialPage;
@@ -112,37 +114,65 @@ class _QuraanViewWidgetState extends State<QuraanViewWidget> {
   }
 
   Widget _buildPageImage(int pageNum) {
-    // Using FutureBuilder to fetch path from PAD service
-    final isDark = context.isDarkMode;
+    // Listen to selected Qirat changes
     return Container(
-      color: isDark
+      color: context.isDarkMode
           ? AppColor.darkBackground
-          : const Color(0xFFFFF8E1), // Warm background color for paper feel
-      child: FutureBuilder<String?>(
-        future: injector<QuraanPadService>().getPageImagePath(pageNum),
-        builder: (context, snapshot) {
-          // If we have data (path)
-          if (snapshot.hasData && snapshot.data != null) {
-            return Image.file(
-              File(snapshot.data!),
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: double.infinity,
-              errorBuilder: (context, error, stackTrace) {
-                return Center(child: Text("Page $pageNum error"));
-              },
-            );
-          }
-          // Loading or missing
-          // If connection state is done and no data, it means missing
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data == null) {
-            return Center(child: Text("Page $pageNum not found"));
-          }
+          : const Color(0xFFFFF8E1),
+      child: StreamBuilder<QiratType>(
+        stream: injector<QuraanRepository>().watchSelectedQirat(),
+        builder: (context, qiratSnapshot) {
+          // If no data yet (stream waiting), check current value or default
+          // But actually we can just fetch once or wait.
+          // Better: use FutureBuilder inside to fetch current if stream is empty?
+          // Or just default to Hafs if waiting.
+          // Since watch only emits on change, we need an initial value.
+          // We can use a combined approach or just FutureBuilder that re-runs when stream emits?
+          // StreamBuilder re-builds on event.
+          // If we want initial value, we need `initialData`. We can't easily get it sync.
+          // So we use a nested FutureBuilder for the image path which depends on the qirat.
 
-          // Show loading indicator or maybe placeholder while checking path?
-          // Accessing local file path should be fast, but it's async.
-          return const Center(child: CircularProgressIndicator());
+          // To solve "initial data" for StreamBuilder: we can just fetch it.
+          // But simply: let's resolve the path with the "latest" qirat we know.
+          // IF stream snapshot has data, use it. Else use Future to get it.
+
+          return FutureBuilder<QiratType>(
+            future: qiratSnapshot.hasData
+                ? Future.value(qiratSnapshot.data)
+                : injector<QuraanRepository>().getSelectedQirat(),
+            builder: (context, qiratAsync) {
+              if (!qiratAsync.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final currentQirat = qiratAsync.data!;
+
+              return FutureBuilder<String?>(
+                future: injector<QuraanPadService>().getPageImagePath(
+                  pageNum,
+                  qirat: currentQirat,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return Image.file(
+                      File(snapshot.data!),
+                      fit: BoxFit.fill,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(child: Text("Page $pageNum error"));
+                      },
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.data == null) {
+                    return Center(child: Text("Page $pageNum not found"));
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              );
+            },
+          );
         },
       ),
     );

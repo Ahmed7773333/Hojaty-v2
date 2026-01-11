@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../models/page_data.dart';
+import '../../../../quraan/domain/entities/qirat_type.dart';
 import 'package:hojaty/core/services/json_data_service.dart';
 import 'package:hojaty/core/constants/assets.dart';
 
@@ -75,5 +76,24 @@ class QuraanLocalDataSource {
   Future<void> saveLastPage(int pageNumber) async {
     final box = Hive.box(_settingsBoxName);
     await box.put(_lastPageKey, pageNumber);
+  }
+
+  Future<QiratType> getSelectedQirat() async {
+    final box = Hive.box(_settingsBoxName);
+    final index = box.get('selected_qirat', defaultValue: QiratType.hafs.index);
+    return QiratType.values[index];
+  }
+
+  Future<void> saveSelectedQirat(QiratType qirat) async {
+    final box = Hive.box(_settingsBoxName);
+    await box.put('selected_qirat', qirat.index);
+  }
+
+  Stream<QiratType> watchSelectedQirat() {
+    final box = Hive.box(_settingsBoxName);
+    return box.watch(key: 'selected_qirat').map((event) {
+      final index = event.value as int? ?? QiratType.hafs.index;
+      return QiratType.values[index];
+    });
   }
 }

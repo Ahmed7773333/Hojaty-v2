@@ -42,7 +42,11 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        assetPacks += ":quran_assets"
+        assetPacks += ":quran_hafs"
+        assetPacks += ":quran_warsh"
+        assetPacks += ":quran_qalon"
+        assetPacks += ":quran_douri"
+        assetPacks += ":quran_shubah"
     }
 
     buildTypes {

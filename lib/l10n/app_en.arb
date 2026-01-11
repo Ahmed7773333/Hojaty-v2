@@ -265,7 +265,6 @@
   "ramadan": "Ramadan",
   "ahadith": "Ahadith",
   "allah_names": "Names of Allah",
-  "quranIndex": "Index",
   "close": "Close",
   "prophetNames": "Names of Prophet",
   "share": "Share",
@@ -304,5 +303,14 @@
   "downloadQuranCancel": "Later",
   "downloadingQuran": "Downloading Quran Pages...",
   "downloadQuranSuccess": "Quran Pages downloaded successfully",
-  "downloadQuranError": "Failed to download Quran Pages"
+  "downloadQuranError": "Failed to download Quran Pages",
+  "qirat_hafs": "Hafs",
+  "qirat_douri": "Douri",
+  "qirat_qalon": "Qalon",
+  "qirat_shubah": "Shubah",
+  "qirat_warsh": "Warsh",
+  "select_qirat": "Select Qira'at",
+  "qiraat": "Readings",
+  "download_selected": "Download Selected",
+  "quranIndex": "Index"
 }

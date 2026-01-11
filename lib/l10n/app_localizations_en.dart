@@ -221,9 +221,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allah_names => 'Names of Allah';
 
   @override
-  String get quranIndex => 'Index';
-
-  @override
   String get close => 'Close';
 
   @override
@@ -325,4 +322,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadQuranError => 'Failed to download Quran Pages';
+
+  @override
+  String get qirat_hafs => 'Hafs';
+
+  @override
+  String get qirat_douri => 'Douri';
+
+  @override
+  String get qirat_qalon => 'Qalon';
+
+  @override
+  String get qirat_shubah => 'Shubah';
+
+  @override
+  String get qirat_warsh => 'Warsh';
+
+  @override
+  String get select_qirat => 'Select Qira\'at';
+
+  @override
+  String get qiraat => 'Readings';
+
+  @override
+  String get download_selected => 'Download Selected';
+
+  @override
+  String get quranIndex => 'Index';
 }

@@ -24,4 +24,8 @@ plugins {
 }
 
 include(":app")
-include(":quran_assets")
+include(":quran_hafs")
+include(":quran_warsh")
+include(":quran_qalon")
+include(":quran_douri")
+include(":quran_shubah")

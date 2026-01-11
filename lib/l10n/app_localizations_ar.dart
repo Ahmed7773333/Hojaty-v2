@@ -221,9 +221,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get allah_names => 'أسماء الله الحسنى';
 
   @override
-  String get quranIndex => 'الفهرس';
-
-  @override
   String get close => 'إغلاق';
 
   @override
@@ -323,4 +320,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get downloadQuranError => 'فشل تحميل صفحات المصحف';
+
+  @override
+  String get qirat_hafs => 'حفص';
+
+  @override
+  String get qirat_douri => 'الدوري';
+
+  @override
+  String get qirat_qalon => 'قالون';
+
+  @override
+  String get qirat_shubah => 'شعبة';
+
+  @override
+  String get qirat_warsh => 'ورش';
+
+  @override
+  String get select_qirat => 'اختر القراءات';
+
+  @override
+  String get qiraat => 'القراءات';
+
+  @override
+  String get download_selected => 'تحميل المحدد';
+
+  @override
+  String get quranIndex => 'الفهرس';
 }
