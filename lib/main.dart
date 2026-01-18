@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hojaty/features/home/data/models/user_db_helper.dart';
 import 'package:hojaty/core/services/notification_service.dart';
-import 'package:alarm/alarm.dart';
+// import 'package:alarm/alarm.dart';
+// await Alarm.init();
 import 'config/theme/app_color.dart';
 import 'core/di/injector.dart';
 import 'core/services/json_data_service.dart';
@@ -43,7 +44,7 @@ class _AppLoaderState extends State<AppLoader> {
       await UserDbHelper.initDatabase();
 
       // Initialize alarm service for prayer notifications
-      await Alarm.init();
+      // await Alarm.init();
 
       // Initialize dependency injection (including audio service)
       // This is the heaviest operation - runs in background

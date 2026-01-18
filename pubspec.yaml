@@ -42,7 +42,7 @@ dependencies:
   awesome_notifications: ^0.10.1
   audio_service: ^0.18.18
   share_plus: ^12.0.1
-  alarm: ^5.1.5
+  # alarm: ^5.1.5
   url_launcher: ^6.3.2
   package_info_plus: ^8.3.1
   asset_delivery: ^1.1.0

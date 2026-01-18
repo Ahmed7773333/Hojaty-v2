@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:alarm/alarm.dart';
+// import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:hojaty/features/prayers/data/models/prayers/prayers_helper.dart';
+import 'package:hojaty/features/home/data/models/user_db_helper.dart';
+// import 'package:hojaty/features/prayers/data/models/prayers/prayers_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../features/home/data/models/user_db_helper.dart';
 
 class NotificationService {
   /// Initialize notification permissions
@@ -42,7 +42,7 @@ class NotificationService {
   static Future<void> schedulePrayerNotifications() async {
     try {
       // Cancel all previous alarms to avoid duplicates
-      await Alarm.stopAll();
+      // await Alarm.stopAll();
 
       final user = UserDbHelper.getById();
       if (user != null && !user.uiShowNotifications) {
@@ -50,6 +50,7 @@ class NotificationService {
         return;
       }
 
+      /*
       final isSound = user?.uiIsSoundEnabled ?? true;
       final isVibrate = user?.uiIsVibrateEnabled ?? true;
 
@@ -90,6 +91,7 @@ class NotificationService {
           id++;
         }
       }
+      */
     } catch (e) {
       debugPrint('Error scheduling prayer alarms: $e');
     }
@@ -97,12 +99,12 @@ class NotificationService {
 
   /// Cancel all scheduled alarms
   static Future<void> cancelAll() async {
-    await Alarm.stopAll();
+    // await Alarm.stopAll();
   }
 
   /// Stop a specific alarm by ID
   static Future<void> stopAlarm(int id) async {
-    await Alarm.stop(id);
+    // await Alarm.stop(id);
   }
 
   /// Shows a test alarm (triggers after 5 seconds for testing)
@@ -117,8 +119,9 @@ class NotificationService {
         await checkAndroidScheduleExactAlarmPermission();
       }
 
-      final testAlarmTime = DateTime.now().add(const Duration(seconds: 5));
+      // final testAlarmTime = DateTime.now().add(const Duration(seconds: 5));
 
+      /*
       final alarmSettings = AlarmSettings(
         id: 9999, // Unique ID for test alarm
         dateTime: testAlarmTime,
@@ -142,6 +145,7 @@ class NotificationService {
 
       await Alarm.set(alarmSettings: alarmSettings);
       debugPrint('Test alarm scheduled for $testAlarmTime (in 5 seconds)');
+      */
     } catch (e) {
       debugPrint('Error scheduling test alarm: $e');
     }
