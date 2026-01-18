@@ -349,4 +349,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quranIndex => 'Index';
+
+  @override
+  String get book_bukhari => 'Sahih al-Bukhari';
+
+  @override
+  String get book_muslim => 'Sahih Muslim';
+
+  @override
+  String get book_nasai => 'Sunan an-Nasa\'i';
+
+  @override
+  String get book_abudawud => 'Sunan Abu Dawood';
+
+  @override
+  String get book_tirmidhi => 'Jami\' at-Tirmidhi';
+
+  @override
+  String get book_ibnmajah => 'Sunan Ibn Majah';
+
+  @override
+  String get book_malik => 'Muwatta Malik';
+
+  @override
+  String get book_ahmed => 'Musnad Ahmad';
+
+  @override
+  String get book_darimi => 'Sunan ad-Darimi';
+
+  @override
+  String get book_nawawi40 => '40 Hadith Nawawi';
+
+  @override
+  String get book_qudsi40 => '40 Hadith Qudsi';
+
+  @override
+  String get book_shahwaliullah40 => 'Shah Waliullah\'s 40';
+
+  @override
+  String get book_riyad => 'Riyad as-Salihin';
+
+  @override
+  String get book_bulugh => 'Bulugh al-Maram';
+
+  @override
+  String get book_mishkat => 'Mishkat al-Masabih';
+
+  @override
+  String get book_adab => 'Al-Adab Al-Mufrad';
+
+  @override
+  String get book_shamail => 'Ash-Shamail Al-Muhammadiyah';
 }

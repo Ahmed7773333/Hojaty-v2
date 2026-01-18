@@ -76,6 +76,7 @@ flutter:
     # - assets/jsons/
     - assets/azan.mp3
 
+
   fonts:
     - family: Noto Kufi Arabic
       fonts:

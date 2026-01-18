@@ -751,6 +751,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Index'**
   String get quranIndex;
+
+  /// No description provided for @book_bukhari.
+  ///
+  /// In en, this message translates to:
+  /// **'Sahih al-Bukhari'**
+  String get book_bukhari;
+
+  /// No description provided for @book_muslim.
+  ///
+  /// In en, this message translates to:
+  /// **'Sahih Muslim'**
+  String get book_muslim;
+
+  /// No description provided for @book_nasai.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunan an-Nasa\'i'**
+  String get book_nasai;
+
+  /// No description provided for @book_abudawud.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunan Abu Dawood'**
+  String get book_abudawud;
+
+  /// No description provided for @book_tirmidhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Jami\' at-Tirmidhi'**
+  String get book_tirmidhi;
+
+  /// No description provided for @book_ibnmajah.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunan Ibn Majah'**
+  String get book_ibnmajah;
+
+  /// No description provided for @book_malik.
+  ///
+  /// In en, this message translates to:
+  /// **'Muwatta Malik'**
+  String get book_malik;
+
+  /// No description provided for @book_ahmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Musnad Ahmad'**
+  String get book_ahmed;
+
+  /// No description provided for @book_darimi.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunan ad-Darimi'**
+  String get book_darimi;
+
+  /// No description provided for @book_nawawi40.
+  ///
+  /// In en, this message translates to:
+  /// **'40 Hadith Nawawi'**
+  String get book_nawawi40;
+
+  /// No description provided for @book_qudsi40.
+  ///
+  /// In en, this message translates to:
+  /// **'40 Hadith Qudsi'**
+  String get book_qudsi40;
+
+  /// No description provided for @book_shahwaliullah40.
+  ///
+  /// In en, this message translates to:
+  /// **'Shah Waliullah\'s 40'**
+  String get book_shahwaliullah40;
+
+  /// No description provided for @book_riyad.
+  ///
+  /// In en, this message translates to:
+  /// **'Riyad as-Salihin'**
+  String get book_riyad;
+
+  /// No description provided for @book_bulugh.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulugh al-Maram'**
+  String get book_bulugh;
+
+  /// No description provided for @book_mishkat.
+  ///
+  /// In en, this message translates to:
+  /// **'Mishkat al-Masabih'**
+  String get book_mishkat;
+
+  /// No description provided for @book_adab.
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Adab Al-Mufrad'**
+  String get book_adab;
+
+  /// No description provided for @book_shamail.
+  ///
+  /// In en, this message translates to:
+  /// **'Ash-Shamail Al-Muhammadiyah'**
+  String get book_shamail;
 }
 
 class _AppLocalizationsDelegate

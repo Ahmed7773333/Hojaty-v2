@@ -312,5 +312,22 @@
   "select_qirat": "Select Qira'at",
   "qiraat": "Readings",
   "download_selected": "Download Selected",
-  "quranIndex": "Index"
+  "quranIndex": "Index",
+  "book_bukhari": "Sahih al-Bukhari",
+  "book_muslim": "Sahih Muslim",
+  "book_nasai": "Sunan an-Nasa'i",
+  "book_abudawud": "Sunan Abu Dawood",
+  "book_tirmidhi": "Jami' at-Tirmidhi",
+  "book_ibnmajah": "Sunan Ibn Majah",
+  "book_malik": "Muwatta Malik",
+  "book_ahmed": "Musnad Ahmad",
+  "book_darimi": "Sunan ad-Darimi",
+  "book_nawawi40": "40 Hadith Nawawi",
+  "book_qudsi40": "40 Hadith Qudsi",
+  "book_shahwaliullah40": "Shah Waliullah's 40",
+  "book_riyad": "Riyad as-Salihin",
+  "book_bulugh": "Bulugh al-Maram",
+  "book_mishkat": "Mishkat al-Masabih",
+  "book_adab": "Al-Adab Al-Mufrad",
+  "book_shamail": "Ash-Shamail Al-Muhammadiyah"
 }

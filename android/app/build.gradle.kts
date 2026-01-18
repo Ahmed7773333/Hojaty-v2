@@ -47,6 +47,26 @@ android {
         assetPacks += ":quran_qalon"
         assetPacks += ":quran_douri"
         assetPacks += ":quran_shubah"
+        // New Books
+        assetPacks += ":book_bukhari"
+        assetPacks += ":book_muslim"
+        assetPacks += ":book_nasai"
+        assetPacks += ":book_abudawud"
+        assetPacks += ":book_tirmidhi"
+        assetPacks += ":book_ibnmajah"
+        assetPacks += ":book_malik"
+        assetPacks += ":book_ahmed"
+        assetPacks += ":book_darimi"
+        assetPacks += ":book_nawawi40"
+        assetPacks += ":book_qudsi40"
+        assetPacks += ":book_shahwaliullah40"
+        assetPacks += ":book_riyad"
+        assetPacks += ":book_bulugh"
+        assetPacks += ":book_mishkat"
+        assetPacks += ":book_adab"
+        assetPacks += ":book_shamail"
+        assetPacks += ":book_adhkar"
+        assetPacks += ":book_duaa"
     }
 
     buildTypes {

@@ -108,5 +108,22 @@
   "select_qirat": "اختر القراءات",
   "qiraat": "القراءات",
   "download_selected": "تحميل المحدد",
-  "quranIndex": "الفهرس"
+  "quranIndex": "الفهرس",
+  "book_bukhari": "صحيح البخاري",
+  "book_muslim": "صحيح مسلم",
+  "book_nasai": "سنن النسائي",
+  "book_abudawud": "سنن أبي داود",
+  "book_tirmidhi": "جامع الترمذي",
+  "book_ibnmajah": "سنن ابن ماجه",
+  "book_malik": "موطأ مالك",
+  "book_ahmed": "مسند أحمد",
+  "book_darimi": "سنن الدارمي",
+  "book_nawawi40": "الأربعون النووية",
+  "book_qudsi40": "الأربعون القدسية",
+  "book_shahwaliullah40": "أربعون الشاه ولي الله",
+  "book_riyad": "رياض الصالحين",
+  "book_bulugh": "بلوغ المرام",
+  "book_mishkat": "مشكاة المصابيح",
+  "book_adab": "الأدب المفرد",
+  "book_shamail": "الشمائل المحمدية"
 }

@@ -1,20 +1,11 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../../core/constants/assets.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../../../core/di/injector.dart';
-import '../../../../core/services/json_data_service.dart';
-import '../../data/models/hadith.dart';
-import '../widgets/hadith_empty_view.dart';
-import '../widgets/hadith_error_view.dart';
-import '../widgets/hadith_list.dart';
-import '../widgets/hadith_results_count.dart';
-import '../widgets/hadith_search_bar.dart';
+import '../../data/models/book_models.dart';
+import '../../data/repositories/book_repository.dart';
+import '../widgets/book_cover_card.dart';
+import 'book_content_page.dart';
 
 class AhadithPage extends StatefulWidget {
   const AhadithPage({super.key});
@@ -24,63 +15,153 @@ class AhadithPage extends StatefulWidget {
 }
 
 class _AhadithPageState extends State<AhadithPage> {
-  late Future<List<Hadith>> _hadithFuture;
-  List<Hadith> _allHadith = [];
-  List<Hadith> _filteredHadith = [];
-  String _searchQuery = '';
-  Timer? _debounce;
+  final Set<String> _downloadedBooks = {};
+  final Set<String> _downloadingBooks = {};
+  late BookRepository _repository;
 
   @override
   void initState() {
     super.initState();
-    _hadithFuture = _loadHadith();
+    _repository = injector<BookRepository>();
+    _checkDownloads();
   }
 
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    super.dispose();
-  }
+  Future<void> _checkDownloads() async {
+    final allBooks = [
+      ...BookRepository.nineBooks,
+      ...BookRepository.fortyBooks,
+    ];
 
-  Future<List<Hadith>> _loadHadith() async {
-    final String response = await injector<JsonDataService>().loadString(
-      Assets.hadithJsonKey,
-    );
-    // Offload parsing to a background isolate
-    final hadithList = await compute(_parseHadith, response);
-
-    if (mounted) {
-      _allHadith = hadithList;
-      _filteredHadith = hadithList;
+    for (var book in allBooks) {
+      final isDownloaded = await _repository.isBookDownloaded(book.id);
+      if (isDownloaded && mounted) {
+        setState(() {
+          _downloadedBooks.add(book.id);
+        });
+      }
     }
-    return hadithList;
   }
 
-  // Static function for compute to call
-  static List<Hadith> _parseHadith(String response) {
-    final List<dynamic> data = json.decode(response);
-    return data.map((json) => Hadith.fromJson(json)).toList();
+  Future<void> _handleBookTap(BookInfo book) async {
+    if (_downloadedBooks.contains(book.id)) {
+      _openBook(book);
+    } else {
+      _showDownloadDialog(book);
+    }
   }
 
-  void _onSearchChanged(String query) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
+  void _openBook(BookInfo book) {
+    String title = book.titleKey;
+    if (context.mounted) {
+      title = _resolveTitle(context, book.titleKey);
+    }
 
-    _debounce = Timer(const Duration(milliseconds: 300), () {
-      if (!mounted) return;
-      setState(() {
-        _searchQuery = query;
-        if (query.isEmpty) {
-          _filteredHadith = _allHadith;
-        } else {
-          _filteredHadith = _allHadith.where((hadith) {
-            final q = query.toLowerCase();
-            return hadith.searchTerm.toLowerCase().contains(q) ||
-                hadith.hadith.toLowerCase().contains(q) ||
-                hadith.number.toString().contains(q);
-          }).toList();
-        }
-      });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            BookContentPage(bookId: book.id, bookTitle: title),
+      ),
+    );
+  }
+
+  String _resolveTitle(BuildContext context, String key) {
+    // Dynamic lookup via reflection is not possible on AppLocalizations.
+    // Manual mapping or just rely on passing key if we had a Translate widget.
+    // For now, mapping.
+    switch (key) {
+      case 'book_bukhari':
+        return context.strings.book_bukhari;
+      case 'book_muslim':
+        return context.strings.book_muslim;
+      case 'book_nasai':
+        return context.strings.book_nasai;
+      case 'book_abudawud':
+        return context.strings.book_abudawud;
+      case 'book_tirmidhi':
+        return context.strings.book_tirmidhi;
+      case 'book_ibnmajah':
+        return context.strings.book_ibnmajah;
+      case 'book_malik':
+        return context.strings.book_malik;
+      case 'book_ahmed':
+        return context.strings.book_ahmed;
+      case 'book_darimi':
+        return context.strings.book_darimi;
+      case 'book_nawawi40':
+        return context.strings.book_nawawi40;
+      case 'book_qudsi40':
+        return context.strings.book_qudsi40;
+      case 'book_shahwaliullah40':
+        return context.strings.book_shahwaliullah40;
+      case 'book_riyad':
+        return context.strings.book_riyad;
+      case 'book_bulugh':
+        return context.strings.book_bulugh;
+      case 'book_mishkat':
+        return context.strings.book_mishkat;
+      case 'book_adab':
+        return context.strings.book_adab;
+      case 'book_shamail':
+        return context.strings.book_shamail;
+      default:
+        return key;
+    }
+  }
+
+  Future<void> _showDownloadDialog(BookInfo book) async {
+    final bool? shouldDownload = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.strings.download),
+        content: Text(
+          '${context.strings.downloading} ${_resolveTitle(context, book.titleKey)}?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(context.strings.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(context.strings.download),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDownload == true) {
+      await _downloadBook(book);
+    }
+  }
+
+  Future<void> _downloadBook(BookInfo book) async {
+    setState(() {
+      _downloadingBooks.add(book.id);
     });
+
+    try {
+      await _repository.downloadBook(book);
+      if (mounted) {
+        setState(() {
+          _downloadingBooks.remove(book.id);
+          _downloadedBooks.add(book.id);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.download_success)),
+        );
+        _openBook(book);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _downloadingBooks.remove(book.id);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${context.strings.download_failed}: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -98,37 +179,82 @@ class _AhadithPageState extends State<AhadithPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: FutureBuilder<List<Hadith>>(
-        future: _hadithFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return HadithErrorView(error: snapshot.error);
-          }
-
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return HadithEmptyView(message: context.strings.no_hadith_found);
-          }
-
-          return Column(
-            children: [
-              HadithSearchBar(onChanged: _onSearchChanged),
-              if (_searchQuery.isNotEmpty)
-                HadithResultsCount(count: _filteredHadith.length),
-              Expanded(
-                child: _filteredHadith.isEmpty
-                    ? HadithEmptyView(
-                        message: context.strings.no_hadith_found,
-                        icon: Icons.search_off_rounded,
-                      )
-                    : HadithList(hadiths: _filteredHadith),
+      body: CustomScrollView(
+        slivers: [
+          // Section Reference: 9 Books
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  context.strings.ahadith,
+                  style: AppTextStyles.notoKufiArabicHeading20.copyWith(
+                    color: context.colors.primary,
+                  ),
+                ),
               ),
-            ],
-          );
-        },
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.7,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final book = BookRepository.nineBooks[index];
+                return BookCoverCard(
+                  book: book,
+                  isDownloaded: _downloadedBooks.contains(book.id),
+                  isDownloading: _downloadingBooks.contains(book.id),
+                  onTap: () => _handleBookTap(book),
+                );
+              }, childCount: BookRepository.nineBooks.length),
+            ),
+          ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+          // Section Reference: Forties
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "المجاميع", // Collections
+                  style: AppTextStyles.notoKufiArabicHeading20.copyWith(
+                    color: context.colors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.7,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final book = BookRepository.fortyBooks[index];
+                return BookCoverCard(
+                  book: book,
+                  isDownloaded: _downloadedBooks.contains(book.id),
+                  isDownloading: _downloadingBooks.contains(book.id),
+                  onTap: () => _handleBookTap(book),
+                );
+              }, childCount: BookRepository.fortyBooks.length),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -347,4 +347,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quranIndex => 'الفهرس';
+
+  @override
+  String get book_bukhari => 'صحيح البخاري';
+
+  @override
+  String get book_muslim => 'صحيح مسلم';
+
+  @override
+  String get book_nasai => 'سنن النسائي';
+
+  @override
+  String get book_abudawud => 'سنن أبي داود';
+
+  @override
+  String get book_tirmidhi => 'جامع الترمذي';
+
+  @override
+  String get book_ibnmajah => 'سنن ابن ماجه';
+
+  @override
+  String get book_malik => 'موطأ مالك';
+
+  @override
+  String get book_ahmed => 'مسند أحمد';
+
+  @override
+  String get book_darimi => 'سنن الدارمي';
+
+  @override
+  String get book_nawawi40 => 'الأربعون النووية';
+
+  @override
+  String get book_qudsi40 => 'الأربعون القدسية';
+
+  @override
+  String get book_shahwaliullah40 => 'أربعون الشاه ولي الله';
+
+  @override
+  String get book_riyad => 'رياض الصالحين';
+
+  @override
+  String get book_bulugh => 'بلوغ المرام';
+
+  @override
+  String get book_mishkat => 'مشكاة المصابيح';
+
+  @override
+  String get book_adab => 'الأدب المفرد';
+
+  @override
+  String get book_shamail => 'الشمائل المحمدية';
 }
