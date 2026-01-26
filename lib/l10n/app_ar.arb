@@ -125,5 +125,7 @@
   "book_bulugh": "بلوغ المرام",
   "book_mishkat": "مشكاة المصابيح",
   "book_adab": "الأدب المفرد",
-  "book_shamail": "الشمائل المحمدية"
+  "book_shamail": "الشمائل المحمدية",
+  "no_duaas_found": "لا توجد أدعية",
+  "source": "المصدر"
 }

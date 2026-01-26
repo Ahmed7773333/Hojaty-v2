@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/home/presentation/pages/azkar_page.dart';
 import '../../features/quraan/presentation/bloc/quraan_bloc.dart';
 import '../../features/home/presentation/pages/home_layout.dart';
-import '../../features/azkar/presentation/pages/azkar_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/prayers/presentation/pages/prayers_page.dart';
 import '../../features/home/presentation/pages/ahadith_page.dart';

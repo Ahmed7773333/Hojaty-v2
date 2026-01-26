@@ -329,5 +329,7 @@
   "book_bulugh": "Bulugh al-Maram",
   "book_mishkat": "Mishkat al-Masabih",
   "book_adab": "Al-Adab Al-Mufrad",
-  "book_shamail": "Ash-Shamail Al-Muhammadiyah"
+  "book_shamail": "Ash-Shamail Al-Muhammadiyah",
+  "no_duaas_found": "No Duaas found",
+  "source": "Source"
 }

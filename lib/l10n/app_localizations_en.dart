@@ -400,4 +400,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get book_shamail => 'Ash-Shamail Al-Muhammadiyah';
+
+  @override
+  String get no_duaas_found => 'No Duaas found';
+
+  @override
+  String get source => 'Source';
 }

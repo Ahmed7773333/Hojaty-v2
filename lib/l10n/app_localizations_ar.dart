@@ -398,4 +398,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get book_shamail => 'الشمائل المحمدية';
+
+  @override
+  String get no_duaas_found => 'لا توجد أدعية';
+
+  @override
+  String get source => 'المصدر';
 }

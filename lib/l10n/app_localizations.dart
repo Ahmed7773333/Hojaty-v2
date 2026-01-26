@@ -853,6 +853,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ash-Shamail Al-Muhammadiyah'**
   String get book_shamail;
+
+  /// No description provided for @no_duaas_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No Duaas found'**
+  String get no_duaas_found;
+
+  /// No description provided for @source.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get source;
 }
 
 class _AppLocalizationsDelegate

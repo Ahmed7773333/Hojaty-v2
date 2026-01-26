@@ -25,10 +25,14 @@ class DuaasPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text(
+                context.strings.errorMessage(snapshot.error.toString()),
+              ),
+            );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No Duaas found'));
+            return Center(child: Text(context.strings.no_duaas_found));
           }
 
           final categories = snapshot.data!;
@@ -112,7 +116,7 @@ class _DuaaDetailsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
-                      'Source: ${category.source!.quran!.join(", ")}',
+                      '${context.strings.source}: ${category.source!.quran!.join(", ")}',
                       style: TextStyle(
                         color: context.colors.secondary,
                         fontSize: 12,

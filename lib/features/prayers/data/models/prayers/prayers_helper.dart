@@ -53,14 +53,13 @@ class PrayersHelper {
     final prayerTimes = getPrayerTimes(now);
     final next = prayerTimes.nextPrayer();
 
-    // if (next.index == Prayer.none) {
-    //   // If none, it means we are after Isha, so next is Fajr of tomorrow
-    //   final tomorrow = now.add(const Duration(days: 1));
-    //   final tomorrowPrayerTimes = getPrayerTimes(tomorrow);
-    //   final tomorrowFajr = tomorrowPrayerTimes.fajr.toLocal();
-
-    //   return MapEntry(arNames['fajr'] ?? 'الفجر', tomorrowFajr);
-    // }
+    if (next == Prayer.fajrAfter) {
+      // If fajrAfter, it means we are after Isha, so next is Fajr of tomorrow
+      return MapEntry(
+        arNames['fajr'] ?? 'الفجر',
+        prayerTimes.fajrAfter.toLocal(),
+      );
+    }
 
     final nextName = arNames[next.name] ?? '';
     final nextTime = prayerTimes.timeForPrayer(next).toLocal();

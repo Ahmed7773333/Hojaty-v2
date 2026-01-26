@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hojaty/features/azkar/di/azkar_injector.dart';
 import 'package:hojaty/features/home/di/home_injector.dart';
 import 'package:hojaty/features/prayers/di/prayers_injector.dart';
 
@@ -49,7 +48,6 @@ Future<void> setupInjector() async {
   injector.registerSingleton<ApiConsumer>(DioClient(injector<Dio>()));
   injector.registerSingleton<JsonDataService>(JsonDataService(injector<Dio>()));
   initHomeInjector();
-  initAzkarInjector();
   initPrayersInjector();
   initRadioInjector();
   initSettingsInjector();

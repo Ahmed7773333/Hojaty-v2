@@ -211,6 +211,14 @@ class BookRepository {
 
   Future<List<AdhkarCategory>> getAdhkar() async {
     try {
+      final box = await _getBox();
+      final String? cachedData = box.get('adhkar');
+
+      if (cachedData != null) {
+        final List<dynamic> jsonList = json.decode(cachedData);
+        return jsonList.map((e) => AdhkarCategory.fromJson(e)).toList();
+      }
+
       // Fast-follow: should be available.
       // Trigger fetch just in case to ensure it's mounted/ready if supported.
       await AssetDelivery.fetch('book_adhkar');
@@ -228,6 +236,10 @@ class BookRepository {
 
       final file = File('$assetPackPath/adhkar.json');
       final jsonString = await file.readAsString();
+
+      // Cache it
+      await box.put('adhkar', jsonString);
+
       final List<dynamic> jsonList = json.decode(jsonString);
       return jsonList.map((e) => AdhkarCategory.fromJson(e)).toList();
     } catch (e) {
@@ -237,6 +249,14 @@ class BookRepository {
 
   Future<List<DuaaCategory>> getDuaas() async {
     try {
+      final box = await _getBox();
+      final String? cachedData = box.get('duaas');
+
+      if (cachedData != null) {
+        final List<dynamic> jsonList = json.decode(cachedData);
+        return jsonList.map((e) => DuaaCategory.fromJson(e)).toList();
+      }
+
       await AssetDelivery.fetch('book_duaa');
 
       final assetPackPath = await AssetDelivery.getAssetPackPath(
@@ -254,6 +274,10 @@ class BookRepository {
         '$assetPackPath/100-duaa-from-the-book-and-authentic-sunnah.json',
       );
       final jsonString = await file.readAsString();
+
+      // Cache it
+      await box.put('duaas', jsonString);
+
       final List<dynamic> jsonList = json.decode(jsonString);
       return jsonList.map((e) => DuaaCategory.fromJson(e)).toList();
     } catch (e) {
@@ -274,6 +298,44 @@ class BookRepository {
         _waitForAssetPack('book_adhkar'),
         _waitForAssetPack('book_duaa'),
       ]);
+
+      // Pre-load into Hive to ensure they are available offline instantly without re-reading AssetPack
+      // This solves issues where AssetPack might be slow or return null unexpectedly after first launch.
+      final box = await _getBox();
+
+      // Adhkar
+      if (!box.containsKey('adhkar')) {
+        final adhkPath = await AssetDelivery.getAssetPackPath(
+          assetPackName: 'book_adhkar',
+          count: 1,
+          namingPattern: '',
+          fileExtension: 'json',
+        );
+        if (adhkPath != null) {
+          final file = File('$adhkPath/adhkar.json');
+          if (file.existsSync()) {
+            await box.put('adhkar', await file.readAsString());
+          }
+        }
+      }
+
+      // Duaas
+      if (!box.containsKey('duaas')) {
+        final duaaPath = await AssetDelivery.getAssetPackPath(
+          assetPackName: 'book_duaa',
+          count: 1,
+          namingPattern: '',
+          fileExtension: 'json',
+        );
+        if (duaaPath != null) {
+          final file = File(
+            '$duaaPath/100-duaa-from-the-book-and-authentic-sunnah.json',
+          );
+          if (file.existsSync()) {
+            await box.put('duaas', await file.readAsString());
+          }
+        }
+      }
     } catch (e) {
       // Log or handle error, but don't block app start completely if possible,
       // though user requested them to be downloaded on first time.
