@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/di/injector.dart';
 import '../../../../config/routes/app_router.dart';
-import '../../../../config/theme/app_color.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../bloc/quraan_bloc.dart';
 import '../bloc/quraan_event.dart';
@@ -29,10 +28,14 @@ class QuraanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.isDarkMode
-          ? AppColor.darkBackground
-          : const Color(0xFFFFF8E1),
-      body: _buildBlocConsumer(context),
+      backgroundColor: const Color(0xFFFFF8E1),
+      body: Theme(
+        data: Theme.of(context).copyWith(
+          brightness: Brightness.light,
+          // You might need to override other colors if they depend on brightness
+        ),
+        child: _buildBlocConsumer(context),
+      ),
     );
   }
 
@@ -53,7 +56,6 @@ class QuraanView extends StatelessWidget {
         return LayoutBuilder(
           builder: (context, constraints) {
             final isTwoPageMode = constraints.maxWidth > 600;
-
             return Stack(
               children: [
                 QuraanViewWidget(

@@ -5,6 +5,6 @@ plugins {
 assetPack {
     packName.set("book_duaa")
     dynamicDelivery {
-        deliveryType.set("fast-follow") 
+        deliveryType.set("on-demand") 
     }
 }

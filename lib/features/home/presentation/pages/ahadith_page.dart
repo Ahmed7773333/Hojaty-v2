@@ -5,6 +5,7 @@ import '../../../../core/di/injector.dart';
 import '../../data/models/book_models.dart';
 import '../../data/repositories/book_repository.dart';
 import '../widgets/book_cover_card.dart';
+import '../../../../core/widgets/loading_overlay.dart';
 import 'book_content_page.dart';
 
 class AhadithPage extends StatefulWidget {
@@ -166,96 +167,102 @@ class _AhadithPageState extends State<AhadithPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.surface,
-      appBar: AppBar(
-        title: Text(
-          context.strings.ahadith,
-          style: AppTextStyles.notoKufiArabicHeading24.copyWith(
-            color: context.colors.onSurface,
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: context.colors.surface,
+          appBar: AppBar(
+            title: Text(
+              context.strings.ahadith,
+              style: AppTextStyles.notoKufiArabicHeading24.copyWith(
+                color: context.colors.onSurface,
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: CustomScrollView(
+            slivers: [
+              // Section Reference: 9 Books
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                sliver: SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      context.strings.ahadith,
+                      style: AppTextStyles.notoKufiArabicHeading20.copyWith(
+                        color: context.colors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final book = BookRepository.nineBooks[index];
+                    return BookCoverCard(
+                      book: book,
+                      isDownloaded: _downloadedBooks.contains(book.id),
+                      isDownloading: _downloadingBooks.contains(book.id),
+                      onTap: () => _handleBookTap(book),
+                    );
+                  }, childCount: BookRepository.nineBooks.length),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+              // Section Reference: Forties
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      "المجاميع", // Collections
+                      style: AppTextStyles.notoKufiArabicHeading20.copyWith(
+                        color: context.colors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final book = BookRepository.fortyBooks[index];
+                    return BookCoverCard(
+                      book: book,
+                      isDownloaded: _downloadedBooks.contains(book.id),
+                      isDownloading: _downloadingBooks.contains(book.id),
+                      onTap: () => _handleBookTap(book),
+                    );
+                  }, childCount: BookRepository.fortyBooks.length),
+                ),
+              ),
+            ],
           ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: CustomScrollView(
-        slivers: [
-          // Section Reference: 9 Books
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            sliver: SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  context.strings.ahadith,
-                  style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-                    color: context.colors.primary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final book = BookRepository.nineBooks[index];
-                return BookCoverCard(
-                  book: book,
-                  isDownloaded: _downloadedBooks.contains(book.id),
-                  isDownloading: _downloadingBooks.contains(book.id),
-                  onTap: () => _handleBookTap(book),
-                );
-              }, childCount: BookRepository.nineBooks.length),
-            ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-          // Section Reference: Forties
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  "المجاميع", // Collections
-                  style: AppTextStyles.notoKufiArabicHeading20.copyWith(
-                    color: context.colors.primary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final book = BookRepository.fortyBooks[index];
-                return BookCoverCard(
-                  book: book,
-                  isDownloaded: _downloadedBooks.contains(book.id),
-                  isDownloading: _downloadingBooks.contains(book.id),
-                  onTap: () => _handleBookTap(book),
-                );
-              }, childCount: BookRepository.fortyBooks.length),
-            ),
-          ),
-        ],
-      ),
+        if (_downloadingBooks.isNotEmpty)
+          LoadingOverlay(message: context.strings.downloading),
+      ],
     );
   }
 }

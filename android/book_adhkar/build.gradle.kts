@@ -5,6 +5,6 @@ plugins {
 assetPack {
     packName.set("book_adhkar")
     dynamicDelivery {
-        deliveryType.set("fast-follow") 
+        deliveryType.set("on-demand") 
     }
 }

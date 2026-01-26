@@ -5,6 +5,7 @@ import '../../../../core/di/injector.dart';
 import '../../data/models/book_models.dart';
 import '../../data/repositories/book_repository.dart';
 import '../widgets/book_cover_card.dart';
+import '../../../../core/widgets/loading_overlay.dart';
 import 'book_content_page.dart';
 
 class ProphetsStoriesPage extends StatefulWidget {
@@ -136,49 +137,49 @@ class _ProphetsStoriesPageState extends State<ProphetsStoriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.surface,
-      appBar: AppBar(
-        title: Text(
-          "كتب أخرى", // Other Books. Or Prophets Stories if desired, but content is specific.
-          // Ideally use a key like `prophets_stories` if available, or `other_books`.
-          // I'll stick to a hardcoded string or context.strings key if I added one.
-          // I didn't add `other_books` key. I'll use Arabic directly for now.
-          // context.strings.prophets_stories // Assuming it might exist from user's old code?
-          // I'll check if I can use general title.
-          // Staying safe with generic term.
-          style: AppTextStyles.notoKufiArabicHeading24.copyWith(
-            color: context.colors.onSurface,
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: context.colors.surface,
+          appBar: AppBar(
+            title: Text(
+              "كتب أخرى", // Other Books.
+              style: AppTextStyles.notoKufiArabicHeading24.copyWith(
+                color: context.colors.onSurface,
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final book = BookRepository.otherBooks[index];
+                    return BookCoverCard(
+                      book: book,
+                      isDownloaded: _downloadedBooks.contains(book.id),
+                      isDownloading: _downloadingBooks.contains(book.id),
+                      onTap: () => _handleBookTap(book),
+                    );
+                  }, childCount: BookRepository.otherBooks.length),
+                ),
+              ),
+            ],
           ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final book = BookRepository.otherBooks[index];
-                return BookCoverCard(
-                  book: book,
-                  isDownloaded: _downloadedBooks.contains(book.id),
-                  isDownloading: _downloadingBooks.contains(book.id),
-                  onTap: () => _handleBookTap(book),
-                );
-              }, childCount: BookRepository.otherBooks.length),
-            ),
-          ),
-        ],
-      ),
+        if (_downloadingBooks.isNotEmpty)
+          LoadingOverlay(message: context.strings.downloading),
+      ],
     );
   }
 }

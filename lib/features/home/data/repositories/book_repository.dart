@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:asset_delivery/asset_delivery.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -258,5 +259,42 @@ class BookRepository {
     } catch (e) {
       throw ServerException(message: 'Failed to load Duaas: $e');
     }
+  }
+
+  Future<void> ensureEssentialBooksDownloaded() async {
+    try {
+      // Trigger fetches for both essential modules
+      await Future.wait([
+        AssetDelivery.fetch('book_adhkar'),
+        AssetDelivery.fetch('book_duaa'),
+      ]);
+
+      // Wait for them to be ready
+      await Future.wait([
+        _waitForAssetPack('book_adhkar'),
+        _waitForAssetPack('book_duaa'),
+      ]);
+    } catch (e) {
+      // Log or handle error, but don't block app start completely if possible,
+      // though user requested them to be downloaded on first time.
+      debugPrint('Error downloading essential books: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> _waitForAssetPack(String assetPackName) async {
+    String? assetPackPath;
+    for (int i = 0; i < 60; i++) {
+      // Wait up to 60 seconds
+      assetPackPath = await AssetDelivery.getAssetPackPath(
+        assetPackName: assetPackName,
+        count: 1,
+        namingPattern: '',
+        fileExtension: 'json',
+      );
+      if (assetPackPath != null) return;
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    throw ServerException(message: 'Timeout waiting for $assetPackName');
   }
 }

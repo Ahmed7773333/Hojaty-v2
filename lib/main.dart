@@ -7,6 +7,7 @@ import 'package:hojaty/core/services/notification_service.dart';
 import 'config/theme/app_color.dart';
 import 'core/di/injector.dart';
 import 'core/services/json_data_service.dart';
+import 'features/home/data/repositories/book_repository.dart';
 import 'my_app.dart';
 
 void main() {
@@ -49,6 +50,16 @@ class _AppLoaderState extends State<AppLoader> {
       // Initialize dependency injection (including audio service)
       // This is the heaviest operation - runs in background
       await setupInjector();
+
+      // Ensure essential books (Adhkar & Duaa) are downloaded
+      if (mounted) {
+        setState(() {
+          // We can't easily show specific progress percentage for these without more complex logic
+          // or modifying AssetDelivery, but we can update the UI text below via a state check or separate var.
+          // For now, _downloadProgress could be reused or just let it spin.
+        });
+      }
+      await injector<BookRepository>().ensureEssentialBooksDownloaded();
 
       // Initialize JsonDataService and sync if needed
       final jsonService = injector<JsonDataService>();
