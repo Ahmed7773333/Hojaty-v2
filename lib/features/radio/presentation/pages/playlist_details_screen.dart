@@ -31,7 +31,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
             );
 
             if (currentPlaylist.items.isEmpty) {
-              return const Center(child: Text("No surahs in this playlist"));
+              return Center(child: Text(context.strings.noSurahsInPlaylist));
             }
 
             return ListView.builder(

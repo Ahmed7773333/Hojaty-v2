@@ -206,7 +206,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prophet => 'The Prophet';
 
   @override
-  String get prophets_stories => 'Stories of Prophets';
+  String get prophets_stories => 'Other Books';
 
   @override
   String get qibla => 'Qibla';
@@ -406,4 +406,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get source => 'Source';
+
+  @override
+  String get ayah => 'Ayah';
+
+  @override
+  String get newPlaylistTitle => 'New Playlist';
+
+  @override
+  String get playlistNameHint => 'Playlist Name';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deletePlaylistTitle => 'Delete Playlist';
+
+  @override
+  String deletePlaylistConfirmation(String name) {
+    return 'Are you sure you want to delete $name?';
+  }
+
+  @override
+  String get noSurahsInPlaylist => 'No surahs in this playlist';
+
+  @override
+  String surahsCount(int count) {
+    return '$count Surahs';
+  }
 }

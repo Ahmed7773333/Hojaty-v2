@@ -38,7 +38,9 @@ class HizbCard extends StatelessWidget {
                   child: Text(
                     Helper.convertToArabicJuzs(index + 1),
                     style: AppTextStyles.notoKufiArabicHeading24.copyWith(
-                      color: AppColor.secondaryColor,
+                      color: context.isDarkMode
+                          ? AppColor.darkTextPrimary
+                          : Colors.black87,
                     ),
                   ),
                 ),

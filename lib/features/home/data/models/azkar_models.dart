@@ -95,35 +95,26 @@ class DuaaCategory extends Equatable {
 }
 
 class DuaaSource extends Equatable {
-  final List<String>? quran;
-  // Hadith is complex nested list in JSON: "hadith": [ [ { "rawi": ... } ] ]
-  // It's a list of list of objects.
+  final List<DuaaQuranSource>? quran;
   final List<List<DuaaHadithSource>>? hadith;
 
   const DuaaSource({this.quran, this.hadith});
 
   factory DuaaSource.fromJson(Map<String, dynamic> json) {
-    var hadithList = <List<DuaaHadithSource>>[];
-    if (json['hadith'] != null) {
-      if (json['hadith'] is List) {
-        for (var outer in json['hadith'] as List) {
-          if (outer is List) {
-            var innerList = outer
-                .map(
-                  (e) => DuaaHadithSource.fromJson(e as Map<String, dynamic>),
-                )
-                .toList();
-            hadithList.add(innerList);
-          }
-        }
-      }
-    }
-
     return DuaaSource(
       quran: (json['quran'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => DuaaQuranSource.fromJson(e))
           .toList(),
-      hadith: hadithList,
+      hadith: (json['hadith'] as List<dynamic>?)
+          ?.map(
+            (outer) => (outer as List)
+                .map(
+                  (e) =>
+                      DuaaHadithSource.fromJson(e as Map<String, dynamic>),
+                )
+                .toList(),
+          )
+          .toList(),
     );
   }
 
@@ -158,4 +149,57 @@ class DuaaHadithSource extends Equatable {
 
   @override
   List<Object?> get props => [rawi, mohdith, book, numberOrPage, grade];
+}
+class DuaaQuranSource extends Equatable {
+  final QuranSurah surah;
+  final QuranAyah ayah;
+
+  const DuaaQuranSource({
+    required this.surah,
+    required this.ayah,
+  });
+
+  factory DuaaQuranSource.fromJson(Map<String, dynamic> json) {
+    return DuaaQuranSource(
+      surah: QuranSurah.fromJson(json['surah']),
+      ayah: QuranAyah.fromJson(json['ayah']),
+    );
+  }
+
+  @override
+  List<Object?> get props => [surah, ayah];
+}
+
+class QuranSurah extends Equatable {
+  final int number;
+  final String name;
+
+  const QuranSurah({required this.number, required this.name});
+
+  factory QuranSurah.fromJson(Map<String, dynamic> json) {
+    return QuranSurah(
+      number: json['number'],
+      name: json['name'],
+    );
+  }
+
+  @override
+  List<Object?> get props => [number, name];
+}
+
+class QuranAyah extends Equatable {
+  final int from;
+  final int to;
+
+  const QuranAyah({required this.from, required this.to});
+
+  factory QuranAyah.fromJson(Map<String, dynamic> json) {
+    return QuranAyah(
+      from: json['from'],
+      to: json['to'],
+    );
+  }
+
+  @override
+  List<Object?> get props => [from, to];
 }

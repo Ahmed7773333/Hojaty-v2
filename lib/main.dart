@@ -25,15 +25,45 @@ class AppLoader extends StatefulWidget {
   State<AppLoader> createState() => _AppLoaderState();
 }
 
-class _AppLoaderState extends State<AppLoader> {
+class _AppLoaderState extends State<AppLoader>
+    with SingleTickerProviderStateMixin {
   bool _isInitialized = false;
   String? _error;
   double? _downloadProgress;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeIn),
+      ),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOutBack),
+      ),
+    );
+
+    _animationController.forward();
     _initialize();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<void> _initialize() async {
@@ -104,30 +134,52 @@ class _AppLoaderState extends State<AppLoader> {
     if (_error != null) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Noto Kufi Arabic',
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColor.goldAccent),
+        ),
         home: Scaffold(
           body: Center(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(32.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Error initializing app',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  const Icon(
+                    Icons.error_outline_rounded,
+                    size: 80,
+                    color: Colors.redAccent,
                   ),
-                  const SizedBox(height: 8),
-                  Text(_error!, textAlign: TextAlign.center),
                   const SizedBox(height: 24),
-                  ElevatedButton(
+                  const Text(
+                    'تعذر بدء التطبيق',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    _error!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey[700], height: 1.5),
+                  ),
+                  const SizedBox(height: 32),
+                  FilledButton.icon(
                     onPressed: () {
                       setState(() {
                         _error = null;
+                        _downloadProgress = null;
                       });
+                      _animationController.reset();
+                      _animationController.forward();
                       _initialize();
                     },
-                    child: const Text('Retry'),
+                    icon: const Icon(Icons.refresh_rounded),
+                    label: const Text('إعادة المحاولة'),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -144,49 +196,106 @@ class _AppLoaderState extends State<AppLoader> {
           body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
                   AppColor.goldLight, // Deep indigo
-                  AppColor.goldAccent, // Dark blue
+                  AppColor.tealPrimary, // More vibrant primary
                 ],
               ),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // App icon or logo
-                  const Icon(
-                    Icons.menu_book_rounded,
-                    size: 80,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 24),
-                  const Text(
-                    'حُجتي',
-                    style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            child: Stack(
+              children: [
+                // Background pattern (optional, kept simple for now)
+                Center(
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // App icon with shadow
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.menu_book_rounded,
+                              size: 100,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          const Text(
+                            'حُجتي',
+                            style: TextStyle(
+                              fontFamily:
+                                  'Elgharib', // Use the fancy font if available, or fallback
+                              fontSize: 48,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 10.0,
+                                  color: Colors.black26,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'رفيقك في كل عبادة',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16,
+                              fontFamily: 'Noto Kufi Arabic',
+                            ),
+                          ),
+                          const SizedBox(height: 64),
+
+                          // Loading indicator
+                          SizedBox(
+                            width: 200,
+                            child: Column(
+                              children: [
+                                LinearProgressIndicator(
+                                  value: _downloadProgress,
+                                  backgroundColor: Colors.white24,
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  _downloadProgress != null
+                                      ? 'جاري تجهيز المحتوى... ${(_downloadProgress! * 100).toInt()}%'
+                                      : 'جاري التحميل...',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Noto Kufi Arabic',
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  CircularProgressIndicator(
-                    value: _downloadProgress,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      Colors.white,
-                    ),
-                  ),
-                  if (_downloadProgress != null) ...[
-                    const SizedBox(height: 16),
-                    Text(
-                      'Downloading resources... ${(_downloadProgress! * 100).toInt()}%',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

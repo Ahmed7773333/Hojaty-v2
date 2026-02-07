@@ -40,7 +40,7 @@ class QuraanBottomBar extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             // Readings (Qira'at)
             QuraanBottomBarItem(

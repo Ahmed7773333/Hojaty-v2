@@ -9,7 +9,7 @@ import '../../features/home/presentation/pages/ahadith_page.dart';
 import '../../features/home/presentation/pages/allah_names_page.dart';
 import '../../features/home/presentation/pages/duaas_page.dart';
 import '../../features/home/presentation/pages/prophet_page.dart';
-import '../../features/home/presentation/pages/prophets_stories_page.dart';
+import '../../features/home/presentation/pages/other_books_page.dart';
 import '../../features/home/presentation/pages/qibla_page.dart';
 import '../../features/home/presentation/pages/ramadan_page.dart';
 import '../../features/home/presentation/pages/sebha_page.dart';

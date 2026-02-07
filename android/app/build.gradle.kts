@@ -67,6 +67,7 @@ android {
         assetPacks += ":book_shamail"
         assetPacks += ":book_adhkar"
         assetPacks += ":book_duaa"
+        assetPacks += ":pre_opened"
     }
 
     buildTypes {

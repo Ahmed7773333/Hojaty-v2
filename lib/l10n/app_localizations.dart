@@ -479,7 +479,7 @@ abstract class AppLocalizations {
   /// No description provided for @prophets_stories.
   ///
   /// In en, this message translates to:
-  /// **'Stories of Prophets'**
+  /// **'Other Books'**
   String get prophets_stories;
 
   /// No description provided for @qibla.
@@ -865,6 +865,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source'**
   String get source;
+
+  /// No description provided for @ayah.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah'**
+  String get ayah;
+
+  /// No description provided for @newPlaylistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Playlist'**
+  String get newPlaylistTitle;
+
+  /// No description provided for @playlistNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist Name'**
+  String get playlistNameHint;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @deletePlaylistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Playlist'**
+  String get deletePlaylistTitle;
+
+  /// No description provided for @deletePlaylistConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {name}?'**
+  String deletePlaylistConfirmation(String name);
+
+  /// No description provided for @noSurahsInPlaylist.
+  ///
+  /// In en, this message translates to:
+  /// **'No surahs in this playlist'**
+  String get noSurahsInPlaylist;
+
+  /// No description provided for @surahsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Surahs'**
+  String surahsCount(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -116,7 +116,7 @@ class _DuaaDetailsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
-                      '${context.strings.source}: ${category.source!.quran!.join(", ")}',
+                      '${context.strings.source}: ${category.source!.quran!.map((s) => "${s.surah.name} (${context.strings.ayat}: ${s.ayah.from}${(s.ayah.to != s.ayah.from) ? '-${s.ayah.to}' : ''})").join(", ")}',
                       style: TextStyle(
                         color: context.colors.secondary,
                         fontSize: 12,

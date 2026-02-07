@@ -260,7 +260,7 @@
   "search": "Search",
   "duaas": "Duaas",
   "prophet": "The Prophet",
-  "prophets_stories": "Stories of Prophets",
+  "prophets_stories": "Other Books",
   "qibla": "Qibla",
   "ramadan": "Ramadan",
   "ahadith": "Ahadith",
@@ -331,5 +331,28 @@
   "book_adab": "Al-Adab Al-Mufrad",
   "book_shamail": "Ash-Shamail Al-Muhammadiyah",
   "no_duaas_found": "No Duaas found",
-  "source": "Source"
+  "source": "Source",
+  "ayah": "Ayah",
+  "newPlaylistTitle": "New Playlist",
+  "playlistNameHint": "Playlist Name",
+  "create": "Create",
+  "delete": "Delete",
+  "deletePlaylistTitle": "Delete Playlist",
+  "deletePlaylistConfirmation": "Are you sure you want to delete {name}?",
+  "@deletePlaylistConfirmation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noSurahsInPlaylist": "No surahs in this playlist",
+  "surahsCount": "{count} Surahs",
+  "@surahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

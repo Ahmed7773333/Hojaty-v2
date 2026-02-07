@@ -145,6 +145,16 @@ class BookCoverCard extends StatelessWidget {
         return context.strings.book_qudsi40;
       case 'book_shahwaliullah40':
         return context.strings.book_shahwaliullah40;
+      case 'book_riyad':
+        return context.strings.book_riyad;
+      case 'book_bulugh':
+        return context.strings.book_bulugh;
+      case 'book_mishkat':
+        return context.strings.book_mishkat;
+      case 'book_adab':
+        return context.strings.book_adab;
+      case 'book_shamail':
+        return context.strings.book_shamail;
       default:
         return key;
     }

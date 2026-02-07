@@ -52,11 +52,11 @@ class ServicesGridWidget extends StatelessWidget {
         assetPath: Assets.qibla,
         routeName: AppRoutes.qibla,
       ),
-      ServiceData(
-        label: context.strings.ramadan,
-        assetPath: Assets.ramdan,
-        routeName: AppRoutes.ramadan,
-      ),
+      // ServiceData(
+      //   label: context.strings.ramadan,
+      //   assetPath: Assets.ramdan,
+      //   routeName: AppRoutes.ramadan,
+      // ),
       ServiceData(
         label: context.strings.sebhaTitle,
         assetPath: Assets.tasbeh,

@@ -50,4 +50,5 @@ include(":book_adab")
 include(":book_shamail")
 include(":book_adhkar")
 include(":book_duaa")
+include(":pre_opened")
 

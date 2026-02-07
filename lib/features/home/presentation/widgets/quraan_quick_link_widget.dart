@@ -5,7 +5,7 @@ import 'package:hojaty/features/quraan/data/services/quraan_pad_service.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../quraan/presentation/widgets/qirat_selection_dialog.dart';
-import '../../../quraan/domain/entities/qirat_type.dart';
+import '../../../quraan/domain/repositories/quraan_repository.dart';
 
 class QuraanQuickLinkWidget extends StatelessWidget {
   const QuraanQuickLinkWidget({super.key});
@@ -32,24 +32,21 @@ class QuraanQuickLinkWidget extends StatelessWidget {
   }
 
   Future<void> _handleTap(BuildContext context) async {
-    // Check if Hafs (default) is downloaded at least, or maybe we check what is selected preference?
-    // For QuickLink, usually it opens the Quran. If nothing is downloaded, we show dialog to download.
-    // Let's assume we need at least one downloaded.
-
+    final repo = injector<QuraanRepository>();
     final padService = injector<QuraanPadService>();
-    // Check if Hafs is downloaded as it's the default default.
-    // Or we could check if ANY is downloaded.
-    // For now, let's keep it simple: check Hafs.
-    // If user wants functionality to open even if Hafs missing but others present, we need to check preferences.
-    // But we haven't implemented preferences check here yet.
 
-    final isHafsDownloaded = await padService.isQiratDownloaded(QiratType.hafs);
+    // 1. Get the user's preferred Qirat
+    final selectedQirat = await repo.getSelectedQirat();
 
-    if (isHafsDownloaded) {
+    // 2. Check if THAT Qirat is downloaded
+    final isDownloaded = await padService.isQiratDownloaded(selectedQirat);
+
+    if (isDownloaded) {
       if (context.mounted) context.pushNamed(AppRoutes.quraan);
       return;
     }
 
+    // 3. If not downloaded, show dialog
     if (context.mounted) {
       _showDownloadDialog(context);
     }
@@ -61,6 +58,7 @@ class QuraanQuickLinkWidget extends StatelessWidget {
       builder: (ctx) => const QiratSelectionDialog(),
     );
 
+    // Only navigate if download was successful (result == true)
     if (result == true && context.mounted) {
       context.pushNamed(AppRoutes.quraan);
     }

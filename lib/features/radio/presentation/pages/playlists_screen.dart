@@ -76,7 +76,7 @@ class PlaylistsScreen extends StatelessWidget {
   }) {
     // playlist is PlaylistModel
     final String name = playlist.name;
-    final String count = "${playlist.items.length} Surahs";
+    final String count = context.strings.surahsCount(playlist.items.length);
     final bool isSystem = isDownloads || (playlist.isSystem ?? false);
 
     return Card(
@@ -111,15 +111,17 @@ class PlaylistsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("New Playlist"),
+        title: Text(context.strings.newPlaylistTitle),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: "Playlist Name"),
+          decoration: InputDecoration(
+            hintText: context.strings.playlistNameHint,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: Text(context.strings.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -130,7 +132,7 @@ class PlaylistsScreen extends StatelessWidget {
                 Navigator.pop(context);
               }
             },
-            child: const Text("Create"),
+            child: Text(context.strings.create),
           ),
         ],
       ),
@@ -141,19 +143,24 @@ class PlaylistsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Delete Playlist"),
-        content: Text("Are you sure you want to delete ${playlist.name}?"),
+        title: Text(context.strings.deletePlaylistTitle),
+        content: Text(
+          context.strings.deletePlaylistConfirmation(playlist.name),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: Text(context.strings.cancel),
           ),
           TextButton(
             onPressed: () {
               context.read<RadioBloc>().add(DeletePlaylistEvent(playlist.id));
               Navigator.pop(context);
             },
-            child: const Text("Delete", style: TextStyle(color: Colors.red)),
+            child: Text(
+              context.strings.delete,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),

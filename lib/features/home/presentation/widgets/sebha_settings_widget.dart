@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../config/theme/app_color.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart'; // fallback extension
@@ -68,11 +67,17 @@ class _SettingToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     final bg = enabled
-        ? AppColor.secondaryColor.withValues(alpha: .12)
-        : AppColor.surfaceColor;
-    final border = enabled ? AppColor.secondaryColor : Colors.grey.shade300;
-    final icon = enabled ? iconOn : iconOff;
+        ? colors.primaryContainer.withOpacity(0.3)
+        : colors.surface;
+final icon = enabled ? iconOn : iconOff;
+    final border = enabled
+        ? colors.primary.withOpacity(0.5)
+        : colors.outlineVariant.withOpacity(0.5);
+
+    final contentColor = enabled ? colors.primary : colors.onSurfaceVariant;
 
     return GestureDetector(
       onTap: onTap,
@@ -85,7 +90,7 @@ class _SettingToggle extends StatelessWidget {
           border: Border.all(color: border),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: .02),
+              color: Colors.black.withOpacity(enabled ? 0.05 : 0.02),
               blurRadius: 6.r,
               offset: Offset(0, 3.h),
             ),
@@ -93,16 +98,12 @@ class _SettingToggle extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              size: 20,
-              color: enabled ? AppColor.secondaryColor : Colors.grey,
-            ),
+            Icon(icon, size: 20, color: contentColor),
             SizedBox(height: 6.h),
             Text(
               label,
               style: AppTextStyles.notoKufiArabicBody13Medium.copyWith(
-                color: enabled ? AppColor.secondaryColor : Colors.grey,
+                color: contentColor,
               ),
             ),
           ],

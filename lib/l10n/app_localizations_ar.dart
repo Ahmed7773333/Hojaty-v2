@@ -206,7 +206,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prophet => 'النبي';
 
   @override
-  String get prophets_stories => 'قصص الأنبياء';
+  String get prophets_stories => 'كتب اخرى';
 
   @override
   String get qibla => 'القبلة';
@@ -404,4 +404,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get source => 'المصدر';
+
+  @override
+  String get ayah => 'آية';
+
+  @override
+  String get newPlaylistTitle => 'قائمة جديدة';
+
+  @override
+  String get playlistNameHint => 'اسم القائمة';
+
+  @override
+  String get create => 'إنشاء';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get deletePlaylistTitle => 'حذف القائمة';
+
+  @override
+  String deletePlaylistConfirmation(String name) {
+    return 'هل أنت متأكد من حذف $name؟';
+  }
+
+  @override
+  String get noSurahsInPlaylist => 'لا توجد سور في هذه القائمة';
+
+  @override
+  String surahsCount(int count) {
+    return '$count سور';
+  }
 }

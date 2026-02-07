@@ -63,7 +63,7 @@
   "search": "بحث",
   "duaas": "أدعية",
   "prophet": "النبي",
-  "prophets_stories": "قصص الأنبياء",
+  "prophets_stories": "كتب اخرى",
   "qibla": "القبلة",
   "ramadan": "رمضان",
   "ahadith": "أحاديث",
@@ -127,5 +127,14 @@
   "book_adab": "الأدب المفرد",
   "book_shamail": "الشمائل المحمدية",
   "no_duaas_found": "لا توجد أدعية",
-  "source": "المصدر"
+  "source": "المصدر",
+  "ayah": "آية",
+  "newPlaylistTitle": "قائمة جديدة",
+  "playlistNameHint": "اسم القائمة",
+  "create": "إنشاء",
+  "delete": "حذف",
+  "deletePlaylistTitle": "حذف القائمة",
+  "deletePlaylistConfirmation": "هل أنت متأكد من حذف {name}؟",
+  "noSurahsInPlaylist": "لا توجد سور في هذه القائمة",
+  "surahsCount": "{count} سور"
 }

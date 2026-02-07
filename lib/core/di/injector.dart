@@ -46,7 +46,7 @@ Future<void> setupInjector() async {
 
   // Core
   injector.registerSingleton<ApiConsumer>(DioClient(injector<Dio>()));
-  injector.registerSingleton<JsonDataService>(JsonDataService(injector<Dio>()));
+  injector.registerSingleton<JsonDataService>(JsonDataService());
   initHomeInjector();
   initPrayersInjector();
   initRadioInjector();
