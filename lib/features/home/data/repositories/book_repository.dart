@@ -328,9 +328,7 @@ class BookRepository {
           fileExtension: 'json',
         );
         if (duaaPath != null) {
-          final file = File(
-            '$duaaPath/100-duaa-from-the-book-and-authentic-sunnah.json',
-          );
+          final file = File('$duaaPath/duaafromthebookandauthenticsunnah.json');
           if (file.existsSync()) {
             await box.put('duaas', await file.readAsString());
           }
