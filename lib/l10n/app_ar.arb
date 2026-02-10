@@ -136,5 +136,12 @@
   "deletePlaylistTitle": "حذف القائمة",
   "deletePlaylistConfirmation": "هل أنت متأكد من حذف {name}؟",
   "noSurahsInPlaylist": "لا توجد سور في هذه القائمة",
-  "surahsCount": "{count} سور"
+  "surahsCount": "{count} سور",
+  "locationPermissionRequired": "إذن الموقع مطلوب لحساب اتجاه القبلة.",
+  "grantLocationPermission": "منح إذن الموقع",
+  "deviceNoCompass": "الجهاز لا يدعم مستشعرات البوصلة",
+  "qiblaDirection": "اتجاه القبلة",
+  "alignArrow": "حاذِ السهم للأعلى لتواجه القبلة",
+  "failedToGetLocation": "فشل في الحصول على الموقع",
+  "errorReadingHeading": "خطأ في قراءة الاتجاه"
 }

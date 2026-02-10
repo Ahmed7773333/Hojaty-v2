@@ -26,6 +26,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
 
   Future<void> _checkPermissions() async {
     final status = await Permission.locationWhenInUse.request();
+    if (!mounted) return;
     if (status.isGranted) {
       _calculateQibla();
       setState(() {
@@ -33,7 +34,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
       });
     } else {
       setState(() {
-        _error = 'Location permission required to calculate Qibla direction.';
+        _error = context.strings.locationPermissionRequired;
       });
     }
   }
@@ -62,12 +63,14 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
                 math.sin(phi) * math.cos(lambdaK - lambda),
           );
 
+      if (!mounted) return;
       setState(() {
         _qiblaDirection = psi;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
-        _error = 'Failed to get location: $e';
+        _error = context.strings.failedToGetLocation;
       });
     }
   }
@@ -90,7 +93,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
               ),
             ElevatedButton(
               onPressed: _checkPermissions,
-              child: const Text("Grant Location Permission"),
+              child: Text(context.strings.grantLocationPermission),
             ),
           ],
         ),
@@ -105,7 +108,9 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
       stream: FlutterCompass.events,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error reading heading: ${snapshot.error}');
+          return Text(
+            '${context.strings.errorReadingHeading}: ${snapshot.error}',
+          );
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -116,9 +121,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
 
         // If device doesn't support compass
         if (direction == null) {
-          return const Center(
-            child: Text("Device does not support compass sensors"),
-          );
+          return Center(child: Text(context.strings.deviceNoCompass));
         }
 
         // Adjust for Qibla
@@ -141,7 +144,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Qibla Direction: ${qiblaBearing.toStringAsFixed(1)}°",
+                "${context.strings.qiblaDirection}: ${qiblaBearing.toStringAsFixed(1)}°",
                 style: context.textTheme.titleMedium,
               ),
               const SizedBox(height: 20),
@@ -152,20 +155,20 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
                   // If we don't have a compass rose asset, we can use a container or Icon
                   // But usually apps rotate the Dial so North matches real North.
                   // Let's rotate the compass dial so North points to real North.
-                  Transform.rotate(
-                    angle: (direction * (math.pi / 180) * -1),
-                    child: Image.asset(
-                      Assets
-                          .qibla, // Using the Qibla icon as a placeholder Dial or Rose? Make sure it's appropriate.
-                      // Actually user gave qibla.png which might be the needle or the mosque icon.
-                      // Let's assume we use a generic compass background if available or create a shape.
-                      // Since we don't have a specific "compass dial" asset, let's use a decorative Container
-                      // OR just rotate the Qibla pointer.
-                      // BETTER UX: Rotate the "arrow" to point to Qibla.
-                      width: 300,
-                      height: 300,
-                    ),
-                  ),
+                  // Transform.rotate(
+                  //   angle: (direction * (math.pi / 180) * -1),
+                  //   child: Image.asset(
+                  //     Assets
+                  //         .qibla, // Using the Qibla icon as a placeholder Dial or Rose? Make sure it's appropriate.
+                  //     // Actually user gave qibla.png which might be the needle or the mosque icon.
+                  //     // Let's assume we use a generic compass background if available or create a shape.
+                  //     // Since we don't have a specific "compass dial" asset, let's use a decorative Container
+                  //     // OR just rotate the Qibla pointer.
+                  //     // BETTER UX: Rotate the "arrow" to point to Qibla.
+                  //     width: 300,
+                  //     height: 300,
+                  //   ),
+                  // ),
 
                   // Need a better visualization.
                   // Standard Qibla Compass:
@@ -192,7 +195,7 @@ class _QiblaCompassWidgetState extends State<QiblaCompassWidget> {
               ),
               const SizedBox(height: 20),
               Text(
-                "Align the arrow to the top to face Qibla",
+                context.strings.alignArrow,
                 textAlign: TextAlign.center,
                 style: context.textTheme.bodySmall,
               ),

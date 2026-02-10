@@ -437,4 +437,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String surahsCount(int count) {
     return '$count Surahs';
   }
+
+  @override
+  String get locationPermissionRequired =>
+      'Location permission required to calculate Qibla direction.';
+
+  @override
+  String get grantLocationPermission => 'Grant Location Permission';
+
+  @override
+  String get deviceNoCompass => 'Device does not support compass sensors';
+
+  @override
+  String get qiblaDirection => 'Qibla Direction';
+
+  @override
+  String get alignArrow => 'Align the arrow to the top to face Qibla';
+
+  @override
+  String get failedToGetLocation => 'Failed to get location';
+
+  @override
+  String get errorReadingHeading => 'Error reading heading';
 }

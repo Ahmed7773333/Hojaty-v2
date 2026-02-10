@@ -435,4 +435,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String surahsCount(int count) {
     return '$count سور';
   }
+
+  @override
+  String get locationPermissionRequired =>
+      'إذن الموقع مطلوب لحساب اتجاه القبلة.';
+
+  @override
+  String get grantLocationPermission => 'منح إذن الموقع';
+
+  @override
+  String get deviceNoCompass => 'الجهاز لا يدعم مستشعرات البوصلة';
+
+  @override
+  String get qiblaDirection => 'اتجاه القبلة';
+
+  @override
+  String get alignArrow => 'حاذِ السهم للأعلى لتواجه القبلة';
+
+  @override
+  String get failedToGetLocation => 'فشل في الحصول على الموقع';
+
+  @override
+  String get errorReadingHeading => 'خطأ في قراءة الاتجاه';
 }

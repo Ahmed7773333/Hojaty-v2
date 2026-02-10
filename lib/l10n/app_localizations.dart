@@ -919,6 +919,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} Surahs'**
   String surahsCount(int count);
+
+  /// No description provided for @locationPermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission required to calculate Qibla direction.'**
+  String get locationPermissionRequired;
+
+  /// No description provided for @grantLocationPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Location Permission'**
+  String get grantLocationPermission;
+
+  /// No description provided for @deviceNoCompass.
+  ///
+  /// In en, this message translates to:
+  /// **'Device does not support compass sensors'**
+  String get deviceNoCompass;
+
+  /// No description provided for @qiblaDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Direction'**
+  String get qiblaDirection;
+
+  /// No description provided for @alignArrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Align the arrow to the top to face Qibla'**
+  String get alignArrow;
+
+  /// No description provided for @failedToGetLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to get location'**
+  String get failedToGetLocation;
+
+  /// No description provided for @errorReadingHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error reading heading'**
+  String get errorReadingHeading;
 }
 
 class _AppLocalizationsDelegate

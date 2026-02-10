@@ -32,11 +32,11 @@ class ServicesGridWidget extends StatelessWidget {
         assetPath: Assets.azkar,
         routeName: AppRoutes.azkar,
       ),
-      ServiceData(
-        label: context.strings.duaas,
-        assetPath: Assets.duaas,
-        routeName: AppRoutes.duaas,
-      ),
+      // ServiceData(
+      //   label: context.strings.duaas,
+      //   assetPath: Assets.duaas,
+      //   routeName: AppRoutes.duaas,
+      // ),
       ServiceData(
         label: context.strings.prophet,
         assetPath: Assets.prophet,

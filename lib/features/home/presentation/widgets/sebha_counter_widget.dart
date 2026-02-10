@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../config/theme/app_text_styles.dart';
 import '../../../../core/constants/assets.dart';
@@ -83,7 +84,7 @@ class _SebhaCounterWidgetState extends State<SebhaCounterWidget>
                 widget.count.toString().toArabicDigits(),
                 style: AppTextStyles.notoKufiArabicHeading24.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppColor.secondaryColor,
+                  color: context.colors.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -137,7 +138,7 @@ class _SebhaCounterWidgetState extends State<SebhaCounterWidget>
                   // "improve logic and add anything you see to improve the ui"
                   // I will implement continuous rotation.
 
-// 0 to -50 deg
+                  // 0 to -50 deg
                   // We want previousAngle + currentAnimValue.
                   // But since we want to animate TO a new angle.
                   // Let's stick to what I just saw: `_currentAngle` is the base.

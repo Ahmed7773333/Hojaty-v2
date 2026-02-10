@@ -354,5 +354,13 @@
         "type": "int"
       }
     }
-  }
+  
+  },
+    "locationPermissionRequired": "Location permission required to calculate Qibla direction.",
+    "grantLocationPermission": "Grant Location Permission",
+    "deviceNoCompass": "Device does not support compass sensors",
+    "qiblaDirection": "Qibla Direction",
+    "alignArrow": "Align the arrow to the top to face Qibla",
+    "failedToGetLocation": "Failed to get location",
+    "errorReadingHeading": "Error reading heading"
 }

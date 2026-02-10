@@ -37,25 +37,28 @@ class HojatyApp extends StatelessWidget {
           final isEnglish = user?.uiIsEnglish ?? false;
           final locale = isEnglish ? const Locale('en') : const Locale('ar');
 
-          return MaterialApp(
-            navigatorKey: HojatyApp.navigatorKey, // Assign the key
-            title: 'Hojaty',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
-            locale: locale,
-            onGenerateRoute: AppRouter.onGenerateRoute,
-            supportedLocales: const [
-              Locale('en'), // English
-              Locale('ar'), // Arabic
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+          return SafeArea(
+            top: false,
+            child: MaterialApp(
+              navigatorKey: HojatyApp.navigatorKey, // Assign the key
+              title: 'Hojaty',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: themeMode,
+              locale: locale,
+              onGenerateRoute: AppRouter.onGenerateRoute,
+              supportedLocales: const [
+                Locale('en'), // English
+                Locale('ar'), // Arabic
+              ],
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+            ),
           );
         },
       ),
