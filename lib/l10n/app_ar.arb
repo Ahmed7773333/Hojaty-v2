@@ -2,6 +2,8 @@
   "playlists": "قوائم التشغيل",
   "@@locale": "ar",
   "appTitle": "حجتي",
+  "today": "اليوم",
+  "returnToToday": "العودة لليوم",
   "home": "الرئيسية",
   "radio": "الراديو",
   "azkar": "الأذكار",

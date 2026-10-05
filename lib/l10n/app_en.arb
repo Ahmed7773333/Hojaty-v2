@@ -5,6 +5,8 @@
   "@appTitle": {
     "description": "The title of the application"
   },
+  "today": "Today",
+  "returnToToday": "Back to Today",
   "home": "Home",
   "@home": {
     "description": "Home tab title"
