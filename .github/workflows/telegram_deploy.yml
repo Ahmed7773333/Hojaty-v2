@@ -2,7 +2,7 @@ name: Android Internal Testing
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, improving-ui ]
   workflow_dispatch:
 
 jobs:
