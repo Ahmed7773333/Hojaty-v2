@@ -4,6 +4,15 @@ on:
   push:
     branches: [ dev, improving-ui ]
   workflow_dispatch:
+    inputs:
+      release_status:
+        description: 'Release status in Google Play'
+        required: false
+        default: 'draft'
+        type: choice
+        options:
+          - draft
+          - completed
 
 jobs:
   build_and_upload:
@@ -47,6 +56,7 @@ jobs:
         env:
           PLAY_STORE_JSON: "play_store_key.json" # Tell Fastlane where the file is
           PACKAGE_NAME: "com.wolfdev.hojaty"
+          RELEASE_STATUS: ${{ github.event.inputs.release_status || 'draft' }}
         run: |
           cd android
           # Install fastlane only if not in Gemfile
