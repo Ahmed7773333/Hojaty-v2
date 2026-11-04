@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/constants/assets.dart';
+import '../../../../core/utils/screen_util_like.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
-import '../bloc/radio_state.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../widgets/live_card.dart';
-import '../../../../config/routes/app_router.dart';
+import '../widgets/radio/radio_header_widget.dart';
+import '../widgets/radio/radio_live_cards_widget.dart';
+import '../widgets/radio/radio_playlist_banner_widget.dart';
+import '../widgets/radio/radio_reciters_list_widget.dart';
+import '../widgets/radio/radio_search_bar_widget.dart';
 
 class RadioPage extends StatefulWidget {
   const RadioPage({super.key});
@@ -17,18 +20,25 @@ class RadioPage extends StatefulWidget {
 }
 
 class _RadioPageState extends State<RadioPage> {
-  final TextEditingController _searchController = TextEditingController();
+  late final TextEditingController _searchController;
+  late final RadioBloc _radioBloc;
+  bool _loaded = false;
 
   @override
   void initState() {
     super.initState();
-    // Use addPostFrameCallback to ensure context is available and safe
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final locale = context.strings.localeName;
-      final bloc = context.read<RadioBloc>();
-      bloc.add(LoadRadioEvent(language: locale));
-      bloc.add(LoadPlaylistsEvent());
-    });
+    _searchController = TextEditingController();
+    _radioBloc = injector<RadioBloc>();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_loaded) {
+      _loaded = true;
+      final lang = Localizations.localeOf(context).languageCode;
+      _radioBloc.add(LoadRadioEvent(language: lang));
+    }
   }
 
   @override
@@ -37,134 +47,62 @@ class _RadioPageState extends State<RadioPage> {
     super.dispose();
   }
 
+  void _onSearchChanged(String query) {
+    _radioBloc.add(SearchRecitersEvent(query));
+    setState(() {});
+  }
+
+  void _onSearchCleared() {
+    _searchController.clear();
+    _radioBloc.add(const SearchRecitersEvent(''));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(context.strings.radio)),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LiveCard(
-                          title: context.strings.madina_live,
-                          imagePath: 'assets/images/madina.jpg',
-                          streamUrl: AppConstants.madinaLiveStreamUrl,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: LiveCard(
-                          title: context.strings.makkah_live,
-                          imagePath: 'assets/images/makka.jpg',
-                          streamUrl: AppConstants.makkahLiveStreamUrl,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  LiveCard(
-                    title: context.strings.playlists,
-                    imagePath: Assets.playlistCard,
-                    streamUrl: '',
-                    onTap: () {
-                      context.pushNamed(AppRoutes.playlists);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  // Search Field
-                  TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText:
-                          context.strings.quranSearch, // Reusing search key
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
+    final isDark = context.isDark;
+    return BlocProvider.value(
+      value: _radioBloc,
+      child: Scaffold(
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
+        body: Column(
+          children: [
+            RadioHeaderWidget(onBack: () => context.pop()),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // const RadioLiveCardsWidget(),
+                    // 16.ver,
+                    const RadioPlaylistBannerWidget(),
+                    16.ver,
+                    RadioSearchBarWidget(
+                      controller: _searchController,
+                      onChanged: _onSearchChanged,
+                      onClear: _onSearchCleared,
+                    ),
+                    16.ver,
+                    Text(
+                      context.strings.recitersList,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
                       ),
                     ),
-                    onChanged: (value) {
-                      context.read<RadioBloc>().add(SearchRecitersEvent(value));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            sliver: SliverToBoxAdapter(
-              child: Text(
-                context.strings.readers_list,
-                style: context.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+                    // 12.ver,
+                    const RadioRecitersListWidget(),
+                  ],
                 ),
               ),
             ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: 16)),
-          BlocBuilder<RadioBloc, RadioState>(
-            builder: (context, state) {
-              if (state.status == RadioStatus.loading) {
-                return const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              if (state.status == RadioStatus.error) {
-                return SliverFillRemaining(
-                  child: Center(child: Text(state.message)),
-                );
-              }
-
-              if (state.filteredReciters.isEmpty) {
-                return const SliverFillRemaining(
-                  child: Center(child: Text("No Reciters Found")),
-                );
-              }
-
-              return SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  final reciter = state.filteredReciters[index];
-                  return Card(
-                    elevation: 1,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 4,
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: context.colors.primary,
-                        foregroundColor: context.colors.onPrimary,
-                        child: Text(reciter.letter ?? reciter.name?[0] ?? "?"),
-                      ),
-                      title: Text(
-                        reciter.name ?? "",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                      onTap: () {
-                        context.pushNamed(
-                          AppRoutes.readerSurahs,
-                          extra: reciter,
-                        );
-                      },
-                    ),
-                  );
-                }, childCount: state.filteredReciters.length),
-              );
-            },
-          ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-        ],
+          ],
+        ),
       ),
     );
   }

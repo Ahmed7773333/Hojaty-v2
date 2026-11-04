@@ -1,31 +1,23 @@
-import 'package:hive_flutter/hive_flutter.dart';
-import '../../models/readers_response.dart';
+import '../../models/playlist_item_model.dart';
+import '../../models/playlist_model.dart';
+import '../../models/reciter_model.dart';
 
 abstract class RadioLocalDataSource {
-  Future<ReadersResponseModel?> getCachedReciters(String language);
-  Future<void> cacheReciters(String language, ReadersResponseModel data);
+  Future<List<ReciterModel>?> getCachedReciters(String language);
+  Future<void> cacheReciters(String language, List<ReciterModel> reciters);
+  Future<List<PlaylistModel>> getPlaylists();
+  Future<void> createPlaylist(String name);
+  Future<void> deletePlaylist(String playlistId);
+  Future<void> addToPlaylist(String playlistId, PlaylistItemModel item);
+  Future<void> removeFromPlaylist({
+    required String playlistId,
+    required int surahId,
+    required String reciterName,
+  });
+  Future<bool> isFavorite({
+    required int surahId,
+    required String reciterName,
+  });
+  Future<void> toggleFavorite(PlaylistItemModel item);
 }
 
-class RadioLocalDataSourceImpl implements RadioLocalDataSource {
-  static const String boxName = 'reciters_box';
-
-  Future<Box<ReadersResponseModel>> get _box async {
-    if (Hive.isBoxOpen(boxName)) {
-      return Hive.box<ReadersResponseModel>(boxName);
-    } else {
-      return await Hive.openBox<ReadersResponseModel>(boxName);
-    }
-  }
-
-  @override
-  Future<ReadersResponseModel?> getCachedReciters(String language) async {
-    final box = await _box;
-    return box.get(language);
-  }
-
-  @override
-  Future<void> cacheReciters(String language, ReadersResponseModel data) async {
-    final box = await _box;
-    await box.put(language, data);
-  }
-}

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hojaty/config/theme/app_color.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/screen_util_like.dart';
+import '../../data/models/live_stream_args.dart';
+import '../../services/radio_audio_player_service.dart';
+import '../widgets/live_stream/live_stream_header_widget.dart';
+import '../widgets/live_stream/live_stream_player_card.dart';
 
 class LiveStreamPage extends StatefulWidget {
-  final String streamUrl;
-  final String title;
+  final LiveStreamArgs args;
 
   const LiveStreamPage({
     super.key,
-    required this.streamUrl,
-    required this.title,
+    required this.args,
   });
 
   @override
@@ -18,53 +21,50 @@ class LiveStreamPage extends StatefulWidget {
 }
 
 class _LiveStreamPageState extends State<LiveStreamPage> {
-  late YoutubePlayerController _controller;
+  late final RadioAudioPlayerService _playerService;
 
   @override
   void initState() {
     super.initState();
-    final videoId = YoutubePlayer.convertUrlToId(widget.streamUrl) ?? '';
-    _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        isLive: true,
-        autoPlay: true,
-        forceHD: true,
-        enableCaption: false,
-      ),
+    // ponytail: audio-only live stream, upgrade to video player when video streaming dependency is requested
+    _playerService = injector<RadioAudioPlayerService>();
+    _playerService.playUrl(
+      url: widget.args.streamUrl,
+      reciterName: widget.args.title,
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    _playerService.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        liveUIColor: Colors.red,
-      ),
-      builder: (context, player) {
-        return Scaffold(
-          backgroundColor: AppColor.darkBackground,
-          appBar: AppBar(
-            title: Text(
-              widget.title,
-              style: const TextStyle(color: AppColor.darkTextPrimary),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            iconTheme: const IconThemeData(color: AppColor.darkTextPrimary),
+    final isDark = context.isDark;
+
+    return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      body: Column(
+        children: [
+          LiveStreamHeaderWidget(
+            title: widget.args.title,
+            onBack: () => context.pop(),
           ),
-          body: Center(child: player),
-        );
-      },
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: LiveStreamPlayerCard(
+                title: widget.args.title,
+                imagePath: widget.args.imagePath,
+                playerService: _playerService,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+

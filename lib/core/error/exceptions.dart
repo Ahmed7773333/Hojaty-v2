@@ -1,6 +1,10 @@
 class ServerException implements Exception {
   final String message;
-  ServerException({this.message = 'An unknown server error occurred.'});
+  final int? statusCode;
+  ServerException({
+    this.message = 'An unknown server error occurred.',
+    this.statusCode,
+  });
 }
 
 class CacheException implements Exception {
@@ -10,5 +14,7 @@ class CacheException implements Exception {
 
 class NetworkException implements Exception {
   final String message;
-  NetworkException({this.message = 'A network error occurred. Please check your connection.'});
+  NetworkException({
+    this.message = 'A network error occurred. Please check your connection.',
+  });
 }

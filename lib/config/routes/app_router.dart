@@ -1,193 +1,315 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../features/home/presentation/pages/azkar_page.dart';
-import '../../features/quraan/presentation/bloc/quraan_bloc.dart';
-import '../../features/home/presentation/pages/home_layout.dart';
-import '../../features/settings/presentation/pages/settings_page.dart';
-import '../../features/prayers/presentation/pages/prayers_page.dart';
-import '../../features/home/presentation/pages/ahadith_page.dart';
-import '../../features/home/presentation/pages/allah_names_page.dart';
-import '../../features/home/presentation/pages/duaas_page.dart';
-import '../../features/home/presentation/pages/prophet_page.dart';
-import '../../features/home/presentation/pages/other_books_page.dart';
-import '../../features/home/presentation/pages/qibla_page.dart';
-import '../../features/home/presentation/pages/ramadan_page.dart';
-import '../../features/home/presentation/pages/sebha_page.dart';
-import '../../features/settings/presentation/pages/about_app_page.dart';
-import '../../features/settings/presentation/pages/contact_us_page.dart';
-import '../../features/settings/presentation/pages/notifications_page.dart';
-import '../../features/settings/presentation/pages/privacy_policy_page.dart';
-
-import '../../features/radio/presentation/pages/radio_page.dart';
-import '../../features/radio/presentation/pages/live_stream_page.dart';
-import '../../features/radio/presentation/pages/playlists_screen.dart';
-import '../../features/radio/presentation/pages/playlist_details_screen.dart';
+import '../../core/local/user_hive_helper.dart';
+import '../../data/mocks/occasions_mock_data.dart';
+import '../../features/books/data/models/book_collection_model.dart';
+import '../../features/books/data/models/book_info_model.dart';
+import '../../features/books/data/models/hadith_item_model.dart';
+import '../../features/books/presentation/pages/book_chapters_page.dart';
+import '../../features/books/presentation/pages/book_hadiths_page.dart';
+import '../../features/books/presentation/pages/books_page.dart';
+import '../../features/homelayout/data/models/athkar_category_model.dart';
+import '../../features/homelayout/data/models/athkar_detail_args.dart';
+import '../../features/homelayout/data/models/occasion_item_model.dart';
+import '../../features/homelayout/presentation/pages/app_info_content_page.dart';
+import '../../features/homelayout/presentation/pages/athkar_detail_page.dart';
+import '../../features/homelayout/presentation/pages/font_settings_page.dart';
+import '../../features/homelayout/presentation/pages/font_type_settings_page.dart';
+import '../../features/homelayout/presentation/pages/homelayout_page.dart';
+import '../../features/homelayout/presentation/pages/istikhara_page.dart';
+import '../../features/homelayout/presentation/pages/language_settings_page.dart';
+import '../../features/homelayout/presentation/pages/location_settings_page.dart';
+import '../../features/homelayout/presentation/pages/notifications_page.dart';
+import '../../features/homelayout/presentation/pages/occasion_detail_page.dart';
+import '../../features/homelayout/presentation/pages/prayer_calculation_settings_page.dart';
+import '../../features/homelayout/presentation/pages/prayer_times_page.dart';
+import '../../features/homelayout/presentation/pages/sebha_page.dart';
+import '../../features/onboarding/presentation/pages/language_selection_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/quran/data/models/page_data_model.dart';
+import '../../features/quran/presentation/pages/quran_fehres_page.dart';
+import '../../features/quran/presentation/pages/quran_juzs_page.dart';
+import '../../features/quran/presentation/pages/quran_reader_page.dart';
+import '../../features/quran/presentation/pages/quran_search_page.dart';
+import '../../features/quran/presentation/pages/quran_tafseer_page.dart';
+import '../../features/radio/data/models/live_stream_args.dart';
 import '../../features/radio/data/models/playlist_model.dart';
+import '../../features/radio/data/models/reciter_model.dart';
+import '../../features/radio/data/models/surah_audio_args.dart';
+import '../../features/radio/presentation/pages/live_stream_page.dart';
+import '../../features/radio/presentation/pages/playlist_details_page.dart';
+import '../../features/radio/presentation/pages/playlists_page.dart';
+import '../../features/radio/presentation/pages/radio_page.dart';
 import '../../features/radio/presentation/pages/reader_surahs_page.dart';
-import '../../features/radio/data/models/readers_response.dart';
 import '../../features/radio/presentation/pages/surah_audio_page.dart';
-
-import '../../core/constants/surahs_list.dart';
-import '../../core/di/injector.dart';
-import '../../features/quraan/presentation/bloc/quraan_event.dart';
-
-import '../../features/quraan/presentation/pages/quraan_page.dart';
-import '../../features/quraan/presentation/pages/fehres.dart';
-import '../../features/quraan/presentation/pages/juzs.dart';
-import '../../features/quraan/presentation/pages/tafseer.dart';
-import '../../features/quraan/presentation/pages/search.dart';
 
 class AppRoutes {
   static const String splash = '/';
-  static const String login = '/login';
-  static const String home = '/home'; // HomeLayout
-
-  // Home Features
-  static const String ahadith = '/ahadith';
-  static const String allahNames = '/allah_names';
-  static const String duaas = '/duaas';
-  static const String prophet = '/prophet';
-  static const String prophetsStories = '/prophets_stories';
-  static const String qibla = '/qibla';
-  static const String ramadan = '/ramadan';
-  static const String sebha = '/sebha';
-  static const String azkar = '/azkar';
-
-  // Prayers
-  static const String prayers = '/prayers';
-
-  // Radio
-  static const String radio = '/radio';
-  static const String liveStream = '/live_stream';
-  static const String playlists = '/playlists';
-  static const String playlistDetails = '/playlist_details';
-  static const String readerSurahs = '/reader_surahs';
-  static const String surahAudio = '/surah_audio';
-
-  // Quraan
-  static const String quraan = '/quraan';
-  static const String fehres = '/fehres';
-  static const String juzs = '/juzs';
-  static const String tafseer = '/tafseer';
-  static const String search = '/search';
-
-  // Settings
-  static const String settings = '/settings';
-  static const String aboutApp = '/about_app';
-  static const String privacyPolicy = '/privacy_policy';
-  static const String contactUs = '/contact_us';
+  static const String languageSelection = '/language-selection';
+  static const String onboarding = '/onboarding';
+  static const String home = '/home';
+  static const String prayerTimes = '/prayer-times';
   static const String notifications = '/notifications';
+  static const String athkarDetail = '/athkar-detail';
+  static const String istikhara = '/istikhara';
+  static const String sebha = '/sebha';
+  static const String occasionDetail = '/occasion-detail';
+  static const String languageSettings = '/language-settings';
+  static const String prayerCalculationSettings = '/prayer-calculation-settings';
+  static const String locationSettings = '/location-settings';
+  static const String fontSettings = '/font-settings';
+  static const String fontTypeSettings = '/font-type-settings';
+  static const String appInfoContent = '/app-info-content';
+  static const String login = '/login';
+  static const String quranReader = '/quran-reader';
+  static const String quranFehres = '/quran-fehres';
+  static const String quranJuzs = '/quran-juzs';
+  static const String quranSearch = '/quran-search';
+  static const String quranTafseer = '/quran-tafseer';
+  static const String radio = '/radio';
+  static const String readerSurahs = '/reader-surahs';
+  static const String surahAudio = '/surah-audio';
+  static const String playlists = '/playlists';
+  static const String playlistDetails = '/playlist-details';
+  static const String liveStream = '/live-stream';
+  static const String books = '/books';
+  static const String bookChapters = '/book-chapters';
+  static const String bookHadiths = '/book-hadiths';
 }
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.splash:
-      case AppRoutes.home:
-        return MaterialPageRoute(builder: (_) => const HomeLayout());
-
-      // Home Features
-      case AppRoutes.ahadith:
-        return MaterialPageRoute(builder: (_) => const AhadithPage());
-      case AppRoutes.allahNames:
-        return MaterialPageRoute(builder: (_) => const AllahNamesPage());
-      case AppRoutes.duaas:
-        return MaterialPageRoute(builder: (_) => const DuaasPage());
-      case AppRoutes.prophet:
-        return MaterialPageRoute(builder: (_) => const ProphetPage());
-      case AppRoutes.prophetsStories:
-        return MaterialPageRoute(builder: (_) => const ProphetsStoriesPage());
-      case AppRoutes.qibla:
-        return MaterialPageRoute(builder: (_) => const QiblaPage());
-      case AppRoutes.ramadan:
-        return MaterialPageRoute(builder: (_) => const RamadanPage());
-      case AppRoutes.sebha:
-        return MaterialPageRoute(builder: (_) => const SebhaPage());
-      case AppRoutes.azkar:
-        return MaterialPageRoute(builder: (_) => const AzkarPage());
-
-      // Prayers
-      case AppRoutes.prayers:
-        return MaterialPageRoute(builder: (_) => const PrayersPage());
-
-      // Radio
-      case AppRoutes.radio:
-        return MaterialPageRoute(builder: (_) => const RadioPage());
-      case AppRoutes.liveStream:
-        final args = settings.arguments as Map<String, dynamic>;
+        final user = UserHiveHelper.getUser();
+        final bool isCompleted = user?.onBoardingCompleted ?? false;
+        if (isCompleted) {
+          return MaterialPageRoute(
+            builder: (_) => const HomelayoutPage(),
+            settings: settings,
+          );
+        }
         return MaterialPageRoute(
-          builder: (_) => LiveStreamPage(
-            streamUrl: args['streamUrl'] as String,
-            title: args['title'] as String,
+          builder: (_) => const LanguageSelectionPage(),
+          settings: settings,
+        );
+      case AppRoutes.languageSelection:
+        return MaterialPageRoute(
+          builder: (_) => const LanguageSelectionPage(),
+          settings: settings,
+        );
+      case AppRoutes.onboarding:
+        return MaterialPageRoute(
+          builder: (_) => const OnboardingPage(),
+          settings: settings,
+        );
+      case AppRoutes.home:
+        return MaterialPageRoute(
+          builder: (_) => const HomelayoutPage(),
+          settings: settings,
+        );
+      case AppRoutes.prayerTimes:
+        final initialTab = settings.arguments as int? ?? 0;
+        return MaterialPageRoute(
+          builder: (_) => PrayerTimesPage(initialTabIndex: initialTab),
+          settings: settings,
+        );
+      case AppRoutes.notifications:
+        return MaterialPageRoute(
+          builder: (_) => const NotificationsPage(),
+          settings: settings,
+        );
+      case AppRoutes.athkarDetail:
+        if (settings.arguments is AthkarDetailArgs) {
+          final args = settings.arguments as AthkarDetailArgs;
+          return MaterialPageRoute(
+            builder: (_) => AthkarDetailPage(
+              title: args.title,
+              items: args.items,
+              categoryType: args.categoryType,
+            ),
+            settings: settings,
+          );
+        } else if (settings.arguments is AthkarCategoryModel) {
+          final category = settings.arguments as AthkarCategoryModel;
+          return MaterialPageRoute(
+            builder: (_) => AthkarDetailPage(
+              title: '',
+              categoryModel: category,
+            ),
+            settings: settings,
+          );
+        }
+        final title = settings.arguments as String? ?? 'أذكار الصباح';
+        return MaterialPageRoute(
+          builder: (_) => AthkarDetailPage(title: title),
+          settings: settings,
+        );
+      case AppRoutes.istikhara:
+        return MaterialPageRoute(
+          builder: (_) => const IstikharaPage(),
+          settings: settings,
+        );
+      case AppRoutes.sebha:
+        return MaterialPageRoute(
+          builder: (_) => const SebhaPage(),
+          settings: settings,
+        );
+      case AppRoutes.occasionDetail:
+        final occasion = settings.arguments as OccasionItemModel? ??
+            OccasionsMockData.nextOccasion;
+        return MaterialPageRoute(
+          builder: (_) => OccasionDetailPage(occasion: occasion),
+          settings: settings,
+        );
+      case AppRoutes.languageSettings:
+        return MaterialPageRoute(
+          builder: (_) => const LanguageSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.prayerCalculationSettings:
+        return MaterialPageRoute(
+          builder: (_) => const PrayerCalculationSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.locationSettings:
+        return MaterialPageRoute(
+          builder: (_) => const LocationSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.fontSettings:
+        return MaterialPageRoute(
+          builder: (_) => const FontSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.fontTypeSettings:
+        return MaterialPageRoute(
+          builder: (_) => const FontTypeSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.appInfoContent:
+        if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          final contentType = args['contentType'] as AppContentType? ?? AppContentType.custom;
+          final title = (args['title'] as String?) ?? '';
+          final content = (args['content'] as String?) ?? '';
+          return MaterialPageRoute(
+            builder: (_) => AppInfoContentPage(
+              contentType: contentType,
+              title: title,
+              content: content,
+            ),
+            settings: settings,
+          );
+        }
+        return MaterialPageRoute(
+          builder: (_) => const AppInfoContentPage(
+            title: '',
+            content: '',
           ),
+          settings: settings,
+        );
+      case AppRoutes.quranReader:
+        final initialPage = settings.arguments as int?;
+        return MaterialPageRoute(
+          builder: (_) => QuranReaderPage(initialPage: initialPage),
+          settings: settings,
+        );
+      case AppRoutes.quranFehres:
+        return MaterialPageRoute(
+          builder: (_) => const QuranFehresPage(),
+          settings: settings,
+        );
+      case AppRoutes.quranJuzs:
+        return MaterialPageRoute(
+          builder: (_) => const QuranJuzsPage(),
+          settings: settings,
+        );
+      case AppRoutes.quranSearch:
+        return MaterialPageRoute(
+          builder: (_) => const QuranSearchPage(),
+          settings: settings,
+        );
+      case AppRoutes.quranTafseer:
+        final extra = settings.arguments as Map<String, dynamic>? ?? {};
+        final pageData = extra['pageData'] as PageDataModel?;
+        final pageNum = extra['pageNum'] as int? ?? 1;
+        final highlightVerse = extra['highlightVerse'] as int?;
+        return MaterialPageRoute(
+          builder: (_) => QuranTafseerPage(
+            pageData: pageData,
+            pageNum: pageNum,
+            highlightVerse: highlightVerse,
+          ),
+          settings: settings,
+        );
+      case AppRoutes.radio:
+        return MaterialPageRoute(
+          builder: (_) => const RadioPage(),
+          settings: settings,
+        );
+      case AppRoutes.readerSurahs:
+        final reciter = settings.arguments as ReciterModel;
+        return MaterialPageRoute(
+          builder: (_) => ReaderSurahsPage(reciter: reciter),
+          settings: settings,
+        );
+      case AppRoutes.surahAudio:
+        final args = settings.arguments as SurahAudioArgs;
+        return MaterialPageRoute(
+          builder: (_) => SurahAudioPage(args: args),
+          settings: settings,
         );
       case AppRoutes.playlists:
-        return MaterialPageRoute(builder: (_) => const PlaylistsScreen());
+        return MaterialPageRoute(
+          builder: (_) => const PlaylistsPage(),
+          settings: settings,
+        );
       case AppRoutes.playlistDetails:
         final playlist = settings.arguments as PlaylistModel;
         return MaterialPageRoute(
-          builder: (_) => PlaylistDetailsScreen(playlist: playlist),
+          builder: (_) => PlaylistDetailsPage(playlist: playlist),
+          settings: settings,
         );
-      case AppRoutes.readerSurahs:
-        final reciter = settings.arguments as Reciters;
+      case AppRoutes.liveStream:
+        final args = settings.arguments as LiveStreamArgs;
         return MaterialPageRoute(
-          builder: (_) => ReaderSurahsPage(reciter: reciter),
+          builder: (_) => LiveStreamPage(args: args),
+          settings: settings,
         );
-      case AppRoutes.surahAudio:
-        final args = settings.arguments as Map<String, dynamic>;
+      case AppRoutes.books:
         return MaterialPageRoute(
-          builder: (_) => SurahAudioPage(
-            surah: args['surah'] as Surah,
-            serverUrl: args['serverUrl'] as String,
-            reciterName: args['reciterName'] as String,
-          ),
+          builder: (_) => const BooksPage(),
+          settings: settings,
         );
-
-      // Quraan
-      case AppRoutes.quraan:
-        return MaterialPageRoute(builder: (_) => const QuraanPage());
-      case AppRoutes.fehres:
-        return MaterialPageRoute<int>(builder: (_) => const FehrsPage());
-      case AppRoutes.juzs:
-        return MaterialPageRoute<int>(
-          builder: (_) => BlocProvider(
-            create: (_) => injector<QuraanBloc>()..add(LoadQuraanData()),
-            child: const Guzs(),
-          ),
-        );
-      case AppRoutes.tafseer:
-        final args = settings.arguments as Map<String, dynamic>;
+      case AppRoutes.bookChapters:
+        final map = settings.arguments as Map<String, dynamic>;
+        final book = map['book'] as BookInfoModel;
+        final collection = map['collection'] as BookCollectionModel;
         return MaterialPageRoute(
-          builder: (_) => TafseerPage(
-            content: args['content'] as String,
-            pageNum: args['pageNum'] as String,
-          ),
+          builder: (_) => BookChaptersPage(book: book, collection: collection),
+          settings: settings,
         );
-      case AppRoutes.search:
-        return MaterialPageRoute<int>(
-          builder: (_) => BlocProvider(
-            create: (_) => injector<QuraanBloc>()..add(LoadQuraanData()),
-            child: const SearchPage(),
+      case AppRoutes.bookHadiths:
+        final map = settings.arguments as Map<String, dynamic>;
+        final bookTitle = map['bookTitle'] as String;
+        final chapterTitle = map['chapterTitle'] as String;
+        final hadiths = map['hadiths'] as List<HadithItemModel>;
+        return MaterialPageRoute(
+          builder: (_) => BookHadithsPage(
+            bookTitle: bookTitle,
+            chapterTitle: chapterTitle,
+            hadiths: hadiths,
           ),
+          settings: settings,
         );
-
-      // Settings
-      case AppRoutes.settings:
-        return MaterialPageRoute(builder: (_) => const SettingsPage());
-      case AppRoutes.aboutApp:
-        return MaterialPageRoute(builder: (_) => const AboutAppPage());
-      case AppRoutes.privacyPolicy:
-        return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
-      case AppRoutes.contactUs:
-        return MaterialPageRoute(builder: (_) => const ContactUsPage());
-      case AppRoutes.notifications:
-        return MaterialPageRoute(builder: (_) => const NotificationsPage());
-
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
-            body: Center(child: Text('No route defined for ${settings.name}')),
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
           ),
+          settings: settings,
         );
     }
   }

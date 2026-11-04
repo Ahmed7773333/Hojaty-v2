@@ -1,14 +1,14 @@
+import 'package:hojaty/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../features/home/data/models/user_db_helper.dart';
+// import 'package:timegates/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
   AppLocalizations get strings => AppLocalizations.of(this)!;
   ColorScheme get colors => Theme.of(this).colorScheme;
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
-  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
 }
 
 /// 🌍 A complete BuildContext extension to handle all navigation types
@@ -16,7 +16,6 @@ extension LocalizationExtension on BuildContext {
 extension RoutingExtension on BuildContext {
   /// 🔹 Push a route by name with optional arguments
   Future<T?> pushNamed<T extends Object?>(String routeName, {Object? extra}) {
-    _saveRoute(routeName, args: extra);
     return Navigator.of(this).pushNamed<T>(routeName, arguments: extra);
   }
 
@@ -26,7 +25,6 @@ extension RoutingExtension on BuildContext {
     TO? result,
     Object? extra,
   }) {
-    _saveRoute(routeName, args: extra);
     return Navigator.of(
       this,
     ).pushReplacementNamed<T, TO>(routeName, result: result, arguments: extra);
@@ -38,7 +36,6 @@ extension RoutingExtension on BuildContext {
     bool Function(Route<dynamic>)? predicate,
     Object? extra,
   }) {
-    _saveRoute(routeName, args: extra);
     return Navigator.of(this).pushNamedAndRemoveUntil<T>(
       routeName,
       predicate ?? (Route<dynamic> route) => false,
@@ -52,7 +49,6 @@ extension RoutingExtension on BuildContext {
   }) async {
     // Pop until route with name == routeName
     Navigator.of(this).popUntil((ModalRoute.withName(routeName)));
-    _saveRoute(routeName);
 
     // Then optionally pop one more with a result
     // return Navigator.of(this).maybePop<T>(extra as T?);
@@ -113,76 +109,13 @@ extension RoutingExtension on BuildContext {
 
   /// 🔹 Push and clear the entire navigation stack
   Future<T?> go<T extends Object?>(String routeName, {Object? extra}) {
-    _saveRoute(routeName, args: extra);
     return Navigator.of(
       this,
     ).pushNamedAndRemoveUntil<T>(routeName, (route) => false, arguments: extra);
   }
 
-  void _saveRoute(String routeName, {Object? args}) {
-    try {
-      final user = UserDbHelper.getById();
-      if (user == null) return;
-
-      user.lastRoute = routeName;
-
-      // Handle arguments
-      if (args != null) {
-        if (args is Map<String, dynamic>) {
-          Map<String, dynamic> serializedArgs = {};
-          args.forEach((key, value) {
-            serializedArgs[key] = _serializeValue(value);
-          });
-          user.lastRouteArguments = serializedArgs;
-        } else {
-          // Single object argument
-          user.lastRouteArguments = {'_single_arg_': _serializeValue(args)};
-        }
-      } else {
-        user.lastRouteArguments = null;
-      }
-
-      user.save();
-      debugPrint('Route saved: $routeName');
-    } catch (e) {
-      debugPrint('Error saving route: $e');
-    }
-  }
-
-  dynamic _serializeValue(dynamic value) {
-    if (value == null || value is String || value is num || value is bool) {
-      return value;
-    }
-    if (value is List) {
-      return value.map((e) => _serializeValue(e)).toList();
-    }
-    if (value is Map) {
-      Map<String, dynamic> newMap = {};
-      value.forEach((k, v) {
-        newMap[k.toString()] = _serializeValue(v);
-      });
-      return newMap;
-    }
-    // Try toJson for domain objects
-    try {
-      return (value as dynamic).toJson();
-    } catch (e) {
-      debugPrint('Serialization failed for ${value.runtimeType}: $e');
-      return null;
-    }
-  }
-
-  void _clearSavedRoute() {
-    // When popping, we don't clear the route. Instead, we rely on the next
-    // pushNamed call to set the correct route. This works because pop returns
-    // to a page that was already saved when it was pushed.
-    // The pop operation doesn't need to save/clear - the underlying route
-    // was already saved when it was first pushed.
-  }
-
-  /// 🔹 Pop the current screen and clear saved route
+  /// 🔹 Pop the current screen
   void pop<T extends Object?>([T? result]) {
-    _clearSavedRoute();
     Navigator.of(this).pop<T>(result);
   }
 

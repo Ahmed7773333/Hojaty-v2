@@ -1,41 +1,33 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
-// import '../../../../core/network/network_info.dart';
 import '../../domain/repositories/radio_repository.dart';
 import '../datasources/local/radio_local_data_source.dart';
 import '../datasources/remote/radio_remote_data_source.dart';
-import '../models/readers_response.dart';
+import '../models/playlist_item_model.dart';
+import '../models/playlist_model.dart';
+import '../models/reciter_model.dart';
 
 class RadioRepositoryImpl implements RadioRepository {
   final RadioRemoteDataSource remoteDataSource;
   final RadioLocalDataSource localDataSource;
 
-  RadioRepositoryImpl({
+  const RadioRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
   });
 
   @override
-  Future<Either<Failure, void>> getRadio() async {
-    // Legacy placeholder
-    return const Right(null);
-  }
-
-  @override
-  Future<Either<Failure, ReadersResponseModel>> getReciters({
+  Future<Either<Failure, List<ReciterModel>>> getReciters({
     required String language,
   }) async {
     try {
-      // Map 'en' to 'eng' for API if needed
       final apiLanguage = language == 'en' ? 'eng' : language;
-
       final cached = await localDataSource.getCachedReciters(apiLanguage);
-      if (cached != null) {
+      if (cached != null && cached.isNotEmpty) {
         return Right(cached);
       }
 
-      // If missing, fetch BOTH 'ar' and 'eng' to ensure we have data for language switching
-      // We run these concurrently for better performance
+      // Fetch both Arabic and English to support bilingual search and offline
       final results = await Future.wait([
         remoteDataSource.getReciters(language: 'ar'),
         remoteDataSource.getReciters(language: 'eng'),
@@ -44,16 +36,101 @@ class RadioRepositoryImpl implements RadioRepository {
       final arData = results[0];
       final enData = results[1];
 
-      // Cache both
-      await localDataSource.cacheReciters('ar', arData);
-      await localDataSource.cacheReciters('eng', enData);
+      if (arData.isNotEmpty) await localDataSource.cacheReciters('ar', arData);
+      if (enData.isNotEmpty) await localDataSource.cacheReciters('eng', enData);
 
-      // Return the requested one
-      if (apiLanguage == 'head' || apiLanguage == 'ar') return Right(arData);
-      return Right(enData);
+      final result = apiLanguage == 'eng' ? enData : arData;
+      return Right(result.isNotEmpty ? result : (arData.isNotEmpty ? arData : enData));
     } catch (e) {
-      // If offline and no cache, return failure
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<PlaylistModel>>> getPlaylists() async {
+    try {
+      final playlists = await localDataSource.getPlaylists();
+      return Right(playlists);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createPlaylist(String name) async {
+    try {
+      await localDataSource.createPlaylist(name);
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deletePlaylist(String playlistId) async {
+    try {
+      await localDataSource.deletePlaylist(playlistId);
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addToPlaylist(
+    String playlistId,
+    PlaylistItemModel item,
+  ) async {
+    try {
+      await localDataSource.addToPlaylist(playlistId, item);
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeFromPlaylist({
+    required String playlistId,
+    required int surahId,
+    required String reciterName,
+  }) async {
+    try {
+      await localDataSource.removeFromPlaylist(
+        playlistId: playlistId,
+        surahId: surahId,
+        reciterName: reciterName,
+      );
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isFavorite({
+    required int surahId,
+    required String reciterName,
+  }) async {
+    try {
+      final fav = await localDataSource.isFavorite(
+        surahId: surahId,
+        reciterName: reciterName,
+      );
+      return Right(fav);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> toggleFavorite(PlaylistItemModel item) async {
+    try {
+      await localDataSource.toggleFavorite(item);
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
 }
+

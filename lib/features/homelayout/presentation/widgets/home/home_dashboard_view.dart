@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import '../../../../../core/utils/app_colors.dart';
+import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import 'home_header_widget.dart';
+import 'home_next_prayer_card_widget.dart';
+import 'home_occasion_banner_widget.dart';
+import 'home_prayer_times_widget.dart';
+import 'home_quick_access_widget.dart';
+
+class HomeDashboardView extends StatelessWidget {
+  const HomeDashboardView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            color: AppColors.primaryDarkBackground,
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  const HomeHeaderWidget(),
+                  const HomeNextPrayerCardWidget(),
+                  const HomeOccasionBannerWidget(),
+                  12.ver,
+                ],
+              ),
+            ),
+          ),
+          Container(
+            color: context.isDark
+                ? AppColors.darkBackground
+                : AppColors.lightBackground,
+            child: Column(
+              children: [
+                20.ver,
+                const HomePrayerTimesWidget(),
+                20.ver,
+                const HomeQuickAccessWidget(),
+                20.ver,
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

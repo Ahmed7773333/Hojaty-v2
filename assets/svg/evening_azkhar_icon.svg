@@ -1,0 +1,22 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_13_1326" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="27">
+<path d="M40 23.9062H23.125C22.7226 23.9088 22.3345 24.0557 22.0312 24.3203L20 26.0938L17.9688 24.3203C17.6655 24.0557 17.2774 23.9088 16.875 23.9062H0V0H40V23.9062Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_13_1326)">
+<g clip-path="url(#clip0_13_1326)">
+<path d="M20 29.375C23.6244 29.375 26.5625 26.4369 26.5625 22.8125C26.5625 19.1881 23.6244 16.25 20 16.25C16.3756 16.25 13.4375 19.1881 13.4375 22.8125C13.4375 26.4369 16.3756 29.375 20 29.375Z" fill="url(#paint0_linear_13_1326)" stroke="#F8AF18" stroke-width="0.375" stroke-miterlimit="10"/>
+<path d="M27.1981 15.6144L29.9437 12.8688M10.0563 32.7562L12.8019 30.0106M30.1868 22.8125H34.0537M5.94625 22.8125L9.82429 22.8125M20.011 12.6257V8.75874M20.011 36.8773V32.9992M12.8019 15.6144L10.0563 12.8688M29.9437 32.7562L27.1981 30.0106" stroke="#FBBF24" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</g>
+</g>
+<path d="M10 25.9375H16.875L20 28.75L23.125 25.9375H30" stroke="#374151" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+<defs>
+<linearGradient id="paint0_linear_13_1326" x1="16.7187" y1="17.125" x2="23.2812" y2="28.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FBBF24"/>
+<stop offset="0.5" stop-color="#FBBF24"/>
+<stop offset="1" stop-color="#F59E0B"/>
+</linearGradient>
+<clipPath id="clip0_13_1326">
+<rect width="30" height="30" fill="white" transform="translate(5 7.8125)"/>
+</clipPath>
+</defs>
+</svg>
