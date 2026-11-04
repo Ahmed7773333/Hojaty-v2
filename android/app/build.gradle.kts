@@ -1,88 +1,94 @@
-plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
-}
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.Properties
 
-// 1. Load the key.properties file
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+plugins {
+    id("com.android.application")
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("dev.flutter.flutter-gradle-plugin")
+}
+
 android {
     namespace = "com.wolfdev.hojaty"
-    compileSdk = 36
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
-
-    // 2. Define the signing configuration
-    signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String?
-            keyPassword = keystoreProperties["keyPassword"] as String?
-            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
-            storePassword = keystoreProperties["storePassword"] as String?
-        }
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-
-
     defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.wolfdev.hojaty"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = 36
+        targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        assetPacks += ":quran_hafs"
-        assetPacks += ":quran_warsh"
-        assetPacks += ":quran_qalon"
-        assetPacks += ":quran_douri"
-        assetPacks += ":quran_shubah"
-        // New Books
-        assetPacks += ":book_bukhari"
-        assetPacks += ":book_muslim"
-        assetPacks += ":book_nasai"
-        assetPacks += ":book_abudawud"
-        assetPacks += ":book_tirmidhi"
-        assetPacks += ":book_ibnmajah"
-        assetPacks += ":book_malik"
-        assetPacks += ":book_ahmed"
-        assetPacks += ":book_darimi"
-        assetPacks += ":book_nawawi40"
-        assetPacks += ":book_qudsi40"
-        assetPacks += ":book_shahwaliullah40"
-        assetPacks += ":book_riyad"
-        assetPacks += ":book_bulugh"
-        assetPacks += ":book_mishkat"
-        assetPacks += ":book_adab"
-        assetPacks += ":book_shamail"
-        assetPacks += ":book_adhkar"
-        assetPacks += ":book_duaa"
-        assetPacks += ":pre_opened"
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
+            storePassword = keystoreProperties.getProperty("storePassword")
+        }
     }
 
     buildTypes {
         release {
-            // 3. Use the release signing config instead of debug
-            signingConfig = signingConfigs.getByName("release")
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            isMinifyEnabled = true
-            isShrinkResources = true
+            signingConfig = if (keystorePropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
+
+    assetPacks += listOf(
+        ":quran_hafs",
+        ":quran_warsh",
+        ":quran_qalon",
+        ":quran_douri",
+        ":quran_shubah",
+        ":book_bukhari",
+        ":book_muslim",
+        ":book_nasai",
+        ":book_abudawud",
+        ":book_tirmidhi",
+        ":book_ibnmajah",
+        ":book_malik",
+        ":book_ahmed",
+        ":book_darimi",
+        ":book_nawawi40",
+        ":book_qudsi40",
+        ":book_shahwaliullah40",
+        ":book_riyad",
+        ":book_bulugh",
+        ":book_mishkat",
+        ":book_adab",
+        ":book_shamail",
+        ":book_duaa"
+    )
+}
+
+dependencies {
+    implementation("com.google.android.play:asset-delivery:2.2.2")
+    implementation("com.google.android.play:asset-delivery-ktx:2.2.2")
 }
 
 kotlin {
-    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
 }
 
 flutter {

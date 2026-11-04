@@ -1,368 +1,293 @@
 {
-  "playlists": "Playlists",
-  "@@locale": "en",
-  "appTitle": "Hojaty",
-  "@appTitle": {
-    "description": "The title of the application"
-  },
+  "hello": "Hello",
+  "chooseLanguage": "Choose your language",
+  "chooseLanguageSubtitle": "You can change the language later in settings",
+  "arabicLanguage": "العربية",
+  "arabicSubtitle": "Arabic",
+  "englishLanguage": "English",
+  "englishSubtitle": "English",
+  "continueButton": "Continue",
+  "skip": "Skip",
+  "skipAll": "Skip all",
+  "next": "Next",
+  "deleteDownloadConfirm":"Are you sure you want to delete this book ?",
+  "getStarted": "Start now",
+  "onboardingSlide1Subtitle": "Accurate times for every prayer",
+  "onboardingSlide1Title": "Your prayer on time",
+  "onboardingSlide1Desc": "We provide accurate prayer times based on your location, with notifications reminding you of every prayer on time.",
+  "onboardingSlide2Subtitle": "Read and glorify at any time",
+  "onboardingSlide2Title": "Quran and Athkar always with you",
+  "onboardingSlide2Desc": "Browse the Holy Quran with a peaceful reading experience, and perform morning and evening Athkar with an interactive counter.",
+  "onboardingSlide3Subtitle": "Smart believer feature",
+  "onboardingSlide3Title": "Hojaty",
+  "onboardingSlide3Desc": "When someone calls you during prayer, \"I am praying\" is sent to them automatically — because prayer time is sacred.",
+  "onboardingSlide4Subtitle": "Hijri calendar and occasions",
+  "onboardingSlide4Title": "Stay close to your religious occasions",
+  "onboardingSlide4Desc": "Follow Islamic occasions, fasting days and Ramadan Imsakiya, with notifications reminding you before each occasion.",
+  "homeLocation": "Cairo, Egypt",
+  "homeGregorianDate": "Saturday, 16 August 2026",
+  "homeHijriDate": "18 Muharram 1447 AH",
+  "nextPrayerTitle": "Next Prayer",
+  "nextPrayerRemaining": "Time Remaining",
+  "upcomingOccasionBanner": "Upcoming Occasion: {title} — {days} days left",
+  "prayerTimesSectionTitle": "Prayer Times",
+  "details": "Details",
+  "currentPrayerBadge": "Current Prayer",
+  "nextPrayerBadge": "Next Prayer",
+  "fajr": "Fajr",
+  "dhuhr": "Dhuhr",
+  "asr": "Asr",
+  "maghrib": "Maghrib",
+  "isha": "Isha",
+  "quickAccess": "Quick Access",
+  "quranKareem": "Holy Quran",
+  "continueReading": "Continue Reading",
+  "quranStatsSubtitle": "114 Surahs - 30 Juz - 60 Hizb",
+  "searchSurahHint": "Search for a surah...",
+  "surahsListTitle": "Surahs List",
+  "surahBaqarah": "Surah Al-Baqarah",
+  "ayahNumber": "Ayah {number}",
+  "ayahCountText": "{count} Ayahs",
+  "meccanType": "Meccan",
+  "medinanType": "Medinan",
+  "athkar": "Athkar",
+  "morningAthkar": "Morning Athkar",
+  "eveningAthkar": "Evening Athkar",
+  "sleepAthkar": "Sleep Athkar",
+  "afterPrayerAthkar": "After Prayer Athkar",
+  "miscAthkar": "Various Athkar",
+  "electronicSebha": "Electronic Sebha",
+  "sebhaSubtitle": "Electronic counter for your tasbeeh",
+  "reset": "Reset",
+  "salatAlIstikhara": "Salat Al-Istikhara",
+  "athkarSubtitle": "Daily Athkar for Muslims",
+  "countThikr": "{count} Athkar",
+  "requiredLabel": "Required",
+  "timesUnit": "{count} Time",
+  "tapLabel": "Tap",
+  "istikharaStepsTitle": "Prayer Steps",
+  "istikharaDuaTitle": "Supplication After Prayer:",
+  "occasions": "Occasions",
+  "occasionsTitle": "Islamic Occasions",
+  "occasionsSubtitle": "Hijri Calendar & Religious Occasions",
+  "tabOccasions": "Occasions",
+  "tabCalendar": "Calendar",
+  "tabRamadan": "Ramadan",
+  "upcomingOccasion": "Upcoming Occasion",
+  "upcomingOccasionsList": "Upcoming Occasions",
+  "prophetBirthday": "Prophet's Birthday",
+  "eidAlAdha": "Eid Al-Adha",
+  "hijriNewYear": "Hijri New Year",
+  "ashura": "Ashura",
+  "daysRemainingUnit": "{count} days",
+  "daysRemainingText": "{count} days left",
+  "hijriCalendarTitle": "Hijri Calendar",
+  "gregorianCalendarTitle": "Gregorian Calendar",
   "today": "Today",
   "returnToToday": "Back to Today",
-  "home": "Home",
-  "@home": {
-    "description": "Home tab title"
-  },
-  "radio": "Radio",
-  "@radio": {
-    "description": "Radio tab title"
-  },
-  "azkar": "Azkar",
-  "@azkar": {
-    "description": "Azkar tab title"
-  },
-  "settings": "Settings",
-  "@settings": {
-    "description": "Settings tab title"
-  },
-  "appearance": "Appearance",
-  "@appearance": {
-    "description": "Appearance section header"
-  },
-  "system": "System",
-  "@system": {
-    "description": "System theme option"
-  },
-  "light": "Light",
-  "@light": {
-    "description": "Light theme option"
-  },
-  "dark": "Dark",
-  "@dark": {
-    "description": "Dark theme option"
-  },
-  "language": "Language",
-  "@language": {
-    "description": "Language section header"
-  },
-  "english": "English",
-  "@english": {
-    "description": "English language option"
-  },
-  "arabic": "Arabic",
-  "@arabic": {
-    "description": "Arabic language option"
-  },
-  "location": "Location",
-  "@location": {
-    "description": "Location section header"
-  },
-  "currentCity": "Current City",
-  "@currentCity": {
-    "description": "Current city label"
-  },
-  "unknown": "Unknown",
-  "@unknown": {
-    "description": "Unknown value placeholder"
-  },
-  "sebhaTitle": "Sebha",
-  "@sebhaTitle": {
-    "description": "Sebha page title"
-  },
-  "reset": "Reset",
-  "@reset": {
-    "description": "Reset button label"
-  },
-  "sound": "Sound",
-  "@sound": {
-    "description": "Sound toggle label"
-  },
-  "vibrate": "Vibrate",
-  "@vibrate": {
-    "description": "Vibrate toggle label"
-  },
-  "resetDialogTitle": "Reset Counter",
-  "@resetDialogTitle": {
-    "description": "Title of the reset confirmation dialog"
-  },
-  "resetDialogContent": "Do you want to reset the counter to zero?",
-  "@resetDialogContent": {
-    "description": "Content of the reset confirmation dialog"
-  },
-  "cancel": "Cancel",
-  "@cancel": {
-    "description": "Cancel button label"
-  },
-  "confirm": "Confirm",
-  "@confirm": {
-    "description": "Confirm button label"
-  },
-  "quranSearch": "Search",
-  "@quranSearch": {
-    "description": "Search button tooltip"
-  },
-  "quranHezps": "Hezps",
-  "@quranHezps": {
-    "description": "Hezps button label"
-  },
-  "quranTafseer": "Tafseer",
-  "@quranTafseer": {
-    "description": "Tafseer button label"
-  },
-  "quranJuzs": "Juzs",
-  "@quranJuzs": {
-    "description": "Juzs button tooltip"
-  },
-  "quranPageNotFound": "Page {pageNum} not found",
-  "@quranPageNotFound": {
-    "description": "Error message when page is missing",
-    "placeholders": {
-      "pageNum": {
-        "type": "int"
-      }
-    }
-  },
-  "quranJuzLabel": "Juz",
-  "@quranJuzLabel": {
-    "description": "Label for Juz"
-  },
-  "quranHizbLabel": "Hizb",
-  "@quranHizbLabel": {
-    "description": "Label for Hizb"
-  },
-  "quranPageLabel": "Page",
-  "@quranPageLabel": {
-    "description": "Label for Page"
-  },
-  "navigateTo": "Navigate to {destination}",
-  "@navigateTo": {
-    "description": "Generic navigation message",
-    "placeholders": {
-      "destination": {
-        "type": "String"
-      }
-    }
-  },
-  "nextPrayer": "Next Prayer",
-  "@nextPrayer": {
-    "description": "Label for next prayer header"
-  },
-  "remaining": "Remaining: ",
-  "@remaining": {
-    "description": "Prefix for remaining time"
-  },
-  "service": "Service {number}",
-  "@service": {
-    "description": "Service placeholder label",
-    "placeholders": {
-      "number": {
-        "type": "int"
-      }
-    }
-  },
-  "holyQuran": "The Holy Quran",
-  "@holyQuran": {
-    "description": "Title for Quran card"
-  },
-  "dailyWird": "Your Daily Wird",
-  "@dailyWird": {
-    "description": "Subtitle for Quran card"
-  },
-  "errorMessage": "Error: {message}",
-  "@errorMessage": {
-    "description": "Generic error message",
-    "placeholders": {
-      "message": {
-        "type": "String"
-      }
-    }
-  },
+  "ramadanKareem": "Ramadan Kareem",
+  "ramadanDay1Title": "Day 1 of Ramadan",
+  "ramadanDay1Date": "1 Ramadan 1448 AH",
+  "remainingOnRamadan": "Remaining until Ramadan",
+  "ramadanImsakiya": "Ramadan Imsakiya",
+  "dayColumn": "Day",
+  "hijriYearLabel": "{year} AH",
+  "occasionDetailsTitle": "Occasion Details",
+  "hijriDateLabel": "Hijri Date",
+  "gregorianDateLabel": "Gregorian Date",
+  "aboutOccasionLabel": "About Occasion",
+  "aboutProphetBirthdayDesc": "Prophet's Birthday commemorates the birth of the Islamic prophet Muhammad, peace be upon him.",
+  "settingsTitle": "Settings",
+  "settingsSubtitle": "Customize your experience",
+  "locationAndGovSection": "Location & Governorate",
+  "currentLocationLabel": "Current Location",
+  "governorateLabel": "Governorate",
+  "cairoLocation": "Cairo, Egypt",
+  "cairoGov": "Cairo",
+  "prayerTimesAndAdhanSection": "Prayer Times & Adhan",
+  "prayerTimesCalcSettings": "Prayer Times Calculation Settings",
+  "egyptSurveyAuthority": "Egyptian General Authority of Survey",
+  "notificationTypeLabel": "Notification Type",
+  "prayerAlertsLabel": "Prayer Alerts",
+  "notificationsSection": "Notifications",
+  "generalNotificationsLabel": "General Notifications",
+  "occasionsNotificationsLabel": "Occasions Notifications",
+  "athkarNotificationsLabel": "Athkar Notifications",
+  "fontSection": "Font",
+  "fontSizeLabel": "Font Size",
+  "fontTypeLabel": "Font Type",
+  "naskhFont": "Naskh",
+  "languageAndThemeSection": "Language & Appearance",
+  "darkModeLabel": "Dark Mode",
+  "languageLabel": "Language",
+  "aboutAppSection": "About App",
+  "privacyPolicyLabel": "Privacy Policy",
+  "termsAndConditionsLabel": "Terms and Conditions",
+  "languageSettingsTitle": "Language",
+  "languageSettingsSubtitle": "Choose application interface language",
+  "prayerCalcSettingsTitle": "Prayer & Adhan Settings",
+  "prayerCalcSettingsSubtitle": "Select prayer calculation method",
+  "calcMethodSectionTitle": "Prayer Times Calculation Method",
+  "adhanSoundSectionTitle": "Adhan Sound",
+  "mwlTitle": "Muslim World League",
+  "mwlDesc": "Most common in Egypt and Arab countries",
+  "isnaTitle": "Islamic Society of North America",
+  "isnaDesc": "ISNA",
+  "egyptSurveyTitle": "Egyptian General Authority of Survey",
+  "egyptSurveyDesc": "Recommended in Egypt",
+  "ummAlQuraTitle": "Umm Al-Qura, Makkah",
+  "ummAlQuraDesc": "Saudi Arabia",
+  "karachiTitle": "University of Islamic Sciences, Karachi",
+  "karachiDesc": "Pakistan, Afghanistan & India",
+  "adhanMakkah": "Adhan Makkah Al-Mukarramah",
+  "adhanMadinah": "Adhan Al-Madinah Al-Munawwarah",
+  "adhanAlafasy": "Sheikh Mishary Alafasy",
+  "locationSettingsTitle": "Location & Governorate",
+  "locationSettingsSubtitle": "Set your location for accurate prayer times",
+  "fontSettingsTitle": "Font Settings",
+  "fontSettingsSubtitle": "Customize font size and style for comfortable reading",
+  "fontPreviewText": "In the name of Allah, the Entirely Merciful, the Especially Merciful",
+  "fontTypeSettingsTitle": "Font Type",
+  "fontTypeSettingsSubtitle": "Choose font style for Quran and Athkar",
+  "fontTypeSectionTitle": "Available Font Types",
+  "uthmaniFont": "Uthmani",
+  "amiriFont": "Amiri",
+  "naskhFontDesc": "Clear and easy to read",
+  "uthmaniFontDesc": "Standard Quranic script",
+  "amiriFontDesc": "Classical Arabic typography",
+  "selectedFontLabel": "Selected Font",
+  "privacyPolicyContent": "We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.",
+  "termsAndConditionsContent": "By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.",
+  "hijriCalendar": "Hijri Calendar",
+  "prayerSchedule": "Full Schedule",
+  "exclusiveFeature": "Exclusive Feature",
+  "anaOsalyTitle": "Hojaty",
+  "anaOsalyPromoDesc": "During prayer time, an automated \"I am praying\" message is sent to callers",
+  "enableFeature": "Enable Feature",
+  "navHome": "Home",
+  "navQuran": "Quran",
+  "navAthkar": "Athkar",
+  "navOccasions": "Occasions",
+  "navMore": "More",
+  "fullPrayerTimesTitle": "Prayer Times",
+  "prayerTimesAddress": "2 Hesham Labib, Makram Ebeid, Nasr City, Cairo, Egypt",
+  "changeLocation": "Change Location",
+  "tabTimes": "Times",
+  "tabAdhanSettings": "Adhan Settings",
+  "tabAnaOsaly": "Hojaty",
+  "enableAllPrayersNotifications": "Enable All Prayers Notifications",
+  "allPrayersNotificationsDesc": "Receive notifications before each prayer",
+  "prayerNotificationTypeSection": "Prayer Notification Type",
+  "fullAdhanTitle": "Full Adhan",
+  "fullAdhanDesc": "Plays full Adhan at prayer time",
+  "shortAlertTitle": "Short Alert",
+  "shortAlertDesc": "\"Allahu Akbar, Allahu Akbar\" then stops",
+  "anaOsalyHeroSubtitle": "When enabled, callers are automatically informed that you are praying.",
+  "anaOsalyMessageLang": "Message Language",
+  "anaOsalyToggleTitle": "Enable Hojaty Feature",
+  "anaOsalyToggleSubtitle": "Activates automatically during prayer times",
+  "from": "From",
+  "to": "To",
+  "notificationsTitle": "Notifications",
+  "markAllAsRead": "Mark all as read",
+  "minAgo": "{count} mins ago",
+  "hourAgo": "1 hour ago",
+  "hoursAgo": "{count} hours ago",
+  "anaOsalyMessageAr": "حچتي",
+  "anaOsalyMessageEn": "I am praying",
+  "exitAppTitle": "Exit App",
+  "exitAppMessage": "Are you sure you want to exit the app?",
+  "exitAppConfirm": "Exit",
+  "exitAppCancel": "Cancel",
   "surahs": "Surahs",
-  "@surahs": {
-    "description": "Surahs button label"
-  },
-  "itsNumber": "its Number",
-  "@itsNumber": {
-    "description": "Label for number"
-  },
-  "safha": "Page",
-  "@safha": {
-    "description": "Label for page"
-  },
-  "firstQuarter": "First Quarter",
-  "@firstQuarter": {
-    "description": "Label for first quarter of Hizb"
-  },
-  "secondQuarter": "Second Quarter",
-  "@secondQuarter": {
-    "description": "Label for second quarter of Hizb"
-  },
-  "thirdQuarter": "Third Quarter",
-  "@thirdQuarter": {
-    "description": "Label for third quarter of Hizb"
-  },
-  "fourthQuarter": "Fourth Quarter",
-  "@fourthQuarter": {
-    "description": "Label for fourth quarter of Hizb"
-  },
-  "ayat": "Ayat",
-  "@ayat": {
-    "description": "Label for verses"
-  },
-  "quranSearchHint": "Search in Quran",
-  "@quranSearchHint": {
-    "description": "Hint text for Quran search"
-  },
+  "quranSearch": "Search",
+  "quranSearchHint": "Search Quran verses...",
   "quranNoResults": "No results found",
-  "@quranNoResults": {
-    "description": "Message shown when no search results are found"
-  },
-  "madina_live": "Madina Live",
-  "@madina_live": {
-    "description": "Title for Madina Live Stream card"
-  },
-  "makkah_live": "Makkah Live",
-  "@makkah_live": {
-    "description": "Title for Makkah Live Stream card"
-  },
-  "surahs_list": "Surahs List",
-  "@surahs_list": {
-    "description": "Header for Surahs list"
-  },
-  "listen_to_surah": "Listen to Surah",
-  "@listen_to_surah": {
-    "description": "Button or action to listen to a Surah"
-  },
-  "offline_available": "Available Offline",
-  "@offline_available": {
-    "description": "Message indicating content is downloaded"
-  },
-  "download": "Download",
-  "@download": {
-    "description": "Download button label"
-  },
-  "downloading": "Downloading...",
-  "@downloading": {
-    "description": "Downloading status message"
-  },
-  "download_success": "Downloaded successfully",
-  "@download_success": {
-    "description": "Download success message"
-  },
-  "download_failed": "Download failed",
-  "@download_failed": {
-    "description": "Download failure message"
-  },
-  "playback_speed": "Playback Speed",
-  "@playback_speed": {
-    "description": "Playback speed option"
-  },
-  "readers_list": "Reciters List",
-  "@readers_list": {
-    "description": "Header for list of reciters"
-  },
-  "search": "Search",
-  "duaas": "Duaas",
-  "prophet": "The Prophet",
-  "prophets_stories": "Other Books",
-  "qibla": "Qibla",
-  "ramadan": "Ramadan",
-  "ahadith": "Ahadith",
-  "allah_names": "Names of Allah",
-  "close": "Close",
-  "prophetNames": "Names of Prophet",
-  "share": "Share",
-  "share_file_not_downloaded": "File not downloaded. Download first or share link?",
-  "share_link": "Share Link",
-  "add_to_playlist": "Add to Playlist",
-  "no_playlists_available": "No playlists available. Create one first!",
-  "added_to_playlist": "Added to {name}",
-  "@added_to_playlist": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "hadith_search_hint": "Search in Ahadith",
-  "no_hadith_found": "No hadith found",
-  "hadith_number": "Hadith No.",
-  "show_description": "Show explanation",
-  "hide_description": "Hide explanation",
-  "about_app": "About App",
-  "privacy_policy": "Privacy Policy",
-  "contact_us": "Contact Us",
-  "notifications": "Notifications",
-  "show_notifications": "Show Notifications",
-  "refresh_location": "Refresh Location",
-  "version": "Version",
-  "developed_by": "Developed by",
-  "email": "Email",
-  "website": "Website",
-  "privacy_policy_text": "This privacy policy explains how our app uses your data...",
-  "app_description": "Hojaty is your comprehensive Islamic companion app...",
-  "downloadQuranTitle": "Download Quran Pages",
-  "downloadQuranMessage": "The Quran pages are not downloaded. Do you want to download them now? (Size: ~100MB)",
-  "downloadQuranAction": "Download",
-  "downloadQuranCancel": "Later",
-  "downloadingQuran": "Downloading Quran Pages...",
-  "downloadQuranSuccess": "Quran Pages downloaded successfully",
-  "downloadQuranError": "Failed to download Quran Pages",
-  "qirat_hafs": "Hafs",
-  "qirat_douri": "Douri",
-  "qirat_qalon": "Qalon",
-  "qirat_shubah": "Shubah",
-  "qirat_warsh": "Warsh",
-  "select_qirat": "Select Qira'at",
+  "quranTafseer": "Tafseer",
+  "quranJuzs": "Juzs & Hizbs",
+  "quranPageLabel": "Page",
+  "safha": "Page",
   "qiraat": "Readings",
+  "surahs_list": "Surahs Index",
+  "firstQuarter": "1st Quarter",
+  "secondQuarter": "2nd Quarter",
+  "thirdQuarter": "3rd Quarter",
+  "fourthQuarter": "4th Quarter",
+  "itsNumber": "Number",
+  "ayat": "Verses",
+  "select_qirat": "Select Reading",
+  "qirat_hafs": "Hafs from Asim",
+  "qirat_douri": "Al-Douri from Abi Amr",
+  "qirat_qalon": "Qalun from Nafi",
+  "qirat_shubah": "Shu'bah from Asim",
+  "qirat_warsh": "Warsh from Nafi",
+  "downloadQuranError": "Download error occurred",
+  "downloadQuranSuccess": "Downloaded successfully",
+  "downloadingQuran": "Downloading...",
   "download_selected": "Download Selected",
-  "quranIndex": "Index",
-  "book_bukhari": "Sahih al-Bukhari",
-  "book_muslim": "Sahih Muslim",
-  "book_nasai": "Sunan an-Nasa'i",
-  "book_abudawud": "Sunan Abu Dawood",
-  "book_tirmidhi": "Jami' at-Tirmidhi",
-  "book_ibnmajah": "Sunan Ibn Majah",
-  "book_malik": "Muwatta Malik",
-  "book_ahmed": "Musnad Ahmad",
-  "book_darimi": "Sunan ad-Darimi",
-  "book_nawawi40": "40 Hadith Nawawi",
-  "book_qudsi40": "40 Hadith Qudsi",
-  "book_shahwaliullah40": "Shah Waliullah's 40",
-  "book_riyad": "Riyad as-Salihin",
-  "book_bulugh": "Bulugh al-Maram",
-  "book_mishkat": "Mishkat al-Masabih",
-  "book_adab": "Al-Adab Al-Mufrad",
-  "book_shamail": "Ash-Shamail Al-Muhammadiyah",
-  "no_duaas_found": "No Duaas found",
-  "source": "Source",
-  "ayah": "Ayah",
+  "cancel": "Cancel",
+  "close": "Close",
+  "juzNumber": "Juz {number}",
+  "hizbNumber": "Hizb {number}",
+  "allSurahs": "All Surahs",
+  "twoPageMode": "Two Page Mode",
+  "singlePageMode": "Single Page Mode",
+  "quranReaderTitle": "The Holy Quran",
+  "anaOsalyCallBlockingActive": "Call cancellation during prayer is active",
+  "anaOsalyPermissionRequiredTitle": "Call Screening Permission Required",
+  "anaOsalyPermissionRequiredDesc": "Please grant call screening permission so the app can automatically cancel incoming calls during prayer times",
+  "grantPermission": "Grant Permission",
+  "permissionGranted": "Permission Granted",
+  "downloadQuranPages": "Download Quran Pages",
+  "downloadQuranPagesDesc": "Quran pages need to be downloaded for offline reading (Size: ~140 MB)",
+  "startDownload": "Start Download Now",
+  "retryDownload": "Retry Download",
+  "downloadProgress": "{downloaded} MB of {total} MB ({percent}%)",
+  "qiratComingSoon": "Coming Soon",
+  "radio": "Quran Radio",
+  "radioSubtitle": "Listen to the Holy Quran",
+  "makkahLive": "Makkah Live",
+  "madinahLive": "Madinah Live",
+  "playlists": "Playlists",
+  "recitersList": "Reciters List",
+  "searchReciter": "Search for a reciter...",
+  "searchSurah": "Search for a surah...",
+  "listenToSurah": "Listen to Surah",
+  "addToPlaylist": "Add to Playlist",
   "newPlaylistTitle": "New Playlist",
   "playlistNameHint": "Playlist Name",
-  "create": "Create",
-  "delete": "Delete",
   "deletePlaylistTitle": "Delete Playlist",
-  "deletePlaylistConfirmation": "Are you sure you want to delete {name}?",
-  "@deletePlaylistConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "noSurahsInPlaylist": "No surahs in this playlist",
-  "surahsCount": "{count} Surahs",
-  "@surahsCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  
-  },
-    "locationPermissionRequired": "Location permission required to calculate Qibla direction.",
-    "grantLocationPermission": "Grant Location Permission",
-    "deviceNoCompass": "Device does not support compass sensors",
-    "qiblaDirection": "Qibla Direction",
-    "alignArrow": "Align the arrow to the top to face Qibla",
-    "failedToGetLocation": "Failed to get location",
-    "errorReadingHeading": "Error reading heading"
+  "noRecitersFound": "No reciters found",
+  "noSurahsFound": "No surahs found",
+  "nowPlaying": "Now Playing",
+  "playbackSpeed": "Playback Speed",
+  "speedNormal": "Normal (1.0x)",
+  "create": "Create",
+  "favorites": "Favorites",
+  "download": "Download",
+  "downloading": "Downloading...",
+  "offlineAvailable": "Available Offline",
+  "downloadSuccess": "Surah downloaded successfully",
+  "downloadFailed": "Failed to download surah",
+  "deleteDownload": "Delete Download",
+  "offlinePlayback": "Playing Offline",
+  "downloadedAudios": "Downloaded Audios",
+  "noDownloadsYet": "No downloaded audios yet",
+  "hadithBooksTitle": "Hadith & Islamic Books",
+  "hadithBooksSubtitle": "Sahih al-Bukhari, Muslim, Forties & Sunnah",
+  "searchBooksHint": "Search for a book or author...",
+  "allCategory": "All",
+  "nineBooksCategory": "Nine Hadith Books",
+  "fortiesCategory": "The Forties",
+  "otherBooksCategory": "Other Books",
+  "noBooksFound": "No matching books found",
+  "searchChaptersHint": "Search in chapters...",
+  "noChaptersFound": "No chapters found",
+  "searchHadithsHint": "Search in hadiths...",
+  "noHadithsFound": "No hadiths found",
+  "hadithWord": "Hadiths",
+  "hadithCopied": "Hadith copied to clipboard",
+  "copy": "Copy",
+  "delete": "Delete"
 }

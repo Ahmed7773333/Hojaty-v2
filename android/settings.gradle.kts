@@ -19,8 +19,9 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "8.11.1" apply false
-    id("org.jetbrains.kotlin.android") version "2.2.20" apply false
+    id("com.android.application") version "9.0.1" apply false
+    id("com.android.asset-pack") version "9.0.1" apply false
+    id("org.jetbrains.kotlin.android") version "2.3.20" apply false
 }
 
 include(":app")
@@ -30,7 +31,6 @@ include(":quran_qalon")
 include(":quran_douri")
 include(":quran_shubah")
 
-// New Book Asset Packs
 include(":book_bukhari")
 include(":book_muslim")
 include(":book_nasai")
@@ -48,7 +48,5 @@ include(":book_bulugh")
 include(":book_mishkat")
 include(":book_adab")
 include(":book_shamail")
-include(":book_adhkar")
 include(":book_duaa")
-include(":pre_opened")
 

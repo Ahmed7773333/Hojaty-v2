@@ -1,2 +1,0 @@
--dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite
--keep class com.google.android.gms.common.annotation.NoNullnessRewrite { *; }

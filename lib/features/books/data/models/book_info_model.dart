@@ -1,0 +1,275 @@
+import 'package:equatable/equatable.dart';
+
+enum BookCategory {
+  nineBooks,
+  forties,
+  other,
+}
+
+class BookInfoModel extends Equatable {
+  final String id;
+  final String titleAr;
+  final String titleEn;
+  final String authorAr;
+  final String authorEn;
+  final String assetName;
+  final String assetPackName;
+  final BookCategory category;
+  final double sizeMb;
+  final int hadithCount;
+
+  const BookInfoModel({
+    required this.id,
+    required this.titleAr,
+    required this.titleEn,
+    required this.authorAr,
+    required this.authorEn,
+    required this.assetName,
+    required this.assetPackName,
+    required this.category,
+    required this.sizeMb,
+    required this.hadithCount,
+  });
+
+  String getDisplayTitle(bool isAr) => isAr ? titleAr : titleEn;
+  String getDisplayAuthor(bool isAr) => isAr ? authorAr : authorEn;
+
+  @override
+  List<Object?> get props => [
+        id,
+        titleAr,
+        titleEn,
+        authorAr,
+        authorEn,
+        assetName,
+        assetPackName,
+        category,
+        sizeMb,
+        hadithCount,
+      ];
+
+  static const List<BookInfoModel> allBooks = [
+    // Nine Hadith Books
+    BookInfoModel(
+      id: 'bukhari',
+      titleAr: 'صحيح البخاري',
+      titleEn: 'Sahih al-Bukhari',
+      authorAr: 'الإمام البخاري',
+      authorEn: 'Imam al-Bukhari',
+      assetName: 'bukhari.json',
+      assetPackName: 'book_bukhari',
+      category: BookCategory.nineBooks,
+      sizeMb: 12.0,
+      hadithCount: 7563,
+    ),
+    BookInfoModel(
+      id: 'muslim',
+      titleAr: 'صحيح مسلم',
+      titleEn: 'Sahih Muslim',
+      authorAr: 'الإمام مسلم',
+      authorEn: 'Imam Muslim',
+      assetName: 'muslim.json',
+      assetPackName: 'book_muslim',
+      category: BookCategory.nineBooks,
+      sizeMb: 11.0,
+      hadithCount: 7500,
+    ),
+    BookInfoModel(
+      id: 'nasai',
+      titleAr: 'سنن النسائي',
+      titleEn: "Sunan an-Nasa'i",
+      authorAr: 'الإمام النسائي',
+      authorEn: "Imam an-Nasa'i",
+      assetName: 'nasai.json',
+      assetPackName: 'book_nasai',
+      category: BookCategory.nineBooks,
+      sizeMb: 7.5,
+      hadithCount: 5758,
+    ),
+    BookInfoModel(
+      id: 'abudawud',
+      titleAr: 'سنن أبي داود',
+      titleEn: 'Sunan Abi Dawud',
+      authorAr: 'الإمام أبو داود',
+      authorEn: 'Imam Abu Dawud',
+      assetName: 'abudawud.json',
+      assetPackName: 'book_abudawud',
+      category: BookCategory.nineBooks,
+      sizeMb: 7.5,
+      hadithCount: 5274,
+    ),
+    BookInfoModel(
+      id: 'tirmidhi',
+      titleAr: 'جامع الترمذي',
+      titleEn: "Jami' at-Tirmidhi",
+      authorAr: 'الإمام الترمذي',
+      authorEn: 'Imam at-Tirmidhi',
+      assetName: 'tirmidhi.json',
+      assetPackName: 'book_tirmidhi',
+      category: BookCategory.nineBooks,
+      sizeMb: 7.3,
+      hadithCount: 3956,
+    ),
+    BookInfoModel(
+      id: 'ibnmajah',
+      titleAr: 'سنن ابن ماجه',
+      titleEn: 'Sunan Ibn Majah',
+      authorAr: 'الإمام ابن ماجه',
+      authorEn: 'Imam Ibn Majah',
+      assetName: 'ibnmajah.json',
+      assetPackName: 'book_ibnmajah',
+      category: BookCategory.nineBooks,
+      sizeMb: 5.5,
+      hadithCount: 4341,
+    ),
+    BookInfoModel(
+      id: 'malik',
+      titleAr: 'موطأ مالك',
+      titleEn: 'Muwatta Malik',
+      authorAr: 'الإمام مالك بن أنس',
+      authorEn: 'Imam Malik',
+      assetName: 'malik.json',
+      assetPackName: 'book_malik',
+      category: BookCategory.nineBooks,
+      sizeMb: 3.1,
+      hadithCount: 1858,
+    ),
+    BookInfoModel(
+      id: 'ahmed',
+      titleAr: 'مسند أحمد',
+      titleEn: 'Musnad Ahmad',
+      authorAr: 'الإمام أحمد بن حنبل',
+      authorEn: 'Imam Ahmad',
+      assetName: 'ahmed.json',
+      assetPackName: 'book_ahmed',
+      category: BookCategory.nineBooks,
+      sizeMb: 2.3,
+      hadithCount: 4305,
+    ),
+    BookInfoModel(
+      id: 'darimi',
+      titleAr: 'سنن الدارمي',
+      titleEn: 'Sunan ad-Darimi',
+      authorAr: 'الإمام الدارمي',
+      authorEn: 'Imam ad-Darimi',
+      assetName: 'darimi.json',
+      assetPackName: 'book_darimi',
+      category: BookCategory.nineBooks,
+      sizeMb: 2.9,
+      hadithCount: 3503,
+    ),
+
+    // Forties
+    BookInfoModel(
+      id: 'nawawi40',
+      titleAr: 'الأربعون النووية',
+      titleEn: 'Forty Hadith of an-Nawawi',
+      authorAr: 'الإمام يحيى بن شرف النووي',
+      authorEn: 'Imam Yahya an-Nawawi',
+      assetName: 'nawawi40.json',
+      assetPackName: 'book_nawawi40',
+      category: BookCategory.forties,
+      sizeMb: 0.1,
+      hadithCount: 42,
+    ),
+    BookInfoModel(
+      id: 'qudsi40',
+      titleAr: 'الأحاديث القدسية',
+      titleEn: '40 Hadith Qudsi',
+      authorAr: 'مروية عن النبي ﷺ',
+      authorEn: 'Prophet Muhammad (PBUH)',
+      assetName: 'qudsi40.json',
+      assetPackName: 'book_qudsi40',
+      category: BookCategory.forties,
+      sizeMb: 0.1,
+      hadithCount: 40,
+    ),
+    BookInfoModel(
+      id: 'shahwaliullah40',
+      titleAr: 'الأربعون للدهلوي',
+      titleEn: '40 Hadith of Shah Waliullah',
+      authorAr: 'الشاه ولي الله الدهلوي',
+      authorEn: 'Shah Waliullah Dehlawi',
+      assetName: 'shahwaliullah40.json',
+      assetPackName: 'book_shahwaliullah40',
+      category: BookCategory.forties,
+      sizeMb: 0.05,
+      hadithCount: 40,
+    ),
+
+    // Other Books
+    BookInfoModel(
+      id: 'riyad',
+      titleAr: 'رياض الصالحين',
+      titleEn: 'Riyad as-Salihin',
+      authorAr: 'الإمام النووي',
+      authorEn: 'Imam an-Nawawi',
+      assetName: 'riyad_assalihin.json',
+      assetPackName: 'book_riyad',
+      category: BookCategory.other,
+      sizeMb: 2.4,
+      hadithCount: 1905,
+    ),
+    BookInfoModel(
+      id: 'bulugh',
+      titleAr: 'بلوغ المرام',
+      titleEn: 'Bulugh al-Maram',
+      authorAr: 'ابن حجر العسقلاني',
+      authorEn: 'Ibn Hajar al-Asqalani',
+      assetName: 'bulugh_almaram.json',
+      assetPackName: 'book_bulugh',
+      category: BookCategory.other,
+      sizeMb: 2.2,
+      hadithCount: 1568,
+    ),
+    BookInfoModel(
+      id: 'mishkat',
+      titleAr: 'مشكاة المصابيح',
+      titleEn: 'Mishkat al-Masabih',
+      authorAr: 'الخطيب التبريزي',
+      authorEn: 'Al-Khatib at-Tibrizi',
+      assetName: 'mishkat_almasabih.json',
+      assetPackName: 'book_mishkat',
+      category: BookCategory.other,
+      sizeMb: 5.0,
+      hadithCount: 4434,
+    ),
+    BookInfoModel(
+      id: 'adab',
+      titleAr: 'الأدب المفرد',
+      titleEn: 'Al-Adab Al-Mufrad',
+      authorAr: 'الإمام البخاري',
+      authorEn: 'Imam al-Bukhari',
+      assetName: 'aladab_almufrad.json',
+      assetPackName: 'book_adab',
+      category: BookCategory.other,
+      sizeMb: 1.7,
+      hadithCount: 1329,
+    ),
+    BookInfoModel(
+      id: 'shamail',
+      titleAr: 'الشمائل المحمدية',
+      titleEn: "Ash-Shama'il al-Muhammadiyyah",
+      authorAr: 'الإمام الترمذي',
+      authorEn: 'Imam at-Tirmidhi',
+      assetName: 'shamail_muhammadiyah.json',
+      assetPackName: 'book_shamail',
+      category: BookCategory.other,
+      sizeMb: 0.5,
+      hadithCount: 397,
+    ),
+    BookInfoModel(
+      id: 'duaa',
+      titleAr: 'الدعاء من الكتاب والسنة',
+      titleEn: 'Dua from the Quran & Sunnah',
+      authorAr: 'سعيد بن علي بن وهف القحطاني',
+      authorEn: "Sa'id ibn Wahf al-Qahtani",
+      assetName: 'duaafromthebookandauthenticsunnah.json',
+      assetPackName: 'book_duaa',
+      category: BookCategory.other,
+      sizeMb: 0.2,
+      hadithCount: 140,
+    ),
+  ];
+}
+
