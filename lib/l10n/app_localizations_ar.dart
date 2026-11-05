@@ -692,19 +692,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get select_qirat => 'اختر القراءة';
 
   @override
-  String get qirat_hafs => 'رواية حفص عن عاصم';
+  String get qirat_hafs => 'حفص عن عاصم';
 
   @override
-  String get qirat_douri => 'رواية الدوري عن أبي عمرو';
+  String get qirat_douri => 'الدوري عن أبي عمرو';
 
   @override
-  String get qirat_qalon => 'رواية قالون عن نافع';
+  String get qirat_qalon => 'قالون عن نافع';
 
   @override
-  String get qirat_shubah => 'رواية شعبة عن عاصم';
+  String get qirat_shubah => 'شعبة عن عاصم';
 
   @override
-  String get qirat_warsh => 'رواية ورش عن نافع';
+  String get qirat_warsh => 'ورش عن نافع';
 
   @override
   String get downloadQuranError => 'حدث خطأ أثناء التحميل';
@@ -768,6 +768,14 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get downloadQuranPagesDesc =>
       'يلزم تحميل صفحات المصحف للقراءة لأول مرة وبدون إنترنت (الحجم: ~140 ميجابايت)';
+
+  @override
+  String get downloadQiratConfirmTitle => 'تحميل رواية المصحف';
+
+  @override
+  String downloadQiratConfirmDesc(Object qiratName, Object size) {
+    return 'هل تريد تحميل مصحف $qiratName بحجم $size ميجابايت للقراءة بدون إنترنت؟';
+  }
 
   @override
   String get startDownload => 'بدء التحميل الآن';

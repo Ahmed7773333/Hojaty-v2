@@ -7,6 +7,7 @@ enum QuickAccessType {
   prayerTimes,
   radio,
   books,
+  sebha
 }
 
 class QuickAccessModel extends Equatable {

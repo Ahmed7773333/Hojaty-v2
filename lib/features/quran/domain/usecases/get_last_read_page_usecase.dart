@@ -1,3 +1,4 @@
+import '../entities/qirat_type.dart';
 import '../repositories/quran_repository.dart';
 
 class GetLastReadPageUseCase {
@@ -5,7 +6,7 @@ class GetLastReadPageUseCase {
 
   const GetLastReadPageUseCase(this.repository);
 
-  Future<int> call() async {
-    return repository.getLastPage();
+  Future<int> call({QiratType? qirat}) async {
+    return repository.getLastPage(qirat: qirat);
   }
 }

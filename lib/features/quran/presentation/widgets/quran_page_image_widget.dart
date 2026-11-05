@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
@@ -21,6 +22,25 @@ class QuranPageImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
+    if (kDebugMode) {
+      final safePageNum = pageNumber > 0 ? pageNumber : 1;
+      final debugImageNum = ((safePageNum - 1) % 3) + 1;
+      return Container(
+        color: isDark ? AppColors.darkBackground : const Color(0xFFFFFDF5),
+        child: Center(
+          child: Image.asset(
+            'assets/images/$debugImageNum.png',
+            fit: BoxFit.fill,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (context, error, stackTrace) {
+              return QuranPagePlaceholderWidget(pageNumber: pageNumber);
+            },
+          ),
+        ),
+      );
+    }
+
     File? pageFile;
     if (basePath != null && basePath!.isNotEmpty) {
       final fFolder = File('$basePath/${qirat.folderName}/$pageNumber.png');
@@ -39,7 +59,7 @@ class QuranPageImageWidget extends StatelessWidget {
     final Widget imageWidget = pageFile != null
         ? Image.file(
             pageFile,
-            fit: BoxFit.contain,
+            fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
             errorBuilder: (context, error, stackTrace) {
@@ -48,7 +68,7 @@ class QuranPageImageWidget extends StatelessWidget {
           )
         : Image.asset(
             'assets/images/${qirat.folderName}/$pageNumber.png',
-            fit: BoxFit.contain,
+            fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
             errorBuilder: (context, error, stackTrace) {
@@ -58,9 +78,7 @@ class QuranPageImageWidget extends StatelessWidget {
 
     return Container(
       color: isDark ? AppColors.darkBackground : const Color(0xFFFFFDF5),
-      child: Center(
-        child: imageWidget,
-      ),
+      child: Center(child: imageWidget),
     );
   }
 }

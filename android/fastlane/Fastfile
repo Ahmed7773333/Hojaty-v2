@@ -11,7 +11,7 @@ platform :android do
       UI.user_error!("🚨 AAB not found at #{aab_path}")
     end
 
-    release_status = ENV.fetch("RELEASE_STATUS", "draft")
+    release_status = ENV.fetch("RELEASE_STATUS", "completed")
 
     # Upload to Internal Testing track
     supply(

@@ -4,6 +4,7 @@ import '../../../../../config/routes/app_router.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../data/mocks/home_mock_data.dart';
+import '../../../../quran/presentation/bloc/quran_bloc.dart';
 import '../../../data/models/quick_access_model.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_event.dart';
@@ -15,7 +16,10 @@ class HomeQuickAccessWidget extends StatelessWidget {
   void _handleTap(BuildContext context, QuickAccessType type) {
     switch (type) {
       case QuickAccessType.quran:
-        context.read<HomelayoutBloc>().add(const ChangeBottomNavTabEvent(1));
+        final quranState = context.read<QuranBloc>().state;
+        final selectedQirat = quranState.selectedQirat;
+        final lastPage = quranState.qiratLastPages[selectedQirat] ?? quranState.currentPage;
+        context.pushNamed(AppRoutes.quranReader, extra: lastPage);
         break;
       case QuickAccessType.athkar:
         context.read<HomelayoutBloc>().add(const ChangeBottomNavTabEvent(2));
@@ -32,6 +36,9 @@ class HomeQuickAccessWidget extends StatelessWidget {
       case QuickAccessType.books:
         context.pushNamed(AppRoutes.books);
         break;
+      case QuickAccessType.sebha:
+        context.pushNamed(AppRoutes.sebha);
+        break;  
     }
   }
 

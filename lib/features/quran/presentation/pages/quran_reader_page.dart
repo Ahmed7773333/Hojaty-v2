@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/routes/app_router.dart';
@@ -62,7 +63,7 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
             );
           }
 
-          if (state.assetStatus != QuranAssetStatus.downloaded) {
+          if (!kDebugMode && state.assetStatus != QuranAssetStatus.downloaded) {
             return const QuranAssetDownloadWidget();
           }
 
@@ -95,6 +96,12 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                     },
                     onJuzsTap: () async {
                       final pageNum = await context.pushNamed<int>(AppRoutes.quranJuzs);
+                      if (pageNum != null && context.mounted) {
+                        context.read<QuranBloc>().add(JumpToPageEvent(pageNum));
+                      }
+                    },
+                    onFehresTap: () async {
+                      final pageNum = await context.pushNamed<int>(AppRoutes.quranFehres);
                       if (pageNum != null && context.mounted) {
                         context.read<QuranBloc>().add(JumpToPageEvent(pageNum));
                       }

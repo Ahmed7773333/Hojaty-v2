@@ -9,6 +9,7 @@ class QuranTopBarWidget extends StatelessWidget {
   final VoidCallback onTafseerTap;
   final VoidCallback onJuzsTap;
   final VoidCallback onSearchTap;
+  final VoidCallback onFehresTap;
   final int currentPage;
 
   const QuranTopBarWidget({
@@ -17,6 +18,7 @@ class QuranTopBarWidget extends StatelessWidget {
     required this.onTafseerTap,
     required this.onJuzsTap,
     required this.onSearchTap,
+    required this.onFehresTap,
     required this.currentPage,
   });
 
@@ -57,25 +59,33 @@ class QuranTopBarWidget extends StatelessWidget {
             ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // QuranBarItemWidget(
-            //   label: context.strings.quranSearch,
-            //   icon: Icons.search_rounded,
-            //   onTap: onSearchTap,
-            // ),
-            // QuranBarItemWidget(
-            //   label: context.strings.quranJuzs,
-            //   icon: Icons.auto_stories_rounded,
-            //   onTap: onJuzsTap,
-            // ),
-            QuranBarItemWidget(
-              label: context.strings.quranTafseer,
-              icon: Icons.menu_book_rounded,
-              onTap: onTafseerTap,
-            ),
-          ],
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              QuranBarItemWidget(
+                label: context.strings.surahs_list,
+                icon: Icons.format_list_bulleted_rounded,
+                onTap: onFehresTap,
+              ),
+              QuranBarItemWidget(
+                label: context.strings.quranSearch,
+                icon: Icons.search_rounded,
+                onTap: onSearchTap,
+              ),
+              // QuranBarItemWidget(
+              //   label: context.strings.quranJuzs,
+              //   icon: Icons.auto_stories_rounded,
+              //   onTap: onJuzsTap,
+              // ),
+              QuranBarItemWidget(
+                label: context.strings.quranTafseer,
+                icon: Icons.menu_book_rounded,
+                onTap: onTafseerTap,
+              ),
+            ],
+          ),
         ),
       ),
     );

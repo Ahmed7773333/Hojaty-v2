@@ -700,19 +700,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_qirat => 'Select Reading';
 
   @override
-  String get qirat_hafs => 'Hafs from Asim';
+  String get qirat_hafs => 'Hafs';
 
   @override
-  String get qirat_douri => 'Al-Douri from Abi Amr';
+  String get qirat_douri => 'Al-Douri';
 
   @override
-  String get qirat_qalon => 'Qalun from Nafi';
+  String get qirat_qalon => 'Qalun';
 
   @override
-  String get qirat_shubah => 'Shu\'bah from Asim';
+  String get qirat_shubah => 'Shu\'bah';
 
   @override
-  String get qirat_warsh => 'Warsh from Nafi';
+  String get qirat_warsh => 'Warsh';
 
   @override
   String get downloadQuranError => 'Download error occurred';
@@ -778,6 +778,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get downloadQuranPagesDesc =>
       'Quran pages need to be downloaded for offline reading (Size: ~140 MB)';
+
+  @override
+  String get downloadQiratConfirmTitle => 'Download Quran Recitation';
+
+  @override
+  String downloadQiratConfirmDesc(Object qiratName, Object size) {
+    return 'Do you want to download $qiratName ($size MB) for offline reading?';
+  }
 
   @override
   String get startDownload => 'Start Download Now';

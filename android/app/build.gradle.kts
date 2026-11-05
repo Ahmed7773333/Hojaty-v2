@@ -50,7 +50,17 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
+    }
+
+    androidResources {
+        noCompress += listOf("png", "json", "jpg", "jpeg", "webp")
     }
 
     assetPacks += listOf(

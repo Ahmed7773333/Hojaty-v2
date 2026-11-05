@@ -15,15 +15,21 @@ class QuranRepositoryImpl implements QuranRepository {
   }
 
   @override
-  Future<int> getLastPage() async {
+  Future<int> getLastPage({QiratType? qirat}) async {
     await localDataSource.init();
-    return localDataSource.getLastPage();
+    return localDataSource.getLastPage(qirat: qirat);
   }
 
   @override
-  Future<void> saveLastPage(int pageNumber) async {
+  Future<void> saveLastPage(int pageNumber, {QiratType? qirat}) async {
     await localDataSource.init();
-    await localDataSource.saveLastPage(pageNumber);
+    await localDataSource.saveLastPage(pageNumber, qirat: qirat);
+  }
+
+  @override
+  Future<Map<QiratType, int>> getAllLastPages() async {
+    await localDataSource.init();
+    return localDataSource.getAllLastPages();
   }
 
   @override

@@ -26,7 +26,9 @@ class QuranSearchResultCardWidget extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
           width: 1.0,
         ),
         boxShadow: [
@@ -50,73 +52,51 @@ class QuranSearchResultCardWidget extends StatelessWidget {
                 result.content,
                 textAlign: TextAlign.justify,
                 style: context.textTheme.titleMedium?.copyWith(
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.lightTextPrimary,
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
                   height: 1.6,
+                  fontFamily: "Hafs Smart",
                 ),
+                textDirection: TextDirection.rtl,
               ),
               12.ver,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Tafseer Button
-                  OutlinedButton.icon(
-                    onPressed: () => onTafseerTap(result),
-                    style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      side: BorderSide(
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                        width: 1.0,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
+                  Text(
+                    '${result.surahName} : ${result.verseNum}',
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.lightTextPrimary,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13.sp,
                     ),
-                    icon: Icon(
-                      Icons.menu_book_rounded,
-                      size: 14.sp,
-                      color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 3.h,
                     ),
-                    label: Text(
-                      context.strings.quranTafseer,
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? AppColors.primaryDarkSurface
+                          : AppColors.lightCardSelected,
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                    child: Text(
+                      '${context.strings.safha} ${result.pageNum}',
                       style: context.textTheme.bodySmall?.copyWith(
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                        fontWeight: FontWeight.w700,
+                        color: isDark
+                            ? AppColors.accentGoldLight
+                            : AppColors.primaryDark,
+                        fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),
                     ),
-                  ),
-                  // Surah info & Page badge
-                  Row(
-                    children: [
-                      Text(
-                        '${result.surahName} : ${result.verseNum}',
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      8.hor,
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                        child: Text(
-                          '${context.strings.safha} ${result.pageNum}',
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 11.sp,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

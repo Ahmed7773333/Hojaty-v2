@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/play_asset_delivery_service.dart';
 import '../../constants/quran_text_helper.dart';
 import '../../data/models/page_data_model.dart';
 import '../../data/models/quran_search_result_model.dart';
+import '../../domain/usecases/get_all_last_pages_usecase.dart';
 import '../../domain/usecases/get_last_read_page_usecase.dart';
 import '../../domain/usecases/get_quran_pages_usecase.dart';
 import '../../domain/usecases/get_selected_qirat_usecase.dart';
@@ -16,6 +18,7 @@ import 'quran_state.dart';
 class QuranBloc extends Bloc<QuranEvent, QuranState> {
   final GetQuranPagesUseCase getQuranPagesUseCase;
   final GetLastReadPageUseCase getLastReadPageUseCase;
+  final GetAllLastPagesUseCase getAllLastPagesUseCase;
   final SaveLastReadPageUseCase saveLastReadPageUseCase;
   final GetSelectedQiratUseCase getSelectedQiratUseCase;
   final SaveSelectedQiratUseCase saveSelectedQiratUseCase;
@@ -25,6 +28,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
   QuranBloc({
     required this.getQuranPagesUseCase,
     required this.getLastReadPageUseCase,
+    required this.getAllLastPagesUseCase,
     required this.saveLastReadPageUseCase,
     required this.getSelectedQiratUseCase,
     required this.saveSelectedQiratUseCase,
@@ -48,8 +52,9 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     emit(state.copyWith(status: QuranStatus.loading, clearError: true));
     try {
       final pagesList = await getQuranPagesUseCase();
-      final lastPage = await getLastReadPageUseCase();
       final selectedQirat = await getSelectedQiratUseCase();
+      final allLastPages = await getAllLastPagesUseCase();
+      final lastPage = allLastPages[selectedQirat] ?? 1;
 
       final Map<int, PageDataModel> pagesMap = {
         for (var page in pagesList) page.pageNumber ?? 0: page,
@@ -61,6 +66,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
           quranPages: pagesMap,
           currentPage: lastPage,
           selectedQirat: selectedQirat,
+          qiratLastPages: allLastPages,
         ),
       );
       add(const CheckQuranAssetStatusEvent());
@@ -79,16 +85,26 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     JumpToPageEvent event,
     Emitter<QuranState> emit,
   ) async {
-    emit(state.copyWith(currentPage: event.pageNumber));
-    await saveLastReadPageUseCase(event.pageNumber);
+    final updatedLastPages = Map<QiratType, int>.from(state.qiratLastPages);
+    updatedLastPages[state.selectedQirat] = event.pageNumber;
+    emit(state.copyWith(
+      currentPage: event.pageNumber,
+      qiratLastPages: updatedLastPages,
+    ));
+    await saveLastReadPageUseCase(event.pageNumber, qirat: state.selectedQirat);
   }
 
   Future<void> _onPageChanged(
     PageChangedEvent event,
     Emitter<QuranState> emit,
   ) async {
-    emit(state.copyWith(currentPage: event.pageNumber));
-    await saveLastReadPageUseCase(event.pageNumber);
+    final updatedLastPages = Map<QiratType, int>.from(state.qiratLastPages);
+    updatedLastPages[state.selectedQirat] = event.pageNumber;
+    emit(state.copyWith(
+      currentPage: event.pageNumber,
+      qiratLastPages: updatedLastPages,
+    ));
+    await saveLastReadPageUseCase(event.pageNumber, qirat: state.selectedQirat);
   }
 
   void _onSearchQuran(SearchQuranEvent event, Emitter<QuranState> emit) {
@@ -147,7 +163,12 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     SelectQiratEvent event,
     Emitter<QuranState> emit,
   ) async {
-    emit(state.copyWith(selectedQirat: event.qirat));
+    final lastPage = state.qiratLastPages[event.qirat] ??
+        await getLastReadPageUseCase(qirat: event.qirat);
+    emit(state.copyWith(
+      selectedQirat: event.qirat,
+      currentPage: lastPage,
+    ));
     await saveSelectedQiratUseCase(event.qirat);
     add(const CheckQuranAssetStatusEvent());
   }
@@ -157,6 +178,24 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     Emitter<QuranState> emit,
   ) async {
     emit(state.copyWith(assetStatus: QuranAssetStatus.checking));
+
+    if (kDebugMode) {
+      final Map<QiratType, QuranAssetStatus> statuses = {
+        QiratType.hafs: QuranAssetStatus.downloaded,
+        for (final q in QiratType.values.where((q) => q != QiratType.hafs))
+          q: QuranAssetStatus.requiresDownload,
+      };
+      emit(
+        state.copyWith(
+          assetStatus: QuranAssetStatus.downloaded,
+          assetsPath: null,
+          downloadProgress: 1.0,
+          qiratStatuses: statuses,
+        ),
+      );
+      return;
+    }
+
     try {
       final Map<QiratType, QuranAssetStatus> statuses = {};
       for (final q in QiratType.values) {
@@ -209,6 +248,20 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     StartDownloadQuranAssetEvent event,
     Emitter<QuranState> emit,
   ) async {
+    if (kDebugMode) {
+      final targetQirat = event.qirat ?? state.selectedQirat;
+      final updatedStatuses = Map<QiratType, QuranAssetStatus>.from(state.qiratStatuses);
+      updatedStatuses[targetQirat] = QuranAssetStatus.downloaded;
+      emit(
+        state.copyWith(
+          assetStatus: QuranAssetStatus.downloaded,
+          downloadProgress: 1.0,
+          qiratStatuses: updatedStatuses,
+        ),
+      );
+      return;
+    }
+
     final targetQirat = event.qirat ?? state.selectedQirat;
     final packName = targetQirat.assetPackName;
 

@@ -1403,31 +1403,31 @@ abstract class AppLocalizations {
   /// No description provided for @qirat_hafs.
   ///
   /// In en, this message translates to:
-  /// **'Hafs from Asim'**
+  /// **'Hafs'**
   String get qirat_hafs;
 
   /// No description provided for @qirat_douri.
   ///
   /// In en, this message translates to:
-  /// **'Al-Douri from Abi Amr'**
+  /// **'Al-Douri'**
   String get qirat_douri;
 
   /// No description provided for @qirat_qalon.
   ///
   /// In en, this message translates to:
-  /// **'Qalun from Nafi'**
+  /// **'Qalun'**
   String get qirat_qalon;
 
   /// No description provided for @qirat_shubah.
   ///
   /// In en, this message translates to:
-  /// **'Shu\'bah from Asim'**
+  /// **'Shu\'bah'**
   String get qirat_shubah;
 
   /// No description provided for @qirat_warsh.
   ///
   /// In en, this message translates to:
-  /// **'Warsh from Nafi'**
+  /// **'Warsh'**
   String get qirat_warsh;
 
   /// No description provided for @downloadQuranError.
@@ -1543,6 +1543,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quran pages need to be downloaded for offline reading (Size: ~140 MB)'**
   String get downloadQuranPagesDesc;
+
+  /// No description provided for @downloadQiratConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Quran Recitation'**
+  String get downloadQiratConfirmTitle;
+
+  /// No description provided for @downloadQiratConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to download {qiratName} ({size} MB) for offline reading?'**
+  String downloadQiratConfirmDesc(Object qiratName, Object size);
 
   /// No description provided for @startDownload.
   ///

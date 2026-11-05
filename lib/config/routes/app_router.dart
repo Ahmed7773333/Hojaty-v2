@@ -215,17 +215,17 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.quranFehres:
-        return MaterialPageRoute(
+        return MaterialPageRoute<int>(
           builder: (_) => const QuranFehresPage(),
           settings: settings,
         );
       case AppRoutes.quranJuzs:
-        return MaterialPageRoute(
+        return MaterialPageRoute<int>(
           builder: (_) => const QuranJuzsPage(),
           settings: settings,
         );
       case AppRoutes.quranSearch:
-        return MaterialPageRoute(
+        return MaterialPageRoute<int>(
           builder: (_) => const QuranSearchPage(),
           settings: settings,
         );

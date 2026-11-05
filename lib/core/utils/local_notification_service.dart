@@ -10,6 +10,7 @@ import '../../features/homelayout/data/models/prayers_helper.dart';
 import '../../main.dart';
 import '../local/user_hive_helper.dart';
 
+@pragma('vm:entry-point')
 class LocalNotificationService {
   /// Check if current platform is supported by awesome_notifications
   static bool get isSupportedPlatform =>
@@ -24,6 +25,10 @@ class LocalNotificationService {
   static const String anaOsalyChannelKey = 'hojaty_channel';
   static const String generalChannelKey = 'general_channel';
 
+  /// Default notification small icon resource for Android
+  static const String defaultNotificationIcon =
+      'resource://drawable/res_app_icon';
+
   /// Initialize Awesome Notifications with all required channels
   static Future<void> init() async {
     if (!isSupportedPlatform) {
@@ -35,7 +40,7 @@ class LocalNotificationService {
     log('Initializing LocalNotificationService...');
     try {
       await AwesomeNotifications().initialize(
-        null, // null uses default app launcher icon across platforms
+        defaultNotificationIcon,
         [
           // 1. Makkah Prayer Channel
           NotificationChannel(
@@ -44,9 +49,11 @@ class LocalNotificationService {
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
+            criticalAlerts: true,
             soundSource: Platform.isAndroid
                 ? 'resource://raw/makka_azan'
                 : null,
@@ -61,9 +68,11 @@ class LocalNotificationService {
                 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
+            criticalAlerts: true,
             soundSource: Platform.isAndroid
                 ? 'resource://raw/madina_azan'
                 : null,
@@ -77,9 +86,11 @@ class LocalNotificationService {
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
+            criticalAlerts: true,
             soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
             enableVibration: true,
           ),
@@ -91,6 +102,7 @@ class LocalNotificationService {
             channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
@@ -105,6 +117,7 @@ class LocalNotificationService {
                 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
@@ -116,6 +129,7 @@ class LocalNotificationService {
             channelName: 'تنبيهات عامة',
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
             defaultColor: const Color(0xFF1E3A34),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
             channelShowBadge: true,
             playSound: true,
@@ -129,33 +143,40 @@ class LocalNotificationService {
     } catch (e, st) {
       log('Error initializing LocalNotificationService: $e\n$st');
       try {
-        await AwesomeNotifications().initialize(null, [
+        await AwesomeNotifications().initialize(defaultNotificationIcon, [
           NotificationChannel(
             channelKey: prayersChannelMakkahKey,
             channelName: 'أذان مكة المكرمة',
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
+            criticalAlerts: true,
           ),
           NotificationChannel(
             channelKey: prayersChannelMadinahKey,
             channelName: 'أذان المدينة المنورة',
             channelDescription:
                 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
+            criticalAlerts: true,
           ),
           NotificationChannel(
             channelKey: prayersChannelAzanKey,
             channelName: 'الأذان التقليدي',
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
+            criticalAlerts: true,
           ),
           NotificationChannel(
             channelKey: occasionsChannelKey,
             channelName: 'المناسبات الإسلامية',
             channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
           ),
           NotificationChannel(
@@ -163,12 +184,14 @@ class LocalNotificationService {
             channelName: 'وضع حچتي',
             channelDescription:
                 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
           ),
           NotificationChannel(
             channelKey: generalChannelKey,
             channelName: 'تنبيهات عامة',
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
           ),
         ], debug: false);
@@ -180,19 +203,45 @@ class LocalNotificationService {
     }
   }
 
-  /// Check and request notification permissions
+  /// Check and request notification permissions automatically
   static Future<bool> requestPermission() async {
     if (!isSupportedPlatform) return false;
     try {
-      final bool isAllowed = await AwesomeNotifications()
-          .isNotificationAllowed();
+      final bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
       if (!isAllowed) {
-        return await AwesomeNotifications()
-            .requestPermissionToSendNotifications();
+        final bool userChoice = await AwesomeNotifications().requestPermissionToSendNotifications(
+          permissions: const [
+            NotificationPermission.Alert,
+            NotificationPermission.Sound,
+            NotificationPermission.Badge,
+            NotificationPermission.Vibration,
+            NotificationPermission.Light,
+            NotificationPermission.FullScreenIntent,
+            NotificationPermission.PreciseAlarms,
+          ],
+        );
+        if (!userChoice) {
+          log('User denied basic notification permissions.');
+          return false;
+        }
       }
-      return true;
-    } catch (e) {
-      log('Error requesting notification permission: $e');
+
+      // Explicitly ensure exact alarm permission on Android 12+ (API 31+)
+      if (Platform.isAndroid) {
+        final allowedList = await AwesomeNotifications().checkPermissionList(
+          permissions: const [NotificationPermission.PreciseAlarms],
+        );
+        if (!allowedList.contains(NotificationPermission.PreciseAlarms)) {
+          log('PreciseAlarms permission not granted, requesting...');
+          await AwesomeNotifications().requestPermissionToSendNotifications(
+            permissions: const [NotificationPermission.PreciseAlarms],
+          );
+        }
+      }
+
+      return await AwesomeNotifications().isNotificationAllowed();
+    } catch (e, st) {
+      log('Error requesting notification permission: $e\n$st');
       return false;
     }
   }
@@ -302,6 +351,16 @@ class LocalNotificationService {
   }) async {
     if (!isSupportedPlatform) return;
     try {
+      // Automatically ensure permissions are requested
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        final granted = await requestPermission();
+        if (!granted) {
+          log('Notification permissions not granted, aborting prayer scheduling.');
+          return;
+        }
+      }
+
       await cancelPrayerNotifications();
       final now = DateTime.now();
       const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
@@ -317,38 +376,39 @@ class LocalNotificationService {
       for (int i = 0; i < PrayerType.values.length; i++) {
         final type = PrayerType.values[i];
 
-        // Determine if notification is enabled from the provided list or user preferences
-        final prayerModel = prayers.where((p) => p.type == type).firstOrNull;
-        final isEnabled =
-            prayerModel?.isNotificationEnabled ??
-            UserHiveHelper.getPrayerNotification(type.name, defaultValue: true);
-        if (!isEnabled) continue;
+        try {
+          // Determine if notification is enabled from the provided list or user preferences
+          final prayerModel = prayers.where((p) => p.type == type).firstOrNull;
+          final isEnabled =
+              prayerModel?.isNotificationEnabled ??
+              UserHiveHelper.getPrayerNotification(type.name, defaultValue: true);
+          if (!isEnabled) continue;
 
-        // Use today's prayer time if upcoming; otherwise roll over to tomorrow
-        DateTime targetTime = todayTimes[type]!;
-        if (targetTime.isBefore(now)) {
-          targetTime = tomorrowTimes[type]!;
-        }
+          // Use today's prayer time if upcoming; otherwise roll over to tomorrow
+          DateTime targetTime = todayTimes[type]!;
+          if (targetTime.isBefore(now)) {
+            targetTime = tomorrowTimes[type]!;
+          }
 
-        final prayerName = PrayersHelper.getPrayerName(
-          type,
-          language: language,
-        );
-        final title = language == 'ar'
-            ? 'حان الآن وقت صلاة $prayerName'
-            : 'It is now time for $prayerName prayer';
-        final body = language == 'ar'
-            ? 'حي على الصلاة، حي على الفلاح'
-            : 'Come to prayer, come to success';
+          final prayerName = PrayersHelper.getPrayerName(
+            type,
+            language: language,
+          );
+          final title = language == 'ar'
+              ? 'حان الآن وقت صلاة $prayerName'
+              : 'It is now time for $prayerName prayer';
+          final body = language == 'ar'
+              ? 'حي على الصلاة، حي على الفلاح'
+              : 'Come to prayer, come to success';
 
-        final id = 100 + type.index;
+          final id = 100 + type.index;
 
-        await AwesomeNotifications().createNotification(
-          content: NotificationContent(
+          final content = NotificationContent(
             id: id,
             channelKey: getPrayerChannelKey(soundId),
             title: title,
             body: body,
+            icon: defaultNotificationIcon,
             customSound: (isFullAdhan && Platform.isAndroid)
                 ? soundResource
                 : null,
@@ -357,8 +417,9 @@ class LocalNotificationService {
             wakeUpScreen: true,
             fullScreenIntent: true,
             payload: {'type': 'prayer', 'prayer': type.name},
-          ),
-          actionButtons: [
+          );
+
+          final actionButtons = [
             NotificationActionButton(
               key: 'OPEN_APP',
               label: language == 'ar' ? 'فتح التطبيق' : 'Open App',
@@ -369,25 +430,54 @@ class LocalNotificationService {
               actionType: ActionType.DismissAction,
               isDangerousOption: true,
             ),
-          ],
-          schedule: NotificationCalendar(
-            year: targetTime.year,
-            month: targetTime.month,
-            day: targetTime.day,
-            hour: targetTime.hour,
-            minute: targetTime.minute,
-            second: targetTime.second,
-            millisecond: 0,
-            repeats: false,
-            allowWhileIdle: true,
-            preciseAlarm: true,
-            timeZone: localTz,
-          ),
-        );
+          ];
 
-        log(
-          'Scheduled prayer notification for $prayerName at $targetTime (TZ: $localTz) with ID $id and sound $soundResource',
-        );
+          // Attempt precise alarm first; fallback to standard alarm if OS restricts exact alarms
+          try {
+            await AwesomeNotifications().createNotification(
+              content: content,
+              actionButtons: actionButtons,
+              schedule: NotificationCalendar(
+                year: targetTime.year,
+                month: targetTime.month,
+                day: targetTime.day,
+                hour: targetTime.hour,
+                minute: targetTime.minute,
+                second: targetTime.second,
+                repeats: false,
+                allowWhileIdle: true,
+                preciseAlarm: true,
+                timeZone: localTz,
+              ),
+            );
+          } catch (preciseErr) {
+            log(
+              'Precise alarm failed for $prayerName, falling back to standard alarm: $preciseErr',
+            );
+            await AwesomeNotifications().createNotification(
+              content: content,
+              actionButtons: actionButtons,
+              schedule: NotificationCalendar(
+                year: targetTime.year,
+                month: targetTime.month,
+                day: targetTime.day,
+                hour: targetTime.hour,
+                minute: targetTime.minute,
+                second: targetTime.second,
+                repeats: false,
+                allowWhileIdle: true,
+                preciseAlarm: false,
+                timeZone: localTz,
+              ),
+            );
+          }
+
+          log(
+            'Scheduled prayer notification for $prayerName at $targetTime (TZ: $localTz) with ID $id and sound $soundResource',
+          );
+        } catch (itemErr, itemSt) {
+          log('Error scheduling single prayer notification for $type: $itemErr\n$itemSt');
+        }
       }
     } catch (e, st) {
       log('Error scheduling prayer notifications: $e\n$st');
@@ -401,83 +491,124 @@ class LocalNotificationService {
   }) async {
     if (!isSupportedPlatform) return;
     try {
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        final granted = await requestPermission();
+        if (!granted) {
+          log('Notification permissions not granted, aborting occasion scheduling.');
+          return;
+        }
+      }
+
       await cancelOccasionNotifications();
       final now = DateTime.now();
 
       for (int i = 0; i < occasions.length; i++) {
-        final occasion = occasions[i];
-        final targetDate = occasion.targetDateTime;
-        if (targetDate == null || targetDate.isBefore(now)) continue;
+        try {
+          final occasion = occasions[i];
+          final targetDate = occasion.targetDateTime;
+          if (targetDate == null || targetDate.isBefore(now)) continue;
 
-        final id = 200 + i;
+          final id = 200 + i;
 
-        // Reminder 1: Day before at 09:00 AM
-        final dayBefore = targetDate.subtract(const Duration(days: 1));
-        final dayBeforeTime = DateTime(
-          dayBefore.year,
-          dayBefore.month,
-          dayBefore.day,
-          9,
-          0,
-        );
+          // Reminder 1: Day before at 09:00 AM
+          final dayBefore = targetDate.subtract(const Duration(days: 1));
+          final dayBeforeTime = DateTime(
+            dayBefore.year,
+            dayBefore.month,
+            dayBefore.day,
+            9,
+            0,
+          );
 
-        if (dayBeforeTime.isAfter(now)) {
-          final title = language == 'ar'
-              ? 'تذكير بمناسبة إسلامية قادمة'
-              : 'Upcoming Islamic Occasion Reminder';
-          final body = language == 'ar'
-              ? 'غداً يوافق ${occasion.title} (${occasion.hijriDate})'
-              : 'Tomorrow is ${occasion.title} (${occasion.hijriDate})';
+          if (dayBeforeTime.isAfter(now)) {
+            final title = language == 'ar'
+                ? 'تذكير بمناسبة إسلامية قادمة'
+                : 'Upcoming Islamic Occasion Reminder';
+            final body = language == 'ar'
+                ? 'غداً يوافق ${occasion.title} (${occasion.hijriDate})'
+                : 'Tomorrow is ${occasion.title} (${occasion.hijriDate})';
 
-          await AwesomeNotifications().createNotification(
-            content: NotificationContent(
+            final content = NotificationContent(
               id: id * 10 + 1,
               channelKey: occasionsChannelKey,
               title: title,
               body: body,
+              icon: defaultNotificationIcon,
               category: NotificationCategory.Reminder,
               payload: {'type': 'occasion', 'occasionTitle': occasion.title},
-            ),
-            schedule: NotificationCalendar.fromDate(
-              date: dayBeforeTime,
-              allowWhileIdle: true,
-              preciseAlarm: true,
-            ),
+            );
+
+            try {
+              await AwesomeNotifications().createNotification(
+                content: content,
+                schedule: NotificationCalendar.fromDate(
+                  date: dayBeforeTime,
+                  allowWhileIdle: true,
+                  preciseAlarm: true,
+                ),
+              );
+            } catch (_) {
+              await AwesomeNotifications().createNotification(
+                content: content,
+                schedule: NotificationCalendar.fromDate(
+                  date: dayBeforeTime,
+                  allowWhileIdle: true,
+                  preciseAlarm: false,
+                ),
+              );
+            }
+          }
+
+          // Reminder 2: Morning of the occasion at 08:00 AM
+          final morningTime = DateTime(
+            targetDate.year,
+            targetDate.month,
+            targetDate.day,
+            8,
+            0,
           );
-        }
 
-        // Reminder 2: Morning of the occasion at 08:00 AM
-        final morningTime = DateTime(
-          targetDate.year,
-          targetDate.month,
-          targetDate.day,
-          8,
-          0,
-        );
+          if (morningTime.isAfter(now)) {
+            final title = language == 'ar'
+                ? 'اليوم: ${occasion.title}'
+                : 'Today: ${occasion.title}';
+            final body = language == 'ar'
+                ? 'كل عام وأنتم بخير بمناسبة ${occasion.title}'
+                : 'Blessed ${occasion.title} to you and your family';
 
-        if (morningTime.isAfter(now)) {
-          final title = language == 'ar'
-              ? 'اليوم: ${occasion.title}'
-              : 'Today: ${occasion.title}';
-          final body = language == 'ar'
-              ? 'كل عام وأنتم بخير بمناسبة ${occasion.title}'
-              : 'Blessed ${occasion.title} to you and your family';
-
-          await AwesomeNotifications().createNotification(
-            content: NotificationContent(
+            final content = NotificationContent(
               id: id * 10 + 2,
               channelKey: occasionsChannelKey,
               title: title,
               body: body,
+              icon: defaultNotificationIcon,
               category: NotificationCategory.Event,
               payload: {'type': 'occasion', 'occasionTitle': occasion.title},
-            ),
-            schedule: NotificationCalendar.fromDate(
-              date: morningTime,
-              allowWhileIdle: true,
-              preciseAlarm: true,
-            ),
-          );
+            );
+
+            try {
+              await AwesomeNotifications().createNotification(
+                content: content,
+                schedule: NotificationCalendar.fromDate(
+                  date: morningTime,
+                  allowWhileIdle: true,
+                  preciseAlarm: true,
+                ),
+              );
+            } catch (_) {
+              await AwesomeNotifications().createNotification(
+                content: content,
+                schedule: NotificationCalendar.fromDate(
+                  date: morningTime,
+                  allowWhileIdle: true,
+                  preciseAlarm: false,
+                ),
+              );
+            }
+          }
+        } catch (itemErr, itemSt) {
+          log('Error scheduling single occasion: $itemErr\n$itemSt');
         }
       }
     } catch (e, st) {
@@ -493,7 +624,11 @@ class LocalNotificationService {
   }) async {
     if (!isSupportedPlatform) return;
     try {
-      await requestPermission();
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        final granted = await requestPermission();
+        if (!granted) return;
+      }
 
       final title = language == 'ar'
           ? 'اختبار تنبيه الصلاة والأذان'
@@ -510,6 +645,7 @@ class LocalNotificationService {
           channelKey: getPrayerChannelKey(soundId),
           title: title,
           body: body,
+          icon: defaultNotificationIcon,
           customSound: (isFullAdhan && Platform.isAndroid)
               ? soundResource
               : null,
