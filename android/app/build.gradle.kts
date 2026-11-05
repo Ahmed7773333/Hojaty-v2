@@ -59,6 +59,10 @@ android {
         }
     }
 
+    androidResources {
+        noCompress += listOf("png", "json", "jpg", "jpeg", "webp")
+    }
+
     assetPacks += listOf(
         ":quran_hafs",
         ":quran_warsh",

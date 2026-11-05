@@ -36,6 +36,9 @@
         <meta-data 
             android:name="com.google.firebase.messaging.default_notification_channel_id" 
             android:value="prayers_channel" />
+        <meta-data 
+            android:name="com.google.firebase.messaging.default_notification_icon" 
+            android:resource="@drawable/res_app_icon" />
 
         <!-- Awesome Notifications Broadcast Receivers & Services for Release Background Alarms -->
         <receiver 

@@ -770,6 +770,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'يلزم تحميل صفحات المصحف للقراءة لأول مرة وبدون إنترنت (الحجم: ~140 ميجابايت)';
 
   @override
+  String get downloadQiratConfirmTitle => 'تحميل رواية المصحف';
+
+  @override
+  String downloadQiratConfirmDesc(Object qiratName, Object size) {
+    return 'هل تريد تحميل مصحف $qiratName بحجم $size ميجابايت للقراءة بدون إنترنت؟';
+  }
+
+  @override
   String get startDownload => 'بدء التحميل الآن';
 
   @override

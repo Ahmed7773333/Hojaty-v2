@@ -780,6 +780,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Quran pages need to be downloaded for offline reading (Size: ~140 MB)';
 
   @override
+  String get downloadQiratConfirmTitle => 'Download Quran Recitation';
+
+  @override
+  String downloadQiratConfirmDesc(Object qiratName, Object size) {
+    return 'Do you want to download $qiratName ($size MB) for offline reading?';
+  }
+
+  @override
   String get startDownload => 'Start Download Now';
 
   @override

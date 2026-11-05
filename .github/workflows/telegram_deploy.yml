@@ -2,7 +2,7 @@ name: Android Internal Testing
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, quraan-ui ]
   workflow_dispatch:
     inputs:
       release_status:

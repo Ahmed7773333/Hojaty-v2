@@ -31,6 +31,12 @@ class QuickAccessIconWidget extends StatelessWidget {
           color: Color(0xFFD4AF37),
           size: 26,
         );
+        case QuickAccessType.sebha:
+        return const Icon(
+          Icons.fingerprint,
+          color: Color(0xFFD4AF37),
+          size: 26,
+        );
     }
   }
 }

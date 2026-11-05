@@ -1544,6 +1544,18 @@ abstract class AppLocalizations {
   /// **'Quran pages need to be downloaded for offline reading (Size: ~140 MB)'**
   String get downloadQuranPagesDesc;
 
+  /// No description provided for @downloadQiratConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Quran Recitation'**
+  String get downloadQiratConfirmTitle;
+
+  /// No description provided for @downloadQiratConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to download {qiratName} ({size} MB) for offline reading?'**
+  String downloadQiratConfirmDesc(Object qiratName, Object size);
+
   /// No description provided for @startDownload.
   ///
   /// In en, this message translates to:

@@ -181,7 +181,9 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
 
     if (kDebugMode) {
       final Map<QiratType, QuranAssetStatus> statuses = {
-        for (final q in QiratType.values) q: QuranAssetStatus.downloaded,
+        QiratType.hafs: QuranAssetStatus.downloaded,
+        for (final q in QiratType.values.where((q) => q != QiratType.hafs))
+          q: QuranAssetStatus.requiresDownload,
       };
       emit(
         state.copyWith(
@@ -247,14 +249,14 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     Emitter<QuranState> emit,
   ) async {
     if (kDebugMode) {
-      final Map<QiratType, QuranAssetStatus> statuses = {
-        for (final q in QiratType.values) q: QuranAssetStatus.downloaded,
-      };
+      final targetQirat = event.qirat ?? state.selectedQirat;
+      final updatedStatuses = Map<QiratType, QuranAssetStatus>.from(state.qiratStatuses);
+      updatedStatuses[targetQirat] = QuranAssetStatus.downloaded;
       emit(
         state.copyWith(
           assetStatus: QuranAssetStatus.downloaded,
           downloadProgress: 1.0,
-          qiratStatuses: statuses,
+          qiratStatuses: updatedStatuses,
         ),
       );
       return;

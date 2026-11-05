@@ -25,6 +25,10 @@ class LocalNotificationService {
   static const String anaOsalyChannelKey = 'hojaty_channel';
   static const String generalChannelKey = 'general_channel';
 
+  /// Default notification small icon resource for Android
+  static const String defaultNotificationIcon =
+      'resource://drawable/res_app_icon';
+
   /// Initialize Awesome Notifications with all required channels
   static Future<void> init() async {
     if (!isSupportedPlatform) {
@@ -36,7 +40,7 @@ class LocalNotificationService {
     log('Initializing LocalNotificationService...');
     try {
       await AwesomeNotifications().initialize(
-        null, // null uses default app launcher icon across platforms
+        defaultNotificationIcon,
         [
           // 1. Makkah Prayer Channel
           NotificationChannel(
@@ -45,6 +49,7 @@ class LocalNotificationService {
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
@@ -63,6 +68,7 @@ class LocalNotificationService {
                 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
@@ -80,6 +86,7 @@ class LocalNotificationService {
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             channelShowBadge: true,
             playSound: true,
@@ -95,6 +102,7 @@ class LocalNotificationService {
             channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
@@ -109,6 +117,7 @@ class LocalNotificationService {
                 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
             defaultColor: const Color(0xFF1E3A34),
             ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
@@ -120,6 +129,7 @@ class LocalNotificationService {
             channelName: 'تنبيهات عامة',
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
             defaultColor: const Color(0xFF1E3A34),
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
             channelShowBadge: true,
             playSound: true,
@@ -133,11 +143,12 @@ class LocalNotificationService {
     } catch (e, st) {
       log('Error initializing LocalNotificationService: $e\n$st');
       try {
-        await AwesomeNotifications().initialize(null, [
+        await AwesomeNotifications().initialize(defaultNotificationIcon, [
           NotificationChannel(
             channelKey: prayersChannelMakkahKey,
             channelName: 'أذان مكة المكرمة',
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
@@ -147,6 +158,7 @@ class LocalNotificationService {
             channelName: 'أذان المدينة المنورة',
             channelDescription:
                 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
@@ -155,6 +167,7 @@ class LocalNotificationService {
             channelKey: prayersChannelAzanKey,
             channelName: 'الأذان التقليدي',
             channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
@@ -163,6 +176,7 @@ class LocalNotificationService {
             channelKey: occasionsChannelKey,
             channelName: 'المناسبات الإسلامية',
             channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
           ),
           NotificationChannel(
@@ -170,12 +184,14 @@ class LocalNotificationService {
             channelName: 'وضع حچتي',
             channelDescription:
                 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
           ),
           NotificationChannel(
             channelKey: generalChannelKey,
             channelName: 'تنبيهات عامة',
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
+            icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
           ),
         ], debug: false);
@@ -392,6 +408,7 @@ class LocalNotificationService {
             channelKey: getPrayerChannelKey(soundId),
             title: title,
             body: body,
+            icon: defaultNotificationIcon,
             customSound: (isFullAdhan && Platform.isAndroid)
                 ? soundResource
                 : null,
@@ -517,6 +534,7 @@ class LocalNotificationService {
               channelKey: occasionsChannelKey,
               title: title,
               body: body,
+              icon: defaultNotificationIcon,
               category: NotificationCategory.Reminder,
               payload: {'type': 'occasion', 'occasionTitle': occasion.title},
             );
@@ -564,6 +582,7 @@ class LocalNotificationService {
               channelKey: occasionsChannelKey,
               title: title,
               body: body,
+              icon: defaultNotificationIcon,
               category: NotificationCategory.Event,
               payload: {'type': 'occasion', 'occasionTitle': occasion.title},
             );
@@ -626,6 +645,7 @@ class LocalNotificationService {
           channelKey: getPrayerChannelKey(soundId),
           title: title,
           body: body,
+          icon: defaultNotificationIcon,
           customSound: (isFullAdhan && Platform.isAndroid)
               ? soundResource
               : null,
