@@ -15,8 +15,12 @@ extension LocalizationExtension on BuildContext {
 /// like GoRouter but using Flutter's native Navigator system.
 extension RoutingExtension on BuildContext {
   /// 🔹 Push a route by name with optional arguments
-  Future<T?> pushNamed<T extends Object?>(String routeName, {Object? extra}) {
-    return Navigator.of(this).pushNamed<T>(routeName, arguments: extra);
+  Future<T?> pushNamed<T extends Object?>(String routeName, {Object? extra}) async {
+    final result = await Navigator.of(this).pushNamed(routeName, arguments: extra);
+    if (result is T) {
+      return result;
+    }
+    return null;
   }
 
   /// 🔹 Replace the current route with a new one
@@ -24,10 +28,16 @@ extension RoutingExtension on BuildContext {
     String routeName, {
     TO? result,
     Object? extra,
-  }) {
-    return Navigator.of(
-      this,
-    ).pushReplacementNamed<T, TO>(routeName, result: result, arguments: extra);
+  }) async {
+    final navResult = await Navigator.of(this).pushReplacementNamed(
+      routeName,
+      result: result,
+      arguments: extra,
+    );
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   /// 🔹 Push a route and remove all previous routes until [predicate]
@@ -35,12 +45,16 @@ extension RoutingExtension on BuildContext {
     String routeName, {
     bool Function(Route<dynamic>)? predicate,
     Object? extra,
-  }) {
-    return Navigator.of(this).pushNamedAndRemoveUntil<T>(
+  }) async {
+    final navResult = await Navigator.of(this).pushNamedAndRemoveUntil(
       routeName,
       predicate ?? (Route<dynamic> route) => false,
       arguments: extra,
     );
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   Future<void> popNamedUntil<T extends Object?>(
@@ -108,10 +122,16 @@ extension RoutingExtension on BuildContext {
   }
 
   /// 🔹 Push and clear the entire navigation stack
-  Future<T?> go<T extends Object?>(String routeName, {Object? extra}) {
-    return Navigator.of(
-      this,
-    ).pushNamedAndRemoveUntil<T>(routeName, (route) => false, arguments: extra);
+  Future<T?> go<T extends Object?>(String routeName, {Object? extra}) async {
+    final navResult = await Navigator.of(this).pushNamedAndRemoveUntil(
+      routeName,
+      (route) => false,
+      arguments: extra,
+    );
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   /// 🔹 Pop the current screen

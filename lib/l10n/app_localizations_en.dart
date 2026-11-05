@@ -700,19 +700,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_qirat => 'Select Reading';
 
   @override
-  String get qirat_hafs => 'Hafs from Asim';
+  String get qirat_hafs => 'Hafs';
 
   @override
-  String get qirat_douri => 'Al-Douri from Abi Amr';
+  String get qirat_douri => 'Al-Douri';
 
   @override
-  String get qirat_qalon => 'Qalun from Nafi';
+  String get qirat_qalon => 'Qalun';
 
   @override
-  String get qirat_shubah => 'Shu\'bah from Asim';
+  String get qirat_shubah => 'Shu\'bah';
 
   @override
-  String get qirat_warsh => 'Warsh from Nafi';
+  String get qirat_warsh => 'Warsh';
 
   @override
   String get downloadQuranError => 'Download error occurred';

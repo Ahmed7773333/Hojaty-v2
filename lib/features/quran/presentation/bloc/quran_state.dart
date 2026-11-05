@@ -28,6 +28,7 @@ class QuranState extends Equatable {
   final double downloadProgress;
   final Map<QiratType, QuranAssetStatus> qiratStatuses;
   final Map<QiratType, double> qiratProgress;
+  final Map<QiratType, int> qiratLastPages;
 
   const QuranState({
     this.status = QuranStatus.initial,
@@ -44,6 +45,7 @@ class QuranState extends Equatable {
     this.downloadProgress = 0.0,
     this.qiratStatuses = const {},
     this.qiratProgress = const {},
+    this.qiratLastPages = const {},
   });
 
   QuranState copyWith({
@@ -61,6 +63,7 @@ class QuranState extends Equatable {
     double? downloadProgress,
     Map<QiratType, QuranAssetStatus>? qiratStatuses,
     Map<QiratType, double>? qiratProgress,
+    Map<QiratType, int>? qiratLastPages,
     bool clearError = false,
   }) {
     return QuranState(
@@ -78,6 +81,7 @@ class QuranState extends Equatable {
       downloadProgress: downloadProgress ?? this.downloadProgress,
       qiratStatuses: qiratStatuses ?? this.qiratStatuses,
       qiratProgress: qiratProgress ?? this.qiratProgress,
+      qiratLastPages: qiratLastPages ?? this.qiratLastPages,
     );
   }
 
@@ -97,5 +101,6 @@ class QuranState extends Equatable {
         downloadProgress,
         qiratStatuses,
         qiratProgress,
+        qiratLastPages,
       ];
 }

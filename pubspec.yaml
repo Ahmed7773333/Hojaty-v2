@@ -51,6 +51,12 @@ flutter:
     - assets/svg/
     - assets/data/
     - assets/audio/
+    - assets/fonts/
+  fonts:
+    - family: Hafs Smart
+      fonts:
+        - asset: assets/fonts/HafsSmart_08.ttf  
+      
 
 
 flutter_launcher_icons:

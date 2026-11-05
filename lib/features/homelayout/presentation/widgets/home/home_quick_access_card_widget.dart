@@ -56,17 +56,17 @@ class HomeQuickAccessCardWidget extends StatelessWidget {
                 fontSize: 14.sp,
               ),
             ),
-            4.ver,
-            Text(
-              item.subtitleResolver(context.strings),
-              textAlign: TextAlign.center,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: isDark
-                    ? AppColors.darkTextSecondary
-                    : AppColors.lightTextSecondary,
-                fontSize: 11.sp,
-              ),
-            ),
+            // 4.ver,
+            // Text(
+            //   item.subtitleResolver(context.strings),
+            //   textAlign: TextAlign.center,
+            //   style: context.textTheme.bodySmall?.copyWith(
+            //     color: isDark
+            //         ? AppColors.darkTextSecondary
+            //         : AppColors.lightTextSecondary,
+            //     fontSize: 11.sp,
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -69,4 +69,19 @@ enum QiratType {
         return context.strings.qirat_warsh;
     }
   }
+
+  Color get themeColor {
+    switch (this) {
+      case QiratType.hafs:
+        return const Color(0xFF5BA37E); // Soft Sage Green (#B5D8C3 inspired)
+      case QiratType.qalon:
+        return const Color(0xFF2E9CD3); // Ocean / Sky Blue (#67C7F3 inspired)
+      case QiratType.shubah:
+        return const Color(0xFFE2833F); // Warm Terracotta / Peach (#FDB885 inspired)
+      case QiratType.warsh:
+        return const Color(0xFF9E6B97); // Elegant Lilac / Mauve (#C7A1C2 inspired)
+      case QiratType.douri:
+        return const Color(0xFFB59353); // Sand Gold / Ochre (#CDB081 inspired)
+    }
+  }
 }

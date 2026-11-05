@@ -73,18 +73,38 @@ class QuranLocalDataSource {
     return box.values.toList();
   }
 
-  Future<int> getLastPage() async {
+  String _lastPageKeyForQirat(QiratType qirat) => 'last_page_${qirat.name}';
+
+  Future<int> getLastPage({QiratType? qirat}) async {
     final box = Hive.box(_settingsBoxName);
-    final value = box.get(_lastPageKey, defaultValue: 1);
+    final targetQirat = qirat ?? await getSelectedQirat();
+    final key = _lastPageKeyForQirat(targetQirat);
+    final value = box.get(key);
     if (value is int && value >= 1 && value <= 604) {
       return value;
+    }
+    if (targetQirat == QiratType.hafs) {
+      final legacyVal = box.get(_lastPageKey, defaultValue: 1);
+      if (legacyVal is int && legacyVal >= 1 && legacyVal <= 604) {
+        return legacyVal;
+      }
     }
     return 1;
   }
 
-  Future<void> saveLastPage(int pageNumber) async {
+  Future<void> saveLastPage(int pageNumber, {QiratType? qirat}) async {
     final box = Hive.box(_settingsBoxName);
+    final targetQirat = qirat ?? await getSelectedQirat();
+    await box.put(_lastPageKeyForQirat(targetQirat), pageNumber);
     await box.put(_lastPageKey, pageNumber);
+  }
+
+  Future<Map<QiratType, int>> getAllLastPages() async {
+    final Map<QiratType, int> map = {};
+    for (final q in QiratType.values) {
+      map[q] = await getLastPage(qirat: q);
+    }
+    return map;
   }
 
   Future<QiratType> getSelectedQirat() async {
