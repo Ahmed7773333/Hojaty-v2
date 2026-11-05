@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/utils/local_notification_service.dart';
 import '../bloc/homelayout_bloc.dart';
 import '../bloc/homelayout_event.dart';
 import '../bloc/homelayout_state.dart';
@@ -12,8 +13,24 @@ import '../widgets/occasions/occasions_tab_view.dart';
 import '../widgets/quran/quran_tab_view.dart';
 import '../widgets/settings/settings_tab_view.dart';
 
-class HomelayoutPage extends StatelessWidget {
+class HomelayoutPage extends StatefulWidget {
   const HomelayoutPage({super.key});
+
+  @override
+  State<HomelayoutPage> createState() => _HomelayoutPageState();
+}
+
+class _HomelayoutPageState extends State<HomelayoutPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final granted = await LocalNotificationService.requestPermission();
+      if (granted && mounted) {
+        context.read<HomelayoutBloc>().add(const LoadHomelayoutEvent());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

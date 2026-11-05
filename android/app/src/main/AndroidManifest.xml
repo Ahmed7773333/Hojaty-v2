@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application 
         android:label="حچتي" 
@@ -33,6 +36,35 @@
         <meta-data 
             android:name="com.google.firebase.messaging.default_notification_channel_id" 
             android:value="prayers_channel" />
+
+        <!-- Awesome Notifications Broadcast Receivers & Services for Release Background Alarms -->
+        <receiver 
+            android:name="me.carda.awesome_notifications.DartNotificationActionReceiver"
+            android:exported="true"/>
+        <receiver 
+            android:name="me.carda.awesome_notifications.DartDismissedNotificationReceiver"
+            android:exported="true"/>
+        <receiver 
+            android:name="me.carda.awesome_notifications.DartScheduledNotificationReceiver"
+            android:exported="true"/>
+        <receiver
+            android:name="me.carda.awesome_notifications.DartRefreshSchedulesReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <service 
+            android:name="me.carda.awesome_notifications.DartBackgroundService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
     </application>
     <queries>
         <intent>

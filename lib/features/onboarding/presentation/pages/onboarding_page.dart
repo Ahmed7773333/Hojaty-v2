@@ -3,6 +3,7 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/local_notification_service.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../../../data/mocks/onboarding_mock_data.dart';
 import '../../data/models/onboarding_item_model.dart';
@@ -45,11 +46,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
     }
   }
 
-  void _completeOnboarding() {
+  void _completeOnboarding() async {
     final user = UserHiveHelper.getUser();
     if (user != null) {
       user.onBoardingCompletedSetter = true;
     }
+    await LocalNotificationService.requestPermission();
+    if (!mounted) return;
     context.pushReplacementNamed(AppRoutes.home);
   }
 
