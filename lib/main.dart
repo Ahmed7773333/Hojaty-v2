@@ -19,7 +19,7 @@ void main() async {
   await UserHiveHelper.initNotifications(); // Initialize Awesome Notifications
   // Initialize dependencies
   await setupInjector();
-  runApp(const AnaOsalyApp());
+  runApp(const AnaOsalyApp()); 
 }
 
 class AnaOsalyApp extends StatelessWidget {
