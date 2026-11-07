@@ -49,7 +49,9 @@ class AthkarCategoryCardWidget extends StatelessWidget {
             12.ver,
             Text(
               category.titleResolver(context.strings),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 15.sp,

@@ -24,16 +24,19 @@ class SurahDownloadButtonWidget extends StatefulWidget {
 
   @override
   State<SurahDownloadButtonWidget> createState() =>
-      _SurahDownloadButtonWidgetState();
+      SurahDownloadButtonWidgetState();
 }
 
-class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
+class SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
   late final RadioDownloadService _downloadService;
   bool _isChecking = true;
   bool _isDownloaded = false;
   bool _isDownloading = false;
   double _downloadProgress = 0.0;
   CancelToken? _cancelToken;
+
+  bool get isDownloaded => _isDownloaded;
+  bool get isDownloading => _isDownloading;
 
   @override
   void initState() {
@@ -48,6 +51,8 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
     super.dispose();
   }
 
+  Future<void> refreshStatus() => _checkStatus();
+
   Future<void> _checkStatus() async {
     final downloaded = await _downloadService.isDownloaded(
       widget.reciterName,
@@ -60,7 +65,8 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
     });
   }
 
-  Future<void> _startDownload() async {
+  Future<void> startDownload({ValueChanged<String>? onComplete}) async {
+    if (_isDownloading) return;
     _cancelToken = CancelToken();
     setState(() {
       _isDownloading = true;
@@ -87,6 +93,7 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
       });
 
       widget.onDownloadSuccess?.call(savedPath);
+      onComplete?.call(savedPath);
 
       ScaffoldMessenger.of(
         context,
@@ -171,6 +178,7 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
                     ? AppColors.darkTextMuted
                     : AppColors.lightTextMuted,
                 size: 18.sp,
+                semanticLabel: context.strings.delete,
               ),
             ),
           ],
@@ -222,6 +230,7 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
                     color: isDark
                         ? AppColors.darkTextMuted
                         : AppColors.lightTextMuted,
+                    semanticLabel: context.strings.cancel,
                   ),
                 ),
               ],
@@ -232,7 +241,7 @@ class _SurahDownloadButtonWidgetState extends State<SurahDownloadButtonWidget> {
     }
 
     return OutlinedButton.icon(
-      onPressed: _startDownload,
+      onPressed: () => startDownload(),
       style: OutlinedButton.styleFrom(
         foregroundColor: isDark ? AppColors.accentGold : AppColors.primaryDark,
         side: BorderSide(

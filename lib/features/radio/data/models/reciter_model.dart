@@ -48,6 +48,35 @@ class ReciterModel extends Equatable {
     );
   }
 
+  bool hasSurah(int surahNumber) {
+    if (moshaf == null || moshaf!.isEmpty) return true;
+    return moshaf!.any((m) {
+      if (m.surahList == null || m.surahList!.trim().isEmpty) return true;
+      final numbers = m.surahList!
+          .split(',')
+          .map((s) => int.tryParse(s.trim()))
+          .whereType<int>();
+      return numbers.contains(surahNumber);
+    });
+  }
+
+  MoshafModel? getMoshafForSurah(int surahNumber) {
+    if (moshaf == null || moshaf!.isEmpty) return null;
+    for (final m in moshaf!) {
+      if (m.surahList != null && m.surahList!.trim().isNotEmpty) {
+        final numbers = m.surahList!
+            .split(',')
+            .map((s) => int.tryParse(s.trim()))
+            .whereType<int>();
+        if (numbers.contains(surahNumber)) return m;
+      }
+    }
+    for (final m in moshaf!) {
+      if (m.surahList == null || m.surahList!.trim().isEmpty) return m;
+    }
+    return moshaf!.firstOrNull;
+  }
+
   @override
   List<Object?> get props => [id, name, letter, moshaf];
 }

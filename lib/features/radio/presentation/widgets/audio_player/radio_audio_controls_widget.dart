@@ -21,12 +21,20 @@ class RadioAudioControlsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
+              onPressed: () => playerService.skipToPrevious(),
+              icon: const Icon(Icons.skip_previous_rounded),
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+              iconSize: 30.r,
+            ),
+            IconButton(
               onPressed: () => playerService.seekBackward(10),
               icon: const Icon(Icons.replay_10_rounded),
               color: isDark
                   ? AppColors.darkTextPrimary
                   : AppColors.lightTextPrimary,
-              iconSize: 32.r,
+              iconSize: 28.r,
             ),
             StreamBuilder<PlayerState>(
               stream: playerService.playerStateStream,
@@ -64,7 +72,15 @@ class RadioAudioControlsWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkTextPrimary
                   : AppColors.lightTextPrimary,
-              iconSize: 32.r,
+              iconSize: 28.r,
+            ),
+            IconButton(
+              onPressed: () => playerService.skipToNext(),
+              icon: const Icon(Icons.skip_next_rounded),
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+              iconSize: 30.r,
             ),
           ],
         ),

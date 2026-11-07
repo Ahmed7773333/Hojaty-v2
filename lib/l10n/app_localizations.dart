@@ -176,6 +176,12 @@ abstract class AppLocalizations {
   /// **'Start now'**
   String get getStarted;
 
+  /// No description provided for @quranFehres.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran Fehres'**
+  String get quranFehres;
+
   /// No description provided for @onboardingSlide1Subtitle.
   ///
   /// In en, this message translates to:
@@ -1855,6 +1861,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @shareApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share App'**
+  String get shareApp;
+
+  /// No description provided for @shareAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hojaty app - Your comprehensive Islamic companion for prayer times, Holy Quran, Athkar, and Islamic occasions.'**
+  String get shareAppMessage;
+
+  /// No description provided for @downloadAppPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Download the app'**
+  String get downloadAppPrompt;
+
+  /// No description provided for @developedByPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed by Saddaq'**
+  String get developedByPrompt;
+
+  /// No description provided for @shareRecitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Recitation'**
+  String get shareRecitation;
+
+  /// No description provided for @downloadAudioPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'The audio file must be downloaded first to share it. Would you like to download it now?'**
+  String get downloadAudioPrompt;
+
+  /// No description provided for @downloadAndShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Download & Share'**
+  String get downloadAndShare;
+
+  /// No description provided for @downloadingInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Download in progress, please wait...'**
+  String get downloadingInProgress;
+
+  /// No description provided for @searchAthkarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in Athkar & Duas...'**
+  String get searchAthkarHint;
+
+  /// No description provided for @hisnAlMuslim.
+  ///
+  /// In en, this message translates to:
+  /// **'Hisn Al-Muslim'**
+  String get hisnAlMuslim;
+
+  /// No description provided for @dailyAthkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Athkar'**
+  String get dailyAthkar;
+
+  /// No description provided for @noAthkarFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching Athkar found'**
+  String get noAthkarFound;
+
+  /// No description provided for @searchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Results'**
+  String get searchResults;
+
+  /// No description provided for @allAthkarCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Categories'**
+  String allAthkarCount(Object count);
 }
 
 class _AppLocalizationsDelegate

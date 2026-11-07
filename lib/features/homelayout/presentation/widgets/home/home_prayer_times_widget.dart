@@ -65,6 +65,8 @@ class HomePrayerTimesWidget extends StatelessWidget {
           ),
           12.ver,
           BlocBuilder<HomelayoutBloc, HomelayoutState>(
+            buildWhen: (prev, curr) =>
+                prev.prayerTimes != curr.prayerTimes,
             builder: (context, state) {
               return Container(
                 decoration: BoxDecoration(

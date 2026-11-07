@@ -15,6 +15,9 @@ class RamadanHeroCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
+      buildWhen: (prev, curr) =>
+          prev.ramadanCheckData != curr.ramadanCheckData ||
+          prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         final data = state.ramadanCheckData;
         final nextRamadan = data?.nextRamadan;
@@ -34,22 +37,23 @@ class RamadanHeroCardWidget extends StatelessWidget {
 
         final remainingDays = targetEnd.difference(DateTime.now()).inDays;
 
-        return Container(
-          padding: EdgeInsets.all(22.r),
-          decoration: BoxDecoration(
-            color: AppColors.primaryDark,
-            borderRadius: BorderRadius.circular(22.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryDark.withValues(alpha: 0.25),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        return RepaintBoundary(
+          child: Container(
+            padding: EdgeInsets.all(22.r),
+            decoration: BoxDecoration(
+              color: AppColors.primaryDark,
+              borderRadius: BorderRadius.circular(22.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryDark.withValues(alpha: 0.25),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -184,8 +188,9 @@ class RamadanHeroCardWidget extends StatelessWidget {
               ),
             ],
           ),
-        );
-      },
+        ),
+      );
+    },
     );
   }
 }

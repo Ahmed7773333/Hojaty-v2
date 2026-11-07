@@ -304,6 +304,21 @@ class UserHiveHelper {
     } catch (_) {}
   }
 
+  // --------------------- Cached Location ---------------------
+  static String getCachedPrayerCityName({String defaultValue = ''}) {
+    try {
+      return prayersBox.get('cached_prayer_city_name', defaultValue: defaultValue) as String? ?? defaultValue;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setCachedPrayerCityName(String cityName) {
+    try {
+      prayersBox.put('cached_prayer_city_name', cityName);
+    } catch (_) {}
+  }
+
   // --------------------- Free Sebha Counter ---------------------
   static int getSebhaCounter({int defaultValue = 0}) {
     try {

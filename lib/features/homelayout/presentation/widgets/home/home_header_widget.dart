@@ -9,6 +9,7 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_state.dart';
+import 'home_share_button_widget.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
   const HomeHeaderWidget({super.key});
@@ -23,6 +24,10 @@ class HomeHeaderWidget extends StatelessWidget {
     ).format(now);
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
+      buildWhen: (prev, curr) =>
+          prev.ramadanCheckData?.hijriDate != curr.ramadanCheckData?.hijriDate ||
+          prev.prayerCityName != curr.prayerCityName ||
+          prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         final dynamicHijriDate =
             state.ramadanCheckData?.hijriDate.formatted ??
@@ -80,6 +85,7 @@ class HomeHeaderWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              const HomeShareButtonWidget(),
             ],
           ),
         );

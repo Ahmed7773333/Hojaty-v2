@@ -13,8 +13,11 @@ class OccasionDetailHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final targetEnd = occasion.targetDateTime ??
-        DateTime.now().add(Duration(days: occasion.daysRemaining));
+    final now = DateTime.now();
+    final target = occasion.targetDateTime;
+    final targetEnd = target != null
+        ? DateTime(target.year, target.month, target.day)
+        : DateTime(now.year, now.month, now.day + occasion.daysRemaining);
 
     return Container(
       width: double.infinity,

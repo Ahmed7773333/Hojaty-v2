@@ -15,6 +15,8 @@ class HomeOccasionBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
+      buildWhen: (prev, curr) =>
+          prev.nextOccasion != curr.nextOccasion,
       builder: (context, state) {
         final nextOccasion = state.nextOccasion;
         if (nextOccasion == null) {

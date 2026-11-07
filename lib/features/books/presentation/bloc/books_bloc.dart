@@ -23,26 +23,45 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     LoadBooksEvent event,
     Emitter<BooksState> emit,
   ) async {
-    emit(state.copyWith(status: BooksStatus.loading));
-    try {
-      final all = BookInfoModel.allBooks;
-      final statuses = await repository.checkAllBooksStatus();
+    final all = BookInfoModel.allBooks;
 
-      emit(
-        state.copyWith(
-          status: BooksStatus.loaded,
-          allBooks: all,
-          filteredBooks: all,
-          downloadStatuses: statuses,
-        ),
-      );
+    // 1. If we already have cached statuses or state, emit immediately (0ms latency)
+    final existingStatuses = repository.cachedStatuses;
+    final filtered = _applyFilters(
+      allBooks: all,
+      category: state.selectedCategory,
+      query: state.searchQuery,
+    );
+
+    emit(
+      state.copyWith(
+        status: BooksStatus.loaded,
+        allBooks: all,
+        filteredBooks: filtered,
+        downloadStatuses: existingStatuses.isNotEmpty ? existingStatuses : state.downloadStatuses,
+      ),
+    );
+
+    // 2. Fetch / verify statuses in background (parallelized) and refresh
+    try {
+      final statuses = await repository.checkAllBooksStatus();
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BooksStatus.loaded,
+            downloadStatuses: statuses,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: BooksStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed && state.downloadStatuses.isEmpty) {
+        emit(
+          state.copyWith(
+            status: BooksStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 

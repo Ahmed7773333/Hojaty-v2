@@ -18,6 +18,10 @@ class OccasionsListSubtabView extends StatelessWidget {
     final isDark = context.isDark;
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
+      buildWhen: (prev, curr) =>
+          prev.occasionsList != curr.occasionsList ||
+          prev.nextOccasion != curr.nextOccasion ||
+          prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         final allOccasions = state.occasionsList.isNotEmpty
             ? state.occasionsList

@@ -4,6 +4,7 @@ import '../../../../../config/routes/app_router.dart';
 import '../../../../../config/theme/app_theme.dart';
 import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/app_colors.dart';
+import '../../../../../core/utils/app_share_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/homelayout_bloc.dart';
@@ -195,6 +196,12 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                   SettingsSectionCardWidget(
                     title: context.strings.aboutAppSection,
                     children: [
+                      SettingsTileWidget(
+                        title: context.strings.shareApp,
+                        onTap: () {
+                          AppShareHelper.shareApp(context);
+                        },
+                      ),
                       SettingsTileWidget(
                         title: context.strings.privacyPolicyLabel,
                         onTap: () {

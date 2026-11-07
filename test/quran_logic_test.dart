@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:hojaty/features/quran/constants/quran_constants.dart';
 import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
 import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/radio/data/models/moshaf_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -46,6 +48,44 @@ void main() {
     expect(QuranTextHelper.getSurahName(1), 'الفاتحة');
     expect(QuranTextHelper.getSurahName(2), 'البقرة');
     expect(QuranTextHelper.getSurahName(604), 'الناس');
+
+    // Surah Number and Surah By Page
+    expect(QuranTextHelper.getSurahNumber(1), 1);
+    expect(QuranTextHelper.getSurahByPage(1)?.name, 'الفاتحة');
+    expect(QuranTextHelper.getSurahNumber(2), 2);
+    expect(QuranTextHelper.getSurahByPage(2)?.name, 'البقرة');
+    expect(QuranTextHelper.getSurahNumber(604), 114);
+    expect(QuranTextHelper.getSurahByPage(604)?.name, 'الناس');
+  });
+
+  test('ReciterModel surah support checks', () {
+    const reciterWithFullQuran = ReciterModel(
+      id: 1,
+      name: 'Test Reciter',
+      moshaf: [
+        MoshafModel(id: 1, name: 'Hafs', server: 'https://server.com/'),
+      ],
+    );
+    expect(reciterWithFullQuran.hasSurah(1), isTrue);
+    expect(reciterWithFullQuran.hasSurah(114), isTrue);
+    expect(reciterWithFullQuran.getMoshafForSurah(1)?.server, 'https://server.com/');
+
+    const reciterWithPartialQuran = ReciterModel(
+      id: 2,
+      name: 'Partial Reciter',
+      moshaf: [
+        MoshafModel(
+          id: 2,
+          name: 'Kahf Only',
+          server: 'https://kahf.com/',
+          surahList: '18,36',
+        ),
+      ],
+    );
+    expect(reciterWithPartialQuran.hasSurah(18), isTrue);
+    expect(reciterWithPartialQuran.hasSurah(36), isTrue);
+    expect(reciterWithPartialQuran.hasSurah(2), isFalse);
+    expect(reciterWithPartialQuran.getMoshafForSurah(18)?.server, 'https://kahf.com/');
   });
 
   test('PageDataModel fromJson Parsing Check', () {

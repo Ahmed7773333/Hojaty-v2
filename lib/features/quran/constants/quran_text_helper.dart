@@ -1,3 +1,4 @@
+import '../data/models/surah_info_model.dart';
 import 'quran_constants.dart';
 
 class QuranTextHelper {
@@ -37,6 +38,19 @@ class QuranTextHelper {
     return QuranConstants.surahMap[surahNum]?.name ?? '';
   }
 
+  static int getSurahNumber(int pageNum) {
+    final p = pageNum - 1;
+    if (p < 0 || p >= QuranConstants.pageInfo.length) return 1;
+    final pages = QuranConstants.pageInfo[p];
+    if (pages.isEmpty) return 1;
+    return pages.length >= 2 ? pages.last.surah : pages.first.surah;
+  }
+
+  static SurahInfoModel? getSurahByPage(int pageNum) {
+    final surahNum = getSurahNumber(pageNum);
+    return QuranConstants.surahMap[surahNum];
+  }
+
   static String getVerseEndSymbol(int verseNumber, {bool arabicNumeral = true}) {
     if (!arabicNumeral) return '\u06dd$verseNumber';
 
@@ -72,13 +86,14 @@ class QuranTextHelper {
     return 1;
   }
 
-  static String normalizeArabic(String text) {
-    final diacriticRegex = RegExp(
-      r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]',
-    );
+  static final RegExp _diacriticRegex = RegExp(
+    r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]',
+  );
+  static final RegExp _whitespaceRegex = RegExp(r'\s+');
 
-    String normalized = text;
-    normalized = normalized.replaceAll(diacriticRegex, '');
+  static String normalizeArabic(String text) {
+    if (text.isEmpty) return '';
+    String normalized = text.replaceAll(_diacriticRegex, '');
     normalized = normalized
         .replaceAll('ٱ', 'ا')
         .replaceAll('آ', 'ا')
@@ -90,6 +105,6 @@ class QuranTextHelper {
         .replaceAll('ة', 'ه')
         .replaceAll('ـ', '');
 
-    return normalized.replaceAll(RegExp(r'\s+'), ' ').trim();
+    return normalized.replaceAll(_whitespaceRegex, ' ').trim();
   }
 }

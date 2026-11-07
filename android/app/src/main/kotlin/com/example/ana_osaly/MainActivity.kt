@@ -1,6 +1,6 @@
 package com.wolfdev.hojaty
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
@@ -11,7 +11,7 @@ import com.google.android.play.core.assetpacks.AssetPackState
 import com.google.android.play.core.assetpacks.AssetPackStateUpdateListener
 import com.google.android.play.core.assetpacks.model.AssetPackStatus
 
-class MainActivity : FlutterActivity() {
+class MainActivity : AudioServiceActivity() {
     companion object {
         private const val ASSET_CHANNEL = "com.wolfdev.hojaty/asset_delivery"
     }

@@ -195,6 +195,15 @@ class SelectAdhanSoundEvent extends HomelayoutEvent {
   List<Object?> get props => [soundId];
 }
 
+class UpdatePrayerCityNameEvent extends HomelayoutEvent {
+  final String cityName;
+
+  const UpdatePrayerCityNameEvent(this.cityName);
+
+  @override
+  List<Object?> get props => [cityName];
+}
+
 class ChangeAnaOsalyCustomMessageEvent extends HomelayoutEvent {
   final String message;
   final String? language;

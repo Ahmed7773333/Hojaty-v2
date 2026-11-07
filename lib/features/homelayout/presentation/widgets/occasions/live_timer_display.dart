@@ -69,7 +69,19 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
   void initState() {
     super.initState();
     _now = DateTime.now();
-    _setupTimerIfNeeded();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final isTickerActive = TickerMode.of(context);
+    if (!isTickerActive) {
+      _timer?.cancel();
+      _timer = null;
+    } else if (_timer == null && !_isStaticElapsed) {
+      _now = DateTime.now();
+      _setupTimerIfNeeded();
+    }
   }
 
   void _setupTimerIfNeeded() {
@@ -77,6 +89,10 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
 
     if (_isStaticElapsed) {
       _now = DateTime.now();
+      return;
+    }
+
+    if (!mounted || !TickerMode.of(context)) {
       return;
     }
 
@@ -90,6 +106,7 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
         final remaining = _end!.difference(_now);
         if (remaining.isNegative && !oldNow.isAfter(_end!)) {
           _timer?.cancel();
+          _timer = null;
         }
       }
 
@@ -131,7 +148,9 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
       final elapsed = end.difference(_start!);
       final text = TimerDb.formatDuration(elapsed, _format, lang: lang);
       final display = '${widget.prefix ?? ''}$text${widget.suffix ?? ''}';
-      return Text(display, style: widget.style, maxLines: 3);
+      return RepaintBoundary(
+        child: Text(display, style: widget.style, maxLines: 3),
+      );
     }
 
     // If no start but we have an end -> countdown mode
@@ -140,15 +159,21 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
 
       if (remaining.inSeconds <= 0) {
         final finished = widget.finishedText ?? (isArabic ? 'حان الآن' : 'Now');
-        return Text(finished, style: widget.style, maxLines: 1);
+        return RepaintBoundary(
+          child: Text(finished, style: widget.style, maxLines: 1),
+        );
       }
 
       final text = TimerDb.formatDuration(remaining, _format, lang: lang);
       final display = '${widget.prefix ?? ''}$text${widget.suffix ?? ''}';
-      return Text(display, style: widget.style, maxLines: 3);
+      return RepaintBoundary(
+        child: Text(display, style: widget.style, maxLines: 3),
+      );
     }
 
     // fallback
-    return Text('-', style: widget.style);
+    return RepaintBoundary(
+      child: Text('-', style: widget.style),
+    );
   }
 }

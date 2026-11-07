@@ -9,6 +9,7 @@ import '../widgets/athkar/athkar_grid_view.dart';
 import '../widgets/shared/exit_app_dialog.dart';
 import '../widgets/home/home_bottom_nav_bar_widget.dart';
 import '../widgets/home/home_dashboard_view.dart';
+import '../../../../shared/widgets/app_mini_player_widget.dart';
 import '../widgets/occasions/occasions_tab_view.dart';
 import '../widgets/quran/quran_tab_view.dart';
 import '../widgets/settings/settings_tab_view.dart';
@@ -64,13 +65,19 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
           },
           child: Scaffold(
             body: IndexedStack(index: state.currentTabIndex, children: tabs),
-            bottomNavigationBar: HomeBottomNavBarWidget(
-              currentIndex: state.currentTabIndex,
-              onTabSelected: (index) {
-                context.read<HomelayoutBloc>().add(
-                  ChangeBottomNavTabEvent(index),
-                );
-              },
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const AppMiniPlayerWidget(),
+                HomeBottomNavBarWidget(
+                  currentIndex: state.currentTabIndex,
+                  onTabSelected: (index) {
+                    context.read<HomelayoutBloc>().add(
+                      ChangeBottomNavTabEvent(index),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         );
