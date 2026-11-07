@@ -18,92 +18,96 @@ class OccasionHeroCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final targetEnd =
-        occasion.targetDateTime ??
-        DateTime.now().add(Duration(days: occasion.daysRemaining));
+    final now = DateTime.now();
+    final target = occasion.targetDateTime;
+    final targetEnd = target != null
+        ? DateTime(target.year, target.month, target.day)
+        : DateTime(now.year, now.month, now.day + occasion.daysRemaining);
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(18.r),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-        decoration: BoxDecoration(
-          color: AppColors.primaryDark,
-          borderRadius: BorderRadius.circular(18.r),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primaryDark.withValues(alpha: 0.2),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18.r),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+          decoration: BoxDecoration(
+            color: AppColors.primaryDark,
+            borderRadius: BorderRadius.circular(18.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryDark.withValues(alpha: 0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.strings.upcomingOccasion,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: AppColors.accentGoldLight,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    4.ver,
+                    Text(
+                      occasion.title,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    4.ver,
+                    Text(
+                      occasion.gregorianDate,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: AppColors.darkTextSecondary,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              12.hor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    context.strings.upcomingOccasion,
-                    style: context.textTheme.bodySmall?.copyWith(
-                      color: AppColors.accentGoldLight,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                  4.ver,
-                  Text(
-                    occasion.title,
+                  LiveTimerDisplay(
+                    end: targetEnd,
+                    format: LiveTimeFormat.short,
                     style: context.textTheme.titleLarge?.copyWith(
-                      color: AppColors.white,
+                      color: AppColors.accentGold,
                       fontWeight: FontWeight.w800,
-                      fontSize: 20.sp,
+                      fontSize: 16.sp,
+                      letterSpacing: 0.5,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   4.ver,
                   Text(
-                    occasion.gregorianDate,
+                    context.strings.daysRemainingUnit(occasion.daysRemaining),
                     style: context.textTheme.bodySmall?.copyWith(
                       color: AppColors.darkTextSecondary,
-                      fontSize: 12.sp,
+                      fontSize: 11.sp,
                     ),
                   ),
                 ],
               ),
-            ),
-            12.hor,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                LiveTimerDisplay(
-                  end: targetEnd,
-                  format: LiveTimeFormat.short,
-                  style: context.textTheme.titleLarge?.copyWith(
-                    color: AppColors.accentGold,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16.sp,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                4.ver,
-                Text(
-                  context.strings.daysRemainingUnit(occasion.daysRemaining),
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.darkTextSecondary,
-                    fontSize: 11.sp,
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-  }
+}
 }
 
 // =========================================================================

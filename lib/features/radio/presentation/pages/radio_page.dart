@@ -1,19 +1,22 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
+import '../../../quran/data/models/surah_info_model.dart';
 import '../bloc/radio_bloc.dart';
 import '../bloc/radio_event.dart';
 import '../widgets/radio/radio_header_widget.dart';
-import '../widgets/radio/radio_live_cards_widget.dart';
 import '../widgets/radio/radio_playlist_banner_widget.dart';
 import '../widgets/radio/radio_reciters_list_widget.dart';
 import '../widgets/radio/radio_search_bar_widget.dart';
 
 class RadioPage extends StatefulWidget {
-  const RadioPage({super.key});
+  final SurahInfoModel? targetSurah;
+
+  const RadioPage({super.key, this.targetSurah});
 
   @override
   State<RadioPage> createState() => _RadioPageState();
@@ -22,6 +25,7 @@ class RadioPage extends StatefulWidget {
 class _RadioPageState extends State<RadioPage> {
   late final TextEditingController _searchController;
   late final RadioBloc _radioBloc;
+  Timer? _debounceTimer;
   bool _loaded = false;
 
   @override
@@ -43,19 +47,24 @@ class _RadioPageState extends State<RadioPage> {
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
     super.dispose();
   }
 
   void _onSearchChanged(String query) {
-    _radioBloc.add(SearchRecitersEvent(query));
-    setState(() {});
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        _radioBloc.add(SearchRecitersEvent(query));
+      }
+    });
   }
 
   void _onSearchCleared() {
+    _debounceTimer?.cancel();
     _searchController.clear();
     _radioBloc.add(const SearchRecitersEvent(''));
-    setState(() {});
   }
 
   @override
@@ -71,34 +80,44 @@ class _RadioPageState extends State<RadioPage> {
           children: [
             RadioHeaderWidget(onBack: () => context.pop()),
             Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // const RadioLiveCardsWidget(),
-                    // 16.ver,
-                    const RadioPlaylistBannerWidget(),
-                    16.ver,
-                    RadioSearchBarWidget(
-                      controller: _searchController,
-                      onChanged: _onSearchChanged,
-                      onClear: _onSearchCleared,
-                    ),
-                    16.ver,
-                    Text(
-                      context.strings.recitersList,
-                      style: context.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: isDark
-                            ? AppColors.darkTextPrimary
-                            : AppColors.lightTextPrimary,
+              child: CustomScrollView(
+                cacheExtent: 400,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverPadding(
+                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 12.h),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.targetSurah == null) ...[
+                            const RadioPlaylistBannerWidget(),
+                            16.ver,
+                          ],
+                          RadioSearchBarWidget(
+                            controller: _searchController,
+                            onChanged: _onSearchChanged,
+                            onClear: _onSearchCleared,
+                          ),
+                          16.ver,
+                          Text(
+                            context.strings.recitersList,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.lightTextPrimary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    // 12.ver,
-                    const RadioRecitersListWidget(),
-                  ],
-                ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: RadioRecitersListWidget(targetSurah: widget.targetSurah),
+                  ),
+                ],
               ),
             ),
           ],

@@ -10,6 +10,10 @@ import '../models/book_info_model.dart';
 
 class BooksRepository {
   final Map<String, BookCollectionModel> _memoryCache = {};
+  final Map<String, BookDownloadProgress> _cachedStatuses = {};
+
+  Map<String, BookDownloadProgress> get cachedStatuses =>
+      Map.unmodifiable(_cachedStatuses);
 
   Future<String?> _resolveBookFilePath(BookInfoModel book) async {
     // 1. Check Play Asset Delivery path on Android
@@ -37,40 +41,50 @@ class BooksRepository {
   Future<BookDownloadProgress> checkBookStatus(BookInfoModel book) async {
     final path = await _resolveBookFilePath(book);
     if (path != null) {
-      return BookDownloadProgress(
+      final status = BookDownloadProgress(
         bookId: book.id,
         status: BookDownloadStatus.downloaded,
         progress: 1.0,
         localFilePath: path,
       );
+      _cachedStatuses[book.id] = status;
+      return status;
     }
 
     final info = await PlayAssetDeliveryService.getAssetPackStatus(book.assetPackName);
     if (info.isDownloaded && info.assetsPath != null) {
       final f = File('${info.assetsPath}/${book.assetName}');
       if (await f.exists()) {
-        return BookDownloadProgress(
+        final status = BookDownloadProgress(
           bookId: book.id,
           status: BookDownloadStatus.downloaded,
           progress: 1.0,
           localFilePath: f.path,
         );
+        _cachedStatuses[book.id] = status;
+        return status;
       }
     }
 
-    return BookDownloadProgress(
+    final status = BookDownloadProgress(
       bookId: book.id,
       status: BookDownloadStatus.notDownloaded,
       progress: 0.0,
     );
+    _cachedStatuses[book.id] = status;
+    return status;
   }
 
   Future<Map<String, BookDownloadProgress>> checkAllBooksStatus() async {
-    final Map<String, BookDownloadProgress> result = {};
-    for (final book in BookInfoModel.allBooks) {
-      result[book.id] = await checkBookStatus(book);
-    }
-    return result;
+    final results = await Future.wait(
+      BookInfoModel.allBooks.map((book) async {
+        final status = await checkBookStatus(book);
+        return MapEntry(book.id, status);
+      }),
+    );
+    final map = Map.fromEntries(results);
+    _cachedStatuses.addAll(map);
+    return map;
   }
 
   Stream<BookDownloadProgress> downloadBook(BookInfoModel book) async* {
@@ -95,16 +109,16 @@ class BooksRepository {
           if (info.status == AssetPackStateStatus.completed ||
               (info.assetsPath != null && info.assetsPath!.isNotEmpty)) {
             final fPath = '${info.assetsPath}/${book.assetName}';
-            controller.add(
-              BookDownloadProgress(
-                bookId: book.id,
-                status: BookDownloadStatus.downloaded,
-                progress: 1.0,
-                bytesDownloaded: info.totalBytes,
-                totalBytes: info.totalBytes,
-                localFilePath: fPath,
-              ),
+            final status = BookDownloadProgress(
+              bookId: book.id,
+              status: BookDownloadStatus.downloaded,
+              progress: 1.0,
+              bytesDownloaded: info.totalBytes,
+              totalBytes: info.totalBytes,
+              localFilePath: fPath,
             );
+            _cachedStatuses[book.id] = status;
+            controller.add(status);
             await sub.cancel();
             await controller.close();
           } else if (info.status == AssetPackStateStatus.failed) {
@@ -158,6 +172,10 @@ class BooksRepository {
 
   Future<bool> deleteBook(BookInfoModel book) async {
     _memoryCache.remove(book.id);
+    _cachedStatuses[book.id] = BookDownloadProgress(
+      bookId: book.id,
+      status: BookDownloadStatus.notDownloaded,
+    );
     try {
       final path = await _resolveBookFilePath(book);
       if (path != null) {

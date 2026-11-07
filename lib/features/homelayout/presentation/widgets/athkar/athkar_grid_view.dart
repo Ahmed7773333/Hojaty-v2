@@ -4,48 +4,83 @@ import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../data/mocks/athkar_mock_data.dart';
+import '../../../data/datasources/local/athkar_local_data_source.dart';
 import '../../../data/models/athkar_category_model.dart';
 import '../../../data/models/athkar_detail_args.dart';
-import '../../../data/models/thikr_item_model.dart';
-import 'athkar_category_card_widget.dart';
 import 'athkar_header_widget.dart';
+import 'athkar_main_content_widget.dart';
+import 'athkar_search_bar_widget.dart';
+import 'athkar_search_results_widget.dart';
 
-class AthkarGridView extends StatelessWidget {
+class AthkarGridView extends StatefulWidget {
   const AthkarGridView({super.key});
 
-  void _onCategoryTap(BuildContext context, AthkarCategoryModel category) {
+  @override
+  State<AthkarGridView> createState() => _AthkarGridViewState();
+}
+
+class _AthkarGridViewState extends State<AthkarGridView> {
+  final TextEditingController _searchController = TextEditingController();
+  final AthkarLocalDataSource _dataSource = const AthkarLocalDataSource();
+
+  List<AthkarCategoryModel> _dailyCategories = AthkarMockData.categories;
+  List<AthkarCategoryModel> _allCategories = const [];
+  List<AthkarCategoryModel> _filteredCategories = const [];
+  String _searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadCategories() async {
+    final daily = await _dataSource.getDailyCategories();
+    final all = await _dataSource.getAllCategories();
+    if (!mounted) return;
+    setState(() {
+      _dailyCategories = daily;
+      _allCategories = all;
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query.trim();
+      if (_searchQuery.isEmpty) {
+        _filteredCategories = const [];
+      } else {
+        final queryLower = _searchQuery.toLowerCase();
+        _filteredCategories = _allCategories.where((category) {
+          final title = category.titleResolver(context.strings).toLowerCase();
+          return title.contains(queryLower);
+        }).toList();
+      }
+    });
+  }
+
+  void _onClearSearch() {
+    _searchController.clear();
+    _onSearchChanged('');
+  }
+
+  void _onCategoryTap(AthkarCategoryModel category) {
     if (category.type == AthkarCategoryType.sebha) {
       context.pushNamed(AppRoutes.sebha);
     } else if (category.isGuide) {
       context.pushNamed(AppRoutes.istikhara);
     } else {
-      List<ThikrItemModel> items;
-      switch (category.type) {
-        case AthkarCategoryType.morning:
-          items = AthkarMockData.morningAthkar;
-          break;
-        case AthkarCategoryType.evening:
-          items = AthkarMockData.eveningAthkar;
-          break;
-        case AthkarCategoryType.sleep:
-          items = AthkarMockData.sleepAthkar;
-          break;
-        case AthkarCategoryType.afterPrayer:
-          items = AthkarMockData.afterPrayerAthkar;
-          break;
-        case AthkarCategoryType.misc:
-          items = AthkarMockData.miscAthkar;
-          break;
-        default:
-          items = AthkarMockData.morningAthkar;
-          break;
-      }
-
       context.pushNamed(
         AppRoutes.athkarDetail,
         extra: AthkarDetailArgs(
           title: category.titleResolver(context.strings),
-          items: items,
+          items: category.items ?? const [],
           categoryType: category.type,
           categoryId: category.categoryId,
         ),
@@ -55,8 +90,8 @@ class AthkarGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = AthkarMockData.categories;
     final isDark = context.isDark;
+    final isSearching = _searchQuery.isNotEmpty;
 
     return Scaffold(
       backgroundColor: isDark
@@ -65,92 +100,29 @@ class AthkarGridView extends StatelessWidget {
       body: Column(
         children: [
           const AthkarHeaderWidget(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-              child: GridView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 16.h,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  return AthkarCategoryCardWidget(
-                    category: category,
-                    onTap: () => _onCategoryTap(context, category),
-                  );
-                },
-              ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(16.w, 14.h, 16.w, 6.h),
+            child: AthkarSearchBarWidget(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
+              onClear: _onClearSearch,
             ),
+          ),
+          Expanded(
+            child: isSearching
+                ? AthkarSearchResultsWidget(
+                    results: _filteredCategories,
+                    onCategoryTap: _onCategoryTap,
+                    onClear: _onClearSearch,
+                  )
+                : AthkarMainContentWidget(
+                    dailyCategories: _dailyCategories,
+                    allCategories: _allCategories,
+                    onCategoryTap: _onCategoryTap,
+                  ),
           ),
         ],
       ),
     );
   }
 }
-
-// ==========================================
-// ARCHIVED ORIGINAL ATHKAR GRID VIEW CODE
-// ==========================================
-// class AthkarGridView extends StatelessWidget {
-//   const AthkarGridView({super.key});
-// 
-//   void _onCategoryTap(BuildContext context, AthkarCategoryModel category) {
-//     if (category.isGuide) {
-//       context.pushNamed(AppRoutes.istikhara);
-//     } else {
-//       context.pushNamed(
-//         AppRoutes.athkarDetail,
-//         extra: category.titleResolver(context.strings),
-//       );
-//     }
-//   }
-// 
-//   @override
-//   Widget build(BuildContext context) {
-//     final categories = AthkarMockData.categories;
-//     final isDark = context.isDark;
-// 
-//     return Scaffold(
-//       backgroundColor: isDark
-//           ? AppColors.darkBackground
-//           : AppColors.lightBackground,
-//       body: Column(
-//         children: [
-//           const AthkarHeaderWidget(),
-//           Expanded(
-//             child: SingleChildScrollView(
-//               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-//               child: GridView.builder(
-//                 padding: EdgeInsets.zero,
-//                 shrinkWrap: true,
-//                 physics: const NeverScrollableScrollPhysics(),
-//                 itemCount: categories.length,
-//                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                   crossAxisCount: 2,
-//                   crossAxisSpacing: 16.w,
-//                   mainAxisSpacing: 16.h,
-//                   childAspectRatio: 1,
-//                 ),
-//                 itemBuilder: (context, index) {
-//                   final category = categories[index];
-//                   return AthkarCategoryCardWidget(
-//                     category: category,
-//                     onTap: () => _onCategoryTap(context, category),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-

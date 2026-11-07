@@ -43,8 +43,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
             city.isNotEmpty &&
             country != null &&
             country.isNotEmpty) {
-          log('BigDataCloud city name: $city$separator$country');
-          return '$city$separator$country';
+          final resolvedName = '$city$separator$country';
+          log('BigDataCloud city name: $resolvedName');
+          UserHiveHelper.setCachedPrayerCityName(resolvedName);
+          return resolvedName;
         }
       }
     } catch (_) {}
@@ -65,13 +67,15 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
             city.isNotEmpty &&
             country != null &&
             country.isNotEmpty) {
-          log('ip-api city name: $city$separator$country');
-          return '$city$separator$country';
+          final resolvedName = '$city$separator$country';
+          log('ip-api city name: $resolvedName');
+          UserHiveHelper.setCachedPrayerCityName(resolvedName);
+          return resolvedName;
         }
       }
     } catch (_) {}
 
-    return '';
+    return UserHiveHelper.getCachedPrayerCityName();
   }
 
   final GetHomelayoutUseCase? getHomelayout;
@@ -134,6 +138,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     on<ToggleGeneralNotificationsEvent>(_onToggleGeneralNotifications);
     on<ToggleAthkarNotificationsEvent>(_onToggleAthkarNotifications);
     on<SelectAdhanSoundEvent>(_onSelectAdhanSound);
+    on<UpdatePrayerCityNameEvent>(_onUpdatePrayerCityName);
   }
 
   // ---------------------------------------------------------------------------
@@ -207,15 +212,11 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
   ) async {
     final user = UserHiveHelper.getUser();
     final lang = user?.language ?? 'ar';
-    final prayerCityName = await getPrayerCityName(lang);
 
+    // 1. Compute prayer times instantly and emit without waiting for network
     final prayerData = _computePrayerState(dayOffset: 0, language: lang);
+    final initialCityName = UserHiveHelper.getCachedPrayerCityName();
 
-    final banners = getBanners != null
-        ? await getBanners!(language: lang)
-        : HomeMockData.banners;
-
-    // 1. Initial emit from cache or fallback
     if (getRamadanCheck != null && getOccasionsList != null) {
       final ramadan = await getRamadanCheck!(language: lang);
       final occasions = await getOccasionsList!(language: lang);
@@ -229,11 +230,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
           nextPrayerName: prayerData.nextName,
-          prayerCityName: prayerCityName,
+          prayerCityName: initialCityName,
           previousPrayerTime: prayerData.previousTime,
           prayerProgress: prayerData.progress,
           notifications: HomeMockData.notifications,
-          banners: banners.isNotEmpty ? banners : state.banners,
           adhanSettings: HomeMockData.defaultAdhanSettings.copyWith(
             isAnaOsalyEnabled: UserHiveHelper.getAnaOsalyEnabled(
               defaultValue: HomeMockData.defaultAdhanSettings.isAnaOsalyEnabled,
@@ -254,28 +254,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         ),
       );
 
-      // Schedule notifications for prayers and occasions
       _scheduleNotifications(prayerData.prayerTimes, occasions, lang);
-
-      // 2. Trigger sync in background if available
-      if (syncOccasionsData != null) {
-        await syncOccasionsData!();
-        final updatedRamadan = await getRamadanCheck!(language: lang);
-        final updatedOccasions = await getOccasionsList!(language: lang);
-        emit(
-          state.copyWith(
-            currentLanguage: lang,
-            ramadanCheckData: updatedRamadan,
-            occasionsList: updatedOccasions,
-            nextOccasion: updatedOccasions.isNotEmpty
-                ? updatedOccasions.first
-                : null,
-            activeHijriMonth: updatedRamadan.hijriDate.monthNumber,
-            activeHijriYear: updatedRamadan.hijriDate.yearNumber,
-          ),
-        );
-        _scheduleNotifications(state.prayerTimes, updatedOccasions, lang);
-      }
     } else {
       emit(
         state.copyWith(
@@ -286,11 +265,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
           nextPrayerName: prayerData.nextName,
-          prayerCityName: prayerCityName,
+          prayerCityName: initialCityName,
           previousPrayerTime: prayerData.previousTime,
           prayerProgress: prayerData.progress,
           notifications: HomeMockData.notifications,
-          banners: banners.isNotEmpty ? banners : state.banners,
           adhanSettings: HomeMockData.defaultAdhanSettings.copyWith(
             isAnaOsalyEnabled: UserHiveHelper.getAnaOsalyEnabled(
               defaultValue: HomeMockData.defaultAdhanSettings.isAnaOsalyEnabled,
@@ -306,6 +284,53 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       );
       _scheduleNotifications(prayerData.prayerTimes, state.occasionsList, lang);
     }
+
+    // 2. Refresh geolocated city name in background
+    unawaited(
+      getPrayerCityName(lang).then((cityName) {
+        if (!isClosed && cityName.isNotEmpty) {
+          add(UpdatePrayerCityNameEvent(cityName));
+        }
+      }),
+    );
+
+    // 3. Fetch banners and background sync without blocking prayer times
+    if (getBanners != null) {
+      try {
+        final banners = await getBanners!(language: lang);
+        if (banners.isNotEmpty && !isClosed) {
+          emit(state.copyWith(banners: banners));
+        }
+      } catch (_) {}
+    }
+
+    if (syncOccasionsData != null && getRamadanCheck != null && getOccasionsList != null) {
+      await syncOccasionsData!();
+      final updatedRamadan = await getRamadanCheck!(language: lang);
+      final updatedOccasions = await getOccasionsList!(language: lang);
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            currentLanguage: lang,
+            ramadanCheckData: updatedRamadan,
+            occasionsList: updatedOccasions,
+            nextOccasion: updatedOccasions.isNotEmpty
+                ? updatedOccasions.first
+                : null,
+            activeHijriMonth: updatedRamadan.hijriDate.monthNumber,
+            activeHijriYear: updatedRamadan.hijriDate.yearNumber,
+          ),
+        );
+        _scheduleNotifications(state.prayerTimes, updatedOccasions, lang);
+      }
+    }
+  }
+
+  void _onUpdatePrayerCityName(
+    UpdatePrayerCityNameEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    emit(state.copyWith(prayerCityName: event.cityName));
   }
 
   void _scheduleNotifications(
@@ -333,7 +358,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     Emitter<HomelayoutState> emit,
   ) async {
     final lang = event.language ?? UserHiveHelper.getUser()?.language ?? 'ar';
-    final prayerCityName = await getPrayerCityName(lang);
+    final cachedCityName = UserHiveHelper.getCachedPrayerCityName();
     final prayerData = _computePrayerState(
       dayOffset: state.selectedPrayerDayOffset,
       language: lang,
@@ -354,7 +379,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
           nextPrayerName: prayerData.nextName,
-          prayerCityName: prayerCityName,
+          prayerCityName: cachedCityName.isNotEmpty ? cachedCityName : state.prayerCityName,
           previousPrayerTime: prayerData.previousTime,
           prayerProgress: prayerData.progress,
           banners: banners.isNotEmpty ? banners : state.banners,
@@ -375,7 +400,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
           nextPrayerName: prayerData.nextName,
-          prayerCityName: prayerCityName,
+          prayerCityName: cachedCityName.isNotEmpty ? cachedCityName : state.prayerCityName,
           previousPrayerTime: prayerData.previousTime,
           prayerProgress: prayerData.progress,
           banners: banners.isNotEmpty ? banners : state.banners,
@@ -383,6 +408,14 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       );
       _scheduleNotifications(prayerData.prayerTimes, state.occasionsList, lang);
     }
+
+    unawaited(
+      getPrayerCityName(lang).then((cityName) {
+        if (!isClosed && cityName.isNotEmpty) {
+          add(UpdatePrayerCityNameEvent(cityName));
+        }
+      }),
+    );
   }
 
   FutureOr<void> _onSyncOccasions(

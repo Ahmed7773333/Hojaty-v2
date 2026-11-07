@@ -49,6 +49,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get getStarted => 'ابدأ الآن';
 
   @override
+  String get quranFehres => 'فهرس القرآن';
+
+  @override
   String get onboardingSlide1Subtitle => 'مواقيت دقيقة لكل صلاة';
 
   @override
@@ -929,4 +932,50 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get delete => 'حذف';
+
+  @override
+  String get shareApp => 'مشاركة التطبيق';
+
+  @override
+  String get shareAppMessage =>
+      'تطبيق حجتي - رفيقك الإسلامي الشامل لمواقيت الصلاة، القرآن الكريم، الأذكار، والمناسبات الإسلامية.';
+
+  @override
+  String get downloadAppPrompt => 'تحميل التطبيق';
+
+  @override
+  String get developedByPrompt => 'تم التطوير بواسطة صدّق';
+
+  @override
+  String get shareRecitation => 'مشاركة التلاوة';
+
+  @override
+  String get downloadAudioPrompt =>
+      'يجب تحميل الملف الصوتي أولاً لتتمكن من مشاركته. هل تريد بدء التحميل الآن؟';
+
+  @override
+  String get downloadAndShare => 'تحميل ومشاركة';
+
+  @override
+  String get downloadingInProgress => 'جاري التحميل حالياً، يرجى الانتظار...';
+
+  @override
+  String get searchAthkarHint => 'ابحث في الأذكار والأدعية...';
+
+  @override
+  String get hisnAlMuslim => 'حصن المسلم';
+
+  @override
+  String get dailyAthkar => 'الأذكار اليومية';
+
+  @override
+  String get noAthkarFound => 'لم يتم العثور على أذكار مطابقة';
+
+  @override
+  String get searchResults => 'نتائج البحث';
+
+  @override
+  String allAthkarCount(Object count) {
+    return '$count باباً';
+  }
 }

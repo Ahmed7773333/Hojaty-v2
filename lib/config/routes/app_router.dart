@@ -26,6 +26,7 @@ import '../../features/homelayout/presentation/pages/sebha_page.dart';
 import '../../features/onboarding/presentation/pages/language_selection_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/quran/data/models/page_data_model.dart';
+import '../../features/quran/data/models/surah_info_model.dart';
 import '../../features/quran/presentation/pages/quran_fehres_page.dart';
 import '../../features/quran/presentation/pages/quran_juzs_page.dart';
 import '../../features/quran/presentation/pages/quran_reader_page.dart';
@@ -243,8 +244,15 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.radio:
+        SurahInfoModel? targetSurah;
+        if (settings.arguments is SurahInfoModel) {
+          targetSurah = settings.arguments as SurahInfoModel;
+        } else if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          targetSurah = args['targetSurah'] as SurahInfoModel?;
+        }
         return MaterialPageRoute(
-          builder: (_) => const RadioPage(),
+          builder: (_) => RadioPage(targetSurah: targetSurah),
           settings: settings,
         );
       case AppRoutes.readerSurahs:

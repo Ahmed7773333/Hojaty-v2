@@ -68,6 +68,7 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
 
     final isAr = event.language == 'ar';
     final displayList = isAr ? arList : enList;
+    _buildSearchIndex(displayList, arList, enList);
 
     emit(
       state.copyWith(
@@ -80,6 +81,36 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
         searchQuery: '',
       ),
     );
+  }
+
+  final Map<int, String> _searchNormalizedNames = {};
+
+  void _buildSearchIndex(
+    List<ReciterModel> display,
+    List<ReciterModel> ar,
+    List<ReciterModel> en,
+  ) {
+    _searchNormalizedNames.clear();
+    final arMap = {for (final r in ar) r.id: r.name};
+    final enMap = {for (final r in en) r.id: r.name};
+
+    for (final r in display) {
+      final buffer = StringBuffer();
+      if (r.name != null) buffer.write(' ${_normalize(r.name!)}');
+      if (r.letter != null) buffer.write(' ${_normalize(r.letter!)}');
+
+      final arName = arMap[r.id];
+      if (arName != null && arName != r.name) {
+        buffer.write(' ${_normalize(arName)}');
+      }
+
+      final enName = enMap[r.id];
+      if (enName != null && enName != r.name) {
+        buffer.write(' ${_normalize(enName)}');
+      }
+
+      _searchNormalizedNames[r.id??0] = buffer.toString();
+    }
   }
 
   void _onSearchReciters(
@@ -99,22 +130,17 @@ class RadioBloc extends Bloc<RadioEvent, RadioState> {
 
     final normalizedQuery = _normalize(query);
 
+    if (_searchNormalizedNames.isEmpty && state.reciters.isNotEmpty) {
+      _buildSearchIndex(state.reciters, state.recitersAr, state.recitersEn);
+    }
+
     final filtered = state.reciters.where((displayReciter) {
-      if (_matches(displayReciter.name, normalizedQuery)) return true;
-      if (_matches(displayReciter.letter, normalizedQuery)) return true;
-
-      final id = displayReciter.id;
-      final arReciter = state.recitersAr.where((r) => r.id == id).firstOrNull;
-      if (arReciter != null && _matches(arReciter.name, normalizedQuery)) {
-        return true;
+      final cached = _searchNormalizedNames[displayReciter.id];
+      if (cached != null) {
+        return cached.contains(normalizedQuery);
       }
-
-      final enReciter = state.recitersEn.where((r) => r.id == id).firstOrNull;
-      if (enReciter != null && _matches(enReciter.name, normalizedQuery)) {
-        return true;
-      }
-
-      return false;
+      return _matches(displayReciter.name, normalizedQuery) ||
+          _matches(displayReciter.letter, normalizedQuery);
     }).toList();
 
     emit(

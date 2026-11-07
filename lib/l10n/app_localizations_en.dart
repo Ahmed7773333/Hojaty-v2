@@ -50,6 +50,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getStarted => 'Start now';
 
   @override
+  String get quranFehres => 'Quran Fehres';
+
+  @override
   String get onboardingSlide1Subtitle => 'Accurate times for every prayer';
 
   @override
@@ -939,4 +942,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get shareApp => 'Share App';
+
+  @override
+  String get shareAppMessage =>
+      'Hojaty app - Your comprehensive Islamic companion for prayer times, Holy Quran, Athkar, and Islamic occasions.';
+
+  @override
+  String get downloadAppPrompt => 'Download the app';
+
+  @override
+  String get developedByPrompt => 'Developed by Saddaq';
+
+  @override
+  String get shareRecitation => 'Share Recitation';
+
+  @override
+  String get downloadAudioPrompt =>
+      'The audio file must be downloaded first to share it. Would you like to download it now?';
+
+  @override
+  String get downloadAndShare => 'Download & Share';
+
+  @override
+  String get downloadingInProgress => 'Download in progress, please wait...';
+
+  @override
+  String get searchAthkarHint => 'Search in Athkar & Duas...';
+
+  @override
+  String get hisnAlMuslim => 'Hisn Al-Muslim';
+
+  @override
+  String get dailyAthkar => 'Daily Athkar';
+
+  @override
+  String get noAthkarFound => 'No matching Athkar found';
+
+  @override
+  String get searchResults => 'Search Results';
+
+  @override
+  String allAthkarCount(Object count) {
+    return '$count Categories';
+  }
 }

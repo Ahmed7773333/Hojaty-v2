@@ -14,34 +14,39 @@ class HomeDashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         children: [
-          Container(
-            color: AppColors.primaryDarkBackground,
-            child: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
-                  const HomeHeaderWidget(),
-                  const HomeNextPrayerCardWidget(),
-                  const HomeOccasionBannerWidget(),
-                  12.ver,
-                ],
+          RepaintBoundary(
+            child: Container(
+              color: AppColors.primaryDarkBackground,
+              child: SafeArea(
+                bottom: false,
+                child: Column(
+                  children: [
+                    const HomeHeaderWidget(),
+                    const HomeNextPrayerCardWidget(),
+                    const HomeOccasionBannerWidget(),
+                    12.ver,
+                  ],
+                ),
               ),
             ),
           ),
-          Container(
-            color: context.isDark
-                ? AppColors.darkBackground
-                : AppColors.lightBackground,
-            child: Column(
-              children: [
-                20.ver,
-                const HomePrayerTimesWidget(),
-                20.ver,
-                const HomeQuickAccessWidget(),
-                20.ver,
-              ],
+          RepaintBoundary(
+            child: Container(
+              color: context.isDark
+                  ? AppColors.darkBackground
+                  : AppColors.lightBackground,
+              child: Column(
+                children: [
+                  20.ver,
+                  const HomePrayerTimesWidget(),
+                  20.ver,
+                  const HomeQuickAccessWidget(),
+                  20.ver,
+                ],
+              ),
             ),
           ),
         ],

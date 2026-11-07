@@ -64,8 +64,7 @@ class _QuranFehresPageState extends State<QuranFehresPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
-    final quranState = context.watch<QuranBloc>().state;
-    final lastPage = quranState.currentPage;
+    final lastPage = context.select<QuranBloc, int>((b) => b.state.currentPage);
     final lastSurahName = QuranTextHelper.getSurahName(lastPage);
 
     return Scaffold(
@@ -78,25 +77,43 @@ class _QuranFehresPageState extends State<QuranFehresPage> {
             onSearchChanged: _onSearchChanged,
           ),
           Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: Column(
-                children: [
-                  QuranContinueReadingWidget(
-                    surahName: lastSurahName.isNotEmpty
-                        ? lastSurahName
-                        : context.strings.surahBaqarah,
-                    ayahNumber: lastPage,
-                    onTap: () => _onSurahSelected(lastPage),
+            child: CustomScrollView(
+              cacheExtent: 400,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 0),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        QuranContinueReadingWidget(
+                          surahName: lastSurahName.isNotEmpty
+                              ? lastSurahName
+                              : context.strings.surahBaqarah,
+                          ayahNumber: lastPage,
+                          onTap: () => _onSurahSelected(lastPage),
+                        ),
+                        18.ver,
+                        Text(
+                          context.strings.surahsListTitle,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  18.ver,
-                  SurahListCardWidget(
-                    surahs: _filteredSurahs,
-                    onSurahTap: (surah) => _onSurahSelected(surah.pageNumber),
-                  ),
-                  24.ver,
-                ],
-              ),
+                ),
+                SurahListCardWidget(
+                  surahs: _filteredSurahs,
+                  onSurahTap: (surah) => _onSurahSelected(surah.pageNumber),
+                ),
+              ],
             ),
           ),
         ],

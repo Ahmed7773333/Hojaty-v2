@@ -7,7 +7,7 @@ import 'quran_bar_item_widget.dart';
 class QuranBottomBarWidget extends StatelessWidget {
   final bool isVisible;
   final VoidCallback onHomeTap;
-  final VoidCallback onFehresTap;
+  final VoidCallback onListenTap;
   final VoidCallback onQiraatTap;
   final int currentPage;
 
@@ -15,7 +15,7 @@ class QuranBottomBarWidget extends StatelessWidget {
     super.key,
     required this.isVisible,
     required this.onHomeTap,
-    required this.onFehresTap,
+    required this.onListenTap,
     required this.onQiraatTap,
     required this.currentPage,
   });
@@ -57,25 +57,23 @@ class QuranBottomBarWidget extends StatelessWidget {
             ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // QuranBarItemWidget(
-            //   label: context.strings.qiraat,
-            //   icon: Icons.chrome_reader_mode_rounded,
-            //   onTap: onQiraatTap,
-            // ),
-            QuranBarItemWidget(
-              label: context.strings.navHome,
-              icon: Icons.home_rounded,
-              onTap: onHomeTap,
-            ),
-            // QuranBarItemWidget(
-            //   label: context.strings.surahs_list,
-            //   icon: Icons.format_list_bulleted_rounded,
-            //   onTap: onFehresTap,
-            // ),
-          ],
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              QuranBarItemWidget(
+                label: context.strings.navHome,
+                icon: Icons.home_rounded,
+                onTap: onHomeTap,
+              ),
+              QuranBarItemWidget(
+                label: context.strings.listenToSurah,
+                icon: Icons.radio,
+                onTap: onListenTap,
+              ),
+            ],
+          ),
         ),
       ),
     );

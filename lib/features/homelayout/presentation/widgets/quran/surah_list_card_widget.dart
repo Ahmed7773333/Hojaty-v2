@@ -18,61 +18,85 @@ class SurahListCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final borderColor = isDark
+        ? AppColors.darkBorderUnselected
+        : AppColors.lightBorderUnselected;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.strings.surahsListTitle,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: isDark
-                ? AppColors.darkTextSecondary
-                : AppColors.lightTextSecondary,
-            fontWeight: FontWeight.w600,
-            fontSize: 13.sp,
-          ),
-        ),
-        10.ver,
-        Container(
-          decoration: BoxDecoration(
-            color: isDark
-                ? AppColors.darkCardUnselected
-                : AppColors.lightSurface,
-            borderRadius: BorderRadius.circular(18.r),
-            border: Border.all(
-              color: isDark
-                  ? AppColors.darkBorderUnselected
-                  : AppColors.lightBorderUnselected,
-              width: 1.0,
+    if (surahs.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 32.h),
+          child: Center(
+            child: Text(
+              context.strings.quranNoResults,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.lightTextSecondary,
+              ),
             ),
           ),
-          child: Column(
-            children: List.generate(surahs.length, (index) {
-              final surah = surahs[index];
-              return Column(
-                children: [
-                  SurahItemRowWidget(
-                    surah: surah,
-                    onTap: () => onSurahTap(surah),
+        ),
+      );
+    }
+
+    return SliverPadding(
+      padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+      sliver: SliverList.separated(
+        itemCount: surahs.length,
+        separatorBuilder: (context, index) => Container(
+          color: isDark
+              ? AppColors.darkCardUnselected
+              : AppColors.lightSurface,
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Divider(
+            height: 1,
+            thickness: 1,
+            color: isDark
+                ? AppColors.darkBorderUnselected.withValues(
+                    alpha: 0.5,
+                  )
+                : AppColors.lightBorderUnselected.withValues(
+                    alpha: 0.6,
                   ),
-                  if (index < surahs.length - 1)
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: isDark
-                          ? AppColors.darkBorderUnselected.withValues(
-                              alpha: 0.5,
-                            )
-                          : AppColors.lightBorderUnselected.withValues(
-                              alpha: 0.6,
-                            ),
-                    ),
-                ],
-              );
-            }),
           ),
         ),
-      ],
+        itemBuilder: (context, index) {
+          final surah = surahs[index];
+          final isFirst = index == 0;
+          final isLast = index == surahs.length - 1;
+          final borderRadius = BorderRadius.vertical(
+            top: isFirst ? Radius.circular(18.r) : Radius.zero,
+            bottom: isLast ? Radius.circular(18.r) : Radius.zero,
+          );
+
+          return Container(
+            decoration: BoxDecoration(
+              color: isDark
+                  ? AppColors.darkCardUnselected
+                  : AppColors.lightSurface,
+              borderRadius: borderRadius,
+              border: Border(
+                top: isFirst
+                    ? BorderSide(color: borderColor, width: 1.0)
+                    : BorderSide.none,
+                bottom: isLast
+                    ? BorderSide(color: borderColor, width: 1.0)
+                    : BorderSide.none,
+                left: BorderSide(color: borderColor, width: 1.0),
+                right: BorderSide(color: borderColor, width: 1.0),
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: borderRadius,
+              child: SurahItemRowWidget(
+                surah: surah,
+                onTap: () => onSurahTap(surah),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

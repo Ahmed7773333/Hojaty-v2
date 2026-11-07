@@ -19,6 +19,13 @@ class CalendarSubtabView extends StatelessWidget {
     final lang = isArabic ? 'ar' : 'en';
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
+      buildWhen: (prev, curr) =>
+          prev.activeHijriMonth != curr.activeHijriMonth ||
+          prev.activeHijriYear != curr.activeHijriYear ||
+          prev.activeGregorianMonth != curr.activeGregorianMonth ||
+          prev.activeGregorianYear != curr.activeGregorianYear ||
+          prev.ramadanCheckData != curr.ramadanCheckData ||
+          prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         final hijriData = state.ramadanCheckData?.hijriDate;
         final realHijriMonth = hijriData?.monthNumber ?? 3;

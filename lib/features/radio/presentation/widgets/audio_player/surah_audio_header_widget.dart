@@ -8,6 +8,7 @@ class SurahAudioHeaderWidget extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onBack;
   final VoidCallback onToggleFavorite;
+  final VoidCallback onShare;
 
   const SurahAudioHeaderWidget({
     super.key,
@@ -15,6 +16,7 @@ class SurahAudioHeaderWidget extends StatelessWidget {
     required this.isFavorite,
     required this.onBack,
     required this.onToggleFavorite,
+    required this.onShare,
   });
 
   @override
@@ -56,6 +58,14 @@ class SurahAudioHeaderWidget extends StatelessWidget {
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          IconButton(
+            onPressed: onShare,
+            icon: const Icon(
+              Icons.share_rounded,
+              color: AppColors.white,
+              size: 22.0,
             ),
           ),
           IconButton(

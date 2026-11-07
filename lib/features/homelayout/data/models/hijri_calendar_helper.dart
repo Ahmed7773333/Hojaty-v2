@@ -127,7 +127,11 @@ class HijriCalendarHelper {
         dayDifference += 354;
       }
 
-      final targetDateTime = currentDate.add(Duration(days: dayDifference));
+      final targetDateTime = DateTime(
+        currentDate.year,
+        currentDate.month,
+        currentDate.day + dayDifference,
+      );
 
       final title = isArabic ? raw.nameAr : raw.nameEn;
       final description = isArabic ? raw.descriptionAr : raw.descriptionEn;

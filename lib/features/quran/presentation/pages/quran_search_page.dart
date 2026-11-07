@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/routes/app_router.dart';
@@ -19,11 +20,28 @@ class QuranSearchPage extends StatefulWidget {
 
 class _QuranSearchPageState extends State<QuranSearchPage> {
   final TextEditingController _searchController = TextEditingController();
+  Timer? _debounceTimer;
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _onSearchChanged(String val) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        context.read<QuranBloc>().add(SearchQuranEvent(val));
+      }
+    });
+  }
+
+  void _onSearchClear() {
+    _debounceTimer?.cancel();
+    _searchController.clear();
+    context.read<QuranBloc>().add(const SearchQuranEvent(''));
   }
 
   @override
@@ -38,13 +56,8 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
           padding: EdgeInsets.only(left: 16.w, right: 8.w),
           child: QuranSearchInputWidget(
             controller: _searchController,
-            onChanged: (val) {
-              context.read<QuranBloc>().add(SearchQuranEvent(val));
-            },
-            onClear: () {
-              _searchController.clear();
-              context.read<QuranBloc>().add(const SearchQuranEvent(''));
-            },
+            onChanged: _onSearchChanged,
+            onClear: _onSearchClear,
           ),
         ),
         leading: IconButton(
@@ -58,6 +71,7 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
       ),
       body: SafeArea(
         child: BlocBuilder<QuranBloc, QuranState>(
+          buildWhen: (prev, curr) => prev.searchResults != curr.searchResults,
           builder: (context, state) {
             final results = state.searchResults;
             final query = _searchController.text.trim();
@@ -110,6 +124,7 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
             }
 
             return ListView.builder(
+              cacheExtent: 500,
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               itemCount: results.length,
               itemBuilder: (context, index) {

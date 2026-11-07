@@ -24,6 +24,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
   final SaveSelectedQiratUseCase saveSelectedQiratUseCase;
 
   StreamSubscription<AssetPackInfo>? _progressSubscription;
+  List<_SearchableVerse>? _searchIndex;
 
   QuranBloc({
     required this.getQuranPagesUseCase,
@@ -59,6 +60,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       final Map<int, PageDataModel> pagesMap = {
         for (var page in pagesList) page.pageNumber ?? 0: page,
       };
+      _searchIndex = null;
 
       emit(
         state.copyWith(
@@ -107,15 +109,9 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     await saveLastReadPageUseCase(event.pageNumber, qirat: state.selectedQirat);
   }
 
-  void _onSearchQuran(SearchQuranEvent event, Emitter<QuranState> emit) {
-    final query = event.query.trim();
-    if (query.isEmpty) {
-      emit(state.copyWith(searchResults: const []));
-      return;
-    }
-
-    final normalizedQuery = QuranTextHelper.normalizeArabic(query);
-    final List<QuranSearchResultModel> results = [];
+  void _buildSearchIndexIfNeeded() {
+    if (_searchIndex != null && _searchIndex!.isNotEmpty) return;
+    final index = <_SearchableVerse>[];
 
     for (final page in state.quranPages.values) {
       final versesEmaly = page.versesContentEmaly ?? [];
@@ -127,32 +123,59 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
 
       for (int i = 0; i < versesEmaly.length; i++) {
         final verseEmaly = versesEmaly[i];
-        if (QuranTextHelper.normalizeArabic(
-          verseEmaly,
-        ).contains(normalizedQuery)) {
-          final surahName = (i < surahsNames.length)
-              ? surahsNames[i]
-              : (surahsNames.isNotEmpty ? surahsNames.last : '');
-          final verseContent = (i < versesContent.length)
-              ? versesContent[i]
-              : verseEmaly;
-          final verseNum = (i < versesNumbers.length)
-              ? versesNumbers[i]
-              : (i + 1);
-          final surahNum = (i < surahsNumbers.length) ? surahsNumbers[i] : 1;
-          final tafseer = (i < tafseers.length) ? tafseers[i] : '';
+        final surahName = (i < surahsNames.length)
+            ? surahsNames[i]
+            : (surahsNames.isNotEmpty ? surahsNames.last : '');
+        final verseContent = (i < versesContent.length)
+            ? versesContent[i]
+            : verseEmaly;
+        final verseNum = (i < versesNumbers.length)
+            ? versesNumbers[i]
+            : (i + 1);
+        final surahNum = (i < surahsNumbers.length) ? surahsNumbers[i] : 1;
+        final tafseer = (i < tafseers.length) ? tafseers[i] : '';
 
-          results.add(
-            QuranSearchResultModel(
-              surahNum: surahNum,
-              verseNum: verseNum,
-              pageNum: page.pageNumber ?? 1,
-              surahName: surahName,
-              content: verseContent,
-              tafseer: tafseer,
-            ),
-          );
-        }
+        index.add(
+          _SearchableVerse(
+            surahNum: surahNum,
+            verseNum: verseNum,
+            pageNum: page.pageNumber ?? 1,
+            surahName: surahName,
+            content: verseContent,
+            tafseer: tafseer,
+            normalizedText: QuranTextHelper.normalizeArabic(verseEmaly),
+          ),
+        );
+      }
+    }
+
+    _searchIndex = index;
+  }
+
+  void _onSearchQuran(SearchQuranEvent event, Emitter<QuranState> emit) {
+    final query = event.query.trim();
+    if (query.isEmpty) {
+      emit(state.copyWith(searchResults: const []));
+      return;
+    }
+
+    _buildSearchIndexIfNeeded();
+
+    final normalizedQuery = QuranTextHelper.normalizeArabic(query);
+    final List<QuranSearchResultModel> results = [];
+
+    for (final item in _searchIndex!) {
+      if (item.normalizedText.contains(normalizedQuery)) {
+        results.add(
+          QuranSearchResultModel(
+            surahNum: item.surahNum,
+            verseNum: item.verseNum,
+            pageNum: item.pageNum,
+            surahName: item.surahName,
+            content: item.content,
+            tafseer: item.tafseer,
+          ),
+        );
       }
     }
 
@@ -417,4 +440,24 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     _progressSubscription?.cancel();
     return super.close();
   }
+}
+
+class _SearchableVerse {
+  final int surahNum;
+  final int verseNum;
+  final int pageNum;
+  final String surahName;
+  final String content;
+  final String tafseer;
+  final String normalizedText;
+
+  const _SearchableVerse({
+    required this.surahNum,
+    required this.verseNum,
+    required this.pageNum,
+    required this.surahName,
+    required this.content,
+    required this.tafseer,
+    required this.normalizedText,
+  });
 }

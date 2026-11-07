@@ -4,6 +4,7 @@ import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
 import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'core/di/injector.dart';
@@ -14,6 +15,17 @@ import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.wolfdev.hojaty.audio',
+    androidNotificationChannelName: 'تلاوة القرآن الكريم',
+    androidNotificationChannelDescription: 'التحكم في تشغيل الصوت في الخلفية',
+    androidNotificationIcon: 'drawable/res_app_icon',
+    notificationColor: const Color(0xFF1E3A34),
+    androidNotificationOngoing: false,
+    androidStopForegroundOnPause: false,
+    fastForwardInterval: const Duration(seconds: 10),
+    rewindInterval: const Duration(seconds: 10),
+  );
   // Bloc.observer = AppBlocObserver();
   await UserHiveHelper.init(); // Initialize Hive and default user
   await UserHiveHelper.initNotifications(); // Initialize Awesome Notifications
