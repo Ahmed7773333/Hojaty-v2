@@ -306,5 +306,12 @@
   "dailyAthkar": "Daily Athkar",
   "noAthkarFound": "No matching Athkar found",
   "searchResults": "Search Results",
-  "allAthkarCount": "{count} Categories"
+  "allAthkarCount": "{count} Categories",
+  "asmaAllahTitle": "Names of Allah",
+  "asmaAllahSubtitle": "99 Beautiful Names with Meanings",
+  "searchAsmaHint": "Search Names of Allah...",
+  "noAsmaFound": "No matching name found",
+  "asmaCount": "{count} Names",
+  "meaningLabel": "Meaning",
+  "explanationLabel": "Explanation"
 }

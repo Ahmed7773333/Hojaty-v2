@@ -988,4 +988,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String allAthkarCount(Object count) {
     return '$count Categories';
   }
+
+  @override
+  String get asmaAllahTitle => 'Names of Allah';
+
+  @override
+  String get asmaAllahSubtitle => '99 Beautiful Names with Meanings';
+
+  @override
+  String get searchAsmaHint => 'Search Names of Allah...';
+
+  @override
+  String get noAsmaFound => 'No matching name found';
+
+  @override
+  String asmaCount(Object count) {
+    return '$count Names';
+  }
+
+  @override
+  String get meaningLabel => 'Meaning';
+
+  @override
+  String get explanationLabel => 'Explanation';
 }

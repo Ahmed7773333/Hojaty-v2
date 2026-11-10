@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/athkar_category_model.dart';
+import 'asma_allah_banner_card_widget.dart';
 import 'athkar_all_categories_list_widget.dart';
 import 'athkar_daily_grid_widget.dart';
 import 'athkar_section_header_widget.dart';
@@ -25,6 +26,8 @@ class AthkarMainContentWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const AsmaAllahBannerCardWidget(),
+          18.ver,
           AthkarSectionHeaderWidget(
             title: context.strings.dailyAthkar,
             badgeText: '${dailyCategories.length}',

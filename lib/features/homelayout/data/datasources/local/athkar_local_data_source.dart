@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../models/asma_allah_model.dart';
 import '../../models/athkar_category_model.dart';
 import '../../models/thikr_item_model.dart';
 
 class AthkarLocalDataSource {
   static const String _adhkarJsonAssetPath = 'assets/data/adhkar.json';
+  static const String _asmaJsonAssetPath = 'assets/data/asma.json';
   static List<dynamic>? _cachedJson;
   static List<AthkarCategoryModel>? _cachedAllCategories;
   static List<AthkarCategoryModel>? _cachedDailyCategories;
+  static List<AsmaAllahModel>? _cachedAsmaAllah;
 
   const AthkarLocalDataSource();
 
@@ -257,5 +260,25 @@ class AthkarLocalDataSource {
           (item) => ThikrItemModel.fromJson(item as Map<String, dynamic>),
         )
         .toList();
+  }
+
+  Future<List<AsmaAllahModel>> getAsmaAllah() async {
+    if (_cachedAsmaAllah != null) return _cachedAsmaAllah!;
+    try {
+      final jsonString = await rootBundle.loadString(_asmaJsonAssetPath);
+      final dynamic decoded = json.decode(jsonString);
+      if (decoded is List) {
+        final list = <AsmaAllahModel>[];
+        for (int i = 0; i < decoded.length; i++) {
+          final item = decoded[i];
+          if (item is Map<String, dynamic>) {
+            list.add(AsmaAllahModel.fromJson(item, i + 1));
+          }
+        }
+        _cachedAsmaAllah = list;
+        return list;
+      }
+    } catch (_) {}
+    return const [];
   }
 }

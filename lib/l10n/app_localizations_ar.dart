@@ -978,4 +978,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String allAthkarCount(Object count) {
     return '$count باباً';
   }
+
+  @override
+  String get asmaAllahTitle => 'أسماء الله الحسنى';
+
+  @override
+  String get asmaAllahSubtitle => '٩٩ اسماً مع المعاني والتفسير';
+
+  @override
+  String get searchAsmaHint => 'ابحث في أسماء الله الحسنى...';
+
+  @override
+  String get noAsmaFound => 'لم يتم العثور على اسم مطابق';
+
+  @override
+  String asmaCount(Object count) {
+    return '$count اسماً';
+  }
+
+  @override
+  String get meaningLabel => 'المعنى';
+
+  @override
+  String get explanationLabel => 'التفسير';
 }

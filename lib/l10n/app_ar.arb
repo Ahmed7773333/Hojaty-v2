@@ -306,5 +306,12 @@
   "dailyAthkar": "الأذكار اليومية",
   "noAthkarFound": "لم يتم العثور على أذكار مطابقة",
   "searchResults": "نتائج البحث",
-  "allAthkarCount": "{count} باباً"
+  "allAthkarCount": "{count} باباً",
+  "asmaAllahTitle": "أسماء الله الحسنى",
+  "asmaAllahSubtitle": "٩٩ اسماً مع المعاني والتفسير",
+  "searchAsmaHint": "ابحث في أسماء الله الحسنى...",
+  "noAsmaFound": "لم يتم العثور على اسم مطابق",
+  "asmaCount": "{count} اسماً",
+  "meaningLabel": "المعنى",
+  "explanationLabel": "التفسير"
 }

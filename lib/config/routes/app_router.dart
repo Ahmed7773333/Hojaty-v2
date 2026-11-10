@@ -11,6 +11,7 @@ import '../../features/homelayout/data/models/athkar_category_model.dart';
 import '../../features/homelayout/data/models/athkar_detail_args.dart';
 import '../../features/homelayout/data/models/occasion_item_model.dart';
 import '../../features/homelayout/presentation/pages/app_info_content_page.dart';
+import '../../features/homelayout/presentation/pages/asma_allah_page.dart';
 import '../../features/homelayout/presentation/pages/athkar_detail_page.dart';
 import '../../features/homelayout/presentation/pages/font_settings_page.dart';
 import '../../features/homelayout/presentation/pages/font_type_settings_page.dart';
@@ -75,6 +76,7 @@ class AppRoutes {
   static const String books = '/books';
   static const String bookChapters = '/book-chapters';
   static const String bookHadiths = '/book-hadiths';
+  static const String asmaAllah = '/asma-allah';
 }
 
 class AppRouter {
@@ -153,6 +155,11 @@ class AppRouter {
       case AppRoutes.sebha:
         return MaterialPageRoute(
           builder: (_) => const SebhaPage(),
+          settings: settings,
+        );
+      case AppRoutes.asmaAllah:
+        return MaterialPageRoute(
+          builder: (_) => const AsmaAllahPage(),
           settings: settings,
         );
       case AppRoutes.occasionDetail:

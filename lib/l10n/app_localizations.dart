@@ -1945,6 +1945,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} Categories'**
   String allAthkarCount(Object count);
+
+  /// No description provided for @asmaAllahTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Names of Allah'**
+  String get asmaAllahTitle;
+
+  /// No description provided for @asmaAllahSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'99 Beautiful Names with Meanings'**
+  String get asmaAllahSubtitle;
+
+  /// No description provided for @searchAsmaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Names of Allah...'**
+  String get searchAsmaHint;
+
+  /// No description provided for @noAsmaFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching name found'**
+  String get noAsmaFound;
+
+  /// No description provided for @asmaCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Names'**
+  String asmaCount(Object count);
+
+  /// No description provided for @meaningLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning'**
+  String get meaningLabel;
+
+  /// No description provided for @explanationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Explanation'**
+  String get explanationLabel;
 }
 
 class _AppLocalizationsDelegate
