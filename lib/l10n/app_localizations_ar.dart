@@ -1001,4 +1001,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get explanationLabel => 'التفسير';
+
+  @override
+  String get hojatyAiTitle => 'المساعد الإسلامي الذكي';
+
+  @override
+  String get hojatyAiSubtitle => 'إجابات وتوجيهات مستندة للكتاب والسنة';
+
+  @override
+  String get hojatyAiInputHint => 'اسأل عن مسألة، أو شارك ما يضيق به صدرك...';
+
+  @override
+  String get hojatyAiSourcesTitle => 'المصادر الموثقة من التطبيق';
+
+  @override
+  String get hojatyAiCopyText => 'نسخ النص';
+
+  @override
+  String get hojatyAiTextCopied => 'تم نسخ النص إلى الحافظة';
+
+  @override
+  String get hojatyAiEmptyTitle => 'كيف يمكنني مساعدتك اليوم؟';
+
+  @override
+  String get hojatyAiEmptySubtitle =>
+      'اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة';
+
+  @override
+  String get hojatyAiClearChat => 'مسح المحادثة';
+
+  @override
+  String get hojatyAiQuickAccessTitle => 'المساعد الذكي';
+
+  @override
+  String get hojatyAiQuickAccessSubtitle =>
+      'استشارات وتوجيهات من الكتاب والسنة';
 }

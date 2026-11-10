@@ -60,7 +60,7 @@ android {
     }
 
     androidResources {
-        noCompress += listOf("png", "json", "jpg", "jpeg", "webp")
+        noCompress += listOf("png", "json", "jpg", "jpeg", "webp", "db", "sqlite")
     }
 
     assetPacks += listOf(
@@ -86,7 +86,8 @@ android {
         ":book_mishkat",
         ":book_adab",
         ":book_shamail",
-        ":book_duaa"
+        ":book_duaa",
+        ":hojaty_rag"
     )
 }
 

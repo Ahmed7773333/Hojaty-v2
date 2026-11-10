@@ -29,7 +29,7 @@ class QuranPageImageWidget extends StatelessWidget {
         color: isDark ? AppColors.darkBackground : const Color(0xFFFFFDF5),
         child: Center(
           child: Image.asset(
-            'assets/images/$debugImageNum.png',
+            'assets/debug/$debugImageNum.png',
             fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,

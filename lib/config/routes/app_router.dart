@@ -7,6 +7,7 @@ import '../../features/books/data/models/hadith_item_model.dart';
 import '../../features/books/presentation/pages/book_chapters_page.dart';
 import '../../features/books/presentation/pages/book_hadiths_page.dart';
 import '../../features/books/presentation/pages/books_page.dart';
+import '../../features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
 import '../../features/homelayout/data/models/athkar_category_model.dart';
 import '../../features/homelayout/data/models/athkar_detail_args.dart';
 import '../../features/homelayout/data/models/occasion_item_model.dart';
@@ -77,6 +78,7 @@ class AppRoutes {
   static const String bookChapters = '/book-chapters';
   static const String bookHadiths = '/book-hadiths';
   static const String asmaAllah = '/asma-allah';
+  static const String hojatyAi = '/hojaty-ai';
 }
 
 class AppRouter {
@@ -315,6 +317,11 @@ class AppRouter {
             chapterTitle: chapterTitle,
             hadiths: hadiths,
           ),
+          settings: settings,
+        );
+      case AppRoutes.hojatyAi:
+        return MaterialPageRoute(
+          builder: (_) => const HojatyAiPage(),
           settings: settings,
         );
       default:

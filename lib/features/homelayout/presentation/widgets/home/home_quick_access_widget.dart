@@ -3,6 +3,7 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import 'home_athkar_quick_access_card.dart';
 import 'home_hadith_quick_access_card.dart';
+import 'home_hojaty_ai_quick_access_card.dart';
 import 'home_occasion_quick_access_card.dart';
 import 'home_quran_quick_access_card.dart';
 import 'home_radio_quick_access_card.dart';
@@ -51,6 +52,8 @@ class HomeQuickAccessWidget extends StatelessWidget {
           ),
           12.ver,
           const HomeHadithQuickAccessCard(),
+          12.ver,
+          const HomeHojatyAiQuickAccessCard(),
         ],
       ),
     );

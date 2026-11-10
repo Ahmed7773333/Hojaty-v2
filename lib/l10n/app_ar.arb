@@ -313,5 +313,16 @@
   "noAsmaFound": "لم يتم العثور على اسم مطابق",
   "asmaCount": "{count} اسماً",
   "meaningLabel": "المعنى",
-  "explanationLabel": "التفسير"
+  "explanationLabel": "التفسير",
+  "hojatyAiTitle": "المساعد الإسلامي الذكي",
+  "hojatyAiSubtitle": "إجابات وتوجيهات مستندة للكتاب والسنة",
+  "hojatyAiInputHint": "اسأل عن مسألة، أو شارك ما يضيق به صدرك...",
+  "hojatyAiSourcesTitle": "المصادر الموثقة من التطبيق",
+  "hojatyAiCopyText": "نسخ النص",
+  "hojatyAiTextCopied": "تم نسخ النص إلى الحافظة",
+  "hojatyAiEmptyTitle": "كيف يمكنني مساعدتك اليوم؟",
+  "hojatyAiEmptySubtitle": "اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة",
+  "hojatyAiClearChat": "مسح المحادثة",
+  "hojatyAiQuickAccessTitle": "المساعد الذكي",
+  "hojatyAiQuickAccessSubtitle": "استشارات وتوجيهات من الكتاب والسنة"
 }

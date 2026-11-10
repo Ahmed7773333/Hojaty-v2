@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ana_osaly (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=api_keys.json"
+      ]
+    },
+    {
+      "name": "ana_osaly (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=api_keys.json"
+      ]
+    },
+    {
+      "name": "ana_osaly (Release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=api_keys.json"
+      ]
+    }
+  ]
+}
+

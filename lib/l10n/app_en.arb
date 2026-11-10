@@ -313,5 +313,16 @@
   "noAsmaFound": "No matching name found",
   "asmaCount": "{count} Names",
   "meaningLabel": "Meaning",
-  "explanationLabel": "Explanation"
+  "explanationLabel": "Explanation",
+  "hojatyAiTitle": "Hojaty AI Assistant",
+  "hojatyAiSubtitle": "Grounded Islamic Guidance",
+  "hojatyAiInputHint": "Ask a question, or share what's on your mind...",
+  "hojatyAiSourcesTitle": "Verified Sources from the App",
+  "hojatyAiCopyText": "Copy Text",
+  "hojatyAiTextCopied": "Text copied to clipboard",
+  "hojatyAiEmptyTitle": "How can I assist you today?",
+  "hojatyAiEmptySubtitle": "Ask an Islamic question or share a life situation for guidance from Quran and Sunnah",
+  "hojatyAiClearChat": "Clear Chat",
+  "hojatyAiQuickAccessTitle": "AI Assistant",
+  "hojatyAiQuickAccessSubtitle": "Guidance from Quran & Sunnah"
 }

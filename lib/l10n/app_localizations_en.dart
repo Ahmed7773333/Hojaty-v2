@@ -1011,4 +1011,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get explanationLabel => 'Explanation';
+
+  @override
+  String get hojatyAiTitle => 'Hojaty AI Assistant';
+
+  @override
+  String get hojatyAiSubtitle => 'Grounded Islamic Guidance';
+
+  @override
+  String get hojatyAiInputHint =>
+      'Ask a question, or share what\'s on your mind...';
+
+  @override
+  String get hojatyAiSourcesTitle => 'Verified Sources from the App';
+
+  @override
+  String get hojatyAiCopyText => 'Copy Text';
+
+  @override
+  String get hojatyAiTextCopied => 'Text copied to clipboard';
+
+  @override
+  String get hojatyAiEmptyTitle => 'How can I assist you today?';
+
+  @override
+  String get hojatyAiEmptySubtitle =>
+      'Ask an Islamic question or share a life situation for guidance from Quran and Sunnah';
+
+  @override
+  String get hojatyAiClearChat => 'Clear Chat';
+
+  @override
+  String get hojatyAiQuickAccessTitle => 'AI Assistant';
+
+  @override
+  String get hojatyAiQuickAccessSubtitle => 'Guidance from Quran & Sunnah';
 }

@@ -1987,6 +1987,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explanation'**
   String get explanationLabel;
+
+  /// No description provided for @hojatyAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hojaty AI Assistant'**
+  String get hojatyAiTitle;
+
+  /// No description provided for @hojatyAiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grounded Islamic Guidance'**
+  String get hojatyAiSubtitle;
+
+  /// No description provided for @hojatyAiInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question, or share what\'s on your mind...'**
+  String get hojatyAiInputHint;
+
+  /// No description provided for @hojatyAiSourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Sources from the App'**
+  String get hojatyAiSourcesTitle;
+
+  /// No description provided for @hojatyAiCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Text'**
+  String get hojatyAiCopyText;
+
+  /// No description provided for @hojatyAiTextCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Text copied to clipboard'**
+  String get hojatyAiTextCopied;
+
+  /// No description provided for @hojatyAiEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I assist you today?'**
+  String get hojatyAiEmptyTitle;
+
+  /// No description provided for @hojatyAiEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask an Islamic question or share a life situation for guidance from Quran and Sunnah'**
+  String get hojatyAiEmptySubtitle;
+
+  /// No description provided for @hojatyAiClearChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Chat'**
+  String get hojatyAiClearChat;
+
+  /// No description provided for @hojatyAiQuickAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get hojatyAiQuickAccessTitle;
+
+  /// No description provided for @hojatyAiQuickAccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guidance from Quran & Sunnah'**
+  String get hojatyAiQuickAccessSubtitle;
 }
 
 class _AppLocalizationsDelegate
