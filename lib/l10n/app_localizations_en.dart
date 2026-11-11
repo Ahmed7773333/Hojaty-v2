@@ -512,11 +512,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.';
+      'We are committed to protecting your privacy and personal data. The Hojaty app stores all your personal information, settings, and AI Assistant chat history inside the local database on your device only, and does not collect, sell, or share your private data with any third parties.';
 
   @override
   String get termsAndConditionsContent =>
-      'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.';
+      'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.\n\nAI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.';
 
   @override
   String get hijriCalendar => 'Hijri Calendar';
@@ -1111,4 +1111,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String hojatyAiMessagesCount(int count) {
     return '$count messages';
   }
+
+  @override
+  String get rateAppLabel => 'Rate App';
+
+  @override
+  String get rateAppTitle => 'Rate Hojaty';
+
+  @override
+  String get rateAppMessage =>
+      'If you enjoy using Hojaty, we would greatly appreciate your rating on the store to help us keep improving.';
+
+  @override
+  String get rateAppNow => 'Rate Now';
+
+  @override
+  String get rateAppLater => 'Later';
+
+  @override
+  String get rateAppAlreadyRated => 'I already rated';
+
+  @override
+  String get appVersionLabel => 'Version';
+
+  @override
+  String get termsAiDisclaimerAddendum =>
+      'AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.';
+
+  @override
+  String get privacyLocalDbAddendum =>
+      'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.';
 }
