@@ -1,6 +1,6 @@
 platform :android do
-  desc "DEV → Build AAB and upload to Internal Testing track"
-  lane :internal_test do
+  desc "DEV → Build AAB and upload directly to Closed Testing review"
+  lane :closed_test do
 
     api_keys_path = File.expand_path("../../api_keys.json")
     symbols_dir = File.expand_path("../../build/app/outputs/symbols")
@@ -20,16 +20,17 @@ platform :android do
 
     release_status = ENV.fetch("RELEASE_STATUS", "completed")
 
-    # Upload to Internal Testing track
+    # Upload to Closed Testing track and send for review
     supply(
-      json_key: "play_store_key.json", # Base64-decoded JSON service account
+      json_key: "play_store_key.json",
       package_name: "com.wolfdev.hojaty",
-      track: "internal",
+      # لو التراك بتاعك هو الافتراضي سيبه "alpha"، لو اسمه "Testers" اكتب "Testers"
+      track: "testers", 
       release_status: release_status,
-      changes_not_sent_for_review: true,
+      changes_not_sent_for_review: false, # false عشان يبعت للمراجعة أوتوماتيك
       aab: aab_path,
     )
 
-    UI.message("✅ Internal Testing build uploaded successfully as #{release_status}!")
+    UI.message("✅ Closed Testing build uploaded and sent for review as #{release_status}!")
   end
 end

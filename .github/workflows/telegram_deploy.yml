@@ -1,4 +1,4 @@
-name: Android Internal Testing
+name: Android Closed Testing
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
-          working-directory: android # This helps bundler find your Gemfile
+          working-directory: android
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -67,11 +67,11 @@ jobs:
 
       - name: Run Fastlane
         env:
-          PLAY_STORE_JSON: "play_store_key.json" # Tell Fastlane where the file is
+          PLAY_STORE_JSON: "play_store_key.json"
           PACKAGE_NAME: "com.wolfdev.hojaty"
-          RELEASE_STATUS: ${{ github.event.inputs.release_status || 'draft' }}
+          # تم تغيير القيمة الافتراضية من draft إلى completed عشان يشتغل مع الـ push مباشرة
+          RELEASE_STATUS: ${{ github.event.inputs.release_status || 'completed' }}
         run: |
           cd android
-          # Install fastlane only if not in Gemfile
           bundle install || (bundle init && bundle add fastlane && bundle install)
-          bundle exec fastlane android internal_test
+          bundle exec fastlane android closed_test
