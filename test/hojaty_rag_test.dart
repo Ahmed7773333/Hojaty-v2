@@ -56,11 +56,16 @@ void main() {
   assert((sim - 1.0).abs() < 1e-5, 'Identical vectors should have similarity 1.0');
   print('✓ Vector Cosine Similarity logic passed');
 
-  // Test 3: Verify hojaty_rag.db exists
-  final dbFile = File('assets/debug/hojaty_rag.db');
-  assert(dbFile.existsSync(), 'assets/debug/hojaty_rag.db must exist');
-  assert(dbFile.lengthSync() > 1024 * 1024, 'Database size must be > 1MB');
-  print('✓ Database existence verified (${(dbFile.lengthSync() / (1024*1024)).toStringAsFixed(1)} MB)');
+  // Test 3: Verify hojaty_rag.db exists (Debug or Production location)
+  final debugDb = File('assets/debug/hojaty_rag.db');
+  final prodDb = File('android/hojaty_rag/src/main/assets/hojaty_rag.db');
+  assert(
+    debugDb.existsSync() || prodDb.existsSync(),
+    'hojaty_rag.db must exist in assets/debug/ (debug) or android/hojaty_rag/src/main/assets/ (production)',
+  );
+  final activeDb = debugDb.existsSync() ? debugDb : prodDb;
+  assert(activeDb.lengthSync() > 1024 * 1024, 'Database size must be > 1MB');
+  print('✓ Database existence verified at ${activeDb.path} (${(activeDb.lengthSync() / (1024 * 1024)).toStringAsFixed(1)} MB)');
 
   print('=== ALL HOJATY RAG CHECKS PASSED ===');
 }

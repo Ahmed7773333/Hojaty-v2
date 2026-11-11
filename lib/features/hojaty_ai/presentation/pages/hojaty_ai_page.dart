@@ -15,54 +15,59 @@ class HojatyAiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDark;
-
     return BlocProvider<HojatyAiCubit>(
       create: (_) => injector<HojatyAiCubit>(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            backgroundColor: isDark
-                ? AppColors.darkBackground
-                : AppColors.lightBackground,
-            body: Column(
-              children: [
-                const HojatyAiHeaderWidget(),
-                Expanded(
-                  child: BlocBuilder<HojatyAiCubit, HojatyAiState>(
-                    builder: (context, state) {
-                      if (state.messages.isEmpty && !state.isStreaming) {
-                        return HojatyAiEmptyStateWidget(
-                          onSelectStarter: (starterPrompt) {
-                            context.read<HojatyAiCubit>().sendMessage(starterPrompt);
-                          },
-                        );
-                      }
+      child: const _HojatyAiBody(),
+    );
+  }
+}
 
-                      return HojatyAiMessagesListWidget(
-                        messages: state.messages,
-                        isStreaming: state.isStreaming,
-                        streamingText: state.currentStreamingText,
-                        currentSources: state.currentSources,
-                      );
+class _HojatyAiBody extends StatelessWidget {
+  const _HojatyAiBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.isDark;
+
+    return Scaffold(
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
+      body: Column(
+        children: [
+          const HojatyAiHeaderWidget(),
+          Expanded(
+            child: BlocBuilder<HojatyAiCubit, HojatyAiState>(
+              builder: (context, state) {
+                if (state.messages.isEmpty && !state.isStreaming) {
+                  return HojatyAiEmptyStateWidget(
+                    onSelectStarter: (starterPrompt) {
+                      context.read<HojatyAiCubit>().sendMessage(starterPrompt);
                     },
-                  ),
-                ),
-                BlocBuilder<HojatyAiCubit, HojatyAiState>(
-                  buildWhen: (prev, curr) => prev.isStreaming != curr.isStreaming,
-                  builder: (context, state) {
-                    return HojatyAiInputBarWidget(
-                      isStreaming: state.isStreaming,
-                      onSend: (text) {
-                        context.read<HojatyAiCubit>().sendMessage(text);
-                      },
-                    );
-                  },
-                ),
-              ],
+                  );
+                }
+
+                return HojatyAiMessagesListWidget(
+                  messages: state.messages,
+                  isStreaming: state.isStreaming,
+                  streamingText: state.currentStreamingText,
+                  currentSources: state.currentSources,
+                );
+              },
             ),
-          );
-        },
+          ),
+          BlocBuilder<HojatyAiCubit, HojatyAiState>(
+            buildWhen: (prev, curr) => prev.isStreaming != curr.isStreaming,
+            builder: (context, state) {
+              return HojatyAiInputBarWidget(
+                isStreaming: state.isStreaming,
+                onSend: (text) {
+                  context.read<HojatyAiCubit>().sendMessage(text);
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }

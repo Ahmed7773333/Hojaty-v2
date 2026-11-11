@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/chat_message_model.dart';
 import '../../data/models/rag_chunk_model.dart';
@@ -33,13 +34,21 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
 
     try {
       // Step A: Get Query Embedding
+      debugPrint('HojatyAiCubit: Getting embedding...');
       final queryVector = await _repository.getEmbedding(trimmed);
+      debugPrint('HojatyAiCubit: Embedding result: ${queryVector != null ? '${queryVector.length} dims' : 'null (will use keyword fallback)'}');
+
+      if (isClosed) return;
 
       // Step B: Retrieve Grounded Islamic Sources
+      debugPrint('HojatyAiCubit: Retrieving sources...');
       final sources = await _repository.retrieveSources(
         trimmed,
         queryVector: queryVector,
       );
+      debugPrint('HojatyAiCubit: Found ${sources.length} sources');
+
+      if (isClosed) return;
 
       emit(state.copyWith(currentSources: sources));
 
@@ -47,40 +56,67 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       final textBuffer = StringBuffer();
       await _generationSubscription?.cancel();
 
+      final completer = Completer<void>();
+
       _generationSubscription = _repository
           .generateAnswerStream(userMessage: trimmed, sources: sources)
           .listen(
         (chunk) {
+          if (isClosed) return;
           textBuffer.write(chunk);
           emit(state.copyWith(
             currentStreamingText: textBuffer.toString(),
           ));
         },
         onError: (err) {
-          _finalizeBotMessage(
-            text: textBuffer.isNotEmpty
-                ? textBuffer.toString()
-                : 'حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.',
-            sources: sources,
-            isOffline: true,
-          );
+          debugPrint('HojatyAiCubit: Generation stream error: $err');
+          if (!isClosed) {
+            _finalizeBotMessage(
+              text: textBuffer.isNotEmpty
+                  ? textBuffer.toString()
+                  : 'حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.',
+              sources: sources,
+              isOffline: true,
+            );
+          }
+          if (!completer.isCompleted) completer.complete();
         },
         onDone: () {
-          _finalizeBotMessage(
-            text: textBuffer.toString(),
-            sources: sources,
-            isOffline: false,
-          );
+          debugPrint('HojatyAiCubit: Generation stream done (buffer length=${textBuffer.length})');
+          if (!isClosed) {
+            if (textBuffer.isEmpty) {
+              // Stream finished but produced nothing — treat as offline
+              _finalizeBotMessage(
+                text: 'تعذر الحصول على إجابة من الخادم. يرجى المحاولة مرة أخرى.',
+                sources: sources,
+                isOffline: true,
+              );
+            } else {
+              _finalizeBotMessage(
+                text: textBuffer.toString(),
+                sources: sources,
+                isOffline: false,
+              );
+            }
+          }
+          if (!completer.isCompleted) completer.complete();
         },
-        cancelOnError: true,
+        cancelOnError: false,
       );
-    } catch (e) {
-      emit(state.copyWith(
-        status: HojatyAiStatus.failure,
-        errorMessage: e.toString(),
-        isStreaming: false,
-        currentStreamingText: '',
-      ));
+
+      // Wait for stream to finish so that any exception after listen setup
+      // doesn't leave isStreaming=true forever
+      await completer.future;
+    } catch (e, st) {
+      debugPrint('HojatyAiCubit: sendMessage error: $e\n$st');
+      if (!isClosed) {
+        emit(state.copyWith(
+          status: HojatyAiStatus.failure,
+          errorMessage: e.toString(),
+          isStreaming: false,
+          currentStreamingText: '',
+        ));
+      }
     }
   }
 
@@ -118,4 +154,3 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     return super.close();
   }
 }
-

@@ -22,11 +22,12 @@ class HojatyAiRepository {
 5. إذا كانت المصادر المرفقة لا علاقة لها بسؤال السائل إطلاقاً، اعتذر بلطف وقل: "عذراً، لم أجد في المصادر المتاحة حالياً نصاً مباشراً يجيب على هذا التفصيل، وهذه أقرب النصوص ذات الصلة:".
 ''';
 
+  /// Models available in Free Tier, ordered by speed and quota friendliness
   static const List<String> _fallbackRestModels = [
-    'gemini-2.5-flash',
-    'gemma-4-31b-it',
-    'gemma-4-26b-it',
-    'gemini-1.5-flash',
+    'gemini-3.5-flash-lite',
+    'gemini-flash-latest',
+    'gemini-3.5-flash',
+    'gemini-3.8-flash',
   ];
 
   HojatyAiRepository({
@@ -52,13 +53,13 @@ class HojatyAiRepository {
         break;
       }
 
-      final url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=$activeKey';
+      final url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-2:embedContent?key=$activeKey';
 
       try {
         final response = await _dio.post(
           url,
           data: {
-            'model': 'models/gemini-embedding-001',
+            'model': 'models/gemini-embedding-2',
             'content': {
               'parts': [
                 {'text': userMessage}
@@ -150,35 +151,44 @@ $userMessage
     final combinedPrompt = _buildCombinedPrompt(userMessage, sources);
 
     // Tier 1: WebSocket Live API
-    final wsStream = _tryGenerateTier1WebSocket(combinedPrompt);
+    debugPrint('HojatyAi: Trying Tier 1 (WebSocket Live API)...');
     bool tier1ProducedContent = false;
-
-    await for (final chunk in wsStream) {
-      tier1ProducedContent = true;
-      yield chunk;
+    try {
+      await for (final chunk in _tryGenerateTier1WebSocket(combinedPrompt)) {
+        tier1ProducedContent = true;
+        yield chunk;
+      }
+    } catch (e) {
+      debugPrint('HojatyAi: Tier 1 stream error: $e');
     }
 
     if (tier1ProducedContent) {
+      debugPrint('HojatyAi: Tier 1 succeeded');
       return;
     }
 
     // Tier 2: REST Fallback via Dio
-    final restStream = _tryGenerateTier2Rest(
-      combinedPrompt: combinedPrompt,
-      cancelToken: cancelToken,
-    );
+    debugPrint('HojatyAi: Trying Tier 2 (REST / SSE Fallback)...');
     bool tier2ProducedContent = false;
-
-    await for (final chunk in restStream) {
-      tier2ProducedContent = true;
-      yield chunk;
+    try {
+      await for (final chunk in _tryGenerateTier2Rest(
+        combinedPrompt: combinedPrompt,
+        cancelToken: cancelToken,
+      )) {
+        tier2ProducedContent = true;
+        yield chunk;
+      }
+    } catch (e) {
+      debugPrint('HojatyAi: Tier 2 stream error: $e');
     }
 
     if (tier2ProducedContent) {
+      debugPrint('HojatyAi: Tier 2 succeeded');
       return;
     }
 
     // Tier 3: Ultimate Offline / Zero-Quota Fallback
+    debugPrint('HojatyAi: Falling back to Tier 3 (Offline)');
     yield* _generateTier3Offline(sources);
   }
 
@@ -192,16 +202,23 @@ $userMessage
     );
 
     WebSocketChannel? channel;
-    StreamController<String>? controller;
+    final controller = StreamController<String>();
 
     try {
       channel = WebSocketChannel.connect(uri);
-      controller = StreamController<String>();
+
+      // Wait for the WebSocket to be ready (catches connection failures early)
+      await channel.ready.timeout(
+        const Duration(seconds: 4),
+        onTimeout: () {
+          throw TimeoutException('WebSocket connection timed out', const Duration(seconds: 4));
+        },
+      );
 
       // Send initial setup frame
       final setupFrame = {
         'setup': {
-          'model': 'models/gemini-2.5-flash-native-audio-dialog',
+          'model': 'models/gemini-3.5-flash',
           'generationConfig': {
             'responseModalities': ['TEXT']
           },
@@ -214,6 +231,9 @@ $userMessage
       };
 
       channel.sink.add(jsonEncode(setupFrame));
+
+      // Wait briefly for setup acknowledgement before sending content
+      await Future.delayed(const Duration(milliseconds: 300));
 
       // Send clientContent
       final clientContentFrame = {
@@ -234,14 +254,23 @@ $userMessage
 
       bool receivedAnyText = false;
       final sub = channel.stream.timeout(
-        const Duration(seconds: 8),
+        const Duration(seconds: 10),
         onTimeout: (sink) {
+          debugPrint('HojatyAi: WebSocket timed out after 10s');
           sink.close();
         },
       ).listen(
         (data) {
           try {
             final Map<String, dynamic> msg = jsonDecode(data.toString());
+
+            // Check for setup completion acknowledgement
+            final setupComplete = msg['setupComplete'];
+            if (setupComplete != null) {
+              debugPrint('HojatyAi: WebSocket setup acknowledged');
+              return;
+            }
+
             final serverContent = msg['serverContent'];
             if (serverContent != null) {
               final modelTurn = serverContent['modelTurn'];
@@ -251,25 +280,33 @@ $userMessage
                   final text = part['text'] as String?;
                   if (text != null && text.isNotEmpty) {
                     receivedAnyText = true;
-                    controller?.add(text);
+                    if (!controller.isClosed) {
+                      controller.add(text);
+                    }
                   }
                 }
               }
               if (serverContent['turnComplete'] == true) {
-                controller?.close();
+                if (!controller.isClosed) {
+                  controller.close();
+                }
               }
             }
-          } catch (_) {}
+          } catch (e) {
+            debugPrint('HojatyAi: Error parsing WS message: $e');
+          }
         },
         onError: (err) {
-          _keyPool.markCooldown(activeKey);
-          controller?.close();
+          debugPrint('HojatyAi: WebSocket stream error: $err');
+          if (!controller.isClosed) {
+            controller.close();
+          }
         },
         onDone: () {
-          if (!receivedAnyText) {
-            _keyPool.markCooldown(activeKey);
+          debugPrint('HojatyAi: WebSocket stream done (receivedText=$receivedAnyText)');
+          if (!controller.isClosed) {
+            controller.close();
           }
-          controller?.close();
         },
         cancelOnError: true,
       );
@@ -277,8 +314,10 @@ $userMessage
       yield* controller.stream;
       await sub.cancel();
     } catch (e) {
-      _keyPool.markCooldown(activeKey);
-      debugPrint('Tier 1 WebSocket failed: $e');
+      debugPrint('HojatyAi: Tier 1 WebSocket failed: $e');
+      if (!controller.isClosed) {
+        controller.close();
+      }
     } finally {
       try {
         await channel?.sink.close();
@@ -286,7 +325,7 @@ $userMessage
     }
   }
 
-  /// Tier 2: Secondary - High-Quota REST Fallback via Dio
+  /// Tier 2: Secondary - High-Quota REST / SSE Streaming via Dio (Optimized for Free Tier)
   Stream<String> _tryGenerateTier2Rest({
     required String combinedPrompt,
     CancelToken? cancelToken,
@@ -299,29 +338,99 @@ $userMessage
         final activeKey = _keyPool.getNextKey();
         if (activeKey == null || activeKey.isEmpty) break;
 
-        final url = 'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$activeKey';
+        final requestData = {
+          'systemInstruction': {
+            'parts': [
+              {'text': _systemInstruction}
+            ]
+          },
+          'contents': [
+            {
+              'role': 'user',
+              'parts': [
+                {'text': combinedPrompt}
+              ]
+            }
+          ],
+          'generationConfig': {
+            'temperature': 0.4,
+          }
+        };
+
+        // 1. Try real-time SSE streaming first for instant token-by-token output
+        final sseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/$model:streamGenerateContent?alt=sse&key=$activeKey';
+        bool sseProducedAny = false;
 
         try {
-          final response = await _dio.post(
-            url,
-            data: {
-              'systemInstruction': {
-                'parts': [
-                  {'text': _systemInstruction}
-                ]
-              },
-              'contents': [
-                {
-                  'role': 'user',
-                  'parts': [
-                    {'text': combinedPrompt}
-                  ]
+          debugPrint('HojatyAi: Tier 2 trying SSE ($model) (attempt ${attempt + 1})');
+          final response = await _dio.post<ResponseBody>(
+            sseUrl,
+            data: requestData,
+            options: Options(
+              responseType: ResponseType.stream,
+              headers: {'Accept': 'text/event-stream'},
+            ),
+            cancelToken: cancelToken,
+          );
+
+          if (response.statusCode == 200 && response.data != null) {
+            String leftover = '';
+            await for (final rawBytes in response.data!.stream) {
+              final textChunk = utf8.decode(rawBytes, allowMalformed: true);
+              final lines = (leftover + textChunk).split('\n');
+              leftover = lines.removeLast();
+
+              for (final line in lines) {
+                final trimmed = line.trim();
+                if (trimmed.startsWith('data:')) {
+                  final jsonStr = trimmed.substring(5).trim();
+                  if (jsonStr.isNotEmpty) {
+                    try {
+                      final Map<String, dynamic> data = jsonDecode(jsonStr);
+                      final candidates = data['candidates'] as List?;
+                      if (candidates != null && candidates.isNotEmpty) {
+                        final content = candidates[0]['content'];
+                        final parts = content?['parts'] as List?;
+                        if (parts != null && parts.isNotEmpty) {
+                          for (final part in parts) {
+                            final text = part['text'] as String?;
+                            if (text != null && text.isNotEmpty) {
+                              sseProducedAny = true;
+                              yield text;
+                            }
+                          }
+                        }
+                      }
+                    } catch (_) {}
+                  }
                 }
-              ],
-              'generationConfig': {
-                'temperature': 0.4,
               }
-            },
+            }
+          }
+
+          if (sseProducedAny) {
+            debugPrint('HojatyAi: Tier 2 SSE ($model) completed successfully');
+            return;
+          }
+        } on DioException catch (e) {
+          final code = e.response?.statusCode;
+          debugPrint('HojatyAi: Tier 2 SSE ($model) failed with code $code: ${e.message}');
+          if (code == 429 || code == 503 || code == 400 || code == 401) {
+            _keyPool.markCooldown(activeKey);
+            continue;
+          }
+        } catch (e) {
+          debugPrint('HojatyAi: Tier 2 SSE ($model) error: $e');
+        }
+
+        // 2. Fallback to standard generateContent if SSE produced nothing
+        final regularUrl = 'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$activeKey';
+
+        try {
+          debugPrint('HojatyAi: Tier 2 trying standard POST ($model)');
+          final response = await _dio.post(
+            regularUrl,
+            data: requestData,
             cancelToken: cancelToken,
           );
 
@@ -333,6 +442,7 @@ $userMessage
               if (parts != null && parts.isNotEmpty) {
                 final text = parts[0]['text'] as String?;
                 if (text != null && text.isNotEmpty) {
+                  debugPrint('HojatyAi: Tier 2 standard $model succeeded (${text.length} chars)');
                   yield text;
                   return;
                 }
@@ -341,14 +451,14 @@ $userMessage
           }
         } on DioException catch (e) {
           final code = e.response?.statusCode;
-          debugPrint('Tier 2 REST ($model) failed with code $code: ${e.message}');
+          debugPrint('HojatyAi: Tier 2 standard ($model) failed with code $code: ${e.message}');
           if (code == 429 || code == 503 || code == 400 || code == 401) {
             _keyPool.markCooldown(activeKey);
             continue;
           }
           break;
         } catch (e) {
-          debugPrint('Tier 2 REST ($model) unexpected error: $e');
+          debugPrint('HojatyAi: Tier 2 standard ($model) unexpected error: $e');
           break;
         }
       }
@@ -374,4 +484,3 @@ $userMessage
     yield buffer.toString().trim();
   }
 }
-
