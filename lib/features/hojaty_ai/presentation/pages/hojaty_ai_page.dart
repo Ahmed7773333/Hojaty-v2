@@ -5,6 +5,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../bloc/hojaty_ai_cubit.dart';
 import '../bloc/hojaty_ai_state.dart';
+import '../widgets/hojaty_ai_asset_download_widget.dart';
 import '../widgets/hojaty_ai_empty_state_widget.dart';
 import '../widgets/hojaty_ai_header_widget.dart';
 import '../widgets/hojaty_ai_input_bar_widget.dart';
@@ -16,8 +17,25 @@ class HojatyAiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HojatyAiCubit>(
-      create: (_) => injector<HojatyAiCubit>(),
-      child: const _HojatyAiBody(),
+      create: (_) => injector<HojatyAiCubit>()..checkAssetStatus(),
+      child: const _HojatyAiRoot(),
+    );
+  }
+}
+
+class _HojatyAiRoot extends StatelessWidget {
+  const _HojatyAiRoot();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HojatyAiCubit, HojatyAiState>(
+      buildWhen: (prev, curr) => prev.assetStatus != curr.assetStatus,
+      builder: (context, state) {
+        if (state.assetStatus == HojatyAiAssetStatus.ready) {
+          return const _HojatyAiBody();
+        }
+        return const HojatyAiAssetDownloadWidget();
+      },
     );
   }
 }

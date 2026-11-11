@@ -9,6 +9,14 @@ enum HojatyAiStatus {
   failure,
 }
 
+enum HojatyAiAssetStatus {
+  ready,
+  checking,
+  requiresDownload,
+  downloading,
+  failed,
+}
+
 class HojatyAiState extends Equatable {
   final HojatyAiStatus status;
   final List<ChatMessageModel> messages;
@@ -17,6 +25,12 @@ class HojatyAiState extends Equatable {
   final String currentStreamingText;
   final List<RagChunkModel> currentSources;
 
+  // Asset delivery status for on-demand RAG database
+  final HojatyAiAssetStatus assetStatus;
+  final double downloadProgress;
+  final int bytesDownloaded;
+  final int totalBytes;
+
   const HojatyAiState({
     this.status = HojatyAiStatus.initial,
     this.messages = const [],
@@ -24,6 +38,10 @@ class HojatyAiState extends Equatable {
     this.isStreaming = false,
     this.currentStreamingText = '',
     this.currentSources = const [],
+    this.assetStatus = HojatyAiAssetStatus.checking,
+    this.downloadProgress = 0.0,
+    this.bytesDownloaded = 0,
+    this.totalBytes = 248000512,
   });
 
   HojatyAiState copyWith({
@@ -34,6 +52,10 @@ class HojatyAiState extends Equatable {
     bool? isStreaming,
     String? currentStreamingText,
     List<RagChunkModel>? currentSources,
+    HojatyAiAssetStatus? assetStatus,
+    double? downloadProgress,
+    int? bytesDownloaded,
+    int? totalBytes,
   }) {
     return HojatyAiState(
       status: status ?? this.status,
@@ -42,6 +64,10 @@ class HojatyAiState extends Equatable {
       isStreaming: isStreaming ?? this.isStreaming,
       currentStreamingText: currentStreamingText ?? this.currentStreamingText,
       currentSources: currentSources ?? this.currentSources,
+      assetStatus: assetStatus ?? this.assetStatus,
+      downloadProgress: downloadProgress ?? this.downloadProgress,
+      bytesDownloaded: bytesDownloaded ?? this.bytesDownloaded,
+      totalBytes: totalBytes ?? this.totalBytes,
     );
   }
 
@@ -53,6 +79,10 @@ class HojatyAiState extends Equatable {
         isStreaming,
         currentStreamingText,
         currentSources,
+        assetStatus,
+        downloadProgress,
+        bytesDownloaded,
+        totalBytes,
       ];
 }
 

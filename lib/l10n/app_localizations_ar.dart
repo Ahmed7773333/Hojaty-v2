@@ -1036,4 +1036,44 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get hojatyAiQuickAccessSubtitle =>
       'استشارات وتوجيهات من الكتاب والسنة';
+
+  @override
+  String get hojatyAiDownloadTitle => 'تحميل قاعدة بيانات المساعد الإسلامي';
+
+  @override
+  String get hojatyAiDownloadDesc =>
+      'يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.';
+
+  @override
+  String get hojatyAiDownloadSize => 'حجم التحميل: ~237 ميجابايت';
+
+  @override
+  String get hojatyAiStartDownload => 'بدء التحميل الآن';
+
+  @override
+  String get hojatyAiRetryDownload => 'إعادة المحاولة';
+
+  @override
+  String get hojatyAiCancelDownload => 'إلغاء التحميل';
+
+  @override
+  String get hojatyAiDownloadError =>
+      'تعذر تحميل قاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مجدداً.';
+
+  @override
+  String get hojatyAiDownloadReady => 'تم تجهيز قاعدة البيانات بنجاح';
+
+  @override
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) =>
+      '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+
+  @override
+  String get hojatyAiMicListening => 'جاري الاستماع... تحدث الآن';
+
+  @override
+  String get hojatyAiMicPermissionDenied =>
+      'يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي';
+
+  @override
+  String get hojatyAiRequiresDownload => 'يتطلب التحميل (~237MB)';
 }

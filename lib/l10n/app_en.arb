@@ -324,5 +324,24 @@
   "hojatyAiEmptySubtitle": "Ask an Islamic question or share a life situation for guidance from Quran and Sunnah",
   "hojatyAiClearChat": "Clear Chat",
   "hojatyAiQuickAccessTitle": "AI Assistant",
-  "hojatyAiQuickAccessSubtitle": "Guidance from Quran & Sunnah"
+  "hojatyAiQuickAccessSubtitle": "Guidance from Quran & Sunnah",
+  "hojatyAiDownloadTitle": "Download Islamic Assistant Database",
+  "hojatyAiDownloadDesc": "The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.",
+  "hojatyAiDownloadSize": "Download size: ~237 MB",
+  "hojatyAiStartDownload": "Start Download Now",
+  "hojatyAiRetryDownload": "Retry Download",
+  "hojatyAiCancelDownload": "Cancel Download",
+  "hojatyAiDownloadError": "Failed to download the database. Please check your internet connection and try again.",
+  "hojatyAiDownloadReady": "Database is ready",
+  "hojatyAiDownloadProgress": "{downloaded} MB of {total} MB ({percent}%)",
+  "@hojatyAiDownloadProgress": {
+    "placeholders": {
+      "downloaded": { "type": "int" },
+      "total": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "hojatyAiMicListening": "Listening... speak now",
+  "hojatyAiMicPermissionDenied": "Please grant microphone permission to use voice input",
+  "hojatyAiRequiresDownload": "Download required (~237MB)"
 }

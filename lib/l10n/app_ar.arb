@@ -324,5 +324,24 @@
   "hojatyAiEmptySubtitle": "اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة",
   "hojatyAiClearChat": "مسح المحادثة",
   "hojatyAiQuickAccessTitle": "المساعد الذكي",
-  "hojatyAiQuickAccessSubtitle": "استشارات وتوجيهات من الكتاب والسنة"
+  "hojatyAiQuickAccessSubtitle": "استشارات وتوجيهات من الكتاب والسنة",
+  "hojatyAiDownloadTitle": "تحميل قاعدة بيانات المساعد الإسلامي",
+  "hojatyAiDownloadDesc": "يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.",
+  "hojatyAiDownloadSize": "حجم التحميل: ~237 ميجابايت",
+  "hojatyAiStartDownload": "بدء التحميل الآن",
+  "hojatyAiRetryDownload": "إعادة المحاولة",
+  "hojatyAiCancelDownload": "إلغاء التحميل",
+  "hojatyAiDownloadError": "تعذر تحميل قاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مجدداً.",
+  "hojatyAiDownloadReady": "تم تجهيز قاعدة البيانات بنجاح",
+  "hojatyAiDownloadProgress": "{downloaded} ميجابايت من {total} ميجابايت ({percent}%)",
+  "@hojatyAiDownloadProgress": {
+    "placeholders": {
+      "downloaded": { "type": "int" },
+      "total": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "hojatyAiMicListening": "جاري الاستماع... تحدث الآن",
+  "hojatyAiMicPermissionDenied": "يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي",
+  "hojatyAiRequiresDownload": "يتطلب التحميل (~237MB)"
 }

@@ -2053,6 +2053,19 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Guidance from Quran & Sunnah'**
   String get hojatyAiQuickAccessSubtitle;
+
+  String get hojatyAiDownloadTitle;
+  String get hojatyAiDownloadDesc;
+  String get hojatyAiDownloadSize;
+  String get hojatyAiStartDownload;
+  String get hojatyAiRetryDownload;
+  String get hojatyAiCancelDownload;
+  String get hojatyAiDownloadError;
+  String get hojatyAiDownloadReady;
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent);
+  String get hojatyAiMicListening;
+  String get hojatyAiMicPermissionDenied;
+  String get hojatyAiRequiresDownload;
 }
 
 class _AppLocalizationsDelegate

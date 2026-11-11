@@ -1046,4 +1046,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hojatyAiQuickAccessSubtitle => 'Guidance from Quran & Sunnah';
+
+  @override
+  String get hojatyAiDownloadTitle => 'Download Islamic Assistant Database';
+
+  @override
+  String get hojatyAiDownloadDesc =>
+      'The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.';
+
+  @override
+  String get hojatyAiDownloadSize => 'Download size: ~237 MB';
+
+  @override
+  String get hojatyAiStartDownload => 'Start Download Now';
+
+  @override
+  String get hojatyAiRetryDownload => 'Retry Download';
+
+  @override
+  String get hojatyAiCancelDownload => 'Cancel Download';
+
+  @override
+  String get hojatyAiDownloadError =>
+      'Failed to download the database. Please check your internet connection and try again.';
+
+  @override
+  String get hojatyAiDownloadReady => 'Database is ready';
+
+  @override
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) =>
+      '$downloaded MB of $total MB ($percent%)';
+
+  @override
+  String get hojatyAiMicListening => 'Listening... speak now';
+
+  @override
+  String get hojatyAiMicPermissionDenied =>
+      'Please grant microphone permission to use voice input';
+
+  @override
+  String get hojatyAiRequiresDownload => 'Download required (~237MB)';
 }
