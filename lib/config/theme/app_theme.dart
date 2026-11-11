@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import '../../core/local/user_hive_helper.dart';
 import '../../core/utils/app_colors.dart';
 
 class AppTheme {
   static final ValueNotifier<ThemeMode> themeModeNotifier =
-      ValueNotifier<ThemeMode>(ThemeMode.light);
+      ValueNotifier<ThemeMode>(
+        UserHiveHelper.getIsDarkMode() ? ThemeMode.dark : ThemeMode.light,
+      );
 
   static void toggleTheme() {
-    themeModeNotifier.value = themeModeNotifier.value == ThemeMode.dark
-        ? ThemeMode.light
-        : ThemeMode.dark;
+    final isDark = themeModeNotifier.value == ThemeMode.dark;
+    final nextMode = isDark ? ThemeMode.light : ThemeMode.dark;
+    themeModeNotifier.value = nextMode;
+    UserHiveHelper.setIsDarkMode(nextMode == ThemeMode.dark);
   }
 
   static void setThemeMode(ThemeMode mode) {
     themeModeNotifier.value = mode;
+    UserHiveHelper.setIsDarkMode(mode == ThemeMode.dark);
   }
 
   static final ThemeData lightTheme = ThemeData(

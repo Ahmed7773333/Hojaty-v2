@@ -1049,13 +1049,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyContent.
   ///
   /// In en, this message translates to:
-  /// **'We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.'**
+  /// **'We are committed to protecting your privacy and personal data. The Hojaty app stores all your personal information, settings, and AI Assistant chat history inside the local database on your device only, and does not collect, sell, or share your private data with any third parties.'**
   String get privacyPolicyContent;
 
   /// No description provided for @termsAndConditionsContent.
   ///
   /// In en, this message translates to:
-  /// **'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.'**
+  /// **'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.\n\nAI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.'**
   String get termsAndConditionsContent;
 
   /// No description provided for @hijriCalendar.
@@ -2167,6 +2167,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} messages'**
   String hojatyAiMessagesCount(int count);
+
+  /// No description provided for @rateAppLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate App'**
+  String get rateAppLabel;
+
+  /// No description provided for @rateAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Hojaty'**
+  String get rateAppTitle;
+
+  /// No description provided for @rateAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'If you enjoy using Hojaty, we would greatly appreciate your rating on the store to help us keep improving.'**
+  String get rateAppMessage;
+
+  /// No description provided for @rateAppNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Now'**
+  String get rateAppNow;
+
+  /// No description provided for @rateAppLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get rateAppLater;
+
+  /// No description provided for @rateAppAlreadyRated.
+  ///
+  /// In en, this message translates to:
+  /// **'I already rated'**
+  String get rateAppAlreadyRated;
+
+  /// No description provided for @appVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get appVersionLabel;
+
+  /// No description provided for @termsAiDisclaimerAddendum.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.'**
+  String get termsAiDisclaimerAddendum;
+
+  /// No description provided for @privacyLocalDbAddendum.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.'**
+  String get privacyLocalDbAddendum;
 }
 
 class _AppLocalizationsDelegate

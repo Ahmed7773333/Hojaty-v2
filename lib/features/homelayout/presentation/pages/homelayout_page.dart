@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:upgrader/upgrader.dart';
+import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/local_notification_service.dart';
+import '../../../../core/utils/rate_app_helper.dart';
 import '../bloc/homelayout_bloc.dart';
 import '../bloc/homelayout_event.dart';
 import '../bloc/homelayout_state.dart';
 import '../widgets/athkar/athkar_grid_view.dart';
+import '../widgets/shared/app_upgrader_messages.dart';
 import '../widgets/shared/exit_app_dialog.dart';
 import '../widgets/home/home_bottom_nav_bar_widget.dart';
 import '../widgets/home/home_dashboard_view.dart';
@@ -22,13 +26,42 @@ class HomelayoutPage extends StatefulWidget {
 }
 
 class _HomelayoutPageState extends State<HomelayoutPage> {
+  late final Upgrader _upgrader;
+  bool _isUpdatePromptScheduled = false;
+
   @override
   void initState() {
     super.initState();
+    final lang = UserHiveHelper.getUser()?.language ?? 'ar';
+    _upgrader = Upgrader(
+      languageCode: lang,
+      durationUntilAlertAgain: const Duration(days: 1),
+      messages: AppUpgraderMessages(code: lang),
+      willDisplayUpgrade: ({
+        required bool display,
+        String? installedVersion,
+        UpgraderVersionInfo? versionInfo,
+      }) {
+        if (display) {
+          _isUpdatePromptScheduled = true;
+        }
+      },
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final granted = await LocalNotificationService.requestPermission();
-      if (granted && mounted) {
+      if (!mounted) return;
+      if (granted) {
         context.read<HomelayoutBloc>().add(const LoadHomelayoutEvent());
+      }
+
+      // Allow UpgradeAlert to check the store first so dialogs do not stack.
+      await Future<void>.delayed(const Duration(seconds: 2));
+      if (!mounted) return;
+
+      final isCurrentRoute = ModalRoute.of(context)?.isCurrent ?? false;
+      if (!_isUpdatePromptScheduled && isCurrentRoute) {
+        await RateAppHelper.maybeShowDailyRateDialog(context);
       }
     });
   }
@@ -63,21 +96,28 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
               }
             }
           },
-          child: Scaffold(
-            body: IndexedStack(index: state.currentTabIndex, children: tabs),
-            bottomNavigationBar: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const AppMiniPlayerWidget(),
-                HomeBottomNavBarWidget(
-                  currentIndex: state.currentTabIndex,
-                  onTabSelected: (index) {
-                    context.read<HomelayoutBloc>().add(
-                      ChangeBottomNavTabEvent(index),
-                    );
-                  },
-                ),
-              ],
+          child: UpgradeAlert(
+            upgrader: _upgrader,
+            barrierDismissible: true,
+            showIgnore: true,
+            showLater: true,
+            showReleaseNotes: true,
+            child: Scaffold(
+              body: IndexedStack(index: state.currentTabIndex, children: tabs),
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const AppMiniPlayerWidget(),
+                  HomeBottomNavBarWidget(
+                    currentIndex: state.currentTabIndex,
+                    onTabSelected: (index) {
+                      context.read<HomelayoutBloc>().add(
+                        ChangeBottomNavTabEvent(index),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

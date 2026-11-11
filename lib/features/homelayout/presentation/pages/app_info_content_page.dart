@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_version_helper.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../data/models/app_content_model.dart';
@@ -47,10 +48,39 @@ class _AppInfoContentPageState extends State<AppInfoContentPage> {
     super.initState();
     _displayTitle = widget.title;
     _displayContent = widget.content;
+    _loadAppVersion();
 
     if (widget.contentType != AppContentType.custom) {
       _fetchRemoteContent();
     }
+  }
+
+  Future<void> _loadAppVersion() async {
+    final appVersion = await AppVersionHelper.getAppVersion();
+    if (!mounted || appVersion.isEmpty) return;
+    setState(() {
+      _version = appVersion;
+    });
+  }
+
+  String _ensureRequiredDisclosure(String content) {
+    final normalized = content.toLowerCase();
+    if (widget.contentType == AppContentType.termsAndConditions) {
+      final hasAiDisclaimer =
+          normalized.contains('فتاو') ||
+          normalized.contains('فتوى') ||
+          normalized.contains('fatwa');
+      if (!hasAiDisclaimer) {
+        return '$content\n\n${context.strings.termsAiDisclaimerAddendum}';
+      }
+    } else if (widget.contentType == AppContentType.privacyPolicy) {
+      final hasLocalChatStorage =
+          normalized.contains('محادث') || normalized.contains('chat');
+      if (!hasLocalChatStorage) {
+        return '$content\n\n${context.strings.privacyLocalDbAddendum}';
+      }
+    }
+    return content;
   }
 
   Future<void> _fetchRemoteContent() async {
@@ -73,8 +103,9 @@ class _AppInfoContentPageState extends State<AppInfoContentPage> {
         setState(() {
           _isLoading = false;
           if (model.title.isNotEmpty) _displayTitle = model.title;
-          if (model.content.isNotEmpty) _displayContent = model.content;
-          _version = model.version;
+          if (model.content.isNotEmpty) {
+            _displayContent = _ensureRequiredDisclosure(model.content);
+          }
           _updatedAt = model.updatedAt;
         });
       }
