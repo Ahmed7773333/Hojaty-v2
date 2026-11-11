@@ -1108,5 +1108,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete all saved conversations?';
 
   @override
-  String hojatyAiMessagesCount(int count) => '$count messages';
+  String hojatyAiMessagesCount(int count) {
+    return '$count messages';
+  }
 }

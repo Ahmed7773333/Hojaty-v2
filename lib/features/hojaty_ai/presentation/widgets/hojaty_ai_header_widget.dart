@@ -16,10 +16,14 @@ class HojatyAiHeaderWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.primaryDarkSurface : AppColors.primaryDarkHeader,
+        color: isDark
+            ? AppColors.primaryDarkSurface
+            : AppColors.primaryDarkHeader,
         border: Border(
           bottom: BorderSide(
-            color: isDark ? AppColors.darkBorderUnselected : AppColors.primaryDarkBorder,
+            color: isDark
+                ? AppColors.darkBorderUnselected
+                : AppColors.primaryDarkBorder,
             width: 1.0,
           ),
         ),
@@ -43,10 +47,7 @@ class HojatyAiHeaderWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.accentGold.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.accentGold,
-                  width: 1.2,
-                ),
+                border: Border.all(color: AppColors.accentGold, width: 1.2),
               ),
               child: Icon(
                 Icons.auto_awesome,
@@ -67,16 +68,6 @@ class HojatyAiHeaderWidget extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                       fontSize: 16.sp,
                     ),
-                  ),
-                  2.ver,
-                  Text(
-                    context.strings.hojatyAiSubtitle,
-                    style: context.textTheme.bodySmall?.copyWith(
-                      color: AppColors.darkTextSecondary,
-                      fontSize: 11.sp,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -109,4 +100,3 @@ class HojatyAiHeaderWidget extends StatelessWidget {
     );
   }
 }
-

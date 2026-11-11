@@ -2126,12 +2126,46 @@ abstract class AppLocalizations {
   /// **'Download required (~237MB)'**
   String get hojatyAiRequiresDownload;
 
+  /// No description provided for @hojatyAiHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat History'**
   String get hojatyAiHistoryTitle;
+
+  /// No description provided for @hojatyAiHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved conversations yet'**
   String get hojatyAiHistoryEmpty;
+
+  /// No description provided for @hojatyAiNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
   String get hojatyAiNewChat;
+
+  /// No description provided for @hojatyAiDeleteChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Chat'**
   String get hojatyAiDeleteChat;
+
+  /// No description provided for @hojatyAiClearAllHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear History'**
   String get hojatyAiClearAllHistory;
+
+  /// No description provided for @hojatyAiClearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all saved conversations?'**
   String get hojatyAiClearAllConfirm;
+
+  /// No description provided for @hojatyAiMessagesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages'**
   String hojatyAiMessagesCount(int count);
 }
 

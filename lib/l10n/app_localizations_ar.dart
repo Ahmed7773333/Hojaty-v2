@@ -1098,5 +1098,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'هل أنت متأكد من حذف جميع المحادثات المحفوظة؟';
 
   @override
-  String hojatyAiMessagesCount(int count) => '$count رسائل';
+  String hojatyAiMessagesCount(int count) {
+    return '$count رسائل';
+  }
 }
