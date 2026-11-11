@@ -343,5 +343,17 @@
   },
   "hojatyAiMicListening": "جاري الاستماع... تحدث الآن",
   "hojatyAiMicPermissionDenied": "يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي",
-  "hojatyAiRequiresDownload": "يتطلب التحميل (~237MB)"
+  "hojatyAiRequiresDownload": "يتطلب التحميل (~237MB)",
+  "hojatyAiHistoryTitle": "سجل المحادثات",
+  "hojatyAiHistoryEmpty": "لا توجد محادثات محفوظة بعد",
+  "hojatyAiNewChat": "محادثة جديدة",
+  "hojatyAiDeleteChat": "حذف المحادثة",
+  "hojatyAiClearAllHistory": "مسح السجل",
+  "hojatyAiClearAllConfirm": "هل أنت متأكد من حذف جميع المحادثات المحفوظة؟",
+  "hojatyAiMessagesCount": "{count} رسائل",
+  "@hojatyAiMessagesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

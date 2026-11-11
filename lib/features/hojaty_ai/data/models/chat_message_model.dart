@@ -42,6 +42,39 @@ class ChatMessageModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'text': text,
+      'sender': sender.name,
+      'timestamp': timestamp.toIso8601String(),
+      'sources': sources.map((s) => s.toMap()).toList(),
+      'isOffline': isOffline,
+    };
+  }
+
+  factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
+    final senderName = json['sender'] as String? ?? 'user';
+    final rawSources = json['sources'] as List<dynamic>? ?? const [];
+    final parsedSources = rawSources
+        .whereType<Map>()
+        .map((m) => RagChunkModel.fromMap(Map<String, dynamic>.from(m)))
+        .toList();
+
+    return ChatMessageModel(
+      id: json['id'] as String? ?? '',
+      text: json['text'] as String? ?? '',
+      sender: senderName == MessageSender.ai.name
+          ? MessageSender.ai
+          : MessageSender.user,
+      timestamp: DateTime.tryParse(json['timestamp'] as String? ?? '') ??
+          DateTime.now(),
+      sources: parsedSources,
+      isStreaming: false,
+      isOffline: json['isOffline'] as bool? ?? false,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

@@ -2054,18 +2054,85 @@ abstract class AppLocalizations {
   /// **'Guidance from Quran & Sunnah'**
   String get hojatyAiQuickAccessSubtitle;
 
+  /// No description provided for @hojatyAiDownloadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Islamic Assistant Database'**
   String get hojatyAiDownloadTitle;
+
+  /// No description provided for @hojatyAiDownloadDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.'**
   String get hojatyAiDownloadDesc;
+
+  /// No description provided for @hojatyAiDownloadSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Download size: ~237 MB'**
   String get hojatyAiDownloadSize;
+
+  /// No description provided for @hojatyAiStartDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Download Now'**
   String get hojatyAiStartDownload;
+
+  /// No description provided for @hojatyAiRetryDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry Download'**
   String get hojatyAiRetryDownload;
+
+  /// No description provided for @hojatyAiCancelDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Download'**
   String get hojatyAiCancelDownload;
+
+  /// No description provided for @hojatyAiDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download the database. Please check your internet connection and try again.'**
   String get hojatyAiDownloadError;
+
+  /// No description provided for @hojatyAiDownloadReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Database is ready'**
   String get hojatyAiDownloadReady;
+
+  /// No description provided for @hojatyAiDownloadProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{downloaded} MB of {total} MB ({percent}%)'**
   String hojatyAiDownloadProgress(int downloaded, int total, int percent);
+
+  /// No description provided for @hojatyAiMicListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening... speak now'**
   String get hojatyAiMicListening;
+
+  /// No description provided for @hojatyAiMicPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Please grant microphone permission to use voice input'**
   String get hojatyAiMicPermissionDenied;
+
+  /// No description provided for @hojatyAiRequiresDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download required (~237MB)'**
   String get hojatyAiRequiresDownload;
+
+  String get hojatyAiHistoryTitle;
+  String get hojatyAiHistoryEmpty;
+  String get hojatyAiNewChat;
+  String get hojatyAiDeleteChat;
+  String get hojatyAiClearAllHistory;
+  String get hojatyAiClearAllConfirm;
+  String hojatyAiMessagesCount(int count);
 }
 
 class _AppLocalizationsDelegate

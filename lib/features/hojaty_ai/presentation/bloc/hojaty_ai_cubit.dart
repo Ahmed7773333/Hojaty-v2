@@ -3,17 +3,56 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/play_asset_delivery_service.dart';
+import '../../data/datasources/hojaty_chat_history_local_data_source.dart';
 import '../../data/models/chat_message_model.dart';
+import '../../data/models/chat_session_model.dart';
 import '../../data/models/rag_chunk_model.dart';
 import '../../data/repositories/hojaty_ai_repository.dart';
 import 'hojaty_ai_state.dart';
 
 class HojatyAiCubit extends Cubit<HojatyAiState> {
   final HojatyAiRepository _repository;
+  final HojatyChatHistoryLocalDataSource _historyDataSource;
   StreamSubscription<String>? _generationSubscription;
   StreamSubscription<AssetPackInfo>? _downloadSubscription;
 
-  HojatyAiCubit(this._repository) : super(const HojatyAiState());
+  HojatyAiCubit(
+    this._repository,
+    this._historyDataSource,
+  ) : super(const HojatyAiState());
+
+  Future<void> init() async {
+    await checkAssetStatus();
+    await loadHistory();
+  }
+
+  /// Loads saved local chat history and restores the active session if any.
+  Future<void> loadHistory() async {
+    try {
+      final sessions = await _historyDataSource.getAllSessions();
+      final activeId = await _historyDataSource.getActiveSessionId();
+
+      ChatSessionModel? activeSession;
+      if (activeId != null) {
+        for (final s in sessions) {
+          if (s.id == activeId) {
+            activeSession = s;
+            break;
+          }
+        }
+      }
+
+      if (!isClosed) {
+        emit(state.copyWith(
+          historySessions: sessions,
+          currentSessionId: activeSession?.id,
+          messages: activeSession?.messages ?? state.messages,
+        ));
+      }
+    } catch (e) {
+      debugPrint('HojatyAiCubit.loadHistory error: $e');
+    }
+  }
 
   /// Checks whether the hojaty_rag database asset is downloaded/ready.
   /// In debug mode (kDebugMode), it is immediately ready.
@@ -146,14 +185,17 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       timestamp: DateTime.now(),
     );
 
+    final updatedMessages = [...state.messages, userMessage];
     emit(state.copyWith(
       status: HojatyAiStatus.loading,
-      messages: [...state.messages, userMessage],
+      messages: updatedMessages,
       clearErrorMessage: true,
       isStreaming: true,
       currentStreamingText: '',
       currentSources: const [],
     ));
+
+    await _persistMessages(updatedMessages);
 
     try {
       // Step A: Get Query Embedding
@@ -257,18 +299,162 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       isOffline: isOffline,
     );
 
+    final updatedMessages = [...state.messages, botMessage];
     emit(state.copyWith(
       status: HojatyAiStatus.success,
-      messages: [...state.messages, botMessage],
+      messages: updatedMessages,
       isStreaming: false,
       currentStreamingText: '',
       currentSources: const [],
     ));
+
+    _persistMessages(updatedMessages);
+  }
+
+  Future<void> _persistMessages(List<ChatMessageModel> updatedMessages) async {
+    if (updatedMessages.isEmpty) return;
+
+    final now = DateTime.now();
+    final sessionId = state.currentSessionId ?? now.microsecondsSinceEpoch.toString();
+
+    ChatSessionModel? existing;
+    for (final s in state.historySessions) {
+      if (s.id == sessionId) {
+        existing = s;
+        break;
+      }
+    }
+
+    final firstUserText = updatedMessages
+        .firstWhere(
+          (m) => m.sender == MessageSender.user,
+          orElse: () => updatedMessages.first,
+        )
+        .text
+        .replaceAll('\n', ' ')
+        .trim();
+
+    final title = firstUserText.length > 60
+        ? '${firstUserText.substring(0, 60)}...'
+        : firstUserText;
+
+    final session = existing != null
+        ? existing.copyWith(updatedAt: now, messages: updatedMessages)
+        : ChatSessionModel(
+            id: sessionId,
+            title: title,
+            createdAt: now,
+            updatedAt: now,
+            messages: updatedMessages,
+          );
+
+    await _historyDataSource.saveSession(session);
+    await _historyDataSource.setActiveSessionId(sessionId);
+
+    final updatedSessions = [
+      session,
+      ...state.historySessions.where((s) => s.id != sessionId),
+    ]..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+
+    if (!isClosed) {
+      emit(state.copyWith(
+        currentSessionId: sessionId,
+        historySessions: updatedSessions,
+      ));
+    }
+  }
+
+  /// Starts a fresh chat session while keeping older conversations saved in history.
+  Future<void> startNewChat() async {
+    await _generationSubscription?.cancel();
+    await _historyDataSource.setActiveSessionId(null);
+
+    if (!isClosed) {
+      emit(state.copyWith(
+        clearCurrentSessionId: true,
+        messages: const [],
+        isStreaming: false,
+        currentStreamingText: '',
+        currentSources: const [],
+        status: HojatyAiStatus.initial,
+        clearErrorMessage: true,
+      ));
+    }
+  }
+
+  /// Loads a previous conversation from local history.
+  Future<void> selectSession(String sessionId) async {
+    await _generationSubscription?.cancel();
+
+    ChatSessionModel? target;
+    for (final s in state.historySessions) {
+      if (s.id == sessionId) {
+        target = s;
+        break;
+      }
+    }
+    target ??= await _historyDataSource.getSession(sessionId);
+
+    if (target == null) return;
+
+    await _historyDataSource.setActiveSessionId(target.id);
+    if (!isClosed) {
+      emit(state.copyWith(
+        currentSessionId: target.id,
+        messages: target.messages,
+        isStreaming: false,
+        currentStreamingText: '',
+        currentSources: const [],
+        status: HojatyAiStatus.success,
+        clearErrorMessage: true,
+      ));
+    }
+  }
+
+  /// Deletes a single conversation from local history.
+  Future<void> deleteSession(String sessionId) async {
+    await _historyDataSource.deleteSession(sessionId);
+    final updatedSessions = await _historyDataSource.getAllSessions();
+
+    if (!isClosed) {
+      if (state.currentSessionId == sessionId) {
+        emit(state.copyWith(
+          clearCurrentSessionId: true,
+          messages: const [],
+          historySessions: updatedSessions,
+          isStreaming: false,
+          currentStreamingText: '',
+          currentSources: const [],
+          status: HojatyAiStatus.initial,
+          clearErrorMessage: true,
+        ));
+      } else {
+        emit(state.copyWith(historySessions: updatedSessions));
+      }
+    }
+  }
+
+  /// Deletes all saved chat history.
+  Future<void> clearAllHistory() async {
+    await _generationSubscription?.cancel();
+    await _historyDataSource.clearAllSessions();
+
+    if (!isClosed) {
+      emit(state.copyWith(
+        clearCurrentSessionId: true,
+        messages: const [],
+        historySessions: const [],
+        isStreaming: false,
+        currentStreamingText: '',
+        currentSources: const [],
+        status: HojatyAiStatus.initial,
+        clearErrorMessage: true,
+      ));
+    }
   }
 
   void clearChat() {
-    _generationSubscription?.cancel();
-    emit(const HojatyAiState());
+    startNewChat();
   }
 
   @override

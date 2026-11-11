@@ -17,7 +17,7 @@ class HojatyAiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HojatyAiCubit>(
-      create: (_) => injector<HojatyAiCubit>()..checkAssetStatus(),
+      create: (_) => injector<HojatyAiCubit>()..init(),
       child: const _HojatyAiRoot(),
     );
   }

@@ -1064,8 +1064,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hojatyAiDownloadReady => 'تم تجهيز قاعدة البيانات بنجاح';
 
   @override
-  String hojatyAiDownloadProgress(int downloaded, int total, int percent) =>
-      '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) {
+    return '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+  }
 
   @override
   String get hojatyAiMicListening => 'جاري الاستماع... تحدث الآن';
@@ -1076,4 +1077,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hojatyAiRequiresDownload => 'يتطلب التحميل (~237MB)';
+
+  @override
+  String get hojatyAiHistoryTitle => 'سجل المحادثات';
+
+  @override
+  String get hojatyAiHistoryEmpty => 'لا توجد محادثات محفوظة بعد';
+
+  @override
+  String get hojatyAiNewChat => 'محادثة جديدة';
+
+  @override
+  String get hojatyAiDeleteChat => 'حذف المحادثة';
+
+  @override
+  String get hojatyAiClearAllHistory => 'مسح السجل';
+
+  @override
+  String get hojatyAiClearAllConfirm =>
+      'هل أنت متأكد من حذف جميع المحادثات المحفوظة؟';
+
+  @override
+  String hojatyAiMessagesCount(int count) => '$count رسائل';
 }

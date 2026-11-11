@@ -4,6 +4,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../bloc/hojaty_ai_cubit.dart';
+import 'hojaty_ai_history_bottom_sheet_widget.dart';
 
 class HojatyAiHeaderWidget extends StatelessWidget {
   const HojatyAiHeaderWidget({super.key});
@@ -82,13 +83,24 @@ class HojatyAiHeaderWidget extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(
-                Icons.delete_sweep_outlined,
-                color: AppColors.darkTextSecondary,
+                Icons.history_rounded,
+                color: AppColors.white,
                 size: 22.r,
               ),
-              tooltip: context.strings.hojatyAiClearChat,
+              tooltip: context.strings.hojatyAiHistoryTitle,
               onPressed: () {
-                context.read<HojatyAiCubit>().clearChat();
+                HojatyAiHistoryBottomSheetWidget.show(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.add_comment_outlined,
+                color: AppColors.accentGoldLight,
+                size: 21.r,
+              ),
+              tooltip: context.strings.hojatyAiNewChat,
+              onPressed: () {
+                context.read<HojatyAiCubit>().startNewChat();
               },
             ),
           ],

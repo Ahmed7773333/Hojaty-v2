@@ -35,14 +35,14 @@ class RagChunkModel extends Equatable {
     );
   }
 
-  factory RagChunkModel.fromMap(Map<String, dynamic> map, {double similarity = 0.0}) {
+  factory RagChunkModel.fromMap(Map<String, dynamic> map, {double? similarity}) {
     return RagChunkModel(
       id: (map['id'] as num?)?.toInt() ?? 0,
       category: map['category'] as String? ?? '',
       sourceTitle: map['source_title'] as String? ?? '',
       reference: map['reference'] as String? ?? '',
       content: map['content'] as String? ?? '',
-      similarity: similarity,
+      similarity: similarity ?? (map['similarity'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

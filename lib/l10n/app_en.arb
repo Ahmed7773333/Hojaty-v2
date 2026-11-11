@@ -343,5 +343,17 @@
   },
   "hojatyAiMicListening": "Listening... speak now",
   "hojatyAiMicPermissionDenied": "Please grant microphone permission to use voice input",
-  "hojatyAiRequiresDownload": "Download required (~237MB)"
+  "hojatyAiRequiresDownload": "Download required (~237MB)",
+  "hojatyAiHistoryTitle": "Chat History",
+  "hojatyAiHistoryEmpty": "No saved conversations yet",
+  "hojatyAiNewChat": "New Chat",
+  "hojatyAiDeleteChat": "Delete Chat",
+  "hojatyAiClearAllHistory": "Clear History",
+  "hojatyAiClearAllConfirm": "Are you sure you want to delete all saved conversations?",
+  "hojatyAiMessagesCount": "{count} messages",
+  "@hojatyAiMessagesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

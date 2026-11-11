@@ -1074,8 +1074,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hojatyAiDownloadReady => 'Database is ready';
 
   @override
-  String hojatyAiDownloadProgress(int downloaded, int total, int percent) =>
-      '$downloaded MB of $total MB ($percent%)';
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) {
+    return '$downloaded MB of $total MB ($percent%)';
+  }
 
   @override
   String get hojatyAiMicListening => 'Listening... speak now';
@@ -1086,4 +1087,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hojatyAiRequiresDownload => 'Download required (~237MB)';
+
+  @override
+  String get hojatyAiHistoryTitle => 'Chat History';
+
+  @override
+  String get hojatyAiHistoryEmpty => 'No saved conversations yet';
+
+  @override
+  String get hojatyAiNewChat => 'New Chat';
+
+  @override
+  String get hojatyAiDeleteChat => 'Delete Chat';
+
+  @override
+  String get hojatyAiClearAllHistory => 'Clear History';
+
+  @override
+  String get hojatyAiClearAllConfirm =>
+      'Are you sure you want to delete all saved conversations?';
+
+  @override
+  String hojatyAiMessagesCount(int count) => '$count messages';
 }

@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:hojaty/features/hojaty_ai/data/datasources/gemini_key_pool.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 void main() {
   print('=== Running Hojaty RAG Self-Check ===');
@@ -66,6 +70,47 @@ void main() {
   final activeDb = debugDb.existsSync() ? debugDb : prodDb;
   assert(activeDb.lengthSync() > 1024 * 1024, 'Database size must be > 1MB');
   print('✓ Database existence verified at ${activeDb.path} (${(activeDb.lengthSync() / (1024 * 1024)).toStringAsFixed(1)} MB)');
+
+  // Test 4: Verify ChatSessionModel & ChatMessageModel JSON Serialization
+  final now = DateTime.now();
+  final sampleChunk = RagChunkModel(
+    id: 42,
+    category: 'quran',
+    sourceTitle: 'سورة البقرة',
+    reference: 'آية 286',
+    content: 'لا يكلف الله نفسا إلا وسعها',
+    similarity: 0.92,
+  );
+  final userMsg = ChatMessageModel(
+    id: 'm1',
+    text: 'أشعر بضيق',
+    sender: MessageSender.user,
+    timestamp: now,
+  );
+  final aiMsg = ChatMessageModel(
+    id: 'm2',
+    text: 'اطمئن بذكر الله',
+    sender: MessageSender.ai,
+    timestamp: now,
+    sources: [sampleChunk],
+  );
+  final session = ChatSessionModel(
+    id: 's1',
+    title: 'أشعر بضيق',
+    createdAt: now,
+    updatedAt: now,
+    messages: [userMsg, aiMsg],
+  );
+
+  final encoded = jsonEncode(session.toJson());
+  final decoded = ChatSessionModel.fromJson(jsonDecode(encoded) as Map<String, dynamic>);
+  assert(decoded.id == session.id, 'Session ID matches');
+  assert(decoded.title == session.title, 'Session title matches');
+  assert(decoded.messages.length == 2, 'Session messages count matches');
+  assert(decoded.messages[1].sources.length == 1, 'Sources preserved');
+  assert(decoded.messages[1].sources.first.sourceTitle == 'سورة البقرة', 'Source title matches');
+  assert(decoded.messages[1].sources.first.similarity == 0.92, 'Similarity preserved');
+  print('✓ ChatSessionModel & ChatMessageModel JSON serialization passed');
 
   print('=== ALL HOJATY RAG CHECKS PASSED ===');
 }

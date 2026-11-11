@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../data/models/chat_message_model.dart';
+import '../../data/models/chat_session_model.dart';
 import '../../data/models/rag_chunk_model.dart';
 
 enum HojatyAiStatus {
@@ -25,6 +26,10 @@ class HojatyAiState extends Equatable {
   final String currentStreamingText;
   final List<RagChunkModel> currentSources;
 
+  // Local Chat History
+  final String? currentSessionId;
+  final List<ChatSessionModel> historySessions;
+
   // Asset delivery status for on-demand RAG database
   final HojatyAiAssetStatus assetStatus;
   final double downloadProgress;
@@ -38,6 +43,8 @@ class HojatyAiState extends Equatable {
     this.isStreaming = false,
     this.currentStreamingText = '',
     this.currentSources = const [],
+    this.currentSessionId,
+    this.historySessions = const [],
     this.assetStatus = HojatyAiAssetStatus.checking,
     this.downloadProgress = 0.0,
     this.bytesDownloaded = 0,
@@ -52,6 +59,9 @@ class HojatyAiState extends Equatable {
     bool? isStreaming,
     String? currentStreamingText,
     List<RagChunkModel>? currentSources,
+    String? currentSessionId,
+    bool clearCurrentSessionId = false,
+    List<ChatSessionModel>? historySessions,
     HojatyAiAssetStatus? assetStatus,
     double? downloadProgress,
     int? bytesDownloaded,
@@ -64,6 +74,10 @@ class HojatyAiState extends Equatable {
       isStreaming: isStreaming ?? this.isStreaming,
       currentStreamingText: currentStreamingText ?? this.currentStreamingText,
       currentSources: currentSources ?? this.currentSources,
+      currentSessionId: clearCurrentSessionId
+          ? null
+          : (currentSessionId ?? this.currentSessionId),
+      historySessions: historySessions ?? this.historySessions,
       assetStatus: assetStatus ?? this.assetStatus,
       downloadProgress: downloadProgress ?? this.downloadProgress,
       bytesDownloaded: bytesDownloaded ?? this.bytesDownloaded,
@@ -79,6 +93,8 @@ class HojatyAiState extends Equatable {
         isStreaming,
         currentStreamingText,
         currentSources,
+        currentSessionId,
+        historySessions,
         assetStatus,
         downloadProgress,
         bytesDownloaded,
