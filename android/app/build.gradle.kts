@@ -60,7 +60,14 @@ android {
     }
 
     androidResources {
-        noCompress += listOf("png", "json", "jpg", "jpeg", "webp", "db", "sqlite")
+        // Note: androidResources.noCompress populates BundleConfig.pb (uncompressedGlob) across ALL
+        // modules in the AAB, including every legacy on-demand asset pack.
+        // Keep legacy media extensions aligned with the live Closed Testing release to preserve
+        // Play Store binary delta patching (commit 3c73c34e added png/json/jpg/jpeg/webp; if your
+        // live Closed Testing baseline predates 1.1.31+51, remove this block altogether).
+        // Do NOT include "db" or "sqlite" here: hojaty_rag.db is extracted to disk by Play Asset
+        // Delivery and opened via filesystem path in sqflite, not via AssetManager.openFd().
+        noCompress += listOf("png", "json", "jpg", "jpeg", "webp")
     }
 
     assetPacks += listOf(
