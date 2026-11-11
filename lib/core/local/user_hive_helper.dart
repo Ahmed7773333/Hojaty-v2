@@ -335,4 +335,49 @@ class UserHiveHelper {
       prayersBox.put('free_sebha_counter', count);
     } catch (_) {}
   }
+
+  // --------------------- Theme Mode ---------------------
+  static bool getIsDarkMode({bool defaultValue = false}) {
+    try {
+      return prayersBox.get('is_dark_mode', defaultValue: defaultValue) as bool;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setIsDarkMode(bool isDark) {
+    try {
+      prayersBox.put('is_dark_mode', isDark);
+    } catch (_) {}
+  }
+
+  // --------------------- App Rating ---------------------
+  static bool getHasRatedApp({bool defaultValue = false}) {
+    try {
+      return prayersBox.get('has_rated_app', defaultValue: defaultValue)
+          as bool;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setHasRatedApp(bool rated) {
+    try {
+      prayersBox.put('has_rated_app', rated);
+    } catch (_) {}
+  }
+
+  static String? getLastRatePromptDate() {
+    try {
+      return prayersBox.get('last_rate_prompt_date') as String?;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static void setLastRatePromptDate(String dateKey) {
+    try {
+      prayersBox.put('last_rate_prompt_date', dateKey);
+    } catch (_) {}
+  }
 }

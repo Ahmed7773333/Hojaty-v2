@@ -157,8 +157,8 @@
   "uthmaniFontDesc": "الرسم العثماني المعتمد للمصحف",
   "amiriFontDesc": "خط عربي كلاسيكي أصيل",
   "selectedFontLabel": "الخط المحدد",
-  "privacyPolicyContent": "نحن نلتزم بحماية خصوصيتك وبياناتك. تطبيق حچتي لا يجمع أو يشارك أو يبيع أي بيانات شخصية مع أي أطراف ثالثة.",
-  "termsAndConditionsContent": "باستخدامك لتطبيق حچتي، فإنك توافق على الالتزام بجميع الشروط والأحكام الموضحة هنا. يُستخدم التطبيق لأغراض التذكير بالصلوات وقراءة القرآن والأذكار وفق التعاليم الإسلامية.",
+  "privacyPolicyContent": "نحن نلتزم بحماية خصوصيتك وبياناتك. تطبيق حچتي يحفظ جميع معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) وإعداداتك في قاعدة البيانات المحلية (Local Database) على جهازك فقط، ولا يجمع أو يشارك أو يبيع أي بيانات شخصية مع أي أطراف ثالثة.",
+  "termsAndConditionsContent": "باستخدامك لتطبيق حچتي، فإنك توافق على الالتزام بجميع الشروط والأحكام الموضحة هنا. يُستخدم التطبيق لأغراض التذكير بالصلوات وقراءة القرآن والأذكار وفق التعاليم الإسلامية.\n\nتنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.",
   "hijriCalendar": "التقويم الهجري",
   "prayerSchedule": "الجدول الكامل",
   "exclusiveFeature": "ميزة حصرية",
@@ -313,5 +313,56 @@
   "noAsmaFound": "لم يتم العثور على اسم مطابق",
   "asmaCount": "{count} اسماً",
   "meaningLabel": "المعنى",
-  "explanationLabel": "التفسير"
+  "explanationLabel": "التفسير",
+  "hojatyAiTitle": "المساعد الإسلامي الذكي",
+  "hojatyAiSubtitle": "إجابات وتوجيهات مستندة للكتاب والسنة",
+  "hojatyAiInputHint": "اسأل عن مسألة، أو شارك ما يضيق به صدرك...",
+  "hojatyAiSourcesTitle": "المصادر الموثقة من التطبيق",
+  "hojatyAiCopyText": "نسخ النص",
+  "hojatyAiTextCopied": "تم نسخ النص إلى الحافظة",
+  "hojatyAiEmptyTitle": "كيف يمكنني مساعدتك اليوم؟",
+  "hojatyAiEmptySubtitle": "اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة",
+  "hojatyAiClearChat": "مسح المحادثة",
+  "hojatyAiQuickAccessTitle": "المساعد الذكي",
+  "hojatyAiQuickAccessSubtitle": "استشارات وتوجيهات من الكتاب والسنة",
+  "hojatyAiDownloadTitle": "تحميل قاعدة بيانات المساعد الإسلامي",
+  "hojatyAiDownloadDesc": "يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.",
+  "hojatyAiDownloadSize": "حجم التحميل: ~237 ميجابايت",
+  "hojatyAiStartDownload": "بدء التحميل الآن",
+  "hojatyAiRetryDownload": "إعادة المحاولة",
+  "hojatyAiCancelDownload": "إلغاء التحميل",
+  "hojatyAiDownloadError": "تعذر تحميل قاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مجدداً.",
+  "hojatyAiDownloadReady": "تم تجهيز قاعدة البيانات بنجاح",
+  "hojatyAiDownloadProgress": "{downloaded} ميجابايت من {total} ميجابايت ({percent}%)",
+  "@hojatyAiDownloadProgress": {
+    "placeholders": {
+      "downloaded": { "type": "int" },
+      "total": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "hojatyAiMicListening": "جاري الاستماع... تحدث الآن",
+  "hojatyAiMicPermissionDenied": "يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي",
+  "hojatyAiRequiresDownload": "يتطلب التحميل (~237MB)",
+  "hojatyAiHistoryTitle": "سجل المحادثات",
+  "hojatyAiHistoryEmpty": "لا توجد محادثات محفوظة بعد",
+  "hojatyAiNewChat": "محادثة جديدة",
+  "hojatyAiDeleteChat": "حذف المحادثة",
+  "hojatyAiClearAllHistory": "مسح السجل",
+  "hojatyAiClearAllConfirm": "هل أنت متأكد من حذف جميع المحادثات المحفوظة؟",
+  "hojatyAiMessagesCount": "{count} رسائل",
+  "@hojatyAiMessagesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "rateAppLabel": "تقييم التطبيق",
+  "rateAppTitle": "قيّم تطبيق حچتي",
+  "rateAppMessage": "إذا أعجبك تطبيق حچتي، يسعدنا دعمك بتقييم التطبيق على المتجر لمساعدتنا على التطوير المستمر.",
+  "rateAppNow": "تقييم الآن",
+  "rateAppLater": "لاحقاً",
+  "rateAppAlreadyRated": "لقد قمت بالتقييم بالفعل",
+  "appVersionLabel": "الإصدار",
+  "termsAiDisclaimerAddendum": "تنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.",
+  "privacyLocalDbAddendum": "تخزين البيانات والمحادثات: يتم حفظ معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) داخل قاعدة البيانات المحلية (Local Database) على جهازك فقط."
 }

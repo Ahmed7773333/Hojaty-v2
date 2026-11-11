@@ -43,3 +43,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+
+api_keys.json
+
+/assets/debug/
+
+task.md 
+/vendor

@@ -7,6 +7,7 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_state.dart';
+import 'settings_app_version_badge_widget.dart';
 
 class SettingsAppCardWidget extends StatelessWidget {
   const SettingsAppCardWidget({super.key});
@@ -56,13 +57,22 @@ class SettingsAppCardWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      context.strings.anaOsalyTitle,
-                      style: context.textTheme.titleLarge?.copyWith(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18.sp,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            context.strings.anaOsalyTitle,
+                            style: context.textTheme.titleLarge?.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18.sp,
+                            ),
+                          ),
+                        ),
+                        8.hor,
+                        const SettingsAppVersionBadgeWidget(),
+                      ],
                     ),
                     4.ver,
                     Text(

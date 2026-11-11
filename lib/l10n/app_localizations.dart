@@ -1049,13 +1049,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyContent.
   ///
   /// In en, this message translates to:
-  /// **'We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.'**
+  /// **'We are committed to protecting your privacy and personal data. The Hojaty app stores all your personal information, settings, and AI Assistant chat history inside the local database on your device only, and does not collect, sell, or share your private data with any third parties.'**
   String get privacyPolicyContent;
 
   /// No description provided for @termsAndConditionsContent.
   ///
   /// In en, this message translates to:
-  /// **'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.'**
+  /// **'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.\n\nAI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.'**
   String get termsAndConditionsContent;
 
   /// No description provided for @hijriCalendar.
@@ -1987,6 +1987,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explanation'**
   String get explanationLabel;
+
+  /// No description provided for @hojatyAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hojaty AI Assistant'**
+  String get hojatyAiTitle;
+
+  /// No description provided for @hojatyAiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grounded Islamic Guidance'**
+  String get hojatyAiSubtitle;
+
+  /// No description provided for @hojatyAiInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question, or share what\'s on your mind...'**
+  String get hojatyAiInputHint;
+
+  /// No description provided for @hojatyAiSourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Sources from the App'**
+  String get hojatyAiSourcesTitle;
+
+  /// No description provided for @hojatyAiCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Text'**
+  String get hojatyAiCopyText;
+
+  /// No description provided for @hojatyAiTextCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Text copied to clipboard'**
+  String get hojatyAiTextCopied;
+
+  /// No description provided for @hojatyAiEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I assist you today?'**
+  String get hojatyAiEmptyTitle;
+
+  /// No description provided for @hojatyAiEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask an Islamic question or share a life situation for guidance from Quran and Sunnah'**
+  String get hojatyAiEmptySubtitle;
+
+  /// No description provided for @hojatyAiClearChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Chat'**
+  String get hojatyAiClearChat;
+
+  /// No description provided for @hojatyAiQuickAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get hojatyAiQuickAccessTitle;
+
+  /// No description provided for @hojatyAiQuickAccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guidance from Quran & Sunnah'**
+  String get hojatyAiQuickAccessSubtitle;
+
+  /// No description provided for @hojatyAiDownloadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Islamic Assistant Database'**
+  String get hojatyAiDownloadTitle;
+
+  /// No description provided for @hojatyAiDownloadDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.'**
+  String get hojatyAiDownloadDesc;
+
+  /// No description provided for @hojatyAiDownloadSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Download size: ~237 MB'**
+  String get hojatyAiDownloadSize;
+
+  /// No description provided for @hojatyAiStartDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Download Now'**
+  String get hojatyAiStartDownload;
+
+  /// No description provided for @hojatyAiRetryDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry Download'**
+  String get hojatyAiRetryDownload;
+
+  /// No description provided for @hojatyAiCancelDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Download'**
+  String get hojatyAiCancelDownload;
+
+  /// No description provided for @hojatyAiDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download the database. Please check your internet connection and try again.'**
+  String get hojatyAiDownloadError;
+
+  /// No description provided for @hojatyAiDownloadReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Database is ready'**
+  String get hojatyAiDownloadReady;
+
+  /// No description provided for @hojatyAiDownloadProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{downloaded} MB of {total} MB ({percent}%)'**
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent);
+
+  /// No description provided for @hojatyAiMicListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening... speak now'**
+  String get hojatyAiMicListening;
+
+  /// No description provided for @hojatyAiMicPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Please grant microphone permission to use voice input'**
+  String get hojatyAiMicPermissionDenied;
+
+  /// No description provided for @hojatyAiRequiresDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download required (~237MB)'**
+  String get hojatyAiRequiresDownload;
+
+  /// No description provided for @hojatyAiHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat History'**
+  String get hojatyAiHistoryTitle;
+
+  /// No description provided for @hojatyAiHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved conversations yet'**
+  String get hojatyAiHistoryEmpty;
+
+  /// No description provided for @hojatyAiNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
+  String get hojatyAiNewChat;
+
+  /// No description provided for @hojatyAiDeleteChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Chat'**
+  String get hojatyAiDeleteChat;
+
+  /// No description provided for @hojatyAiClearAllHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear History'**
+  String get hojatyAiClearAllHistory;
+
+  /// No description provided for @hojatyAiClearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all saved conversations?'**
+  String get hojatyAiClearAllConfirm;
+
+  /// No description provided for @hojatyAiMessagesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages'**
+  String hojatyAiMessagesCount(int count);
+
+  /// No description provided for @rateAppLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate App'**
+  String get rateAppLabel;
+
+  /// No description provided for @rateAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Hojaty'**
+  String get rateAppTitle;
+
+  /// No description provided for @rateAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'If you enjoy using Hojaty, we would greatly appreciate your rating on the store to help us keep improving.'**
+  String get rateAppMessage;
+
+  /// No description provided for @rateAppNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Now'**
+  String get rateAppNow;
+
+  /// No description provided for @rateAppLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get rateAppLater;
+
+  /// No description provided for @rateAppAlreadyRated.
+  ///
+  /// In en, this message translates to:
+  /// **'I already rated'**
+  String get rateAppAlreadyRated;
+
+  /// No description provided for @appVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get appVersionLabel;
+
+  /// No description provided for @termsAiDisclaimerAddendum.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.'**
+  String get termsAiDisclaimerAddendum;
+
+  /// No description provided for @privacyLocalDbAddendum.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.'**
+  String get privacyLocalDbAddendum;
 }
 
 class _AppLocalizationsDelegate

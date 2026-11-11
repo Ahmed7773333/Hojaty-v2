@@ -49,4 +49,5 @@ include(":book_mishkat")
 include(":book_adab")
 include(":book_shamail")
 include(":book_duaa")
+include(":hojaty_rag")
 

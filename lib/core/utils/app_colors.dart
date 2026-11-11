@@ -44,4 +44,10 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color transparent = Colors.transparent;
+
+  // Mushaf Reader Palette
+  static const Color mushafLightBackground = Color(0xFFFFFDF5);
+  static const Color mushafNightBackground = Color(0xFF121417);
+  static const Color mushafNightText = Color(0xFFECEFF1);
+  static const Color mushafNightAccent = Color(0xFFC5A059);
 }

@@ -1,9 +1,9 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../constants/mushaf_page_image_resolver.dart';
 import '../../domain/entities/qirat_type.dart';
+import 'mushaf_night_mode_page_widget.dart';
 import 'quran_page_placeholder_widget.dart';
 
 class QuranPageImageWidget extends StatelessWidget {
@@ -21,64 +21,36 @@ class QuranPageImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final backgroundColor = isDark
+        ? AppColors.mushafNightBackground
+        : AppColors.mushafLightBackground;
+    final imageProvider = MushafPageImageResolver.resolve(
+      pageNumber,
+      basePath: basePath,
+      qirat: qirat,
+    );
 
-    if (kDebugMode) {
-      final safePageNum = pageNumber > 0 ? pageNumber : 1;
-      final debugImageNum = ((safePageNum - 1) % 3) + 1;
-      return Container(
-        color: isDark ? AppColors.darkBackground : const Color(0xFFFFFDF5),
-        child: Center(
-          child: Image.asset(
-            'assets/images/$debugImageNum.png',
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, error, stackTrace) {
-              return QuranPagePlaceholderWidget(pageNumber: pageNumber);
-            },
-          ),
+    if (isDark) {
+      return ColoredBox(
+        color: backgroundColor,
+        child: MushafNightModePageWidget(
+          imageProvider: imageProvider,
+          pageNumber: pageNumber,
         ),
       );
     }
 
-    File? pageFile;
-    if (basePath != null && basePath!.isNotEmpty) {
-      final fFolder = File('$basePath/${qirat.folderName}/$pageNumber.png');
-      final fDirect = File('$basePath/$pageNumber.png');
-      final fHafsFallback = File('$basePath/pages-hafs/$pageNumber.png');
-
-      if (fFolder.existsSync()) {
-        pageFile = fFolder;
-      } else if (fDirect.existsSync()) {
-        pageFile = fDirect;
-      } else if (fHafsFallback.existsSync()) {
-        pageFile = fHafsFallback;
-      }
-    }
-
-    final Widget imageWidget = pageFile != null
-        ? Image.file(
-            pageFile,
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, error, stackTrace) {
-              return QuranPagePlaceholderWidget(pageNumber: pageNumber);
-            },
-          )
-        : Image.asset(
-            'assets/images/${qirat.folderName}/$pageNumber.png',
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, error, stackTrace) {
-              return QuranPagePlaceholderWidget(pageNumber: pageNumber);
-            },
-          );
-
-    return Container(
-      color: isDark ? AppColors.darkBackground : const Color(0xFFFFFDF5),
-      child: Center(child: imageWidget),
+    return ColoredBox(
+      color: backgroundColor,
+      child: Image(
+        image: imageProvider,
+        fit: BoxFit.fill,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (context, error, stackTrace) {
+          return QuranPagePlaceholderWidget(pageNumber: pageNumber);
+        },
+      ),
     );
   }
 }

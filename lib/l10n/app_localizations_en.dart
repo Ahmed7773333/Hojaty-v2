@@ -512,11 +512,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.';
+      'We are committed to protecting your privacy and personal data. The Hojaty app stores all your personal information, settings, and AI Assistant chat history inside the local database on your device only, and does not collect, sell, or share your private data with any third parties.';
 
   @override
   String get termsAndConditionsContent =>
-      'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.';
+      'By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.\n\nAI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.';
 
   @override
   String get hijriCalendar => 'Hijri Calendar';
@@ -1011,4 +1011,134 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get explanationLabel => 'Explanation';
+
+  @override
+  String get hojatyAiTitle => 'Hojaty AI Assistant';
+
+  @override
+  String get hojatyAiSubtitle => 'Grounded Islamic Guidance';
+
+  @override
+  String get hojatyAiInputHint =>
+      'Ask a question, or share what\'s on your mind...';
+
+  @override
+  String get hojatyAiSourcesTitle => 'Verified Sources from the App';
+
+  @override
+  String get hojatyAiCopyText => 'Copy Text';
+
+  @override
+  String get hojatyAiTextCopied => 'Text copied to clipboard';
+
+  @override
+  String get hojatyAiEmptyTitle => 'How can I assist you today?';
+
+  @override
+  String get hojatyAiEmptySubtitle =>
+      'Ask an Islamic question or share a life situation for guidance from Quran and Sunnah';
+
+  @override
+  String get hojatyAiClearChat => 'Clear Chat';
+
+  @override
+  String get hojatyAiQuickAccessTitle => 'AI Assistant';
+
+  @override
+  String get hojatyAiQuickAccessSubtitle => 'Guidance from Quran & Sunnah';
+
+  @override
+  String get hojatyAiDownloadTitle => 'Download Islamic Assistant Database';
+
+  @override
+  String get hojatyAiDownloadDesc =>
+      'The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.';
+
+  @override
+  String get hojatyAiDownloadSize => 'Download size: ~237 MB';
+
+  @override
+  String get hojatyAiStartDownload => 'Start Download Now';
+
+  @override
+  String get hojatyAiRetryDownload => 'Retry Download';
+
+  @override
+  String get hojatyAiCancelDownload => 'Cancel Download';
+
+  @override
+  String get hojatyAiDownloadError =>
+      'Failed to download the database. Please check your internet connection and try again.';
+
+  @override
+  String get hojatyAiDownloadReady => 'Database is ready';
+
+  @override
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) {
+    return '$downloaded MB of $total MB ($percent%)';
+  }
+
+  @override
+  String get hojatyAiMicListening => 'Listening... speak now';
+
+  @override
+  String get hojatyAiMicPermissionDenied =>
+      'Please grant microphone permission to use voice input';
+
+  @override
+  String get hojatyAiRequiresDownload => 'Download required (~237MB)';
+
+  @override
+  String get hojatyAiHistoryTitle => 'Chat History';
+
+  @override
+  String get hojatyAiHistoryEmpty => 'No saved conversations yet';
+
+  @override
+  String get hojatyAiNewChat => 'New Chat';
+
+  @override
+  String get hojatyAiDeleteChat => 'Delete Chat';
+
+  @override
+  String get hojatyAiClearAllHistory => 'Clear History';
+
+  @override
+  String get hojatyAiClearAllConfirm =>
+      'Are you sure you want to delete all saved conversations?';
+
+  @override
+  String hojatyAiMessagesCount(int count) {
+    return '$count messages';
+  }
+
+  @override
+  String get rateAppLabel => 'Rate App';
+
+  @override
+  String get rateAppTitle => 'Rate Hojaty';
+
+  @override
+  String get rateAppMessage =>
+      'If you enjoy using Hojaty, we would greatly appreciate your rating on the store to help us keep improving.';
+
+  @override
+  String get rateAppNow => 'Rate Now';
+
+  @override
+  String get rateAppLater => 'Later';
+
+  @override
+  String get rateAppAlreadyRated => 'I already rated';
+
+  @override
+  String get appVersionLabel => 'Version';
+
+  @override
+  String get termsAiDisclaimerAddendum =>
+      'AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.';
+
+  @override
+  String get privacyLocalDbAddendum =>
+      'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.';
 }

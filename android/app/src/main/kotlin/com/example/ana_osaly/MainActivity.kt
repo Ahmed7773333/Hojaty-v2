@@ -139,7 +139,16 @@ class MainActivity : AudioServiceActivity() {
                     }
                     "getAssetPackPath" -> {
                         val path = assetPackManager.getPackLocation(packName)?.assetsPath()
-                        result.success(path)
+                        if (path != null && java.io.File(path).exists()) {
+                            result.success(path)
+                            return@setMethodCallHandler
+                        }
+                        val localFallback = java.io.File(applicationContext.filesDir, packName)
+                        if (localFallback.exists() && (localFallback.listFiles()?.isNotEmpty() == true)) {
+                            result.success(localFallback.absolutePath)
+                            return@setMethodCallHandler
+                        }
+                        result.success(null)
                     }
                     else -> {
                         result.notImplemented()

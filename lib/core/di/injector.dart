@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import '../../features/books/di/books_injector.dart';
+import '../../features/hojaty_ai/di/hojaty_ai_injector.dart';
 import '../../features/homelayout/di/homelayout_injector.dart';
 import '../../features/onboarding/di/onboarding_injector.dart';
 import '../../features/quran/di/quran_injector.dart';
@@ -25,4 +26,5 @@ Future<void> setupInjector() async {
   await initQuranInjector();
   await initRadioInjector();
   await initBooksInjector();
+  await initHojatyAiInjector();
 }

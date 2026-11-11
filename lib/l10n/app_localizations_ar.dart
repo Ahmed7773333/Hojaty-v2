@@ -507,11 +507,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'نحن نلتزم بحماية خصوصيتك وبياناتك. تطبيق حچتي لا يجمع أو يشارك أو يبيع أي بيانات شخصية مع أي أطراف ثالثة.';
+      'نحن نلتزم بحماية خصوصيتك وبياناتك. تطبيق حچتي يحفظ جميع معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) وإعداداتك في قاعدة البيانات المحلية (Local Database) على جهازك فقط، ولا يجمع أو يشارك أو يبيع أي بيانات شخصية مع أي أطراف ثالثة.';
 
   @override
   String get termsAndConditionsContent =>
-      'باستخدامك لتطبيق حچتي، فإنك توافق على الالتزام بجميع الشروط والأحكام الموضحة هنا. يُستخدم التطبيق لأغراض التذكير بالصلوات وقراءة القرآن والأذكار وفق التعاليم الإسلامية.';
+      'باستخدامك لتطبيق حچتي، فإنك توافق على الالتزام بجميع الشروط والأحكام الموضحة هنا. يُستخدم التطبيق لأغراض التذكير بالصلوات وقراءة القرآن والأذكار وفق التعاليم الإسلامية.\n\nتنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.';
 
   @override
   String get hijriCalendar => 'التقويم الهجري';
@@ -1001,4 +1001,134 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get explanationLabel => 'التفسير';
+
+  @override
+  String get hojatyAiTitle => 'المساعد الإسلامي الذكي';
+
+  @override
+  String get hojatyAiSubtitle => 'إجابات وتوجيهات مستندة للكتاب والسنة';
+
+  @override
+  String get hojatyAiInputHint => 'اسأل عن مسألة، أو شارك ما يضيق به صدرك...';
+
+  @override
+  String get hojatyAiSourcesTitle => 'المصادر الموثقة من التطبيق';
+
+  @override
+  String get hojatyAiCopyText => 'نسخ النص';
+
+  @override
+  String get hojatyAiTextCopied => 'تم نسخ النص إلى الحافظة';
+
+  @override
+  String get hojatyAiEmptyTitle => 'كيف يمكنني مساعدتك اليوم؟';
+
+  @override
+  String get hojatyAiEmptySubtitle =>
+      'اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة';
+
+  @override
+  String get hojatyAiClearChat => 'مسح المحادثة';
+
+  @override
+  String get hojatyAiQuickAccessTitle => 'المساعد الذكي';
+
+  @override
+  String get hojatyAiQuickAccessSubtitle =>
+      'استشارات وتوجيهات من الكتاب والسنة';
+
+  @override
+  String get hojatyAiDownloadTitle => 'تحميل قاعدة بيانات المساعد الإسلامي';
+
+  @override
+  String get hojatyAiDownloadDesc =>
+      'يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.';
+
+  @override
+  String get hojatyAiDownloadSize => 'حجم التحميل: ~237 ميجابايت';
+
+  @override
+  String get hojatyAiStartDownload => 'بدء التحميل الآن';
+
+  @override
+  String get hojatyAiRetryDownload => 'إعادة المحاولة';
+
+  @override
+  String get hojatyAiCancelDownload => 'إلغاء التحميل';
+
+  @override
+  String get hojatyAiDownloadError =>
+      'تعذر تحميل قاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مجدداً.';
+
+  @override
+  String get hojatyAiDownloadReady => 'تم تجهيز قاعدة البيانات بنجاح';
+
+  @override
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) {
+    return '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+  }
+
+  @override
+  String get hojatyAiMicListening => 'جاري الاستماع... تحدث الآن';
+
+  @override
+  String get hojatyAiMicPermissionDenied =>
+      'يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي';
+
+  @override
+  String get hojatyAiRequiresDownload => 'يتطلب التحميل (~237MB)';
+
+  @override
+  String get hojatyAiHistoryTitle => 'سجل المحادثات';
+
+  @override
+  String get hojatyAiHistoryEmpty => 'لا توجد محادثات محفوظة بعد';
+
+  @override
+  String get hojatyAiNewChat => 'محادثة جديدة';
+
+  @override
+  String get hojatyAiDeleteChat => 'حذف المحادثة';
+
+  @override
+  String get hojatyAiClearAllHistory => 'مسح السجل';
+
+  @override
+  String get hojatyAiClearAllConfirm =>
+      'هل أنت متأكد من حذف جميع المحادثات المحفوظة؟';
+
+  @override
+  String hojatyAiMessagesCount(int count) {
+    return '$count رسائل';
+  }
+
+  @override
+  String get rateAppLabel => 'تقييم التطبيق';
+
+  @override
+  String get rateAppTitle => 'قيّم تطبيق حچتي';
+
+  @override
+  String get rateAppMessage =>
+      'إذا أعجبك تطبيق حچتي، يسعدنا دعمك بتقييم التطبيق على المتجر لمساعدتنا على التطوير المستمر.';
+
+  @override
+  String get rateAppNow => 'تقييم الآن';
+
+  @override
+  String get rateAppLater => 'لاحقاً';
+
+  @override
+  String get rateAppAlreadyRated => 'لقد قمت بالتقييم بالفعل';
+
+  @override
+  String get appVersionLabel => 'الإصدار';
+
+  @override
+  String get termsAiDisclaimerAddendum =>
+      'تنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.';
+
+  @override
+  String get privacyLocalDbAddendum =>
+      'تخزين البيانات والمحادثات: يتم حفظ معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) داخل قاعدة البيانات المحلية (Local Database) على جهازك فقط.';
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../constants/mushaf_page_image_resolver.dart';
 import '../../domain/entities/qirat_type.dart';
+import '../utils/mushaf_shader_program_loader.dart';
 import 'quran_page_image_widget.dart';
 
 class QuranReaderViewWidget extends StatefulWidget {
@@ -27,11 +30,26 @@ class QuranReaderViewWidget extends StatefulWidget {
 class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
   late PageController _pageController;
   static const int _totalPages = 604;
+  int? _lastPrecachedPage;
+  String? _lastBasePath;
+  QiratType? _lastQirat;
 
   @override
   void initState() {
     super.initState();
     _initController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (context.isDark) {
+      MushafShaderProgramLoader.load().then<void>(
+        (_) {},
+        onError: (Object _) {},
+      );
+    }
+    _precacheAdjacentPages(widget.initialPage);
   }
 
   void _initController() {
@@ -56,7 +74,10 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
       } else {
         _pageController = PageController(initialPage: newIndex);
       }
-    } else if (oldWidget.initialPage != widget.initialPage) {
+      _precacheAdjacentPages(widget.initialPage, force: true);
+    } else if (oldWidget.initialPage != widget.initialPage ||
+        oldWidget.basePath != widget.basePath ||
+        oldWidget.qirat != widget.qirat) {
       final targetIndex = widget.isTwoPageMode
           ? (widget.initialPage - 1) ~/ 2
           : (widget.initialPage - 1);
@@ -64,6 +85,38 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
           _pageController.page?.round() != targetIndex) {
         _pageController.jumpToPage(targetIndex);
       }
+      _precacheAdjacentPages(
+        widget.initialPage,
+        force: oldWidget.basePath != widget.basePath ||
+            oldWidget.qirat != widget.qirat,
+      );
+    }
+  }
+
+  void _precacheAdjacentPages(int centerPage, {bool force = false}) {
+    if (!force &&
+        _lastPrecachedPage == centerPage &&
+        _lastBasePath == widget.basePath &&
+        _lastQirat == widget.qirat) {
+      return;
+    }
+    _lastPrecachedPage = centerPage;
+    _lastBasePath = widget.basePath;
+    _lastQirat = widget.qirat;
+
+    final offsets = widget.isTwoPageMode
+        ? const [-2, -1, 2, 3]
+        : const [-1, 1, 2];
+
+    for (final offset in offsets) {
+      final targetPage = centerPage + offset;
+      if (targetPage < 1 || targetPage > _totalPages) continue;
+      final provider = MushafPageImageResolver.resolve(
+        targetPage,
+        basePath: widget.basePath,
+        qirat: widget.qirat,
+      );
+      precacheImage(provider, context, onError: (Object _, StackTrace? _) {});
     }
   }
 
@@ -90,6 +143,7 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
             itemCount: itemCount,
             onPageChanged: (index) {
               final pageNum = widget.isTwoPageMode ? (index * 2) + 1 : index + 1;
+              _precacheAdjacentPages(pageNum);
               widget.onPageChanged(pageNum);
             },
             itemBuilder: (context, index) {

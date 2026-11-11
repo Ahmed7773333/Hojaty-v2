@@ -157,8 +157,8 @@
   "uthmaniFontDesc": "Standard Quranic script",
   "amiriFontDesc": "Classical Arabic typography",
   "selectedFontLabel": "Selected Font",
-  "privacyPolicyContent": "We are committed to protecting your privacy and personal data. The Hojaty app does not collect, sell, or share your private data with any third parties.",
-  "termsAndConditionsContent": "By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.",
+  "privacyPolicyContent": "We are committed to protecting your privacy and personal data. The Hojaty app stores all your personal information, settings, and AI Assistant chat history inside the local database on your device only, and does not collect, sell, or share your private data with any third parties.",
+  "termsAndConditionsContent": "By using the Hojaty application, you agree to comply with all terms and guidelines detailed herein. The app is provided for religious purposes including prayer reminders, Quran reading, and daily Athkar.\n\nAI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.",
   "hijriCalendar": "Hijri Calendar",
   "prayerSchedule": "Full Schedule",
   "exclusiveFeature": "Exclusive Feature",
@@ -313,5 +313,56 @@
   "noAsmaFound": "No matching name found",
   "asmaCount": "{count} Names",
   "meaningLabel": "Meaning",
-  "explanationLabel": "Explanation"
+  "explanationLabel": "Explanation",
+  "hojatyAiTitle": "Hojaty AI Assistant",
+  "hojatyAiSubtitle": "Grounded Islamic Guidance",
+  "hojatyAiInputHint": "Ask a question, or share what's on your mind...",
+  "hojatyAiSourcesTitle": "Verified Sources from the App",
+  "hojatyAiCopyText": "Copy Text",
+  "hojatyAiTextCopied": "Text copied to clipboard",
+  "hojatyAiEmptyTitle": "How can I assist you today?",
+  "hojatyAiEmptySubtitle": "Ask an Islamic question or share a life situation for guidance from Quran and Sunnah",
+  "hojatyAiClearChat": "Clear Chat",
+  "hojatyAiQuickAccessTitle": "AI Assistant",
+  "hojatyAiQuickAccessSubtitle": "Guidance from Quran & Sunnah",
+  "hojatyAiDownloadTitle": "Download Islamic Assistant Database",
+  "hojatyAiDownloadDesc": "The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.",
+  "hojatyAiDownloadSize": "Download size: ~237 MB",
+  "hojatyAiStartDownload": "Start Download Now",
+  "hojatyAiRetryDownload": "Retry Download",
+  "hojatyAiCancelDownload": "Cancel Download",
+  "hojatyAiDownloadError": "Failed to download the database. Please check your internet connection and try again.",
+  "hojatyAiDownloadReady": "Database is ready",
+  "hojatyAiDownloadProgress": "{downloaded} MB of {total} MB ({percent}%)",
+  "@hojatyAiDownloadProgress": {
+    "placeholders": {
+      "downloaded": { "type": "int" },
+      "total": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "hojatyAiMicListening": "Listening... speak now",
+  "hojatyAiMicPermissionDenied": "Please grant microphone permission to use voice input",
+  "hojatyAiRequiresDownload": "Download required (~237MB)",
+  "hojatyAiHistoryTitle": "Chat History",
+  "hojatyAiHistoryEmpty": "No saved conversations yet",
+  "hojatyAiNewChat": "New Chat",
+  "hojatyAiDeleteChat": "Delete Chat",
+  "hojatyAiClearAllHistory": "Clear History",
+  "hojatyAiClearAllConfirm": "Are you sure you want to delete all saved conversations?",
+  "hojatyAiMessagesCount": "{count} messages",
+  "@hojatyAiMessagesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "rateAppLabel": "Rate App",
+  "rateAppTitle": "Rate Hojaty",
+  "rateAppMessage": "If you enjoy using Hojaty, we would greatly appreciate your rating on the store to help us keep improving.",
+  "rateAppNow": "Rate Now",
+  "rateAppLater": "Later",
+  "rateAppAlreadyRated": "I already rated",
+  "appVersionLabel": "Version",
+  "termsAiDisclaimerAddendum": "AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.",
+  "privacyLocalDbAddendum": "Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only."
 }

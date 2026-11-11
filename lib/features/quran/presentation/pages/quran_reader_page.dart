@@ -45,8 +45,8 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
 
     return Scaffold(
       backgroundColor: isDark
-          ? AppColors.darkBackground
-          : const Color(0xFFFFFDF5),
+          ? AppColors.mushafNightBackground
+          : AppColors.mushafLightBackground,
       body: BlocConsumer<QuranBloc, QuranState>(
         listener: (context, state) {
           if (state.status == QuranStatus.error && state.errorMessage != null) {
