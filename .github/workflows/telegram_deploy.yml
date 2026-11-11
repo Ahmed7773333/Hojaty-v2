@@ -44,11 +44,12 @@ jobs:
         env:
           GEMINI_KEYS: ${{ secrets.GEMINI_KEYS }}
         run: |
-          if [ -z "$GEMINI_KEYS" ]; then
+          CLEAN_KEYS=$(printf '%s' "$GEMINI_KEYS" | tr '\r\n' ',' | tr -d '[:space:]' | tr -s ',' | sed 's/^,//; s/,$//')
+          if [ -z "$CLEAN_KEYS" ]; then
             echo "🚨 Error: GEMINI_KEYS secret is empty or not set in GitHub Secrets!"
             exit 1
           fi
-          jq -n --arg keys "$GEMINI_KEYS" '{"GEMINI_KEYS": $keys}' > api_keys.json
+          jq -n --arg keys "$CLEAN_KEYS" '{"GEMINI_KEYS": $keys}' > api_keys.json
 
       - name: Decode Keystore & Play Store Key
         run: |
