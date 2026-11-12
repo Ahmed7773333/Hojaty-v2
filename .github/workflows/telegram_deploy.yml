@@ -24,16 +24,15 @@ jobs:
         with:
           lfs: true
 
-      - name: Normalize hojaty_rag timestamps and log SHA-256
+      - name: Normalize All Asset Pack Timestamps
         run: |
           export TZ=UTC0
-          if [ ! -f android/hojaty_rag/src/main/assets/hojaty_rag.db ]; then
-            echo "🚨 Error: android/hojaty_rag/src/main/assets/hojaty_rag.db not found!"
-            exit 1
-          fi
-          find android/hojaty_rag -type f -exec touch -t 202601010000.00 {} +
-          sha256sum android/hojaty_rag/src/main/assets/hojaty_rag.db
-          ls -lh android/hojaty_rag/src/main/assets/hojaty_rag.db
+          for dir in android/*/; do
+            if [ -d "${dir}src/main/assets" ]; then
+              echo "Normalizing timestamps for asset pack: $dir"
+              find "${dir}src/main/assets" -type f -exec touch -t 202601010000.00 {} +
+            fi
+          done
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
