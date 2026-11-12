@@ -2,7 +2,7 @@ name: Android Closed Testing
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, raag ]
   workflow_dispatch:
     inputs:
       release_status:
@@ -23,6 +23,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+
+      - name: Normalize hojaty_rag timestamps and log SHA-256
+        run: |
+          export TZ=UTC0
+          if [ ! -f android/hojaty_rag/src/main/assets/hojaty_rag.db ]; then
+            echo "🚨 Error: android/hojaty_rag/src/main/assets/hojaty_rag.db not found!"
+            exit 1
+          fi
+          find android/hojaty_rag -type f -exec touch -t 202601010000.00 {} +
+          sha256sum android/hojaty_rag/src/main/assets/hojaty_rag.db
+          ls -lh android/hojaty_rag/src/main/assets/hojaty_rag.db
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
