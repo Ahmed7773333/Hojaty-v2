@@ -21,6 +21,7 @@ class LocalNotificationService {
   static const String prayersChannelMakkahKey = 'prayers_channel_makkah';
   static const String prayersChannelMadinahKey = 'prayers_channel_madinah';
   static const String prayersChannelAzanKey = 'prayers_channel_azan';
+  static const String prePrayerChannelKey = 'pre_prayer_channel';
   static const String occasionsChannelKey = 'occasions_channel';
   static const String anaOsalyChannelKey = 'hojaty_channel';
   static const String generalChannelKey = 'general_channel';
@@ -134,6 +135,21 @@ class LocalNotificationService {
             channelShowBadge: true,
             playSound: true,
           ),
+
+          // 7. Pre-Prayer Reminder Channel
+          NotificationChannel(
+            channelKey: prePrayerChannelKey,
+            channelName: 'التنبيه المسبق للأذان',
+            channelDescription:
+                'تنبيه خفيف للتذكير باقتراب موعد الصلاة قبل دخول الوقت',
+            defaultColor: const Color(0xFF1E3A34),
+            ledColor: const Color(0xFFD4AF37),
+            icon: defaultNotificationIcon,
+            importance: NotificationImportance.High,
+            channelShowBadge: true,
+            playSound: true,
+            enableVibration: true,
+          ),
         ],
         debug: false,
       );
@@ -193,6 +209,14 @@ class LocalNotificationService {
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
             icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
+          ),
+          NotificationChannel(
+            channelKey: prePrayerChannelKey,
+            channelName: 'التنبيه المسبق للأذان',
+            channelDescription: 'تنبيه خفيف للتذكير باقتراب موعد الصلاة',
+            icon: defaultNotificationIcon,
+            importance: NotificationImportance.High,
+            playSound: true,
           ),
         ], debug: false);
         _setListeners();
@@ -297,7 +321,7 @@ class LocalNotificationService {
     final navContext = AnaOsalyApp.navigatorKey.currentContext;
     if (navContext == null) return;
 
-    if (type == 'prayer') {
+    if (type == 'prayer' || type == 'pre_prayer') {
       Navigator.of(navContext).pushNamed(AppRoutes.prayerTimes);
     } else if (type == 'occasion') {
       Navigator.of(navContext).pushNamed(
@@ -348,6 +372,8 @@ class LocalNotificationService {
     required bool isFullAdhan,
     required String language,
     String? soundId,
+    bool isPreReminderEnabled = true,
+    int preReminderMinutes = 5,
   }) async {
     if (!isSupportedPlatform) return;
     try {
@@ -475,6 +501,89 @@ class LocalNotificationService {
           log(
             'Scheduled prayer notification for $prayerName at $targetTime (TZ: $localTz) with ID $id and sound $soundResource',
           );
+
+          // Schedule Pre-Prayer Reminder (e.g. 5 minutes before)
+          if (isPreReminderEnabled && preReminderMinutes > 0) {
+            final preTime =
+                targetTime.subtract(Duration(minutes: preReminderMinutes));
+            if (preTime.isAfter(now)) {
+              final preId = 150 + type.index;
+              final preTitle = language == 'ar'
+                  ? 'اقترب موعد صلاة $prayerName'
+                  : '$prayerName prayer is approaching';
+              final preBody = language == 'ar'
+                  ? 'فاضل $preReminderMinutes دقائق على صلاة $prayerName، استعد للصلاة'
+                  : 'Remaining $preReminderMinutes minutes until $prayerName prayer. Prepare for prayer.';
+
+              final preContent = NotificationContent(
+                id: preId,
+                channelKey: prePrayerChannelKey,
+                title: preTitle,
+                body: preBody,
+                icon: defaultNotificationIcon,
+                notificationLayout: NotificationLayout.Default,
+                category: NotificationCategory.Reminder,
+                wakeUpScreen: true,
+                payload: {
+                  'type': 'pre_prayer',
+                  'prayer': type.name,
+                  'minutes': preReminderMinutes.toString(),
+                },
+              );
+
+              final preActionButtons = [
+                NotificationActionButton(
+                  key: 'OPEN_APP',
+                  label: language == 'ar' ? 'فتح التطبيق' : 'Open App',
+                ),
+                NotificationActionButton(
+                  key: 'DISMISS',
+                  label: language == 'ar' ? 'حسناً' : 'OK',
+                  actionType: ActionType.DismissAction,
+                ),
+              ];
+
+              try {
+                await AwesomeNotifications().createNotification(
+                  content: preContent,
+                  actionButtons: preActionButtons,
+                  schedule: NotificationCalendar(
+                    year: preTime.year,
+                    month: preTime.month,
+                    day: preTime.day,
+                    hour: preTime.hour,
+                    minute: preTime.minute,
+                    second: preTime.second,
+                    repeats: false,
+                    allowWhileIdle: true,
+                    preciseAlarm: true,
+                    timeZone: localTz,
+                  ),
+                );
+              } catch (_) {
+                await AwesomeNotifications().createNotification(
+                  content: preContent,
+                  actionButtons: preActionButtons,
+                  schedule: NotificationCalendar(
+                    year: preTime.year,
+                    month: preTime.month,
+                    day: preTime.day,
+                    hour: preTime.hour,
+                    minute: preTime.minute,
+                    second: preTime.second,
+                    repeats: false,
+                    allowWhileIdle: true,
+                    preciseAlarm: false,
+                    timeZone: localTz,
+                  ),
+                );
+              }
+
+              log(
+                'Scheduled pre-prayer notification for $prayerName at $preTime with ID $preId',
+              );
+            }
+          }
         } catch (itemErr, itemSt) {
           log('Error scheduling single prayer notification for $type: $itemErr\n$itemSt');
         }
@@ -671,6 +780,61 @@ class LocalNotificationService {
       );
     } catch (e, st) {
       log('Error sending test notification: $e\n$st');
+    }
+  }
+
+  /// Displays an instant test notification for the pre-adhan reminder
+  static Future<void> showTestPreAdhanNotification({
+    required String language,
+    int minutes = 5,
+    PrayerType prayerType = PrayerType.dhuhr,
+  }) async {
+    if (!isSupportedPlatform) return;
+    try {
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        final granted = await requestPermission();
+        if (!granted) return;
+      }
+
+      final prayerName = PrayersHelper.getPrayerName(
+        prayerType,
+        language: language,
+      );
+      final title = language == 'ar'
+          ? 'اقترب موعد صلاة $prayerName'
+          : '$prayerName prayer is approaching';
+      final body = language == 'ar'
+          ? 'فاضل $minutes دقائق على صلاة $prayerName، استعد للصلاة'
+          : 'Remaining $minutes minutes until $prayerName prayer. Prepare for prayer.';
+
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 998,
+          channelKey: prePrayerChannelKey,
+          title: title,
+          body: body,
+          icon: defaultNotificationIcon,
+          notificationLayout: NotificationLayout.Default,
+          category: NotificationCategory.Reminder,
+          wakeUpScreen: true,
+          payload: {'type': 'pre_prayer', 'prayer': prayerType.name},
+        ),
+        actionButtons: [
+          NotificationActionButton(
+            key: 'OPEN_APP',
+            label: language == 'ar' ? 'فتح التطبيق' : 'Open App',
+          ),
+          NotificationActionButton(
+            key: 'DISMISS',
+            label: language == 'ar' ? 'حسناً' : 'OK',
+            actionType: ActionType.DismissAction,
+          ),
+        ],
+      );
+      log('Test pre-adhan notification sent successfully');
+    } catch (e, st) {
+      log('Error sending test pre-adhan notification: $e\n$st');
     }
   }
 

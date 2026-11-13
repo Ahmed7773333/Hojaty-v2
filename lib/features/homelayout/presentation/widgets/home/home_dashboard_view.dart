@@ -4,8 +4,8 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import 'home_header_widget.dart';
 import 'home_next_prayer_card_widget.dart';
-import 'home_occasion_banner_widget.dart';
 import 'home_prayer_times_widget.dart';
+import 'home_qibla_banner_widget.dart';
 import 'home_quick_access_widget.dart';
 
 class HomeDashboardView extends StatelessWidget {
@@ -26,7 +26,7 @@ class HomeDashboardView extends StatelessWidget {
                   children: [
                     const HomeHeaderWidget(),
                     const HomeNextPrayerCardWidget(),
-                    const HomeOccasionBannerWidget(),
+                    const HomeQiblaBannerWidget(),
                     12.ver,
                   ],
                 ),

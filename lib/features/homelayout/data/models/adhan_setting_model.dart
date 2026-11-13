@@ -8,6 +8,8 @@ class AdhanSettingModel extends Equatable {
   final String selectedSoundId;
   final String customMessageAr;
   final String customMessageEn;
+  final bool isPreAdhanReminderEnabled;
+  final int preAdhanReminderMinutes;
 
   const AdhanSettingModel({
     this.isFullAdhan = true,
@@ -17,6 +19,8 @@ class AdhanSettingModel extends Equatable {
     this.selectedSoundId = 'makkah',
     this.customMessageAr = 'حچتي',
     this.customMessageEn = 'I am praying',
+    this.isPreAdhanReminderEnabled = true,
+    this.preAdhanReminderMinutes = 5,
   });
 
   String get activeMessage =>
@@ -30,6 +34,8 @@ class AdhanSettingModel extends Equatable {
     String? selectedSoundId,
     String? customMessageAr,
     String? customMessageEn,
+    bool? isPreAdhanReminderEnabled,
+    int? preAdhanReminderMinutes,
   }) {
     return AdhanSettingModel(
       isFullAdhan: isFullAdhan ?? this.isFullAdhan,
@@ -39,6 +45,10 @@ class AdhanSettingModel extends Equatable {
       selectedSoundId: selectedSoundId ?? this.selectedSoundId,
       customMessageAr: customMessageAr ?? this.customMessageAr,
       customMessageEn: customMessageEn ?? this.customMessageEn,
+      isPreAdhanReminderEnabled:
+          isPreAdhanReminderEnabled ?? this.isPreAdhanReminderEnabled,
+      preAdhanReminderMinutes:
+          preAdhanReminderMinutes ?? this.preAdhanReminderMinutes,
     );
   }
 
@@ -51,5 +61,7 @@ class AdhanSettingModel extends Equatable {
     selectedSoundId,
     customMessageAr,
     customMessageEn,
+    isPreAdhanReminderEnabled,
+    preAdhanReminderMinutes,
   ];
 }

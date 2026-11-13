@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -38,6 +39,47 @@ class HojatyAiRepository {
         _keyPool = keyPool,
         _ragDbService = ragDbService;
 
+  /// Fast connectivity check to determine whether online AI inference is reachable.
+  Future<bool> isOnline() async {
+    try {
+      final result = await InternetAddress.lookup('generativelanguage.googleapis.com')
+          .timeout(const Duration(milliseconds: 1500));
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    } on TimeoutException catch (_) {
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Whether the online AI path should be used (API keys available + internet reachable).
+  Future<bool> canUseOnlineAi() async {
+    if (!_keyPool.hasKeys) return false;
+    return await isOnline();
+  }
+
+  /// Formats the offline response message with grounded Islamic sources.
+  String formatOfflineResponse(List<RagChunkModel> sources) {
+    if (sources.isEmpty) {
+      return 'أهلاً بك. تعذر الاتصال بالخادم الذكي في الوقت الحالي نظراً لعدم توفر اتصال بالإنترنت، ولم يتم العثور على مصادر مطابقة في قاعدة البيانات المحلية. يرجى التأكد من اتصالك بالإنترنت والمحاولة مجدداً.';
+    }
+
+    final buffer = StringBuffer();
+    buffer.writeln(
+      'أهلاً بك. تعذر الاتصال بالخادم في الوقت الحالي، ولكن إليك أهم النصوص الشرعية الموثقة المستخرجة مباشرة من قاعدة بيانات التطبيق المتعلقة بما سألت عنه:\n',
+    );
+
+    for (int i = 0; i < sources.length; i++) {
+      final s = sources[i];
+      buffer.writeln('📌 ${s.sourceTitle} (${s.reference}):');
+      buffer.writeln('${s.content}\n');
+    }
+
+    return buffer.toString().trim();
+  }
+
   /// Step A: Query Context Expansion & Embedding via Dio (1 Request)
   /// Retries with key rotation if 429/503 occurs.
   Future<List<double>?> getEmbedding(
@@ -68,6 +110,10 @@ class HojatyAiRepository {
             'taskType': 'RETRIEVAL_QUERY',
             'outputDimensionality': 512,
           },
+          options: Options(
+            sendTimeout: const Duration(seconds: 3),
+            receiveTimeout: const Duration(seconds: 5),
+          ),
           cancelToken: cancelToken,
         );
 
@@ -81,6 +127,12 @@ class HojatyAiRepository {
       } on DioException catch (e) {
         final code = e.response?.statusCode;
         debugPrint('HojatyAiRepository: Embedding request failed ($code): ${e.message}');
+        if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.error is SocketException) {
+          // Network connection unreachable — do not keep spinning retries
+          break;
+        }
         if (code == 429 || code == 503 || code == 400 || code == 401) {
           _keyPool.markCooldown(activeKey);
           continue;
@@ -330,7 +382,11 @@ $userMessage
     required String combinedPrompt,
     CancelToken? cancelToken,
   }) async* {
+    bool networkUnreachable = false;
+
     for (final model in _fallbackRestModels) {
+      if (networkUnreachable) break;
+
       final totalKeys = _keyPool.totalKeys;
       final maxAttempts = totalKeys > 0 ? totalKeys : 1;
 
@@ -369,6 +425,8 @@ $userMessage
             options: Options(
               responseType: ResponseType.stream,
               headers: {'Accept': 'text/event-stream'},
+              sendTimeout: const Duration(seconds: 4),
+              receiveTimeout: const Duration(seconds: 15),
             ),
             cancelToken: cancelToken,
           );
@@ -415,6 +473,12 @@ $userMessage
         } on DioException catch (e) {
           final code = e.response?.statusCode;
           debugPrint('HojatyAi: Tier 2 SSE ($model) failed with code $code: ${e.message}');
+          if (e.type == DioExceptionType.connectionError ||
+              e.type == DioExceptionType.connectionTimeout ||
+              e.error is SocketException) {
+            networkUnreachable = true;
+            break;
+          }
           if (code == 429 || code == 503 || code == 400 || code == 401) {
             _keyPool.markCooldown(activeKey);
             continue;
@@ -422,6 +486,8 @@ $userMessage
         } catch (e) {
           debugPrint('HojatyAi: Tier 2 SSE ($model) error: $e');
         }
+
+        if (networkUnreachable) break;
 
         // 2. Fallback to standard generateContent if SSE produced nothing
         final regularUrl = 'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$activeKey';
@@ -431,6 +497,10 @@ $userMessage
           final response = await _dio.post(
             regularUrl,
             data: requestData,
+            options: Options(
+              sendTimeout: const Duration(seconds: 4),
+              receiveTimeout: const Duration(seconds: 15),
+            ),
             cancelToken: cancelToken,
           );
 
@@ -452,6 +522,12 @@ $userMessage
         } on DioException catch (e) {
           final code = e.response?.statusCode;
           debugPrint('HojatyAi: Tier 2 standard ($model) failed with code $code: ${e.message}');
+          if (e.type == DioExceptionType.connectionError ||
+              e.type == DioExceptionType.connectionTimeout ||
+              e.error is SocketException) {
+            networkUnreachable = true;
+            break;
+          }
           if (code == 429 || code == 503 || code == 400 || code == 401) {
             _keyPool.markCooldown(activeKey);
             continue;
@@ -467,20 +543,6 @@ $userMessage
 
   /// Tier 3: Ultimate Offline / Zero-Quota Fallback
   Stream<String> _generateTier3Offline(List<RagChunkModel> sources) async* {
-    if (sources.isEmpty) {
-      yield 'أهلاً بك. تعذر الاتصال بالخادم الذكي في الوقت الحالي، ولم يتم العثور على مصادر مطابقة في قاعدة البيانات المحلية. يرجى التأكد من اتصالك بالإنترنت وإعادة المحاولة.';
-      return;
-    }
-
-    final buffer = StringBuffer();
-    buffer.writeln('أهلاً بك. تعذر الاتصال بالخادم في الوقت الحالي، ولكن إليك أهم النصوص الشرعية الموثقة المستخرجة مباشرة من قاعدة بيانات التطبيق المتعلقة بما سألت عنه:\n');
-
-    for (int i = 0; i < sources.length; i++) {
-      final s = sources[i];
-      buffer.writeln('📌 ${s.sourceTitle} (${s.reference}):');
-      buffer.writeln('${s.content}\n');
-    }
-
-    yield buffer.toString().trim();
+    yield formatOfflineResponse(sources);
   }
 }

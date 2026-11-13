@@ -183,6 +183,50 @@
   "fullAdhanDesc": "يشغّل الأذان كامل عند دخول وقت الصلاة",
   "shortAlertTitle": "تنبيه مختصر",
   "shortAlertDesc": "\"الله أكبر، الله أكبر\" ثم يتوقف التنبيه",
+  "preAdhanReminderTitle": "التنبيه المسبق قبل الأذان",
+  "preAdhanReminderSubtitle": "إشعار خفيف لتستعد للصلاة قبل دخول الوقت",
+  "preAdhanTimingTitle": "وقت التنبيه قبل الصلاة",
+  "preAdhanMinutesChoice": "{minutes} دقائق",
+  "@preAdhanMinutesChoice": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "preAdhanNotificationTitle": "اقترب موعد صلاة {prayerName}",
+  "@preAdhanNotificationTitle": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "preAdhanNotificationBody": "فاضل {minutes} دقائق على صلاة {prayerName}، استعد للصلاة",
+  "@preAdhanNotificationBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "preAdhanTestButton": "تجربة التنبيه المسبق",
+  "preAdhanTestSent": "تم إرسال التنبيه المسبق التجريبي",
+  "prayerAlertSettingsTitle": "خيارات تنبيه الصلاة",
+  "preAdhanBadgeText": "قبل {minutes} د",
+  "@preAdhanBadgeText": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "alertAtPrayerTime": "تنبيه عند وقت الصلاة",
+  "alertAtPrayerTimeDesc": "تشغيل الأذان أو التنبيه عند حلول الوقت",
+  "notificationPreviewLabel": "معاينة الإشعار",
   "anaOsalyHeroSubtitle": "عند تفعيل هذه الميزة، يمكن إعلام المتصل بأنك في وقت الصلاة تلقائيًا.",
   "anaOsalyMessageLang": "لغة الرسالة",
   "anaOsalyToggleTitle": "تفعيل ميزة حچتي",
@@ -316,6 +360,7 @@
   "explanationLabel": "التفسير",
   "hojatyAiTitle": "المساعد الإسلامي الذكي",
   "hojatyAiSubtitle": "إجابات وتوجيهات مستندة للكتاب والسنة",
+  "hojatyAiThinking": "جاري البحث في المصادر الشرعية وصياغة الإجابة...",
   "hojatyAiInputHint": "اسأل عن مسألة، أو شارك ما يضيق به صدرك...",
   "hojatyAiSourcesTitle": "المصادر الموثقة من التطبيق",
   "hojatyAiCopyText": "نسخ النص",
@@ -327,7 +372,7 @@
   "hojatyAiQuickAccessSubtitle": "استشارات وتوجيهات من الكتاب والسنة",
   "hojatyAiDownloadTitle": "تحميل قاعدة بيانات المساعد الإسلامي",
   "hojatyAiDownloadDesc": "يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.",
-  "hojatyAiDownloadSize": "حجم التحميل: ~237 ميجابايت",
+  "hojatyAiDownloadSize": "حجم التحميل: ~127 ميجابايت",
   "hojatyAiStartDownload": "بدء التحميل الآن",
   "hojatyAiRetryDownload": "إعادة المحاولة",
   "hojatyAiCancelDownload": "إلغاء التحميل",
@@ -336,14 +381,20 @@
   "hojatyAiDownloadProgress": "{downloaded} ميجابايت من {total} ميجابايت ({percent}%)",
   "@hojatyAiDownloadProgress": {
     "placeholders": {
-      "downloaded": { "type": "int" },
-      "total": { "type": "int" },
-      "percent": { "type": "int" }
+      "downloaded": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "hojatyAiMicListening": "جاري الاستماع... تحدث الآن",
   "hojatyAiMicPermissionDenied": "يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي",
-  "hojatyAiRequiresDownload": "يتطلب التحميل (~237MB)",
+  "hojatyAiRequiresDownload": "يتطلب التحميل (~127MB)",
   "hojatyAiHistoryTitle": "سجل المحادثات",
   "hojatyAiHistoryEmpty": "لا توجد محادثات محفوظة بعد",
   "hojatyAiNewChat": "محادثة جديدة",
@@ -353,7 +404,9 @@
   "hojatyAiMessagesCount": "{count} رسائل",
   "@hojatyAiMessagesCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "rateAppLabel": "تقييم التطبيق",
@@ -364,5 +417,68 @@
   "rateAppAlreadyRated": "لقد قمت بالتقييم بالفعل",
   "appVersionLabel": "الإصدار",
   "termsAiDisclaimerAddendum": "تنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.",
-  "privacyLocalDbAddendum": "تخزين البيانات والمحادثات: يتم حفظ معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) داخل قاعدة البيانات المحلية (Local Database) على جهازك فقط."
+  "privacyLocalDbAddendum": "تخزين البيانات والمحادثات: يتم حفظ معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) داخل قاعدة البيانات المحلية (Local Database) على جهازك فقط.",
+  "qiblaCompassTitle": "بوصلة القبلة",
+  "qiblaCompassSubtitle": "تحديد اتجاه الكعبة المشرفة بدقة",
+  "qiblaBannerTitle": "بوصلة القبلة الذكية",
+  "qiblaBannerSubtitle": "تحديد اتجاه القبلة بدقة مع إرشادات المعايرة",
+  "qiblaFacingKaaba": "أنت تواجه القبلة المشرفة بدقة الآن",
+  "qiblaTurnRight": "أدر الهاتف {degrees}° نحو اليمين",
+  "@qiblaTurnRight": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaTurnLeft": "أدر الهاتف {degrees}° نحو اليسار",
+  "@qiblaTurnLeft": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaAlmostThere": "أنت قريب جداً من اتجاه القبلة",
+  "qiblaTiltWarning": "يرجى وضع الهاتف بشكل مستوٍ وأفقي لضمان دقة القبلة",
+  "qiblaCalibrateHint": "حرّك الهاتف في الهواء على شكل رقم 8 لمعايرة البوصلة",
+  "qiblaInterferenceHint": "ابتعد عن الأجهزة الإلكترونية والأجسام المعدنية",
+  "qiblaDistanceToKaaba": "{distance} كم إلى الكعبة المشرفة",
+  "@qiblaDistanceToKaaba": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "qiblaBearingLabel": "زاوية القبلة: {angle}°",
+  "@qiblaBearingLabel": {
+    "placeholders": {
+      "angle": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaCurrentHeading": "الاتجاه الحالي: {heading}°",
+  "@qiblaCurrentHeading": {
+    "placeholders": {
+      "heading": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaAccuracyLow": "دقة البوصلة ضعيفة • يُرجى المعايرة",
+  "qiblaAccuracyGood": "دقة البوصلة ممتازة",
+  "qiblaSensorUnavailable": "حساس البوصلة غير متوفر على هذا الجهاز — تم ضبط الاتجاه التقديري لموقعك",
+  "qiblaCalibrationTipsTitle": "إرشادات الحصول على اتجاه دقيق",
+  "qiblaTipFlat": "ضع الهاتف في راحة يدك أو على سطح مستوٍ موازٍ تماماً للأرض.",
+  "qiblaTipMagnets": "ابتعد عن الحافظات (الجرابات) المحتوية على مغناطيس أو المعادن.",
+  "qiblaTipFigure8": "قم بتحريك الهاتف في الهواء برسم شكل رقم 8 لمعايرة الحساس عند الحاجة.",
+  "qiblaTipGps": "تأكد من تفعيل خدمات الموقع الجغرافي (GPS) لضبط زاوية القبلة وفق مدينتك بدقة.",
+  "qiblaNorth": "ش",
+  "qiblaEast": "ق",
+  "qiblaSouth": "ج",
+  "qiblaWest": "غ",
+  "qiblaDegrees": "درجة",
+  "qiblaManualDialHint": "اسحب القرص لمحاكاة حركة الهاتف"
 }

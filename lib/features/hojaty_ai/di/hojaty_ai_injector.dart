@@ -17,7 +17,13 @@ Future<void> initHojatyAiInjector() async {
   // Repository
   injector.registerLazySingleton<HojatyAiRepository>(
     () => HojatyAiRepository(
-      dio: injector<Dio>(),
+      dio: Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 4),
+          receiveTimeout: const Duration(seconds: 15),
+          sendTimeout: const Duration(seconds: 10),
+        ),
+      ),
       keyPool: injector<GeminiKeyPool>(),
       ragDbService: injector<RagDatabaseService>(),
     ),

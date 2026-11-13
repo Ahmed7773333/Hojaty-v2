@@ -9,6 +9,7 @@ import '../../bloc/homelayout_state.dart';
 import 'adhan_prayer_toggle_widget.dart';
 import 'adhan_test_button_widget.dart';
 import 'adhan_type_card_widget.dart';
+import 'pre_adhan_reminder_card_widget.dart';
 
 class AdhanSettingsTabView extends StatelessWidget {
   const AdhanSettingsTabView({super.key});
@@ -75,6 +76,8 @@ class AdhanSettingsTabView extends StatelessWidget {
                   );
                 },
               ),
+              18.ver,
+              const PreAdhanReminderCardWidget(),
               20.ver,
               Container(
                 decoration: BoxDecoration(

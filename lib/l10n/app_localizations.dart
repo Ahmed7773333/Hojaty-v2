@@ -1202,6 +1202,45 @@ abstract class AppLocalizations {
   /// **'\"Allahu Akbar, Allahu Akbar\" then stops'**
   String get shortAlertDesc;
 
+  /// No description provided for @preAdhanReminderTitle.
+  String get preAdhanReminderTitle;
+
+  /// No description provided for @preAdhanReminderSubtitle.
+  String get preAdhanReminderSubtitle;
+
+  /// No description provided for @preAdhanTimingTitle.
+  String get preAdhanTimingTitle;
+
+  /// No description provided for @preAdhanMinutesChoice.
+  String preAdhanMinutesChoice(int minutes);
+
+  /// No description provided for @preAdhanNotificationTitle.
+  String preAdhanNotificationTitle(String prayerName);
+
+  /// No description provided for @preAdhanNotificationBody.
+  String preAdhanNotificationBody(int minutes, String prayerName);
+
+  /// No description provided for @preAdhanTestButton.
+  String get preAdhanTestButton;
+
+  /// No description provided for @preAdhanTestSent.
+  String get preAdhanTestSent;
+
+  /// No description provided for @prayerAlertSettingsTitle.
+  String get prayerAlertSettingsTitle;
+
+  /// No description provided for @preAdhanBadgeText.
+  String preAdhanBadgeText(int minutes);
+
+  /// No description provided for @alertAtPrayerTime.
+  String get alertAtPrayerTime;
+
+  /// No description provided for @alertAtPrayerTimeDesc.
+  String get alertAtPrayerTimeDesc;
+
+  /// No description provided for @notificationPreviewLabel.
+  String get notificationPreviewLabel;
+
   /// No description provided for @anaOsalyHeroSubtitle.
   ///
   /// In en, this message translates to:
@@ -2000,6 +2039,12 @@ abstract class AppLocalizations {
   /// **'Grounded Islamic Guidance'**
   String get hojatyAiSubtitle;
 
+  /// No description provided for @hojatyAiThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching Islamic sources and formulating answer...'**
+  String get hojatyAiThinking;
+
   /// No description provided for @hojatyAiInputHint.
   ///
   /// In en, this message translates to:
@@ -2069,7 +2114,7 @@ abstract class AppLocalizations {
   /// No description provided for @hojatyAiDownloadSize.
   ///
   /// In en, this message translates to:
-  /// **'Download size: ~237 MB'**
+  /// **'Download size: ~127 MB'**
   String get hojatyAiDownloadSize;
 
   /// No description provided for @hojatyAiStartDownload.
@@ -2123,7 +2168,7 @@ abstract class AppLocalizations {
   /// No description provided for @hojatyAiRequiresDownload.
   ///
   /// In en, this message translates to:
-  /// **'Download required (~237MB)'**
+  /// **'Download required (~127MB)'**
   String get hojatyAiRequiresDownload;
 
   /// No description provided for @hojatyAiHistoryTitle.
@@ -2221,6 +2266,35 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.'**
   String get privacyLocalDbAddendum;
+
+  String get qiblaCompassTitle;
+  String get qiblaCompassSubtitle;
+  String get qiblaBannerTitle;
+  String get qiblaBannerSubtitle;
+  String get qiblaFacingKaaba;
+  String qiblaTurnRight(int degrees);
+  String qiblaTurnLeft(int degrees);
+  String get qiblaAlmostThere;
+  String get qiblaTiltWarning;
+  String get qiblaCalibrateHint;
+  String get qiblaInterferenceHint;
+  String qiblaDistanceToKaaba(String distance);
+  String qiblaBearingLabel(int angle);
+  String qiblaCurrentHeading(int heading);
+  String get qiblaAccuracyLow;
+  String get qiblaAccuracyGood;
+  String get qiblaSensorUnavailable;
+  String get qiblaCalibrationTipsTitle;
+  String get qiblaTipFlat;
+  String get qiblaTipMagnets;
+  String get qiblaTipFigure8;
+  String get qiblaTipGps;
+  String get qiblaNorth;
+  String get qiblaEast;
+  String get qiblaSouth;
+  String get qiblaWest;
+  String get qiblaDegrees;
+  String get qiblaManualDialHint;
 }
 
 class _AppLocalizationsDelegate

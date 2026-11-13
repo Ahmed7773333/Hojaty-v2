@@ -144,7 +144,7 @@ class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCar
                     ),
                     4.hor,
                     Text(
-                      '~237MB',
+                      '~127MB',
                       style: context.textTheme.labelSmall?.copyWith(
                         color: isDark
                             ? AppColors.accentGoldLight

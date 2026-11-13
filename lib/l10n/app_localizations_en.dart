@@ -595,6 +595,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shortAlertDesc => '\"Allahu Akbar, Allahu Akbar\" then stops';
 
   @override
+  String get preAdhanReminderTitle => 'Pre-Adhan Reminder';
+
+  @override
+  String get preAdhanReminderSubtitle => 'Gentle alert to prepare before prayer time';
+
+  @override
+  String get preAdhanTimingTitle => 'Alert timing before prayer';
+
+  @override
+  String preAdhanMinutesChoice(int minutes) => '$minutes minutes';
+
+  @override
+  String preAdhanNotificationTitle(String prayerName) => '$prayerName prayer is approaching';
+
+  @override
+  String preAdhanNotificationBody(int minutes, String prayerName) =>
+      'Remaining $minutes minutes until $prayerName prayer. Prepare for prayer.';
+
+  @override
+  String get preAdhanTestButton => 'Test Pre-Adhan Alert';
+
+  @override
+  String get preAdhanTestSent => 'Test pre-adhan alert sent';
+
+  @override
+  String get prayerAlertSettingsTitle => 'Prayer Alert Options';
+
+  @override
+  String preAdhanBadgeText(int minutes) => '${minutes}m before';
+
+  @override
+  String get alertAtPrayerTime => 'Alert at prayer time';
+
+  @override
+  String get alertAtPrayerTimeDesc => 'Play adhan or alert when prayer time begins';
+
+  @override
+  String get notificationPreviewLabel => 'Notification preview';
+
+  @override
   String get anaOsalyHeroSubtitle =>
       'When enabled, callers are automatically informed that you are praying.';
 
@@ -1019,6 +1059,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hojatyAiSubtitle => 'Grounded Islamic Guidance';
 
   @override
+  String get hojatyAiThinking => 'Searching Islamic sources and formulating answer...';
+
+  @override
   String get hojatyAiInputHint =>
       'Ask a question, or share what\'s on your mind...';
 
@@ -1055,7 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.';
 
   @override
-  String get hojatyAiDownloadSize => 'Download size: ~237 MB';
+  String get hojatyAiDownloadSize => 'Download size: ~127 MB';
 
   @override
   String get hojatyAiStartDownload => 'Start Download Now';
@@ -1086,7 +1129,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please grant microphone permission to use voice input';
 
   @override
-  String get hojatyAiRequiresDownload => 'Download required (~237MB)';
+  String get hojatyAiRequiresDownload => 'Download required (~127MB)';
 
   @override
   String get hojatyAiHistoryTitle => 'Chat History';
@@ -1141,4 +1184,98 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyLocalDbAddendum =>
       'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.';
+
+  @override
+  String get qiblaCompassTitle => 'Qibla Compass';
+
+  @override
+  String get qiblaCompassSubtitle => 'Accurate direction to the Holy Kaaba';
+
+  @override
+  String get qiblaBannerTitle => 'Smart Qibla Compass';
+
+  @override
+  String get qiblaBannerSubtitle =>
+      'Accurate Qibla direction with smart guidance';
+
+  @override
+  String get qiblaFacingKaaba => 'You are facing the Holy Kaaba accurately now';
+
+  @override
+  String qiblaTurnRight(int degrees) => 'Turn phone $degrees° to the right';
+
+  @override
+  String qiblaTurnLeft(int degrees) => 'Turn phone $degrees° to the left';
+
+  @override
+  String get qiblaAlmostThere => 'Almost facing the Qibla';
+
+  @override
+  String get qiblaTiltWarning =>
+      'Please keep your phone flat and level for accurate compass reading';
+
+  @override
+  String get qiblaCalibrateHint =>
+      'Wave phone in figure-8 motion in the air to calibrate';
+
+  @override
+  String get qiblaInterferenceHint =>
+      'Stay away from electronic devices and magnetic objects';
+
+  @override
+  String qiblaDistanceToKaaba(String distance) =>
+      '$distance km to the Holy Kaaba';
+
+  @override
+  String qiblaBearingLabel(int angle) => 'Qibla Angle: $angle°';
+
+  @override
+  String qiblaCurrentHeading(int heading) => 'Current Heading: $heading°';
+
+  @override
+  String get qiblaAccuracyLow => 'Compass accuracy is low • Please calibrate';
+
+  @override
+  String get qiblaAccuracyGood => 'Compass accuracy is high';
+
+  @override
+  String get qiblaSensorUnavailable =>
+      'Compass sensor is unavailable on this device, showing estimated direction for your location';
+
+  @override
+  String get qiblaCalibrationTipsTitle => 'Tips for Accurate Qibla Direction';
+
+  @override
+  String get qiblaTipFlat =>
+      'Hold your phone flat in your palm parallel to the ground.';
+
+  @override
+  String get qiblaTipMagnets =>
+      'Remove magnetic cases and stay clear of large metallic objects.';
+
+  @override
+  String get qiblaTipFigure8 =>
+      'Move the phone in a figure-8 motion to recalibrate the sensor when needed.';
+
+  @override
+  String get qiblaTipGps =>
+      'Ensure location services (GPS) are enabled for exact city angle.';
+
+  @override
+  String get qiblaNorth => 'N';
+
+  @override
+  String get qiblaEast => 'E';
+
+  @override
+  String get qiblaSouth => 'S';
+
+  @override
+  String get qiblaWest => 'W';
+
+  @override
+  String get qiblaDegrees => 'Degrees';
+
+  @override
+  String get qiblaManualDialHint => 'Drag dial to simulate phone orientation';
 }

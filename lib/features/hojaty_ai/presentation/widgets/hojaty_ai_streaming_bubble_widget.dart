@@ -71,7 +71,7 @@ class HojatyAiStreamingBubbleWidget extends StatelessWidget {
             10.ver,
             if (text.isEmpty)
               Text(
-                'جاري البحث في المصادر الشرعية وصياغة الإجابة...',
+                context.strings.hojatyAiThinking,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: isDark
                       ? AppColors.darkTextSecondary

@@ -183,6 +183,50 @@
   "fullAdhanDesc": "Plays full Adhan at prayer time",
   "shortAlertTitle": "Short Alert",
   "shortAlertDesc": "\"Allahu Akbar, Allahu Akbar\" then stops",
+  "preAdhanReminderTitle": "Pre-Adhan Reminder",
+  "preAdhanReminderSubtitle": "Gentle alert to prepare before prayer time",
+  "preAdhanTimingTitle": "Alert timing before prayer",
+  "preAdhanMinutesChoice": "{minutes} minutes",
+  "@preAdhanMinutesChoice": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "preAdhanNotificationTitle": "{prayerName} prayer is approaching",
+  "@preAdhanNotificationTitle": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "preAdhanNotificationBody": "Remaining {minutes} minutes until {prayerName} prayer. Prepare for prayer.",
+  "@preAdhanNotificationBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "preAdhanTestButton": "Test Pre-Adhan Alert",
+  "preAdhanTestSent": "Test pre-adhan alert sent",
+  "prayerAlertSettingsTitle": "Prayer Alert Options",
+  "preAdhanBadgeText": "{minutes}m before",
+  "@preAdhanBadgeText": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "alertAtPrayerTime": "Alert at prayer time",
+  "alertAtPrayerTimeDesc": "Play adhan or alert when prayer time begins",
+  "notificationPreviewLabel": "Notification preview",
   "anaOsalyHeroSubtitle": "When enabled, callers are automatically informed that you are praying.",
   "anaOsalyMessageLang": "Message Language",
   "anaOsalyToggleTitle": "Enable Hojaty Feature",
@@ -316,6 +360,7 @@
   "explanationLabel": "Explanation",
   "hojatyAiTitle": "Hojaty AI Assistant",
   "hojatyAiSubtitle": "Grounded Islamic Guidance",
+  "hojatyAiThinking": "Searching Islamic sources and formulating answer...",
   "hojatyAiInputHint": "Ask a question, or share what's on your mind...",
   "hojatyAiSourcesTitle": "Verified Sources from the App",
   "hojatyAiCopyText": "Copy Text",
@@ -327,7 +372,7 @@
   "hojatyAiQuickAccessSubtitle": "Guidance from Quran & Sunnah",
   "hojatyAiDownloadTitle": "Download Islamic Assistant Database",
   "hojatyAiDownloadDesc": "The verified Islamic database (over 57,000 authentic verses, Hadiths, and Tafseer) must be downloaded for the AI Assistant to provide grounded answers.",
-  "hojatyAiDownloadSize": "Download size: ~237 MB",
+  "hojatyAiDownloadSize": "Download size: ~127 MB",
   "hojatyAiStartDownload": "Start Download Now",
   "hojatyAiRetryDownload": "Retry Download",
   "hojatyAiCancelDownload": "Cancel Download",
@@ -336,14 +381,20 @@
   "hojatyAiDownloadProgress": "{downloaded} MB of {total} MB ({percent}%)",
   "@hojatyAiDownloadProgress": {
     "placeholders": {
-      "downloaded": { "type": "int" },
-      "total": { "type": "int" },
-      "percent": { "type": "int" }
+      "downloaded": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "hojatyAiMicListening": "Listening... speak now",
   "hojatyAiMicPermissionDenied": "Please grant microphone permission to use voice input",
-  "hojatyAiRequiresDownload": "Download required (~237MB)",
+  "hojatyAiRequiresDownload": "Download required (~127MB)",
   "hojatyAiHistoryTitle": "Chat History",
   "hojatyAiHistoryEmpty": "No saved conversations yet",
   "hojatyAiNewChat": "New Chat",
@@ -353,7 +404,9 @@
   "hojatyAiMessagesCount": "{count} messages",
   "@hojatyAiMessagesCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "rateAppLabel": "Rate App",
@@ -364,5 +417,68 @@
   "rateAppAlreadyRated": "I already rated",
   "appVersionLabel": "Version",
   "termsAiDisclaimerAddendum": "AI Assistant Disclaimer: The AI Assistant in this app is not a Mufti and does not issue Fatwas (religious rulings). Its role is solely to help you find evidence and references from authentic Islamic sources such as the Holy Quran, Sahih al-Bukhari, Sahih Muslim, and other trusted books of Sunnah.",
-  "privacyLocalDbAddendum": "Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only."
+  "privacyLocalDbAddendum": "Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.",
+  "qiblaCompassTitle": "Qibla Compass",
+  "qiblaCompassSubtitle": "Accurate direction to the Holy Kaaba",
+  "qiblaBannerTitle": "Smart Qibla Compass",
+  "qiblaBannerSubtitle": "Accurate Qibla direction with smart guidance",
+  "qiblaFacingKaaba": "You are facing the Holy Kaaba accurately now",
+  "qiblaTurnRight": "Turn phone {degrees}° to the right",
+  "@qiblaTurnRight": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaTurnLeft": "Turn phone {degrees}° to the left",
+  "@qiblaTurnLeft": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaAlmostThere": "Almost facing the Qibla",
+  "qiblaTiltWarning": "Please keep your phone flat and level for accurate compass reading",
+  "qiblaCalibrateHint": "Wave phone in figure-8 motion in the air to calibrate",
+  "qiblaInterferenceHint": "Stay away from electronic devices and magnetic objects",
+  "qiblaDistanceToKaaba": "{distance} km to the Holy Kaaba",
+  "@qiblaDistanceToKaaba": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "qiblaBearingLabel": "Qibla Angle: {angle}°",
+  "@qiblaBearingLabel": {
+    "placeholders": {
+      "angle": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaCurrentHeading": "Current Heading: {heading}°",
+  "@qiblaCurrentHeading": {
+    "placeholders": {
+      "heading": {
+        "type": "int"
+      }
+    }
+  },
+  "qiblaAccuracyLow": "Compass accuracy is low • Please calibrate",
+  "qiblaAccuracyGood": "Compass accuracy is high",
+  "qiblaSensorUnavailable": "Compass sensor is unavailable on this device, showing estimated direction for your location",
+  "qiblaCalibrationTipsTitle": "Tips for Accurate Qibla Direction",
+  "qiblaTipFlat": "Hold your phone flat in your palm parallel to the ground.",
+  "qiblaTipMagnets": "Remove magnetic cases and stay clear of large metallic objects.",
+  "qiblaTipFigure8": "Move the phone in a figure-8 motion to recalibrate the sensor when needed.",
+  "qiblaTipGps": "Ensure location services (GPS) are enabled for exact city angle.",
+  "qiblaNorth": "N",
+  "qiblaEast": "E",
+  "qiblaSouth": "S",
+  "qiblaWest": "W",
+  "qiblaDegrees": "Degrees",
+  "qiblaManualDialHint": "Drag dial to simulate phone orientation"
 }

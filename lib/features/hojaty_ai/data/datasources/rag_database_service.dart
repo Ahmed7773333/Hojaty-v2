@@ -397,14 +397,29 @@ class RagDatabaseService {
       'لن',
       'كيف',
       'ماذا',
+      'اريد',
+      'أريد',
+      'عايز',
+      'بدي',
+      'ممكن',
+      'لو',
+      'سمحت',
     };
 
-    final tokens = query
+    final rawTokens = query
         .replaceAll(RegExp(r'[^\u0621-\u064A0-9a-zA-Z\s]'), ' ')
         .split(RegExp(r'\s+'))
         .where((t) => t.length >= 3 && !stopWords.contains(t))
         .take(5)
         .toList();
+
+    final tokens = <String>{};
+    for (final t in rawTokens) {
+      tokens.add(t);
+      if (t.startsWith('ال') && t.length >= 4) {
+        tokens.add(t.substring(2));
+      }
+    }
 
     if (tokens.isEmpty) {
       final rows = await db.rawQuery(
@@ -416,8 +431,9 @@ class RagDatabaseService {
           .toList();
     }
 
-    final whereClauses = tokens.map((_) => 'content LIKE ?').join(' OR ');
-    final args = tokens.map((t) => '%$t%').toList();
+    final tokenList = tokens.take(6).toList();
+    final whereClauses = tokenList.map((_) => 'content LIKE ?').join(' OR ');
+    final args = tokenList.map((t) => '%$t%').toList();
     args.add('$limit');
 
     final rows = await db.rawQuery(

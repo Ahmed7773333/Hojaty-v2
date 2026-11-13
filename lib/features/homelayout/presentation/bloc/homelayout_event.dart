@@ -154,6 +154,26 @@ class SendTestNotificationEvent extends HomelayoutEvent {
   const SendTestNotificationEvent();
 }
 
+class SendTestPreAdhanNotificationEvent extends HomelayoutEvent {
+  const SendTestPreAdhanNotificationEvent();
+}
+
+class TogglePreAdhanReminderEvent extends HomelayoutEvent {
+  final bool isEnabled;
+  const TogglePreAdhanReminderEvent(this.isEnabled);
+
+  @override
+  List<Object?> get props => [isEnabled];
+}
+
+class ChangePreAdhanReminderMinutesEvent extends HomelayoutEvent {
+  final int minutes;
+  const ChangePreAdhanReminderMinutesEvent(this.minutes);
+
+  @override
+  List<Object?> get props => [minutes];
+}
+
 class TogglePrayerAlertsEvent extends HomelayoutEvent {
   final bool isEnabled;
   const TogglePrayerAlertsEvent(this.isEnabled);

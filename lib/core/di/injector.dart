@@ -5,6 +5,7 @@ import '../../features/books/di/books_injector.dart';
 import '../../features/hojaty_ai/di/hojaty_ai_injector.dart';
 import '../../features/homelayout/di/homelayout_injector.dart';
 import '../../features/onboarding/di/onboarding_injector.dart';
+import '../../features/qibla/di/qibla_injector.dart';
 import '../../features/quran/di/quran_injector.dart';
 import '../../features/radio/di/radio_injector.dart';
 import '../network/api_consumer.dart';
@@ -27,4 +28,5 @@ Future<void> setupInjector() async {
   await initRadioInjector();
   await initBooksInjector();
   await initHojatyAiInjector();
+  await initQiblaInjector();
 }

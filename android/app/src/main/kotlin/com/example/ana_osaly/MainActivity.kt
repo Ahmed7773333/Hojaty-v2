@@ -1,7 +1,13 @@
 package com.wolfdev.hojaty
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 
 import com.google.android.play.core.assetpacks.AssetPackLocation
@@ -14,10 +20,14 @@ import com.google.android.play.core.assetpacks.model.AssetPackStatus
 class MainActivity : AudioServiceActivity() {
     companion object {
         private const val ASSET_CHANNEL = "com.wolfdev.hojaty/asset_delivery"
+        private const val COMPASS_CHANNEL = "com.wolfdev.hojaty/compass"
     }
 
     private var assetPackListener: AssetPackStateUpdateListener? = null
     private var assetMethodChannel: MethodChannel? = null
+    private var compassEventChannel: EventChannel? = null
+    private var sensorManager: SensorManager? = null
+    private var compassListener: SensorEventListener? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -157,9 +167,88 @@ class MainActivity : AudioServiceActivity() {
             }
         }
 
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+
+        compassEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, COMPASS_CHANNEL).apply {
+            setStreamHandler(object : EventChannel.StreamHandler {
+                override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+                    if (events == null || sensorManager == null) {
+                        events?.error("SENSOR_UNAVAILABLE", "SensorManager is unavailable", null)
+                        return
+                    }
+
+                    val rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+                    val orientationSensor = if (rotationSensor == null) {
+                        sensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION)
+                    } else null
+
+                    if (rotationSensor == null && orientationSensor == null) {
+                        events.error("NO_SENSOR", "No compass or orientation sensor found", null)
+                        return
+                    }
+
+                    compassListener = object : SensorEventListener {
+                        private val rotationMatrix = FloatArray(9)
+                        private val orientation = FloatArray(3)
+
+                        override fun onSensorChanged(event: SensorEvent?) {
+                            if (event == null) return
+
+                            var azimuth = 0.0
+                            var pitch = 0.0
+                            var roll = 0.0
+
+                            if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR) {
+                                SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+                                SensorManager.getOrientation(rotationMatrix, orientation)
+
+                                azimuth = Math.toDegrees(orientation[0].toDouble())
+                                if (azimuth < 0) azimuth += 360.0
+                                pitch = Math.toDegrees(orientation[1].toDouble())
+                                roll = Math.toDegrees(orientation[2].toDouble())
+                            } else if (event.sensor.type == Sensor.TYPE_ORIENTATION) {
+                                azimuth = (event.values[0].toDouble() + 360.0) % 360.0
+                                pitch = event.values[1].toDouble()
+                                roll = event.values[2].toDouble()
+                            }
+
+                            val map = HashMap<String, Any>()
+                            map["heading"] = azimuth
+                            map["pitch"] = pitch
+                            map["roll"] = roll
+                            map["accuracy"] = event.accuracy
+                            events.success(map)
+                        }
+
+                        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+                    }
+
+                    val chosenSensor = rotationSensor ?: orientationSensor
+                    sensorManager?.registerListener(
+                        compassListener,
+                        chosenSensor,
+                        SensorManager.SENSOR_DELAY_UI
+                    )
+                }
+
+                override fun onCancel(arguments: Any?) {
+                    compassListener?.let { listener ->
+                        sensorManager?.unregisterListener(listener)
+                    }
+                    compassListener = null
+                }
+            })
+        }
     }
 
     override fun onDestroy() {
+        compassListener?.let { listener ->
+            try {
+                sensorManager?.unregisterListener(listener)
+            } catch (_: Exception) {}
+        }
+        compassListener = null
+
         assetPackListener?.let { listener ->
             try {
                 AssetPackManagerFactory.getInstance(applicationContext).unregisterListener(listener)

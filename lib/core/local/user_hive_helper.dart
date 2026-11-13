@@ -174,6 +174,41 @@ class UserHiveHelper {
     } catch (_) {}
   }
 
+  // --------------------- Pre-Adhan Reminder ---------------------
+  static bool getPreAdhanReminderEnabled({bool defaultValue = true}) {
+    try {
+      return prayersBox.get(
+            'pre_adhan_reminder_enabled',
+            defaultValue: defaultValue,
+          ) as bool;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setPreAdhanReminderEnabled(bool enabled) {
+    try {
+      prayersBox.put('pre_adhan_reminder_enabled', enabled);
+    } catch (_) {}
+  }
+
+  static int getPreAdhanReminderMinutes({int defaultValue = 5}) {
+    try {
+      return prayersBox.get(
+            'pre_adhan_reminder_minutes',
+            defaultValue: defaultValue,
+          ) as int;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setPreAdhanReminderMinutes(int minutes) {
+    try {
+      prayersBox.put('pre_adhan_reminder_minutes', minutes);
+    } catch (_) {}
+  }
+
   static bool getAnaOsalyEnabled({bool defaultValue = true}) {
     try {
       return prayersBox.get('hojaty_enabled', defaultValue: defaultValue)

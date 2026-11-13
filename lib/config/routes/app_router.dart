@@ -27,6 +27,7 @@ import '../../features/homelayout/presentation/pages/prayer_times_page.dart';
 import '../../features/homelayout/presentation/pages/sebha_page.dart';
 import '../../features/onboarding/presentation/pages/language_selection_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/qibla/presentation/pages/qibla_page.dart';
 import '../../features/quran/data/models/page_data_model.dart';
 import '../../features/quran/data/models/surah_info_model.dart';
 import '../../features/quran/presentation/pages/quran_fehres_page.dart';
@@ -79,6 +80,7 @@ class AppRoutes {
   static const String bookHadiths = '/book-hadiths';
   static const String asmaAllah = '/asma-allah';
   static const String hojatyAi = '/hojaty-ai';
+  static const String qibla = '/qibla';
 }
 
 class AppRouter {
@@ -322,6 +324,11 @@ class AppRouter {
       case AppRoutes.hojatyAi:
         return MaterialPageRoute(
           builder: (_) => const HojatyAiPage(),
+          settings: settings,
+        );
+      case AppRoutes.qibla:
+        return MaterialPageRoute(
+          builder: (_) => const QiblaPage(),
           settings: settings,
         );
       default:

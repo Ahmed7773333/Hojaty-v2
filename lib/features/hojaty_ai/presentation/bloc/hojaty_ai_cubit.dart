@@ -197,34 +197,63 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
 
     await _persistMessages(updatedMessages);
 
+    List<RagChunkModel> currentWorkingSources = const [];
+
     try {
-      // Step A: Get Query Embedding
+      // 1. Immediately retrieve local grounded sources using fast keyword matching
+      debugPrint('HojatyAiCubit: Retrieving initial local sources...');
+      final localSources = await _repository.retrieveSources(trimmed);
+      currentWorkingSources = localSources;
+
+      if (isClosed) return;
+
+      emit(state.copyWith(currentSources: localSources));
+
+      // 2. Check if we can use online AI (connectivity check + API keys check)
+      final canUseOnline = await _repository.canUseOnlineAi();
+      debugPrint('HojatyAiCubit: canUseOnline=$canUseOnline');
+
+      if (!canUseOnline) {
+        // Fast Offline Path: Immediately generate grounded offline response
+        final offlineResponse = _repository.formatOfflineResponse(localSources);
+        if (isClosed) return;
+
+        _finalizeBotMessage(
+          text: offlineResponse,
+          sources: localSources,
+          isOffline: true,
+        );
+        return;
+      }
+
+      // Online Path: Refine sources with embedding vector if possible
       debugPrint('HojatyAiCubit: Getting embedding...');
       final queryVector = await _repository.getEmbedding(trimmed);
-      debugPrint('HojatyAiCubit: Embedding result: ${queryVector != null ? '${queryVector.length} dims' : 'null (will use keyword fallback)'}');
+      List<RagChunkModel> effectiveSources = localSources;
+
+      if (queryVector != null && queryVector.length == 512) {
+        final refinedSources = await _repository.retrieveSources(
+          trimmed,
+          queryVector: queryVector,
+        );
+        if (refinedSources.isNotEmpty) {
+          effectiveSources = refinedSources;
+          currentWorkingSources = effectiveSources;
+          if (isClosed) return;
+          emit(state.copyWith(currentSources: effectiveSources));
+        }
+      }
 
       if (isClosed) return;
 
-      // Step B: Retrieve Grounded Islamic Sources
-      debugPrint('HojatyAiCubit: Retrieving sources...');
-      final sources = await _repository.retrieveSources(
-        trimmed,
-        queryVector: queryVector,
-      );
-      debugPrint('HojatyAiCubit: Found ${sources.length} sources');
-
-      if (isClosed) return;
-
-      emit(state.copyWith(currentSources: sources));
-
-      // Step C: Stream Grounded Answer Generation
+      // Stream Grounded Answer Generation
       final textBuffer = StringBuffer();
       await _generationSubscription?.cancel();
 
       final completer = Completer<void>();
 
       _generationSubscription = _repository
-          .generateAnswerStream(userMessage: trimmed, sources: sources)
+          .generateAnswerStream(userMessage: trimmed, sources: effectiveSources)
           .listen(
         (chunk) {
           if (isClosed) return;
@@ -239,8 +268,8 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
             _finalizeBotMessage(
               text: textBuffer.isNotEmpty
                   ? textBuffer.toString()
-                  : 'حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.',
-              sources: sources,
+                  : _repository.formatOfflineResponse(effectiveSources),
+              sources: effectiveSources,
               isOffline: true,
             );
           }
@@ -249,20 +278,17 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
         onDone: () {
           debugPrint('HojatyAiCubit: Generation stream done (buffer length=${textBuffer.length})');
           if (!isClosed) {
-            if (textBuffer.isEmpty) {
-              // Stream finished but produced nothing — treat as offline
-              _finalizeBotMessage(
-                text: 'تعذر الحصول على إجابة من الخادم. يرجى المحاولة مرة أخرى.',
-                sources: sources,
-                isOffline: true,
-              );
-            } else {
-              _finalizeBotMessage(
-                text: textBuffer.toString(),
-                sources: sources,
-                isOffline: false,
-              );
-            }
+            final fullText = textBuffer.toString().trim();
+            final isOfflineResponse = fullText.isEmpty ||
+                fullText.startsWith('أهلاً بك. تعذر الاتصال بالخادم');
+
+            _finalizeBotMessage(
+              text: fullText.isNotEmpty
+                  ? fullText
+                  : _repository.formatOfflineResponse(effectiveSources),
+              sources: effectiveSources,
+              isOffline: isOfflineResponse,
+            );
           }
           if (!completer.isCompleted) completer.complete();
         },
@@ -275,12 +301,14 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     } catch (e, st) {
       debugPrint('HojatyAiCubit: sendMessage error: $e\n$st');
       if (!isClosed) {
-        emit(state.copyWith(
-          status: HojatyAiStatus.failure,
-          errorMessage: e.toString(),
-          isStreaming: false,
-          currentStreamingText: '',
-        ));
+        final fallbackSources = state.currentSources.isNotEmpty
+            ? state.currentSources
+            : currentWorkingSources;
+        _finalizeBotMessage(
+          text: _repository.formatOfflineResponse(fallbackSources),
+          sources: fallbackSources,
+          isOffline: true,
+        );
       }
     }
   }
@@ -459,6 +487,21 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
 
   @override
   Future<void> close() {
+    if (state.isStreaming) {
+      final fallbackSources = state.currentSources;
+      final text = state.currentStreamingText.isNotEmpty
+          ? state.currentStreamingText
+          : _repository.formatOfflineResponse(fallbackSources);
+      final botMessage = ChatMessageModel(
+        id: '${DateTime.now().microsecondsSinceEpoch}_bot',
+        text: text.trim(),
+        sender: MessageSender.ai,
+        timestamp: DateTime.now(),
+        sources: fallbackSources,
+        isOffline: true,
+      );
+      _persistMessages([...state.messages, botMessage]);
+    }
     _generationSubscription?.cancel();
     _downloadSubscription?.cancel();
     return super.close();
