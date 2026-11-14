@@ -35,7 +35,9 @@ class QiblaLocationInfoCardWidget extends StatelessWidget {
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
           width: 1.0,
         ),
       ),
@@ -56,7 +58,9 @@ class QiblaLocationInfoCardWidget extends StatelessWidget {
                   style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.lightTextPrimary,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -66,17 +70,24 @@ class QiblaLocationInfoCardWidget extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                   decoration: BoxDecoration(
-                    color: (isAccurate ? AppColors.primaryDarkSurface : AppColors.accentGold)
-                        .withValues(alpha: 0.2),
+                    color:
+                        (isAccurate
+                                ? AppColors.primaryDarkSurface
+                                : AppColors.accentGold)
+                            .withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        isAccurate ? Icons.check_circle_rounded : Icons.sync_problem_rounded,
+                        isAccurate
+                            ? Icons.check_circle_rounded
+                            : Icons.sync_problem_rounded,
                         size: 12.r,
-                        color: isAccurate ? AppColors.accentGoldLight : AppColors.accentGoldDark,
+                        color: isAccurate
+                            ? AppColors.accentGoldLight
+                            : AppColors.accentGoldDark,
                       ),
                       4.hor,
                       Text(
@@ -101,30 +112,47 @@ class QiblaLocationInfoCardWidget extends StatelessWidget {
           const Divider(height: 1, thickness: 0.5),
           12.ver,
           // Stats Row: Distance to Kaaba | Qibla Angle | Current Heading
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Column(
             children: [
-              QiblaInfoMetricItemWidget(
-                title: context.strings.qiblaDistanceToKaaba(formattedDistance),
-                icon: Icons.route_rounded,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  QiblaInfoMetricItemWidget(
+                    title: context.strings.qiblaDistanceToKaaba(
+                      formattedDistance,
+                    ),
+                    icon: Icons.route_rounded,
+                  ),
+                  Container(
+                    width: 1,
+                    height: 28.h,
+                    color: isDark
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected,
+                  ),
+                  QiblaInfoMetricItemWidget(
+                    title: context.strings.qiblaBearingLabel(
+                      qiblaBearing.round(),
+                    ),
+                    icon: Icons.explore_rounded,
+                  ),
+                ],
               ),
-              Container(
-                width: 1,
-                height: 28.h,
-                color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-              ),
-              QiblaInfoMetricItemWidget(
-                title: context.strings.qiblaBearingLabel(qiblaBearing.round()),
-                icon: Icons.explore_rounded,
-              ),
-              Container(
-                width: 1,
-                height: 28.h,
-                color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-              ),
-              QiblaInfoMetricItemWidget(
-                title: context.strings.qiblaCurrentHeading(heading.round()),
-                icon: Icons.compass_calibration_rounded,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 1,
+                    height: 28.h,
+                    color: isDark
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected,
+                  ),
+                  QiblaInfoMetricItemWidget(
+                    title: context.strings.qiblaCurrentHeading(heading.round()),
+                    icon: Icons.compass_calibration_rounded,
+                  ),
+                ],
               ),
             ],
           ),
