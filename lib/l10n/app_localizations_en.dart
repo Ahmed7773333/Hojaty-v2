@@ -598,20 +598,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preAdhanReminderTitle => 'Pre-Adhan Reminder';
 
   @override
-  String get preAdhanReminderSubtitle => 'Gentle alert to prepare before prayer time';
+  String get preAdhanReminderSubtitle =>
+      'Gentle alert to prepare before prayer time';
 
   @override
   String get preAdhanTimingTitle => 'Alert timing before prayer';
 
   @override
-  String preAdhanMinutesChoice(int minutes) => '$minutes minutes';
+  String preAdhanMinutesChoice(int minutes) {
+    return '$minutes minutes';
+  }
 
   @override
-  String preAdhanNotificationTitle(String prayerName) => '$prayerName prayer is approaching';
+  String preAdhanNotificationTitle(String prayerName) {
+    return '$prayerName prayer is approaching';
+  }
 
   @override
-  String preAdhanNotificationBody(int minutes, String prayerName) =>
-      'Remaining $minutes minutes until $prayerName prayer. Prepare for prayer.';
+  String preAdhanNotificationBody(int minutes, String prayerName) {
+    return 'Remaining $minutes minutes until $prayerName prayer. Prepare for prayer.';
+  }
 
   @override
   String get preAdhanTestButton => 'Test Pre-Adhan Alert';
@@ -623,13 +629,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prayerAlertSettingsTitle => 'Prayer Alert Options';
 
   @override
-  String preAdhanBadgeText(int minutes) => '${minutes}m before';
+  String preAdhanBadgeText(int minutes) {
+    return '${minutes}m before';
+  }
 
   @override
   String get alertAtPrayerTime => 'Alert at prayer time';
 
   @override
-  String get alertAtPrayerTimeDesc => 'Play adhan or alert when prayer time begins';
+  String get alertAtPrayerTimeDesc =>
+      'Play adhan or alert when prayer time begins';
 
   @override
   String get notificationPreviewLabel => 'Notification preview';
@@ -1059,7 +1068,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hojatyAiSubtitle => 'Grounded Islamic Guidance';
 
   @override
-  String get hojatyAiThinking => 'Searching Islamic sources and formulating answer...';
+  String get hojatyAiThinking =>
+      'Searching Islamic sources and formulating answer...';
 
   @override
   String get hojatyAiInputHint =>
@@ -1202,10 +1212,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qiblaFacingKaaba => 'You are facing the Holy Kaaba accurately now';
 
   @override
-  String qiblaTurnRight(int degrees) => 'Turn phone $degrees° to the right';
+  String qiblaTurnRight(int degrees) {
+    return 'Turn phone $degrees° to the right';
+  }
 
   @override
-  String qiblaTurnLeft(int degrees) => 'Turn phone $degrees° to the left';
+  String qiblaTurnLeft(int degrees) {
+    return 'Turn phone $degrees° to the left';
+  }
 
   @override
   String get qiblaAlmostThere => 'Almost facing the Qibla';
@@ -1223,14 +1237,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Stay away from electronic devices and magnetic objects';
 
   @override
-  String qiblaDistanceToKaaba(String distance) =>
-      '$distance km to the Holy Kaaba';
+  String qiblaDistanceToKaaba(String distance) {
+    return '$distance km to the Holy Kaaba';
+  }
 
   @override
-  String qiblaBearingLabel(int angle) => 'Qibla Angle: $angle°';
+  String qiblaBearingLabel(int angle) {
+    return 'Qibla Angle: $angle°';
+  }
 
   @override
-  String qiblaCurrentHeading(int heading) => 'Current Heading: $heading°';
+  String qiblaCurrentHeading(int heading) {
+    return 'Current Heading: $heading°';
+  }
 
   @override
   String get qiblaAccuracyLow => 'Compass accuracy is low • Please calibrate';

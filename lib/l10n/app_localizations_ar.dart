@@ -591,20 +591,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get preAdhanReminderTitle => 'التنبيه المسبق قبل الأذان';
 
   @override
-  String get preAdhanReminderSubtitle => 'إشعار خفيف لتستعد للصلاة قبل دخول الوقت';
+  String get preAdhanReminderSubtitle =>
+      'إشعار خفيف لتستعد للصلاة قبل دخول الوقت';
 
   @override
   String get preAdhanTimingTitle => 'وقت التنبيه قبل الصلاة';
 
   @override
-  String preAdhanMinutesChoice(int minutes) => '$minutes دقائق';
+  String preAdhanMinutesChoice(int minutes) {
+    return '$minutes دقائق';
+  }
 
   @override
-  String preAdhanNotificationTitle(String prayerName) => 'اقترب موعد صلاة $prayerName';
+  String preAdhanNotificationTitle(String prayerName) {
+    return 'اقترب موعد صلاة $prayerName';
+  }
 
   @override
-  String preAdhanNotificationBody(int minutes, String prayerName) =>
-      'فاضل $minutes دقائق على صلاة $prayerName، استعد للصلاة';
+  String preAdhanNotificationBody(int minutes, String prayerName) {
+    return 'فاضل $minutes دقائق على صلاة $prayerName، استعد للصلاة';
+  }
 
   @override
   String get preAdhanTestButton => 'تجربة التنبيه المسبق';
@@ -616,7 +622,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prayerAlertSettingsTitle => 'خيارات تنبيه الصلاة';
 
   @override
-  String preAdhanBadgeText(int minutes) => 'قبل $minutes د';
+  String preAdhanBadgeText(int minutes) {
+    return 'قبل $minutes د';
+  }
 
   @override
   String get alertAtPrayerTime => 'تنبيه عند وقت الصلاة';
@@ -1049,7 +1057,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hojatyAiSubtitle => 'إجابات وتوجيهات مستندة للكتاب والسنة';
 
   @override
-  String get hojatyAiThinking => 'جاري البحث في المصادر الشرعية وصياغة الإجابة...';
+  String get hojatyAiThinking =>
+      'جاري البحث في المصادر الشرعية وصياغة الإجابة...';
 
   @override
   String get hojatyAiInputHint => 'اسأل عن مسألة، أو شارك ما يضيق به صدرك...';
@@ -1185,16 +1194,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get qiblaBannerTitle => 'بوصلة القبلة الذكية';
 
   @override
-  String get qiblaBannerSubtitle => 'تحديد اتجاه القبلة بدقة مع إرشادات المعايرة';
+  String get qiblaBannerSubtitle =>
+      'تحديد اتجاه القبلة بدقة مع إرشادات المعايرة';
 
   @override
   String get qiblaFacingKaaba => 'أنت تواجه القبلة المشرفة بدقة الآن';
 
   @override
-  String qiblaTurnRight(int degrees) => 'أدر الهاتف $degrees° نحو اليمين';
+  String qiblaTurnRight(int degrees) {
+    return 'أدر الهاتف $degrees° نحو اليمين';
+  }
 
   @override
-  String qiblaTurnLeft(int degrees) => 'أدر الهاتف $degrees° نحو اليسار';
+  String qiblaTurnLeft(int degrees) {
+    return 'أدر الهاتف $degrees° نحو اليسار';
+  }
 
   @override
   String get qiblaAlmostThere => 'أنت قريب جداً من اتجاه القبلة';
@@ -1212,14 +1226,19 @@ class AppLocalizationsAr extends AppLocalizations {
       'ابتعد عن الأجهزة الإلكترونية والأجسام المعدنية';
 
   @override
-  String qiblaDistanceToKaaba(String distance) =>
-      '$distance كم إلى الكعبة المشرفة';
+  String qiblaDistanceToKaaba(String distance) {
+    return '$distance كم إلى الكعبة المشرفة';
+  }
 
   @override
-  String qiblaBearingLabel(int angle) => 'زاوية القبلة: $angle°';
+  String qiblaBearingLabel(int angle) {
+    return 'زاوية القبلة: $angle°';
+  }
 
   @override
-  String qiblaCurrentHeading(int heading) => 'الاتجاه الحالي: $heading°';
+  String qiblaCurrentHeading(int heading) {
+    return 'الاتجاه الحالي: $heading°';
+  }
 
   @override
   String get qiblaAccuracyLow => 'دقة البوصلة ضعيفة • يُرجى المعايرة';

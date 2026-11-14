@@ -47,6 +47,8 @@
 				</array>
 			</dict>
 		</dict>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>نحتاج إذن تحديد الموقع لحساب مواقيت الصلاة بدقة بناءً على موقعك الحالي</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>

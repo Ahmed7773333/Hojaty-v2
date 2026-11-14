@@ -389,7 +389,8 @@ class LocalNotificationService {
 
       await cancelPrayerNotifications();
       final now = DateTime.now();
-      const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
+      final coords = UserHiveHelper.getCachedCoordinates();
+      final helper = PrayersHelper(coordinates: coords);
       final localTz = await AwesomeNotifications().getLocalTimeZoneIdentifier();
 
       final todayDate = DateTime(now.year, now.month, now.day);

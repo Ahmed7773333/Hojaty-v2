@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -54,7 +55,8 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
   Widget build(BuildContext context) {
     final lang = Localizations.localeOf(context).languageCode;
     final now = DateTime.now();
-    const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
+    final coords = UserHiveHelper.getCachedCoordinates();
+    final helper = PrayersHelper(coordinates: coords);
     final activeWindow = helper.getActivePrayerWindow(now);
     final nextPrayerInfo = helper.getNextPrayerInfo(now);
 

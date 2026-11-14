@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../utils/local_notification_service.dart';
+import '../../features/homelayout/data/models/prayers_helper.dart';
 import 'user_data.dart';
 
 class UserHiveHelper {
@@ -340,6 +341,58 @@ class UserHiveHelper {
   }
 
   // --------------------- Cached Location ---------------------
+  static double? getCachedLatitude() {
+    try {
+      return prayersBox.get('cached_prayer_latitude') as double?;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static double? getCachedLongitude() {
+    try {
+      return prayersBox.get('cached_prayer_longitude') as double?;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static GeoCoordinates getCachedCoordinates({
+    GeoCoordinates defaultValue = GeoCoordinates.cairo,
+  }) {
+    final lat = getCachedLatitude();
+    final lng = getCachedLongitude();
+    if (lat != null && lng != null) {
+      return GeoCoordinates(lat, lng);
+    }
+    return defaultValue;
+  }
+
+  static void setCachedCoordinates(double latitude, double longitude) {
+    try {
+      prayersBox.put('cached_prayer_latitude', latitude);
+      prayersBox.put('cached_prayer_longitude', longitude);
+      prayersBox.put(
+        'cached_location_timestamp',
+        DateTime.now().millisecondsSinceEpoch,
+      );
+    } catch (_) {}
+  }
+
+  static int? getCachedLocationTimestamp() {
+    try {
+      return prayersBox.get('cached_location_timestamp') as int?;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static void setCachedLocationTimestamp(int millis) {
+    try {
+      prayersBox.put('cached_location_timestamp', millis);
+    } catch (_) {}
+  }
+
   static String getCachedPrayerCityName({String defaultValue = ''}) {
     try {
       return prayersBox.get('cached_prayer_city_name', defaultValue: defaultValue) as String? ?? defaultValue;

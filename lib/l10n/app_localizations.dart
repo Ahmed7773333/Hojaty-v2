@@ -1203,42 +1203,81 @@ abstract class AppLocalizations {
   String get shortAlertDesc;
 
   /// No description provided for @preAdhanReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-Adhan Reminder'**
   String get preAdhanReminderTitle;
 
   /// No description provided for @preAdhanReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle alert to prepare before prayer time'**
   String get preAdhanReminderSubtitle;
 
   /// No description provided for @preAdhanTimingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert timing before prayer'**
   String get preAdhanTimingTitle;
 
   /// No description provided for @preAdhanMinutesChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
   String preAdhanMinutesChoice(int minutes);
 
   /// No description provided for @preAdhanNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{prayerName} prayer is approaching'**
   String preAdhanNotificationTitle(String prayerName);
 
   /// No description provided for @preAdhanNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining {minutes} minutes until {prayerName} prayer. Prepare for prayer.'**
   String preAdhanNotificationBody(int minutes, String prayerName);
 
   /// No description provided for @preAdhanTestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Pre-Adhan Alert'**
   String get preAdhanTestButton;
 
   /// No description provided for @preAdhanTestSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Test pre-adhan alert sent'**
   String get preAdhanTestSent;
 
   /// No description provided for @prayerAlertSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Alert Options'**
   String get prayerAlertSettingsTitle;
 
   /// No description provided for @preAdhanBadgeText.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m before'**
   String preAdhanBadgeText(int minutes);
 
   /// No description provided for @alertAtPrayerTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert at prayer time'**
   String get alertAtPrayerTime;
 
   /// No description provided for @alertAtPrayerTimeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Play adhan or alert when prayer time begins'**
   String get alertAtPrayerTimeDesc;
 
   /// No description provided for @notificationPreviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification preview'**
   String get notificationPreviewLabel;
 
   /// No description provided for @anaOsalyHeroSubtitle.
@@ -2267,33 +2306,172 @@ abstract class AppLocalizations {
   /// **'Local Data & Chat Storage: Your personal information and AI Assistant chat history are stored locally inside the local database on your device only.'**
   String get privacyLocalDbAddendum;
 
+  /// No description provided for @qiblaCompassTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Compass'**
   String get qiblaCompassTitle;
+
+  /// No description provided for @qiblaCompassSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accurate direction to the Holy Kaaba'**
   String get qiblaCompassSubtitle;
+
+  /// No description provided for @qiblaBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Qibla Compass'**
   String get qiblaBannerTitle;
+
+  /// No description provided for @qiblaBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accurate Qibla direction with smart guidance'**
   String get qiblaBannerSubtitle;
+
+  /// No description provided for @qiblaFacingKaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'You are facing the Holy Kaaba accurately now'**
   String get qiblaFacingKaaba;
+
+  /// No description provided for @qiblaTurnRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn phone {degrees}° to the right'**
   String qiblaTurnRight(int degrees);
+
+  /// No description provided for @qiblaTurnLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn phone {degrees}° to the left'**
   String qiblaTurnLeft(int degrees);
+
+  /// No description provided for @qiblaAlmostThere.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost facing the Qibla'**
   String get qiblaAlmostThere;
+
+  /// No description provided for @qiblaTiltWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep your phone flat and level for accurate compass reading'**
   String get qiblaTiltWarning;
+
+  /// No description provided for @qiblaCalibrateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Wave phone in figure-8 motion in the air to calibrate'**
   String get qiblaCalibrateHint;
+
+  /// No description provided for @qiblaInterferenceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay away from electronic devices and magnetic objects'**
   String get qiblaInterferenceHint;
+
+  /// No description provided for @qiblaDistanceToKaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km to the Holy Kaaba'**
   String qiblaDistanceToKaaba(String distance);
+
+  /// No description provided for @qiblaBearingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla Angle: {angle}°'**
   String qiblaBearingLabel(int angle);
+
+  /// No description provided for @qiblaCurrentHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Heading: {heading}°'**
   String qiblaCurrentHeading(int heading);
+
+  /// No description provided for @qiblaAccuracyLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass accuracy is low • Please calibrate'**
   String get qiblaAccuracyLow;
+
+  /// No description provided for @qiblaAccuracyGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass accuracy is high'**
   String get qiblaAccuracyGood;
+
+  /// No description provided for @qiblaSensorUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass sensor is unavailable on this device, showing estimated direction for your location'**
   String get qiblaSensorUnavailable;
+
+  /// No description provided for @qiblaCalibrationTipsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips for Accurate Qibla Direction'**
   String get qiblaCalibrationTipsTitle;
+
+  /// No description provided for @qiblaTipFlat.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold your phone flat in your palm parallel to the ground.'**
   String get qiblaTipFlat;
+
+  /// No description provided for @qiblaTipMagnets.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove magnetic cases and stay clear of large metallic objects.'**
   String get qiblaTipMagnets;
+
+  /// No description provided for @qiblaTipFigure8.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the phone in a figure-8 motion to recalibrate the sensor when needed.'**
   String get qiblaTipFigure8;
+
+  /// No description provided for @qiblaTipGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure location services (GPS) are enabled for exact city angle.'**
   String get qiblaTipGps;
+
+  /// No description provided for @qiblaNorth.
+  ///
+  /// In en, this message translates to:
+  /// **'N'**
   String get qiblaNorth;
+
+  /// No description provided for @qiblaEast.
+  ///
+  /// In en, this message translates to:
+  /// **'E'**
   String get qiblaEast;
+
+  /// No description provided for @qiblaSouth.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
   String get qiblaSouth;
+
+  /// No description provided for @qiblaWest.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
   String get qiblaWest;
+
+  /// No description provided for @qiblaDegrees.
+  ///
+  /// In en, this message translates to:
+  /// **'Degrees'**
   String get qiblaDegrees;
+
+  /// No description provided for @qiblaManualDialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag dial to simulate phone orientation'**
   String get qiblaManualDialHint;
 }
 

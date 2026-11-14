@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../data/models/prayer_time_model.dart';
+import '../../data/models/prayers_helper.dart';
 
 abstract class HomelayoutEvent extends Equatable {
   const HomelayoutEvent();
@@ -232,4 +233,26 @@ class ChangeAnaOsalyCustomMessageEvent extends HomelayoutEvent {
 
   @override
   List<Object?> get props => [message, language];
+}
+
+class CheckLocationUpdateEvent extends HomelayoutEvent {
+  final bool force;
+
+  const CheckLocationUpdateEvent({this.force = false});
+
+  @override
+  List<Object?> get props => [force];
+}
+
+class SelectPrayerCityEvent extends HomelayoutEvent {
+  final String cityName;
+  final GeoCoordinates coordinates;
+
+  const SelectPrayerCityEvent({
+    required this.cityName,
+    required this.coordinates,
+  });
+
+  @override
+  List<Object?> get props => [cityName, coordinates];
 }

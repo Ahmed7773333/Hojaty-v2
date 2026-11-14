@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -34,7 +35,8 @@ class _RamadanImsakiyaTableWidgetState
       return _cachedDays;
     }
 
-    const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
+    final coords = UserHiveHelper.getCachedCoordinates();
+    final helper = PrayersHelper(coordinates: coords);
     _lastStartDate = ramadanStart;
     _lastComputedDate = now;
     _cachedDays = helper.generateRamadanImsakiya(

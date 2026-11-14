@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/local_notification_service.dart';
+import '../../../../core/utils/location_service.dart';
 import '../../../../data/mocks/home_mock_data.dart';
 import '../../data/models/banner_model.dart';
 import '../../data/models/hijri_calendar_helper.dart';
@@ -18,14 +19,21 @@ import 'homelayout_event.dart';
 import 'homelayout_state.dart';
 
 class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
-  static Future<String> getPrayerCityName(String language, {Dio? dio}) async {
+  static Future<String> getPrayerCityName(
+    String language, {
+    double? latitude,
+    double? longitude,
+    Dio? dio,
+  }) async {
     final client = dio ?? Dio();
     final separator = language == 'ar' ? '، ' : ', ';
+    final latParam = latitude != null ? '&latitude=$latitude' : '';
+    final lngParam = longitude != null ? '&longitude=$longitude' : '';
 
     // 1. Try BigDataCloud reverse geocode client (supports Arabic, English, and other languages natively)
     try {
       final response = await client.get(
-        'https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=$language',
+        'https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=$language$latParam$lngParam',
         options: Options(
           sendTimeout: const Duration(seconds: 4),
           receiveTimeout: const Duration(seconds: 4),
@@ -142,6 +150,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     on<ToggleAthkarNotificationsEvent>(_onToggleAthkarNotifications);
     on<SelectAdhanSoundEvent>(_onSelectAdhanSound);
     on<UpdatePrayerCityNameEvent>(_onUpdatePrayerCityName);
+    on<CheckLocationUpdateEvent>(_onCheckLocationUpdate);
+    on<SelectPrayerCityEvent>(_onSelectPrayerCity);
   }
 
   // ---------------------------------------------------------------------------
@@ -157,8 +167,13 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     DateTime previousTime,
     double progress,
   })
-  _computePrayerState({required int dayOffset, required String language}) {
-    const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
+  _computePrayerState({
+    required int dayOffset,
+    required String language,
+    GeoCoordinates? coordinates,
+  }) {
+    final coords = coordinates ?? UserHiveHelper.getCachedCoordinates();
+    final helper = PrayersHelper(coordinates: coords);
     final now = DateTime.now();
     final targetDate = now.add(Duration(days: dayOffset));
 
@@ -304,9 +319,17 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       _scheduleNotifications(prayerData.prayerTimes, state.occasionsList, lang);
     }
 
-    // 2. Refresh geolocated city name in background
+    // 2. Trigger smart background location update check
+    add(const CheckLocationUpdateEvent());
+
+    // 3. Refresh geolocated city name in background
+    final cachedCoords = UserHiveHelper.getCachedCoordinates();
     unawaited(
-      getPrayerCityName(lang).then((cityName) {
+      getPrayerCityName(
+        lang,
+        latitude: cachedCoords.latitude,
+        longitude: cachedCoords.longitude,
+      ).then((cityName) {
         if (!isClosed && cityName.isNotEmpty) {
           add(UpdatePrayerCityNameEvent(cityName));
         }
@@ -350,6 +373,86 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     Emitter<HomelayoutState> emit,
   ) {
     emit(state.copyWith(prayerCityName: event.cityName));
+  }
+
+  Future<void> _onCheckLocationUpdate(
+    CheckLocationUpdateEvent event,
+    Emitter<HomelayoutState> emit,
+  ) async {
+    final newCoords = await LocationService.getCurrentLocation(force: event.force);
+    if (newCoords != null) {
+      final prayerData = _computePrayerState(
+        dayOffset: state.selectedPrayerDayOffset,
+        language: state.currentLanguage,
+        coordinates: newCoords,
+      );
+
+      _scheduleNotifications(
+        prayerData.prayerTimes,
+        state.occasionsList,
+        state.currentLanguage,
+      );
+
+      unawaited(
+        getPrayerCityName(
+          state.currentLanguage,
+          latitude: newCoords.latitude,
+          longitude: newCoords.longitude,
+        ).then((cityName) {
+          if (!isClosed && cityName.isNotEmpty) {
+            add(UpdatePrayerCityNameEvent(cityName));
+          }
+        }),
+      );
+
+      emit(
+        state.copyWith(
+          prayerTimes: prayerData.prayerTimes,
+          selectedPrayerDate: prayerData.selectedDate,
+          nextPrayerTime: prayerData.nextTime,
+          nextPrayerType: prayerData.nextType,
+          nextPrayerName: prayerData.nextName,
+          previousPrayerTime: prayerData.previousTime,
+          prayerProgress: prayerData.progress,
+        ),
+      );
+    }
+  }
+
+  void _onSelectPrayerCity(
+    SelectPrayerCityEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    UserHiveHelper.setCachedPrayerCityName(event.cityName);
+    UserHiveHelper.setCachedCoordinates(
+      event.coordinates.latitude,
+      event.coordinates.longitude,
+    );
+
+    final prayerData = _computePrayerState(
+      dayOffset: state.selectedPrayerDayOffset,
+      language: state.currentLanguage,
+      coordinates: event.coordinates,
+    );
+
+    _scheduleNotifications(
+      prayerData.prayerTimes,
+      state.occasionsList,
+      state.currentLanguage,
+    );
+
+    emit(
+      state.copyWith(
+        prayerCityName: event.cityName,
+        prayerTimes: prayerData.prayerTimes,
+        selectedPrayerDate: prayerData.selectedDate,
+        nextPrayerTime: prayerData.nextTime,
+        nextPrayerType: prayerData.nextType,
+        nextPrayerName: prayerData.nextName,
+        previousPrayerTime: prayerData.previousTime,
+        prayerProgress: prayerData.progress,
+      ),
+    );
   }
 
   void _scheduleNotifications(
