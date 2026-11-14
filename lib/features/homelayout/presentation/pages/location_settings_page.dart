@@ -36,7 +36,7 @@ class _LocationSettingsPageState extends State<LocationSettingsPage> {
     context.read<HomelayoutBloc>().add(
       const CheckLocationUpdateEvent(force: true),
     );
-    await Future.delayed(const Duration(milliseconds: 800));
+    await Future.delayed(const Duration(milliseconds: 1500));
     if (mounted) {
       setState(() => _isLocating = false);
       Navigator.of(context).pop();

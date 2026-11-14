@@ -1,6 +1,6 @@
 platform :android do
-  desc "DEV → Build AAB and upload directly to Closed Testing review"
-  lane :closed_test do
+  desc "Build AAB and upload to Google Play (Closed Testing or Production)"
+  lane :deploy do
 
     api_keys_path = File.expand_path("../../api_keys.json")
     symbols_dir = File.expand_path("../../build/app/outputs/symbols")
@@ -19,18 +19,19 @@ platform :android do
     end
 
     release_status = ENV.fetch("RELEASE_STATUS", "completed")
+    # لو مفيش متغير جاي من الـ CI هيعتبره testers تلقائياً
+    target_track = ENV.fetch("PLAY_TRACK", "testers")
 
-    # Upload to Closed Testing track and send for review
+    # Upload to the selected track and send for review
     supply(
       json_key: "play_store_key.json",
       package_name: "com.wolfdev.hojaty",
-      # لو التراك بتاعك هو الافتراضي سيبه "alpha"، لو اسمه "Testers" اكتب "Testers"
-      track: "testers", 
+      track: target_track,
       release_status: release_status,
-      changes_not_sent_for_review: false, # false عشان يبعت للمراجعة أوتوماتيك
+      changes_not_sent_for_review: false,
       aab: aab_path,
     )
 
-    UI.message("✅ Closed Testing build uploaded and sent for review as #{release_status}!")
+    UI.message("✅ Build uploaded to [#{target_track}] track and sent for review as #{release_status}!")
   end
 end

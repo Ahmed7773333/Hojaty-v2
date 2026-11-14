@@ -322,19 +322,21 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     // 2. Trigger smart background location update check
     add(const CheckLocationUpdateEvent());
 
-    // 3. Refresh geolocated city name in background
-    final cachedCoords = UserHiveHelper.getCachedCoordinates();
-    unawaited(
-      getPrayerCityName(
-        lang,
-        latitude: cachedCoords.latitude,
-        longitude: cachedCoords.longitude,
-      ).then((cityName) {
-        if (!isClosed && cityName.isNotEmpty) {
-          add(UpdatePrayerCityNameEvent(cityName));
-        }
-      }),
-    );
+    // 3. Refresh geolocated city name only if not already cached
+    if (initialCityName.isEmpty) {
+      final cachedCoords = UserHiveHelper.getCachedCoordinates();
+      unawaited(
+        getPrayerCityName(
+          lang,
+          latitude: cachedCoords.latitude,
+          longitude: cachedCoords.longitude,
+        ).then((cityName) {
+          if (!isClosed && cityName.isNotEmpty) {
+            add(UpdatePrayerCityNameEvent(cityName));
+          }
+        }),
+      );
+    }
 
     // 3. Fetch banners and background sync without blocking prayer times
     if (getBanners != null) {
@@ -393,21 +395,16 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.currentLanguage,
       );
 
-      unawaited(
-        getPrayerCityName(
-          state.currentLanguage,
-          latitude: newCoords.latitude,
-          longitude: newCoords.longitude,
-        ).then((cityName) {
-          if (!isClosed && cityName.isNotEmpty) {
-            add(UpdatePrayerCityNameEvent(cityName));
-          }
-        }),
+      final cityName = await getPrayerCityName(
+        state.currentLanguage,
+        latitude: newCoords.latitude,
+        longitude: newCoords.longitude,
       );
 
       emit(
         state.copyWith(
           prayerTimes: prayerData.prayerTimes,
+          prayerCityName: cityName.isNotEmpty ? cityName : state.prayerCityName,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,

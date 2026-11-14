@@ -34,7 +34,6 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
   late PageController _pageController;
   int _currentIndex = 0;
   bool _isAdvancing = false;
-  bool _isAllCompleted = false;
 
   @override
   void initState() {
@@ -100,7 +99,7 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
   }
 
   void _onTapCounter(int index) {
-    if (_isAdvancing || _isAllCompleted || _items.isEmpty) return;
+    if (_isAdvancing || _items.isEmpty) return;
     if (index < 0 || index >= _items.length) return;
 
     final currentThikr = _items[index];
@@ -114,17 +113,23 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
         Future.delayed(const Duration(milliseconds: 300), () {
           if (!mounted) return;
           _isAdvancing = false;
-          if (_areAllItemsCompleted) {
-            setState(() {
-              _isAllCompleted = true;
-            });
-          } else if (_currentIndex == index && index < _items.length - 1) {
-            if (_pageController.hasClients) {
-              _pageController.animateToPage(
-                index + 1,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
+          if (_currentIndex == index) {
+            if (_areAllItemsCompleted) {
+              if (_pageController.hasClients) {
+                _pageController.animateToPage(
+                  _items.length,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
+            } else if (index < _items.length) {
+              if (_pageController.hasClients) {
+                _pageController.animateToPage(
+                  index + 1,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
             }
           }
         });
@@ -147,7 +152,7 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
   }
 
   void _onNext() {
-    if (_currentIndex < _items.length - 1 && _pageController.hasClients) {
+    if (_currentIndex < _items.length && _pageController.hasClients) {
       final nextIndex = _currentIndex + 1;
       setState(() {
         _currentIndex = nextIndex;
@@ -172,18 +177,17 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
     if (index < 0 || index >= _counts.length) return;
     setState(() {
       _counts[index] = 0;
-      _isAllCompleted = false;
     });
   }
 
   void _onRestartAll() {
-    _pageController.dispose();
-    _pageController = PageController(initialPage: 0);
     setState(() {
       _currentIndex = 0;
       _counts = List<int>.filled(_items.length, 0);
-      _isAllCompleted = false;
     });
+    if (_pageController.hasClients) {
+      _pageController.jumpToPage(0);
+    }
   }
 
   @override
@@ -200,6 +204,11 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
       );
     }
 
+    final displayIndex =
+        _currentIndex < _items.length ? _currentIndex + 1 : _items.length;
+    final segmentIndex =
+        _currentIndex < _items.length ? _currentIndex : _items.length - 1;
+
     return Scaffold(
       backgroundColor: isDark
           ? AppColors.darkBackground
@@ -208,45 +217,48 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
         children: [
           AthkarDetailHeaderWidget(
             title: title,
-            currentIndex: _currentIndex + 1,
+            currentIndex: displayIndex,
             totalCount: _items.length,
           ),
           AthkarSegmentedProgressWidget(
             totalSegments: _items.length,
-            currentSegmentIndex: _currentIndex,
+            currentSegmentIndex: segmentIndex,
           ),
           Expanded(
-            child: _isAllCompleted
-                ? SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    child: AthkarCompletedCardWidget(
-                      onRestart: _onRestartAll,
-                      onDone: () => context.pop(),
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _items.length + 1,
+              onPageChanged: _onPageChanged,
+              itemBuilder: (context, index) {
+                if (index == _items.length) {
+                  return Center(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: AthkarCompletedCardWidget(
+                        onRestart: _onRestartAll,
+                        onDone: () => context.pop(),
+                      ),
                     ),
-                  )
-                : PageView.builder(
-                    controller: _pageController,
-                    itemCount: _items.length,
-                    onPageChanged: _onPageChanged,
-                    itemBuilder: (context, index) {
-                      final currentThikr = _items[index];
-                      final currentCount = _counts[index];
-                      final isCompleted =
-                          currentCount >= currentThikr.requiredCount;
+                  );
+                }
 
-                      return ThikrPageContentWidget(
-                        thikr: currentThikr,
-                        currentCount: currentCount,
-                        isCompleted: isCompleted,
-                        hasPrevious: index > 0,
-                        hasNext: index < _items.length - 1,
-                        onTapCounter: () => _onTapCounter(index),
-                        onPrevious: _onPrevious,
-                        onNext: _onNext,
-                        onReset: () => _onReset(index),
-                      );
-                    },
-                  ),
+                final currentThikr = _items[index];
+                final currentCount = _counts[index];
+                final isCompleted = currentCount >= currentThikr.requiredCount;
+
+                return ThikrPageContentWidget(
+                  thikr: currentThikr,
+                  currentCount: currentCount,
+                  isCompleted: isCompleted,
+                  hasPrevious: index > 0,
+                  hasNext: true,
+                  onTapCounter: () => _onTapCounter(index),
+                  onPrevious: _onPrevious,
+                  onNext: _onNext,
+                  onReset: () => _onReset(index),
+                );
+              },
+            ),
           ),
         ],
       ),

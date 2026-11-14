@@ -6,24 +6,14 @@ import '../local/user_hive_helper.dart';
 class LocationService {
   const LocationService._();
 
-  /// Maximum age of cached location before a background GPS refresh (12 hours).
-  static const Duration maxCacheAge = Duration(hours: 12);
-
   /// Minimum distance (in meters) to consider a movement significant (20 km).
   static const double significantDistanceMeters = 20000.0;
 
-  /// Checks if background refresh should be attempted based on cache age.
-  static bool shouldRefreshLocation() {
-    final timestamp = UserHiveHelper.getCachedLocationTimestamp();
-    if (timestamp == null) return true;
-    final lastUpdate = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return DateTime.now().difference(lastUpdate) >= maxCacheAge;
-  }
-
-  /// Attempts to fetch the current device location following the smart cache-first strategy.
+  /// Attempts to fetch the current device location following a reliable, battery-efficient strategy.
   ///
-  /// Returns `null` if location services are disabled, permissions denied, or timeout occurs.
-  /// When [force] is true, ignores cache age check (e.g. user manually tapped refresh/current location).
+  /// Returns `null` if location services are disabled, permissions denied, timeout occurs,
+  /// or if movement is less than [significantDistanceMeters] when [force] is false.
+  /// When [force] is true, ignores distance threshold and always saves and returns new coordinates.
   static Future<GeoCoordinates?> getCurrentLocation({bool force = false}) async {
     try {
       // 1. Check if location services are enabled
@@ -38,36 +28,39 @@ class LocationService {
       }
       if (permission == LocationPermission.deniedForever) return null;
 
-      // 3. Fast-path: Check last known position first (0-10ms from OS cache)
-      final lastKnown = await Geolocator.getLastKnownPosition();
-
-      // If cache is fresh and force is false, return cached coordinates directly
-      if (!force && !shouldRefreshLocation() && lastKnown != null) {
-        return GeoCoordinates(lastKnown.latitude, lastKnown.longitude);
-      }
-
-      // 4. Fresh GPS fix with medium accuracy & 5-second timeout (low battery, low latency)
-      Position? position = lastKnown;
+      // 3. Obtain position: try high accuracy first (for precise GPS / Emulator),
+      // then fallback to low accuracy (if user granted approximate/coarse location only),
+      // then fallback to last known position.
+      Position? position;
       try {
         position = await Geolocator.getCurrentPosition(
           locationSettings: const LocationSettings(
-            accuracy: LocationAccuracy.medium,
+            accuracy: LocationAccuracy.high,
             timeLimit: Duration(seconds: 5),
           ),
         );
       } catch (_) {
-        position ??= lastKnown;
+        try {
+          position = await Geolocator.getCurrentPosition(
+            locationSettings: const LocationSettings(
+              accuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 4),
+            ),
+          );
+        } catch (_) {
+          position = await Geolocator.getLastKnownPosition();
+        }
       }
 
       if (position == null) return null;
 
       final newCoords = GeoCoordinates(position.latitude, position.longitude);
 
-      // 5. Compare with existing cached coordinates
+      // 4. Compare with existing cached coordinates
       final cachedLat = UserHiveHelper.getCachedLatitude();
       final cachedLng = UserHiveHelper.getCachedLongitude();
 
-      if (cachedLat != null && cachedLng != null) {
+      if (cachedLat != null && cachedLng != null && !force) {
         final distance = Geolocator.distanceBetween(
           cachedLat,
           cachedLng,
@@ -75,16 +68,17 @@ class LocationService {
           position.longitude,
         );
 
-        // If moved less than 20 km and not forced, only refresh the timestamp
-        if (distance < significantDistanceMeters && !force) {
+        // If moved less than 20 km and not forced, user is still in the same city.
+        // Return null to signal no state change is needed.
+        if (distance < significantDistanceMeters) {
           UserHiveHelper.setCachedLocationTimestamp(
             DateTime.now().millisecondsSinceEpoch,
           );
-          return GeoCoordinates(cachedLat, cachedLng);
+          return null;
         }
       }
 
-      // 6. Significant movement, first time, or forced: persist coordinates
+      // 5. Significant movement, first time launch, or forced refresh: persist coordinates
       UserHiveHelper.setCachedCoordinates(position.latitude, position.longitude);
       return newCoords;
     } catch (_) {
@@ -92,4 +86,3 @@ class LocationService {
     }
   }
 }
-

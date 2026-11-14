@@ -1,10 +1,18 @@
-name: Android Closed Testing
+name: Android Google Play Deployment
 
 on:
   push:
-    branches: [ dev, raag ]
+    branches: [ dev, main ]
   workflow_dispatch:
     inputs:
+      track:
+        description: 'Target Google Play Track'
+        required: false
+        default: 'testers'
+        type: choice
+        options:
+          - testers
+          - production
       release_status:
         description: 'Release status in Google Play'
         required: false
@@ -79,9 +87,10 @@ jobs:
         env:
           PLAY_STORE_JSON: "play_store_key.json"
           PACKAGE_NAME: "com.wolfdev.hojaty"
-          # تم تغيير القيمة الافتراضية من draft إلى completed عشان يشتغل مع الـ push مباشرة
           RELEASE_STATUS: ${{ github.event.inputs.release_status || 'completed' }}
+          PLAY_TRACK: ${{ github.event.inputs.track || (github.ref_name == 'main' && 'production' || 'testers') }}
         run: |
+          echo "🚀 Deploying to track: $PLAY_TRACK (Branch: ${{ github.ref_name }})"
           cd android
           bundle install || (bundle init && bundle add fastlane && bundle install)
-          bundle exec fastlane android closed_test
+          bundle exec fastlane android deploy
