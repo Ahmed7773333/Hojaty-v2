@@ -19,6 +19,7 @@ import '../../features/homelayout/presentation/pages/font_type_settings_page.dar
 import '../../features/homelayout/presentation/pages/homelayout_page.dart';
 import '../../features/homelayout/presentation/pages/istikhara_page.dart';
 import '../../features/homelayout/presentation/pages/language_settings_page.dart';
+import '../../features/homelayout/presentation/pages/theme_settings_page.dart';
 import '../../features/homelayout/presentation/pages/location_settings_page.dart';
 import '../../features/homelayout/presentation/pages/notifications_page.dart';
 import '../../features/homelayout/presentation/pages/occasion_detail_page.dart';
@@ -57,6 +58,7 @@ class AppRoutes {
   static const String istikhara = '/istikhara';
   static const String sebha = '/sebha';
   static const String occasionDetail = '/occasion-detail';
+  static const String themeSettings = '/theme-settings';
   static const String languageSettings = '/language-settings';
   static const String prayerCalculationSettings = '/prayer-calculation-settings';
   static const String locationSettings = '/location-settings';
@@ -171,6 +173,11 @@ class AppRouter {
             OccasionsMockData.nextOccasion;
         return MaterialPageRoute(
           builder: (_) => OccasionDetailPage(occasion: occasion),
+          settings: settings,
+        );
+      case AppRoutes.themeSettings:
+        return MaterialPageRoute(
+          builder: (_) => const ThemeSettingsPage(),
           settings: settings,
         );
       case AppRoutes.languageSettings:

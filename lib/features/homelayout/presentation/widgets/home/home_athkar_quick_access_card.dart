@@ -84,8 +84,7 @@ class HomeAthkarQuickAccessCard extends StatelessWidget {
               break;
             case PrayerType.dhuhr:
             case PrayerType.asr:
-            default:
-              athkarType = AthkarCategoryType.morning;
+            athkarType = AthkarCategoryType.morning;
               title = context.strings.morningAthkar;
               iconAsset = Assets.morningAzkharIcon;
               categoryId = 1;

@@ -43,6 +43,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     on<CheckQuranAssetStatusEvent>(_onCheckQuranAssetStatus);
     on<StartDownloadQuranAssetEvent>(_onStartDownloadQuranAsset);
     on<CancelDownloadQuranAssetEvent>(_onCancelDownloadQuranAsset);
+    on<DeleteQuranAssetEvent>(_onDeleteQuranAsset);
     on<AssetDownloadProgressUpdatedEvent>(_onAssetDownloadProgressUpdated);
   }
 
@@ -430,7 +431,37 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
     emit(
       state.copyWith(
         assetStatus: QuranAssetStatus.requiresDownload,
+        clearAssetsPath: true,
         downloadProgress: 0.0,
+      ),
+    );
+  }
+
+  Future<void> _onDeleteQuranAsset(
+    DeleteQuranAssetEvent event,
+    Emitter<QuranState> emit,
+  ) async {
+    final targetQirat = event.qirat;
+    final packName = targetQirat.assetPackName;
+
+    await PlayAssetDeliveryService.removeAssetPack(packName);
+
+    final updatedStatuses = Map<QiratType, QuranAssetStatus>.from(state.qiratStatuses);
+    updatedStatuses[targetQirat] = QuranAssetStatus.requiresDownload;
+
+    final updatedProgress = Map<QiratType, double>.from(state.qiratProgress);
+    updatedProgress[targetQirat] = 0.0;
+
+    final isSelected = targetQirat == state.selectedQirat;
+
+    emit(
+      state.copyWith(
+        assetStatus: isSelected ? QuranAssetStatus.requiresDownload : state.assetStatus,
+        clearAssetsPath: isSelected,
+        downloadProgress: isSelected ? 0.0 : state.downloadProgress,
+        bytesDownloaded: isSelected ? 0 : state.bytesDownloaded,
+        qiratStatuses: updatedStatuses,
+        qiratProgress: updatedProgress,
       ),
     );
   }

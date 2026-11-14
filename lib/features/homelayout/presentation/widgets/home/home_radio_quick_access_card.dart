@@ -27,10 +27,10 @@ class HomeRadioQuickAccessCard extends StatelessWidget {
             ? playerService.currentSurahName!
             : context.strings.radio;
 
-        final displaySubtitle =
-            isLiveActive && playerService.currentReciterName != null
-            ? playerService.currentReciterName!
-            : context.strings.radioSubtitle;
+        // final displaySubtitle =
+        //     isLiveActive && playerService.currentReciterName != null
+        //     ? playerService.currentReciterName!
+        //     : context.strings.radioSubtitle;
 
         return InkWell(
           onTap: () {

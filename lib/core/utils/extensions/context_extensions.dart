@@ -1,5 +1,7 @@
 import 'package:hojaty/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import '../../../config/theme/app_theme.dart';
+import '../../../config/theme/app_theme_mode.dart';
 
 // import 'package:timegates/l10n/app_localizations.dart';
 
@@ -9,6 +11,8 @@ extension LocalizationExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
   bool get isDark => Theme.of(this).brightness == Brightness.dark;
+  bool get isAmoled => AppTheme.isAmoled;
+  AppThemeMode get appThemeMode => AppTheme.currentTheme;
 }
 
 /// 🌍 A complete BuildContext extension to handle all navigation types

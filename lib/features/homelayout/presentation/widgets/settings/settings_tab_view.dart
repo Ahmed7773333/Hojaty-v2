@@ -1,7 +1,8 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../config/routes/app_router.dart';
-import '../../../../../config/theme/app_theme.dart';
 import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_share_helper.dart';
@@ -16,6 +17,7 @@ import 'settings_header_widget.dart';
 import 'settings_section_card_widget.dart';
 import 'settings_switch_tile_widget.dart';
 import 'settings_tile_widget.dart';
+import 'theme_settings_tile_widget.dart';
 
 class SettingsTabView extends StatefulWidget {
   const SettingsTabView({super.key});
@@ -170,18 +172,7 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                   SettingsSectionCardWidget(
                     title: context.strings.languageAndThemeSection,
                     children: [
-                      ValueListenableBuilder<ThemeMode>(
-                        valueListenable: AppTheme.themeModeNotifier,
-                        builder: (context, mode, _) {
-                          return SettingsSwitchTileWidget(
-                            title: context.strings.darkModeLabel,
-                            value: mode == ThemeMode.dark,
-                            onChanged: (val) {
-                              AppTheme.toggleTheme();
-                            },
-                          );
-                        },
-                      ),
+                      const ThemeSettingsTileWidget(),
                       SettingsTileWidget(
                         title: context.strings.languageLabel,
                         subtitle: UserHiveHelper.getUser()?.language == 'en'

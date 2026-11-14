@@ -177,15 +177,27 @@ class BooksRepository {
       status: BookDownloadStatus.notDownloaded,
     );
     try {
+      // 1. Remove from Play Asset Delivery on Android
+      await PlayAssetDeliveryService.removeAssetPack(book.assetPackName);
+
+      // 2. Remove any local documents directory file
+      try {
+        final docsDir = await getApplicationDocumentsDirectory();
+        final localFile = File('${docsDir.path}/books/${book.assetName}');
+        if (await localFile.exists()) {
+          await localFile.delete();
+        }
+      } catch (_) {}
+
+      // 3. Delete any local resolved path (avoid dev assets)
       final path = await _resolveBookFilePath(book);
-      if (path != null) {
+      if (path != null && !path.startsWith('android/')) {
         final f = File(path);
         if (await f.exists()) {
           await f.delete();
-          return true;
         }
       }
-      return false;
+      return true;
     } catch (_) {
       return false;
     }

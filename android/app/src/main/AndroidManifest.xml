@@ -52,6 +52,15 @@
 
         <!-- Awesome Notifications Broadcast Receivers & Services for Release Background Alarms -->
         <receiver 
+            android:name="com.wolfdev.hojaty.PrayerActionReceiver"
+            android:exported="true"/>
+        <receiver 
+            android:name="com.wolfdev.hojaty.PrayerDismissedReceiver"
+            android:exported="true"/>
+        <receiver 
+            android:name="com.wolfdev.hojaty.PrayerScheduledReceiver"
+            android:exported="true"/>
+        <receiver 
             android:name="me.carda.awesome_notifications.DartNotificationActionReceiver"
             android:exported="true"/>
         <receiver 

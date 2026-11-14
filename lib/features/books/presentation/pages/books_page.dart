@@ -11,6 +11,7 @@ import '../bloc/books_bloc.dart';
 import '../bloc/books_event.dart';
 import '../bloc/books_state.dart';
 import '../widgets/books/book_card_widget.dart';
+import '../widgets/books/book_delete_confirm_dialog.dart';
 import '../widgets/books/books_category_filter_widget.dart';
 import '../widgets/books/books_header_widget.dart';
 import '../widgets/books/books_search_bar_widget.dart';
@@ -81,39 +82,14 @@ class _BooksPageState extends State<BooksPage> {
     _booksBloc.add(DownloadBookEvent(book));
   }
 
-  void _onDelete(BookInfoModel book) {
-    showDialog(
+  Future<void> _onDelete(BookInfoModel book) async {
+    final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) {
-        final isDark = ctx.isDark;
-        return AlertDialog(
-          backgroundColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-          title: Text(
-            context.strings.deleteDownload,
-            style: ctx.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          content: Text(
-            '${context.strings.deleteDownloadConfirm} (${book.getDisplayTitle(Localizations.localeOf(context).languageCode == 'ar')})',
-            style: ctx.textTheme.bodyMedium,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(context.strings.cancel),
-            ),
-            FilledButton(
-              style: FilledButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: () {
-                Navigator.pop(ctx);
-                _booksBloc.add(DeleteBookEvent(book));
-              },
-              child: Text(context.strings.delete),
-            ),
-          ],
-        );
-      },
+      builder: (_) => BookDeleteConfirmDialog(book: book),
     );
+    if (confirmed == true && mounted) {
+      _booksBloc.add(DeleteBookEvent(book));
+    }
   }
 
   @override

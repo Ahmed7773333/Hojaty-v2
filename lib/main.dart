@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
+import 'config/theme/app_theme_mode.dart';
 import 'core/di/injector.dart';
 import 'core/local/user_hive_helper.dart';
 import 'core/utils/screen_util_like.dart';
@@ -60,17 +61,21 @@ class AnaOsalyApp extends StatelessWidget {
           final user = UserHiveHelper.getUser();
           final locale = user?.language ?? 'ar';
 
-          return ValueListenableBuilder<ThemeMode>(
+          return ValueListenableBuilder<AppThemeMode>(
             valueListenable: AppTheme.themeModeNotifier,
-            builder: (context, currentThemeMode, _) {
+            builder: (context, currentMode, _) {
               return SafeArea(
                 top: false,
                 child: MaterialApp(
                   navigatorKey: AnaOsalyApp.navigatorKey, // Assign the key
                   debugShowCheckedModeBanner: false,
                   theme: AppTheme.lightTheme,
-                  darkTheme: AppTheme.darkTheme,
-                  themeMode: currentThemeMode,
+                  darkTheme: currentMode == AppThemeMode.amoled
+                      ? AppTheme.amoledTheme
+                      : AppTheme.darkTheme,
+                  themeMode: currentMode == AppThemeMode.light
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
                   localizationsDelegates:
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,

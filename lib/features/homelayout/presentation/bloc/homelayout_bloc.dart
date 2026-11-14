@@ -6,7 +6,6 @@ import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/local_notification_service.dart';
 import '../../../../core/utils/location_service.dart';
 import '../../../../data/mocks/home_mock_data.dart';
-import '../../data/models/banner_model.dart';
 import '../../data/models/hijri_calendar_helper.dart';
 import '../../data/models/occasion_item_model.dart';
 import '../../data/models/prayer_time_model.dart';

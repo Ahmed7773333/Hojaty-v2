@@ -16,16 +16,20 @@ import com.google.android.play.core.assetpacks.AssetPackManagerFactory
 import com.google.android.play.core.assetpacks.AssetPackState
 import com.google.android.play.core.assetpacks.AssetPackStateUpdateListener
 import com.google.android.play.core.assetpacks.model.AssetPackStatus
+import me.carda.awesome_notifications.AwesomeNotificationsFlutterExtension
+import me.carda.awesome_notifications.core.AwesomeNotifications
 
 class MainActivity : AudioServiceActivity() {
     companion object {
         private const val ASSET_CHANNEL = "com.wolfdev.hojaty/asset_delivery"
         private const val COMPASS_CHANNEL = "com.wolfdev.hojaty/compass"
+        private const val FLIP_CHANNEL = "com.wolfdev.hojaty/azan_flip"
     }
 
     private var assetPackListener: AssetPackStateUpdateListener? = null
     private var assetMethodChannel: MethodChannel? = null
     private var compassEventChannel: EventChannel? = null
+    private var flipMethodChannel: MethodChannel? = null
     private var sensorManager: SensorManager? = null
     private var compassListener: SensorEventListener? = null
 
@@ -147,6 +151,20 @@ class MainActivity : AudioServiceActivity() {
                         assetPackManager.cancel(listOf(packName))
                         result.success(true)
                     }
+                    "removeAssetPack" -> {
+                        var fallbackDeleted = false
+                        val localFallback = java.io.File(applicationContext.filesDir, packName)
+                        if (localFallback.exists()) {
+                            fallbackDeleted = localFallback.deleteRecursively()
+                        }
+                        try {
+                            assetPackManager.removePack(packName).addOnCompleteListener { task ->
+                                result.success(task.isSuccessful || fallbackDeleted)
+                            }
+                        } catch (e: Exception) {
+                            result.success(fallbackDeleted)
+                        }
+                    }
                     "getAssetPackPath" -> {
                         val path = assetPackManager.getPackLocation(packName)?.assetsPath()
                         if (path != null && java.io.File(path).exists()) {
@@ -239,9 +257,45 @@ class MainActivity : AudioServiceActivity() {
                 }
             })
         }
+
+        // Configure custom AwesomeNotifications receivers with flip-to-stop support
+        try {
+            AwesomeNotificationsFlutterExtension.initialize()
+            AwesomeNotifications.scheduleReceiverClass = PrayerScheduledReceiver::class.java
+            AwesomeNotifications.dismissReceiverClass = PrayerDismissedReceiver::class.java
+            AwesomeNotifications.actionReceiverClass = PrayerActionReceiver::class.java
+        } catch (_: Exception) {}
+
+        flipMethodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, FLIP_CHANNEL).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "startFlipDetector" -> {
+                        val notifId = call.argument<Int>("notificationId")
+                        AzanFlipDetector.start(applicationContext, notifId)
+                        result.success(true)
+                    }
+                    "stopFlipDetector" -> {
+                        AzanFlipDetector.stop()
+                        result.success(true)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
+
+        AzanFlipDetector.onAzanStoppedCallback = { notifId ->
+            runOnUiThread {
+                flipMethodChannel?.invokeMethod("onAzanStoppedByFlip", mapOf("notificationId" to notifId))
+            }
+        }
     }
 
     override fun onDestroy() {
+        AzanFlipDetector.onAzanStoppedCallback = null
+        AzanFlipDetector.stop()
+        flipMethodChannel?.setMethodCallHandler(null)
+        flipMethodChannel = null
+
         compassListener?.let { listener ->
             try {
                 sensorManager?.unregisterListener(listener)

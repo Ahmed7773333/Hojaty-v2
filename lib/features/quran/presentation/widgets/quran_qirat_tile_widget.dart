@@ -12,6 +12,7 @@ class QuranQiratTileWidget extends StatelessWidget {
   final double downloadProgress;
   final VoidCallback onTap;
   final VoidCallback onDownload;
+  final VoidCallback onDelete;
 
   const QuranQiratTileWidget({
     super.key,
@@ -21,6 +22,7 @@ class QuranQiratTileWidget extends StatelessWidget {
     required this.downloadProgress,
     required this.onTap,
     required this.onDownload,
+    required this.onDelete,
   });
 
   @override
@@ -56,31 +58,49 @@ class QuranQiratTileWidget extends StatelessWidget {
         ),
       );
     } else if (isDownloaded) {
-      trailingWidget = Container(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.check_circle_rounded,
-              color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-              size: 14.sp,
+      trailingWidget = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+              borderRadius: BorderRadius.circular(8.r),
             ),
-            4.hor,
-            Text(
-              context.strings.offlineAvailable,
-              style: context.textTheme.labelSmall?.copyWith(
-                color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                fontWeight: FontWeight.bold,
-                fontSize: 10.sp,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                  size: 14.sp,
+                ),
+                4.hor,
+                Text(
+                  context.strings.offlineAvailable,
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          6.hor,
+          InkWell(
+            onTap: onDelete,
+            borderRadius: BorderRadius.circular(8.r),
+            child: Padding(
+              padding: EdgeInsets.all(4.r),
+              child: Icon(
+                Icons.delete_outline_rounded,
+                size: 18.sp,
+                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
     } else {
       trailingWidget = InkWell(

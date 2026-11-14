@@ -391,6 +391,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get languageAndThemeSection => 'اللغة والمظهر';
 
   @override
+  String get themeSettingsTitle => 'المظهر';
+
+  @override
+  String get themeSettingsSubtitle => 'اختر مظهر واجهة التطبيق المناسب لك';
+
+  @override
+  String get lightThemeTitle => 'الوضع الفاتح';
+
+  @override
+  String get lightThemeSubtitle => 'المظهر الافتراضي الفاتح المريح للعين';
+
+  @override
+  String get darkThemeTitle => 'الوضع الداكن';
+
+  @override
+  String get darkThemeSubtitle => 'مظهر إسلامي هادئ بدرجات الأخضر والذهبي';
+
+  @override
+  String get amoledThemeTitle => 'وضع أموليد';
+
+  @override
+  String get amoledThemeSubtitle => 'أسود نقي لتوفير طاقة البطارية وشاشات OLED';
+
+  @override
   String get darkModeLabel => 'الوضع الداكن';
 
   @override
@@ -826,6 +850,22 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String downloadQiratConfirmDesc(Object qiratName, Object size) {
     return 'هل تريد تحميل مصحف $qiratName بحجم $size ميجابايت للقراءة بدون إنترنت؟';
+  }
+
+  @override
+  String get deleteQiratConfirmTitle => 'حذف رواية المصحف';
+
+  @override
+  String deleteQiratConfirmDesc(Object qiratName) {
+    return 'هل أنت متأكد من رغبتك في حذف مصحف $qiratName لتوفير مساحة في الهاتف؟ يمكنك إعادة تحميله في أي وقت.';
+  }
+
+  @override
+  String get deleteBookConfirmTitle => 'حذف الكتاب';
+
+  @override
+  String deleteBookConfirmDesc(Object bookTitle) {
+    return 'هل أنت متأكد من رغبتك في حذف كتاب $bookTitle لتوفير مساحة في الهاتف؟ يمكنك إعادة تحميله في أي وقت.';
   }
 
   @override

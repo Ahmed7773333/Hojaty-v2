@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../config/theme/app_theme.dart';
 
 class AppColors {
   // Brand Dark Greens
   static const Color primaryDark = Color(0xFF1D433F);
   static const Color primaryDarkHeader = Color(0xFF163532);
-  static const Color primaryDarkBackground = Color(0xFF1B3B36);
+  static const Color brandPrimaryDarkBackground = Color(0xFF1B3B36);
   static const Color primaryDarkSurface = Color(0xFF244B45);
   static const Color primaryDarkCard = Color(0xFF1A3A3A);
   static const Color primaryDarkBorder = Color(0xFF2F5C55);
   static const Color darkBadgeOuter = Color(0xFF2A524C);
   static const Color darkBadgeInner = Color(0xFF1E3F3A);
+
+  /// Dynamic Header / App Bar background that switches to AMOLED Black when AMOLED is active
+  static Color get primaryDarkBackground =>
+      AppTheme.isAmoled ? amoledBackground : brandPrimaryDarkBackground;
 
   // Brand Gold / Mustard Accents
   static const Color accentGold = Color(0xFFCCA142);
@@ -29,16 +34,47 @@ class AppColors {
   static const Color lightTextSecondary = Color(0xFF6B7280);
   static const Color lightTextMuted = Color(0xFF9CA3AF);
 
-  // Dark Theme Palette
-  static const Color darkBackground = Color(0xFF1B3B36);
-  static const Color darkSurface = Color(0xFF234943);
-  static const Color darkCardSelected = Color(0xFF27524C);
-  static const Color darkCardUnselected = Color(0xFF1F433E);
-  static const Color darkBorderSelected = Color(0xFFCCA142);
-  static const Color darkBorderUnselected = Color(0xFF2F5C55);
-  static const Color darkTextPrimary = Color(0xFFFFFFFF);
-  static const Color darkTextSecondary = Color(0xFFA3C4BE);
-  static const Color darkTextMuted = Color(0xFF759791);
+  // Dark Green Theme Constants (Islamic Dark)
+  static const Color greenDarkBackground = Color(0xFF1B3B36);
+  static const Color greenDarkSurface = Color(0xFF234943);
+  static const Color greenDarkCardSelected = Color(0xFF27524C);
+  static const Color greenDarkCardUnselected = Color(0xFF1F433E);
+  static const Color greenDarkBorderSelected = Color(0xFFCCA142);
+  static const Color greenDarkBorderUnselected = Color(0xFF2F5C55);
+  static const Color greenDarkTextPrimary = Color(0xFFFFFFFF);
+  static const Color greenDarkTextSecondary = Color(0xFFA3C4BE);
+  static const Color greenDarkTextMuted = Color(0xFF759791);
+
+  // AMOLED Theme Constants (Pure Pitch Black OLED)
+  static const Color amoledBackground = Color(0xFF000000);
+  static const Color amoledSurface = Color(0xFF0C0C0C);
+  static const Color amoledCardSelected = Color(0xFF18181B);
+  static const Color amoledCardUnselected = Color(0xFF0E0E10);
+  static const Color amoledBorderSelected = Color(0xFFCCA142);
+  static const Color amoledBorderUnselected = Color(0xFF27272A);
+  static const Color amoledTextPrimary = Color(0xFFFFFFFF);
+  static const Color amoledTextSecondary = Color(0xFFA1A1AA);
+  static const Color amoledTextMuted = Color(0xFF71717A);
+
+  // Dynamic Dark Palette (Automatically reflects Dark Green vs AMOLED)
+  static Color get darkBackground =>
+      AppTheme.isAmoled ? amoledBackground : greenDarkBackground;
+  static Color get darkSurface =>
+      AppTheme.isAmoled ? amoledSurface : greenDarkSurface;
+  static Color get darkCardSelected =>
+      AppTheme.isAmoled ? amoledCardSelected : greenDarkCardSelected;
+  static Color get darkCardUnselected =>
+      AppTheme.isAmoled ? amoledCardUnselected : greenDarkCardUnselected;
+  static Color get darkBorderSelected =>
+      AppTheme.isAmoled ? amoledBorderSelected : greenDarkBorderSelected;
+  static Color get darkBorderUnselected =>
+      AppTheme.isAmoled ? amoledBorderUnselected : greenDarkBorderUnselected;
+  static Color get darkTextPrimary =>
+      AppTheme.isAmoled ? amoledTextPrimary : greenDarkTextPrimary;
+  static Color get darkTextSecondary =>
+      AppTheme.isAmoled ? amoledTextSecondary : greenDarkTextSecondary;
+  static Color get darkTextMuted =>
+      AppTheme.isAmoled ? amoledTextMuted : greenDarkTextMuted;
 
   // Neutral / Common
   static const Color white = Color(0xFFFFFFFF);

@@ -8,6 +8,7 @@ import '../../../../quran/domain/entities/qirat_type.dart';
 import '../../../../quran/presentation/bloc/quran_bloc.dart';
 import '../../../../quran/presentation/bloc/quran_event.dart';
 import '../../../../quran/presentation/bloc/quran_state.dart';
+import '../../../../quran/presentation/widgets/quran_delete_confirm_dialog.dart';
 import 'quran_download_confirm_dialog.dart';
 import 'quran_qirat_card_action_widget.dart';
 import 'quran_qirat_card_header_widget.dart';
@@ -44,6 +45,16 @@ class QuranQiratCardWidget extends StatelessWidget {
       );
       if (confirmed == true && context.mounted) {
         context.read<QuranBloc>().add(StartDownloadQuranAssetEvent(qirat: qirat));
+      }
+    }
+
+    Future<void> onDelete() async {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => QuranDeleteConfirmDialog(qirat: qirat),
+      );
+      if (confirmed == true && context.mounted) {
+        context.read<QuranBloc>().add(DeleteQuranAssetEvent(qirat));
       }
     }
 
@@ -92,6 +103,7 @@ class QuranQiratCardWidget extends StatelessWidget {
                   downloadProgress: progress,
                   onDownload: onDownload,
                   onOpen: onOpen,
+                  onDelete: onDelete,
                 ),
               ],
             ),

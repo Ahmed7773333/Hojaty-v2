@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../config/routes/app_router.dart';
 import '../../features/homelayout/data/models/occasion_item_model.dart';
 import '../../features/homelayout/data/models/prayer_time_model.dart';
@@ -16,19 +17,40 @@ class LocalNotificationService {
   static bool get isSupportedPlatform =>
       !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
 
-  // Channel Keys
-  static const String prayersChannelKey = 'prayers_channel_makkah';
-  static const String prayersChannelMakkahKey = 'prayers_channel_makkah';
-  static const String prayersChannelMadinahKey = 'prayers_channel_madinah';
-  static const String prayersChannelAzanKey = 'prayers_channel_azan';
-  static const String prePrayerChannelKey = 'pre_prayer_channel';
-  static const String occasionsChannelKey = 'occasions_channel';
-  static const String anaOsalyChannelKey = 'hojaty_channel';
-  static const String generalChannelKey = 'general_channel';
+  // MethodChannel for native device flip detection (flip face-down to stop Azan)
+  static const MethodChannel _flipMethodChannel =
+      MethodChannel('com.wolfdev.hojaty/azan_flip');
+
+  // Channel Keys (v2 to guarantee no vibration across all device states & clear cached OS settings)
+  static const String prayersChannelKey = 'prayers_channel_makkah_v2';
+  static const String prayersChannelMakkahKey = 'prayers_channel_makkah_v2';
+  static const String prayersChannelMadinahKey = 'prayers_channel_madinah_v2';
+  static const String prayersChannelAzanKey = 'prayers_channel_azan_v2';
+  static const String prePrayerChannelKey = 'pre_prayer_channel_v2';
+  static const String occasionsChannelKey = 'occasions_channel_v2';
+  static const String anaOsalyChannelKey = 'hojaty_channel_v2';
+  static const String generalChannelKey = 'general_channel_v2';
 
   /// Default notification small icon resource for Android
   static const String defaultNotificationIcon =
       'resource://drawable/res_app_icon';
+
+  /// Helper to safely communicate with flip detector
+  static Future<void> _startFlipDetector([int? notificationId]) async {
+    if (!Platform.isAndroid) return;
+    try {
+      await _flipMethodChannel.invokeMethod('startFlipDetector', {
+        'notificationId': notificationId,
+      });
+    } catch (_) {}
+  }
+
+  static Future<void> _stopFlipDetector() async {
+    if (!Platform.isAndroid) return;
+    try {
+      await _flipMethodChannel.invokeMethod('stopFlipDetector');
+    } catch (_) {}
+  }
 
   /// Initialize Awesome Notifications with all required channels
   static Future<void> init() async {
@@ -39,11 +61,31 @@ class LocalNotificationService {
       return;
     }
     log('Initializing LocalNotificationService...');
+
+    // Delete legacy channels from system settings to eliminate cached vibration settings
+    if (Platform.isAndroid) {
+      final legacyKeys = [
+        'prayers_channel_makkah',
+        'prayers_channel_madinah',
+        'prayers_channel_azan',
+        'occasions_channel',
+        'hojaty_channel',
+        'general_channel',
+        'pre_prayer_channel',
+        'prayers_channel',
+      ];
+      for (final legacyKey in legacyKeys) {
+        try {
+          await AwesomeNotifications().removeChannel(legacyKey);
+        } catch (_) {}
+      }
+    }
+
     try {
       await AwesomeNotifications().initialize(
         defaultNotificationIcon,
         [
-          // 1. Makkah Prayer Channel
+          // 1. Makkah Prayer Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: prayersChannelMakkahKey,
             channelName: 'أذان مكة المكرمة',
@@ -58,10 +100,12 @@ class LocalNotificationService {
             soundSource: Platform.isAndroid
                 ? 'resource://raw/makka_azan'
                 : null,
-            enableVibration: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 2. Madinah Prayer Channel
+          // 2. Madinah Prayer Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: prayersChannelMadinahKey,
             channelName: 'أذان المدينة المنورة',
@@ -77,10 +121,12 @@ class LocalNotificationService {
             soundSource: Platform.isAndroid
                 ? 'resource://raw/madina_azan'
                 : null,
-            enableVibration: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 3. Traditional Azan Prayer Channel
+          // 3. Traditional Azan Prayer Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: prayersChannelAzanKey,
             channelName: 'الأذان التقليدي',
@@ -93,10 +139,12 @@ class LocalNotificationService {
             playSound: true,
             criticalAlerts: true,
             soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
-            enableVibration: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 4. Occasions Channel (High Importance)
+          // 4. Occasions Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: occasionsChannelKey,
             channelName: 'المناسبات الإسلامية',
@@ -107,10 +155,12 @@ class LocalNotificationService {
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
-            enableVibration: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 5. Hojaty Channel (Prayer Window Alert)
+          // 5. Hojaty Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: anaOsalyChannelKey,
             channelName: 'وضع حچتي',
@@ -122,9 +172,12 @@ class LocalNotificationService {
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 6. General Notifications (Athkar, Reminders)
+          // 6. General Notifications (Vibration completely disabled)
           NotificationChannel(
             channelKey: generalChannelKey,
             channelName: 'تنبيهات عامة',
@@ -134,9 +187,12 @@ class LocalNotificationService {
             importance: NotificationImportance.Default,
             channelShowBadge: true,
             playSound: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
 
-          // 7. Pre-Prayer Reminder Channel
+          // 7. Pre-Prayer Reminder Channel (Vibration completely disabled)
           NotificationChannel(
             channelKey: prePrayerChannelKey,
             channelName: 'التنبيه المسبق للأذان',
@@ -148,7 +204,9 @@ class LocalNotificationService {
             importance: NotificationImportance.High,
             channelShowBadge: true,
             playSound: true,
-            enableVibration: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
         ],
         debug: false,
@@ -168,6 +226,9 @@ class LocalNotificationService {
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: prayersChannelMadinahKey,
@@ -178,6 +239,9 @@ class LocalNotificationService {
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: prayersChannelAzanKey,
@@ -187,6 +251,9 @@ class LocalNotificationService {
             importance: NotificationImportance.Max,
             playSound: true,
             criticalAlerts: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: occasionsChannelKey,
@@ -194,6 +261,9 @@ class LocalNotificationService {
             channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
             icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: anaOsalyChannelKey,
@@ -202,6 +272,9 @@ class LocalNotificationService {
                 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
             icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: generalChannelKey,
@@ -209,6 +282,9 @@ class LocalNotificationService {
             channelDescription: 'الأذكار اليومية والتنبيهات العامة',
             icon: defaultNotificationIcon,
             importance: NotificationImportance.Default,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
           NotificationChannel(
             channelKey: prePrayerChannelKey,
@@ -217,6 +293,9 @@ class LocalNotificationService {
             icon: defaultNotificationIcon,
             importance: NotificationImportance.High,
             playSound: true,
+            enableVibration: false,
+            vibrationPattern: Int64List.fromList([0]),
+            onlyAlertOnce: true,
           ),
         ], debug: false);
         _setListeners();
@@ -227,7 +306,7 @@ class LocalNotificationService {
     }
   }
 
-  /// Check and request notification permissions automatically
+  /// Check and request notification permissions automatically (no vibration permission requested)
   static Future<bool> requestPermission() async {
     if (!isSupportedPlatform) return false;
     try {
@@ -238,7 +317,6 @@ class LocalNotificationService {
             NotificationPermission.Alert,
             NotificationPermission.Sound,
             NotificationPermission.Badge,
-            NotificationPermission.Vibration,
             NotificationPermission.Light,
             NotificationPermission.FullScreenIntent,
             NotificationPermission.PreciseAlarms,
@@ -280,6 +358,13 @@ class LocalNotificationService {
         onNotificationDisplayedMethod: onNotificationDisplayedMethod,
         onDismissActionReceivedMethod: onDismissActionReceivedMethod,
       );
+
+      _flipMethodChannel.setMethodCallHandler((call) async {
+        if (call.method == 'onAzanStoppedByFlip') {
+          final notifId = call.arguments?['notificationId'];
+          log('Azan notification $notifId was successfully stopped by flipping device face down.');
+        }
+      });
     } catch (e) {
       log('Error setting notification listeners: $e');
     }
@@ -297,6 +382,11 @@ class LocalNotificationService {
     ReceivedNotification receivedNotification,
   ) async {
     log('Notification displayed: ${receivedNotification.id}');
+    final id = receivedNotification.id;
+    final type = receivedNotification.payload?['type'];
+    if ((id != null && id >= 100 && id <= 105) || id == 999 || type == 'prayer') {
+      _startFlipDetector(id);
+    }
   }
 
   @pragma("vm:entry-point")
@@ -304,6 +394,7 @@ class LocalNotificationService {
     ReceivedAction receivedAction,
   ) async {
     log('Notification dismissed: ${receivedAction.id}');
+    _stopFlipDetector();
   }
 
   /// Action listener: handles notification clicks and navigates via AnaOsalyApp.navigatorKey
@@ -314,6 +405,8 @@ class LocalNotificationService {
     log(
       'Notification action clicked: ${receivedAction.id}, payload: ${receivedAction.payload}',
     );
+
+    _stopFlipDetector();
 
     final payload = receivedAction.payload ?? {};
     final type = payload['type'];
@@ -440,7 +533,7 @@ class LocalNotificationService {
                 ? soundResource
                 : null,
             notificationLayout: NotificationLayout.Default,
-            category: NotificationCategory.Alarm,
+            category: NotificationCategory.Reminder,
             wakeUpScreen: true,
             fullScreenIntent: true,
             payload: {'type': 'prayer', 'prayer': type.name},
@@ -759,7 +852,7 @@ class LocalNotificationService {
           customSound: (isFullAdhan && Platform.isAndroid)
               ? soundResource
               : null,
-          category: NotificationCategory.Alarm,
+          category: NotificationCategory.Reminder,
           wakeUpScreen: true,
           payload: {'type': 'prayer', 'prayer': 'dhuhr'},
         ),
@@ -776,6 +869,7 @@ class LocalNotificationService {
           ),
         ],
       );
+      _startFlipDetector(999);
       log(
         'Instant test notification sent successfully with sound: $soundResource',
       );
@@ -842,6 +936,7 @@ class LocalNotificationService {
   /// Cancels all prayer notifications (IDs 100 to 199)
   static Future<void> cancelPrayerNotifications() async {
     if (!isSupportedPlatform) return;
+    _stopFlipDetector();
     for (int id = 100; id <= 199; id++) {
       try {
         await AwesomeNotifications().cancel(id);
@@ -863,6 +958,7 @@ class LocalNotificationService {
   /// Cancels all scheduled notifications
   static Future<void> cancelAll() async {
     if (!isSupportedPlatform) return;
+    _stopFlipDetector();
     try {
       await AwesomeNotifications().cancelAll();
     } catch (_) {}

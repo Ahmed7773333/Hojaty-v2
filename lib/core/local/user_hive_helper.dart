@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../utils/local_notification_service.dart';
+import '../../config/theme/app_theme_mode.dart';
 import '../../features/homelayout/data/models/prayers_helper.dart';
 import 'user_data.dart';
 
@@ -425,18 +425,37 @@ class UserHiveHelper {
   }
 
   // --------------------- Theme Mode ---------------------
-  static bool getIsDarkMode({bool defaultValue = false}) {
+  static AppThemeMode getThemeMode() {
     try {
-      return prayersBox.get('is_dark_mode', defaultValue: defaultValue) as bool;
+      final saved = prayersBox.get('app_theme_mode') as String?;
+      if (saved != null) {
+        if (saved == AppThemeMode.dark.name) return AppThemeMode.dark;
+        if (saved == AppThemeMode.amoled.name) return AppThemeMode.amoled;
+        return AppThemeMode.light;
+      }
+      final isDark = prayersBox.get('is_dark_mode') as bool?;
+      if (isDark == true) {
+        return AppThemeMode.dark;
+      }
+      return AppThemeMode.light;
     } catch (_) {
-      return defaultValue;
+      return AppThemeMode.light;
     }
   }
 
-  static void setIsDarkMode(bool isDark) {
+  static void setThemeMode(AppThemeMode mode) {
     try {
-      prayersBox.put('is_dark_mode', isDark);
+      prayersBox.put('app_theme_mode', mode.name);
+      prayersBox.put('is_dark_mode', mode != AppThemeMode.light);
     } catch (_) {}
+  }
+
+  static bool getIsDarkMode({bool defaultValue = false}) {
+    return getThemeMode() != AppThemeMode.light;
+  }
+
+  static void setIsDarkMode(bool isDark) {
+    setThemeMode(isDark ? AppThemeMode.dark : AppThemeMode.light);
   }
 
   // --------------------- App Rating ---------------------

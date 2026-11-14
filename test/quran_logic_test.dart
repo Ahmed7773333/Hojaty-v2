@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:hojaty/features/quran/constants/quran_constants.dart';
 import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
 import 'package:hojaty/features/quran/data/models/page_data_model.dart';

@@ -74,7 +74,7 @@ class AdhanSoundRowWidget extends StatelessWidget {
               Container(
                 width: 22.r,
                 height: 22.r,
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.primaryDarkBackground,
                 ),

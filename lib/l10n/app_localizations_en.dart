@@ -392,6 +392,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageAndThemeSection => 'Language & Appearance';
 
   @override
+  String get themeSettingsTitle => 'Appearance';
+
+  @override
+  String get themeSettingsSubtitle => 'Choose your preferred application theme';
+
+  @override
+  String get lightThemeTitle => 'Light Mode';
+
+  @override
+  String get lightThemeSubtitle => 'Default bright and clear interface';
+
+  @override
+  String get darkThemeTitle => 'Dark Mode';
+
+  @override
+  String get darkThemeSubtitle =>
+      'Calm Islamic dark theme with green and gold tones';
+
+  @override
+  String get amoledThemeTitle => 'AMOLED Mode';
+
+  @override
+  String get amoledThemeSubtitle =>
+      'Pure black theme optimized for battery saving on OLED screens';
+
+  @override
   String get darkModeLabel => 'Dark Mode';
 
   @override
@@ -837,6 +863,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String downloadQiratConfirmDesc(Object qiratName, Object size) {
     return 'Do you want to download $qiratName ($size MB) for offline reading?';
+  }
+
+  @override
+  String get deleteQiratConfirmTitle => 'Delete Recitation';
+
+  @override
+  String deleteQiratConfirmDesc(Object qiratName) {
+    return 'Are you sure you want to delete $qiratName to free up device storage? You can download it again at any time.';
+  }
+
+  @override
+  String get deleteBookConfirmTitle => 'Delete Book';
+
+  @override
+  String deleteBookConfirmDesc(Object bookTitle) {
+    return 'Are you sure you want to delete $bookTitle to free up device storage? You can download it again at any time.';
   }
 
   @override

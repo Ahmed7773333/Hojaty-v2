@@ -47,12 +47,12 @@ class OnboardingMockData {
   static String _getSlide2Desc(dynamic s) =>
       (s as AppLocalizations).onboardingSlide2Desc;
 
-  static String _getSlide3Subtitle(dynamic s) =>
-      (s as AppLocalizations).onboardingSlide3Subtitle;
-  static String _getSlide3Title(dynamic s) =>
-      (s as AppLocalizations).onboardingSlide3Title;
-  static String _getSlide3Desc(dynamic s) =>
-      (s as AppLocalizations).onboardingSlide3Desc;
+  // static String _getSlide3Subtitle(dynamic s) =>
+  //     (s as AppLocalizations).onboardingSlide3Subtitle;
+  // static String _getSlide3Title(dynamic s) =>
+  //     (s as AppLocalizations).onboardingSlide3Title;
+  // static String _getSlide3Desc(dynamic s) =>
+  //     (s as AppLocalizations).onboardingSlide3Desc;
 
   static String _getSlide4Subtitle(dynamic s) =>
       (s as AppLocalizations).onboardingSlide4Subtitle;

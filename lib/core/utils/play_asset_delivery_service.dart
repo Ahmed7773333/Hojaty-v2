@@ -193,6 +193,22 @@ class PlayAssetDeliveryService {
     }
   }
 
+  /// Removes/deletes an installed asset pack to free up storage space.
+  static Future<bool> removeAssetPack(String packName) async {
+    _initHandler();
+    if (!Platform.isAndroid) return true;
+
+    try {
+      final bool? success = await _channel.invokeMethod<bool>('removeAssetPack', {
+        'packName': packName,
+      });
+      return success ?? false;
+    } catch (e) {
+      log('Error in removeAssetPack for $packName: $e');
+      return false;
+    }
+  }
+
   /// Returns the absolute directory path where the asset pack is installed, or null.
   static Future<String?> getAssetPackPath(String packName) async {
     if (!Platform.isAndroid) return null;

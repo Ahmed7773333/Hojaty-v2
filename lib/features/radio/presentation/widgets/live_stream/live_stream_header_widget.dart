@@ -23,7 +23,7 @@ class LiveStreamHeaderWidget extends StatelessWidget {
         left: 20.w,
         right: 20.w,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.primaryDarkBackground,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(24.0),

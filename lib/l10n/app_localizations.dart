@@ -818,6 +818,54 @@ abstract class AppLocalizations {
   /// **'Language & Appearance'**
   String get languageAndThemeSection;
 
+  /// No description provided for @themeSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get themeSettingsTitle;
+
+  /// No description provided for @themeSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred application theme'**
+  String get themeSettingsSubtitle;
+
+  /// No description provided for @lightThemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightThemeTitle;
+
+  /// No description provided for @lightThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default bright and clear interface'**
+  String get lightThemeSubtitle;
+
+  /// No description provided for @darkThemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkThemeTitle;
+
+  /// No description provided for @darkThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm Islamic dark theme with green and gold tones'**
+  String get darkThemeSubtitle;
+
+  /// No description provided for @amoledThemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AMOLED Mode'**
+  String get amoledThemeTitle;
+
+  /// No description provided for @amoledThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pure black theme optimized for battery saving on OLED screens'**
+  String get amoledThemeSubtitle;
+
   /// No description provided for @darkModeLabel.
   ///
   /// In en, this message translates to:
@@ -1639,6 +1687,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Do you want to download {qiratName} ({size} MB) for offline reading?'**
   String downloadQiratConfirmDesc(Object qiratName, Object size);
+
+  /// No description provided for @deleteQiratConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Recitation'**
+  String get deleteQiratConfirmTitle;
+
+  /// No description provided for @deleteQiratConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {qiratName} to free up device storage? You can download it again at any time.'**
+  String deleteQiratConfirmDesc(Object qiratName);
+
+  /// No description provided for @deleteBookConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Book'**
+  String get deleteBookConfirmTitle;
+
+  /// No description provided for @deleteBookConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {bookTitle} to free up device storage? You can download it again at any time.'**
+  String deleteBookConfirmDesc(Object bookTitle);
 
   /// No description provided for @startDownload.
   ///

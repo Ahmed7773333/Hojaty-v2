@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/constants/quran_text_helper.dart';
 import '../../../../quran/domain/entities/qirat_type.dart';
 
 class QuranQiratCardHeaderWidget extends StatelessWidget {
@@ -21,10 +20,10 @@ class QuranQiratCardHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
     final color = qirat.themeColor;
-    final surahName = QuranTextHelper.getSurahName(lastPage);
-    final displaySurah = surahName.isNotEmpty
-        ? surahName
-        : context.strings.surahBaqarah;
+    // final surahName = QuranTextHelper.getSurahName(lastPage);
+    // final displaySurah = surahName.isNotEmpty
+    //     ? surahName
+    //     : context.strings.surahBaqarah;
     final readingSubtitle = '${context.strings.quranPageLabel} $lastPage';
 
     return Row(

@@ -7,7 +7,6 @@ import '../utils/flutter_secure_storage_helper.dart';
 import 'api_consumer.dart';
 import '../error/exceptions.dart';
 import '../constants/app_constants.dart';
-import '../utils/snackbar_helper.dart';
 import '../local/user_hive_helper.dart';
 
 class DioClient implements ApiConsumer {
@@ -89,11 +88,6 @@ class DioClient implements ApiConsumer {
           final context = AnaOsalyApp.navigatorKey.currentContext;
           if (context != null) {
             if (e.type == DioExceptionType.badResponse) {
-              final statusCode = e.response?.statusCode;
-              final String errorMessage = e.response?.data is Map
-                  ? (e.response?.data['message'] ??
-                        'Server error ($statusCode)')
-                  : 'Server error ($statusCode)';
               // SnackbarHelper.showError(context, message: errorMessage);
             } else if (e.type == DioExceptionType.connectionTimeout ||
                 e.type == DioExceptionType.receiveTimeout ||
@@ -119,11 +113,6 @@ class DioClient implements ApiConsumer {
 
             if (context != null) {
               final String location = context.currentRouteName.toString();
-              final authRoutes = [
-                AppRoutes.login,
-                AppRoutes
-                    .home, // wait, should authRoutes contain home? Normally not, let's keep it general
-              ];
 
               if (location != AppRoutes.login) {
                 log('🚀 Redirecting to Login from $location');

@@ -65,6 +65,7 @@ class QuranState extends Equatable {
     Map<QiratType, double>? qiratProgress,
     Map<QiratType, int>? qiratLastPages,
     bool clearError = false,
+    bool clearAssetsPath = false,
   }) {
     return QuranState(
       status: status ?? this.status,
@@ -75,7 +76,7 @@ class QuranState extends Equatable {
       searchResults: searchResults ?? this.searchResults,
       selectedQirat: selectedQirat ?? this.selectedQirat,
       assetStatus: assetStatus ?? this.assetStatus,
-      assetsPath: assetsPath ?? this.assetsPath,
+      assetsPath: clearAssetsPath ? null : (assetsPath ?? this.assetsPath),
       bytesDownloaded: bytesDownloaded ?? this.bytesDownloaded,
       totalBytes: totalBytes ?? this.totalBytes,
       downloadProgress: downloadProgress ?? this.downloadProgress,

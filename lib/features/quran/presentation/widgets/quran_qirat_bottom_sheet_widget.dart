@@ -7,6 +7,7 @@ import '../../domain/entities/qirat_type.dart';
 import '../bloc/quran_bloc.dart';
 import '../bloc/quran_event.dart';
 import '../bloc/quran_state.dart';
+import 'quran_delete_confirm_dialog.dart';
 import 'quran_qirat_tile_widget.dart';
 
 class QuranQiratBottomSheetWidget extends StatelessWidget {
@@ -68,6 +69,15 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
                       },
                       onDownload: () {
                         context.read<QuranBloc>().add(StartDownloadQuranAssetEvent(qirat: qirat));
+                      },
+                      onDelete: () async {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => QuranDeleteConfirmDialog(qirat: qirat),
+                        );
+                        if (confirmed == true && context.mounted) {
+                          context.read<QuranBloc>().add(DeleteQuranAssetEvent(qirat));
+                        }
                       },
                     );
                   }).toList(),

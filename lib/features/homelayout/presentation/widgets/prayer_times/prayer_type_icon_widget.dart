@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/prayer_time_model.dart';
 
 class PrayerTypeIconWidget extends StatelessWidget {

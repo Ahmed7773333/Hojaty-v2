@@ -12,6 +12,7 @@ class QuranQiratCardActionWidget extends StatelessWidget {
   final double downloadProgress;
   final VoidCallback onDownload;
   final VoidCallback onOpen;
+  final VoidCallback onDelete;
 
   const QuranQiratCardActionWidget({
     super.key,
@@ -20,6 +21,7 @@ class QuranQiratCardActionWidget extends StatelessWidget {
     required this.downloadProgress,
     required this.onDownload,
     required this.onOpen,
+    required this.onDelete,
   });
 
   @override
@@ -69,6 +71,19 @@ class QuranQiratCardActionWidget extends StatelessWidget {
             ),
           ),
           8.hor,
+          InkWell(
+            onTap: onDelete,
+            borderRadius: BorderRadius.circular(8.r),
+            child: Padding(
+              padding: EdgeInsets.all(4.r),
+              child: Icon(
+                Icons.delete_outline_rounded,
+                size: 18.sp,
+                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              ),
+            ),
+          ),
+          6.hor,
           Icon(
             Icons.arrow_forward_ios_rounded,
             color: color.withValues(alpha: 0.8),

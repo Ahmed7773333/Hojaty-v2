@@ -9,7 +9,6 @@ import '../../../../data/mocks/settings_mock_data.dart';
 import '../bloc/homelayout_bloc.dart';
 import '../bloc/homelayout_event.dart';
 import '../widgets/prayer_times/adhan_sound_card_widget.dart';
-import '../widgets/prayer_times/calculation_method_card_widget.dart';
 import '../widgets/settings/settings_page_header_widget.dart';
 
 class PrayerCalculationSettingsPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class PrayerCalculationSettingsPage extends StatefulWidget {
 
 class _PrayerCalculationSettingsPageState
     extends State<PrayerCalculationSettingsPage> {
-  String _selectedMethodId = 'egypt';
   late String _selectedSoundId;
 
   @override
@@ -53,7 +51,6 @@ class _PrayerCalculationSettingsPageState
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
-    final methods = SettingsMockData.calculationMethods;
     final sounds = SettingsMockData.adhanSounds;
 
     return Scaffold(

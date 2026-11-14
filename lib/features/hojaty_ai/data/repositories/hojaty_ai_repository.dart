@@ -32,12 +32,10 @@ class HojatyAiRepository {
   ];
 
   HojatyAiRepository({
-    required Dio dio,
-    required GeminiKeyPool keyPool,
-    required RagDatabaseService ragDbService,
-  })  : _dio = dio,
-        _keyPool = keyPool,
-        _ragDbService = ragDbService;
+    required this._dio,
+    required this._keyPool,
+    required this._ragDbService,
+  });
 
   /// Fast connectivity check to determine whether online AI inference is reachable.
   Future<bool> isOnline() async {

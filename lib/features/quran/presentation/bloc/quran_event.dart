@@ -69,6 +69,15 @@ class CancelDownloadQuranAssetEvent extends QuranEvent {
   const CancelDownloadQuranAssetEvent();
 }
 
+class DeleteQuranAssetEvent extends QuranEvent {
+  final QiratType qirat;
+
+  const DeleteQuranAssetEvent(this.qirat);
+
+  @override
+  List<Object?> get props => [qirat];
+}
+
 class AssetDownloadProgressUpdatedEvent extends QuranEvent {
   final String? packName;
   final int bytesDownloaded;
