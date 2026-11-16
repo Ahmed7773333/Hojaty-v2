@@ -216,6 +216,19 @@ class SelectAdhanSoundEvent extends HomelayoutEvent {
   List<Object?> get props => [soundId];
 }
 
+class SelectPrayerAdhanSoundEvent extends HomelayoutEvent {
+  final PrayerType? prayerType;
+  final String soundId;
+
+  const SelectPrayerAdhanSoundEvent({
+    this.prayerType,
+    required this.soundId,
+  });
+
+  @override
+  List<Object?> get props => [prayerType, soundId];
+}
+
 class UpdatePrayerCityNameEvent extends HomelayoutEvent {
   final String cityName;
 
@@ -255,4 +268,13 @@ class SelectPrayerCityEvent extends HomelayoutEvent {
 
   @override
   List<Object?> get props => [cityName, coordinates];
+}
+
+class ToggleSalawatReminderEvent extends HomelayoutEvent {
+  final bool enabled;
+
+  const ToggleSalawatReminderEvent(this.enabled);
+
+  @override
+  List<Object?> get props => [enabled];
 }

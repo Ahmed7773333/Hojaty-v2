@@ -325,6 +325,24 @@ class UserHiveHelper {
     } catch (_) {}
   }
 
+  // --------------------- Salawat on the Prophet Reminder ---------------------
+  static bool getSalawatReminderEnabled({bool defaultValue = true}) {
+    try {
+      return prayersBox.get(
+            'salawat_reminder_enabled',
+            defaultValue: defaultValue,
+          ) as bool;
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static void setSalawatReminderEnabled(bool enabled) {
+    try {
+      prayersBox.put('salawat_reminder_enabled', enabled);
+    } catch (_) {}
+  }
+
   static String getSelectedAdhanSound({String defaultValue = 'makkah'}) {
     try {
       return prayersBox.get('selected_adhan_sound', defaultValue: defaultValue)
@@ -338,6 +356,43 @@ class UserHiveHelper {
     try {
       prayersBox.put('selected_adhan_sound', soundId);
     } catch (_) {}
+  }
+
+  static String getPrayerAdhanSound(String prayerName, {String? defaultValue}) {
+    try {
+      final sound = prayersBox.get('prayer_adhan_sound_$prayerName') as String?;
+      if (sound != null && sound.isNotEmpty) {
+        return sound;
+      }
+      return getSelectedAdhanSound(defaultValue: defaultValue ?? 'makkah');
+    } catch (_) {
+      return getSelectedAdhanSound(defaultValue: defaultValue ?? 'makkah');
+    }
+  }
+
+  static void setPrayerAdhanSound(String prayerName, String soundId) {
+    try {
+      prayersBox.put('prayer_adhan_sound_$prayerName', soundId);
+    } catch (_) {}
+  }
+
+  static void setAllPrayersAdhanSound(String soundId) {
+    try {
+      setSelectedAdhanSound(soundId);
+      const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+      for (final p in prayerNames) {
+        prayersBox.put('prayer_adhan_sound_$p', soundId);
+      }
+    } catch (_) {}
+  }
+
+  static Map<String, String> getAllPrayerAdhanSounds() {
+    final Map<String, String> sounds = {};
+    const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    for (final p in prayerNames) {
+      sounds[p] = getPrayerAdhanSound(p);
+    }
+    return sounds;
   }
 
   // --------------------- Cached Location ---------------------

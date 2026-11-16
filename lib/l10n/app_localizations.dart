@@ -1298,6 +1298,12 @@ abstract class AppLocalizations {
   /// **'Test pre-adhan alert sent'**
   String get preAdhanTestSent;
 
+  /// No description provided for @preAdhanSoundName.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound: Prayer approaching'**
+  String get preAdhanSoundName;
+
   /// No description provided for @prayerAlertSettingsTitle.
   ///
   /// In en, this message translates to:
@@ -2545,6 +2551,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drag dial to simulate phone orientation'**
   String get qiblaManualDialHint;
+
+  /// No description provided for @adhanLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan Sounds Library'**
+  String get adhanLibraryTitle;
+
+  /// No description provided for @adhanLibrarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen, download, and customize adhan for each prayer'**
+  String get adhanLibrarySubtitle;
+
+  /// No description provided for @adhanLibrarySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search adhan, muezzin, or city...'**
+  String get adhanLibrarySearchHint;
+
+  /// No description provided for @adhanFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Adhans'**
+  String get adhanFilterAll;
+
+  /// No description provided for @adhanFilterBuiltIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-installed'**
+  String get adhanFilterBuiltIn;
+
+  /// No description provided for @adhanFilterDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded'**
+  String get adhanFilterDownloaded;
+
+  /// No description provided for @setAdhanAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Set'**
+  String get setAdhanAction;
+
+  /// No description provided for @downloadAdhanAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadAdhanAction;
+
+  /// No description provided for @deleteAdhanAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteAdhanAction;
+
+  /// No description provided for @setAdhanForPrayerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Adhan Sound'**
+  String get setAdhanForPrayerTitle;
+
+  /// No description provided for @setAdhanForPrayerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select which prayers to assign this adhan to'**
+  String get setAdhanForPrayerSubtitle;
+
+  /// No description provided for @setForAllPrayers.
+  ///
+  /// In en, this message translates to:
+  /// **'All Prayers'**
+  String get setForAllPrayers;
+
+  /// No description provided for @adhanSetSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan sound set successfully'**
+  String get adhanSetSuccessMessage;
+
+  /// No description provided for @downloadFirstToSetAdhan.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading adhan first to set...'**
+  String get downloadFirstToSetAdhan;
+
+  /// No description provided for @adhanDownloadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan downloaded successfully'**
+  String get adhanDownloadSuccess;
+
+  /// No description provided for @adhanDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download adhan, please try again'**
+  String get adhanDownloadFailed;
+
+  /// No description provided for @adhanDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Adhan Sound'**
+  String get adhanDeleteConfirmTitle;
+
+  /// No description provided for @adhanDeleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this downloaded adhan file?'**
+  String get adhanDeleteConfirmMessage;
+
+  /// No description provided for @noDownloadedAdhans.
+  ///
+  /// In en, this message translates to:
+  /// **'No downloaded adhans yet'**
+  String get noDownloadedAdhans;
+
+  /// No description provided for @noAdhansFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching adhans found'**
+  String get noAdhansFound;
+
+  /// No description provided for @changeAdhanSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Adhan'**
+  String get changeAdhanSound;
+
+  /// No description provided for @openAdhanLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan Sounds Library'**
+  String get openAdhanLibrary;
+
+  /// No description provided for @openAdhanLibraryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse and download over 80 adhans and customize for prayers'**
+  String get openAdhanLibraryDesc;
+
+  /// No description provided for @adhanPlayFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not play adhan sound, please check internet connection'**
+  String get adhanPlayFailed;
+
+  /// No description provided for @salawatSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blessings upon the Prophet ﷺ'**
+  String get salawatSectionTitle;
+
+  /// No description provided for @salawatReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prophet\'s Blessings Reminder'**
+  String get salawatReminderTitle;
+
+  /// No description provided for @salawatReminderActiveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active • Hourly with Salli Ala Muhammad audio'**
+  String get salawatReminderActiveSubtitle;
+
+  /// No description provided for @salawatReminderDisabledSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get salawatReminderDisabledSubtitle;
+
+  /// No description provided for @salawatReminderSwitchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly Audio Reminder'**
+  String get salawatReminderSwitchLabel;
+
+  /// No description provided for @salawatSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blessings upon the Prophet ﷺ'**
+  String get salawatSettingsTitle;
+
+  /// No description provided for @salawatSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Periodic audio reminder to send blessings upon the Prophet ﷺ'**
+  String get salawatSettingsSubtitle;
+
+  /// No description provided for @salawatHadithText.
+  ///
+  /// In en, this message translates to:
+  /// **'«Whoever sends blessings upon me once, Allah will send blessings upon him tenfold»'**
+  String get salawatHadithText;
+
+  /// No description provided for @salawatHadithSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Sahih Muslim'**
+  String get salawatHadithSource;
+
+  /// No description provided for @salawatHourlyToggleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Hourly Reminder'**
+  String get salawatHourlyToggleTitle;
+
+  /// No description provided for @salawatHourlyToggleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send an automatic hourly audio notification reminding you to send blessings upon the Prophet ﷺ'**
+  String get salawatHourlyToggleSubtitle;
+
+  /// No description provided for @salawatSoundCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Sound'**
+  String get salawatSoundCardTitle;
+
+  /// No description provided for @salawatSoundName.
+  ///
+  /// In en, this message translates to:
+  /// **'Salli Ala Muhammad'**
+  String get salawatSoundName;
+
+  /// No description provided for @salawatSoundDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'00:02'**
+  String get salawatSoundDuration;
+
+  /// No description provided for @salawatSoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear audio recording reminding you every hour'**
+  String get salawatSoundDesc;
+
+  /// No description provided for @salawatListenSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to Audio'**
+  String get salawatListenSound;
+
+  /// No description provided for @salawatStopSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Audio'**
+  String get salawatStopSound;
+
+  /// No description provided for @salawatNotificationPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Preview'**
+  String get salawatNotificationPreviewTitle;
+
+  /// No description provided for @salawatNotificationPreviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How the notification appears on your phone screen'**
+  String get salawatNotificationPreviewSubtitle;
+
+  /// No description provided for @salawatNotificationContentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blessings upon the Prophet ﷺ'**
+  String get salawatNotificationContentTitle;
+
+  /// No description provided for @salawatNotificationContentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'O Allah, bestow peace and blessings upon our Master Muhammad and his family'**
+  String get salawatNotificationContentBody;
+
+  /// No description provided for @salawatTestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Salawat Notification Now'**
+  String get salawatTestButton;
+
+  /// No description provided for @salawatTestNotificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Salawat notification has been sent'**
+  String get salawatTestNotificationSent;
+
+  /// No description provided for @salawatRepeatInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Every Hour'**
+  String get salawatRepeatInterval;
+
+  /// No description provided for @salawatNotificationDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get salawatNotificationDismiss;
+
+  /// No description provided for @salawatNotificationOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open App'**
+  String get salawatNotificationOpen;
 }
 
 class _AppLocalizationsDelegate

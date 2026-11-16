@@ -148,9 +148,11 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     on<ToggleGeneralNotificationsEvent>(_onToggleGeneralNotifications);
     on<ToggleAthkarNotificationsEvent>(_onToggleAthkarNotifications);
     on<SelectAdhanSoundEvent>(_onSelectAdhanSound);
+    on<SelectPrayerAdhanSoundEvent>(_onSelectPrayerAdhanSound);
     on<UpdatePrayerCityNameEvent>(_onUpdatePrayerCityName);
     on<CheckLocationUpdateEvent>(_onCheckLocationUpdate);
     on<SelectPrayerCityEvent>(_onSelectPrayerCity);
+    on<ToggleSalawatReminderEvent>(_onToggleSalawatReminder);
   }
 
   // ---------------------------------------------------------------------------
@@ -259,6 +261,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
               defaultValue: HomeMockData.defaultAdhanSettings.anaOsalyLanguage,
             ),
             selectedSoundId: UserHiveHelper.getSelectedAdhanSound(),
+            prayerSoundIds: UserHiveHelper.getAllPrayerAdhanSounds(),
             customMessageAr: UserHiveHelper.getAnaOsalyCustomMessageAr(),
             customMessageEn: UserHiveHelper.getAnaOsalyCustomMessageEn(),
             isPreAdhanReminderEnabled: UserHiveHelper.getPreAdhanReminderEnabled(
@@ -269,6 +272,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
               defaultValue:
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
+            isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
           ),
           currentLanguage: lang,
           ramadanCheckData: ramadan,
@@ -302,6 +306,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
               defaultValue: HomeMockData.defaultAdhanSettings.anaOsalyLanguage,
             ),
             selectedSoundId: UserHiveHelper.getSelectedAdhanSound(),
+            prayerSoundIds: UserHiveHelper.getAllPrayerAdhanSounds(),
             customMessageAr: UserHiveHelper.getAnaOsalyCustomMessageAr(),
             customMessageEn: UserHiveHelper.getAnaOsalyCustomMessageEn(),
             isPreAdhanReminderEnabled: UserHiveHelper.getPreAdhanReminderEnabled(
@@ -312,6 +317,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
               defaultValue:
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
+            isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
           ),
         ),
       );
@@ -470,6 +476,13 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       LocalNotificationService.scheduleOccasionsNotifications(
         occasions: occasions,
         language: language,
+      );
+    }
+    final isSalawatEnabled = UserHiveHelper.getSalawatReminderEnabled();
+    if (isSalawatEnabled) {
+      LocalNotificationService.scheduleSalawatNotification(
+        language: language,
+        enabled: true,
       );
     }
   }
@@ -1019,18 +1032,92 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     UserHiveHelper.setAthkarNotificationsEnabled(event.isEnabled);
   }
 
+  void _onToggleSalawatReminder(
+    ToggleSalawatReminderEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    UserHiveHelper.setSalawatReminderEnabled(event.enabled);
+    emit(
+      state.copyWith(
+        adhanSettings: state.adhanSettings.copyWith(
+          isSalawatReminderEnabled: event.enabled,
+        ),
+      ),
+    );
+    final lang = UserHiveHelper.getUser()?.language ?? 'ar';
+    if (event.enabled) {
+      LocalNotificationService.scheduleSalawatNotification(
+        language: lang,
+        enabled: true,
+      );
+    } else {
+      LocalNotificationService.cancelSalawatNotification();
+    }
+  }
+
   void _onSelectAdhanSound(
     SelectAdhanSoundEvent event,
     Emitter<HomelayoutState> emit,
   ) {
-    UserHiveHelper.setSelectedAdhanSound(event.soundId);
+    UserHiveHelper.setAllPrayersAdhanSound(event.soundId);
+    final updatedMap = UserHiveHelper.getAllPrayerAdhanSounds();
     emit(
       state.copyWith(
         adhanSettings: state.adhanSettings.copyWith(
           selectedSoundId: event.soundId,
+          prayerSoundIds: updatedMap,
         ),
       ),
     );
+
+    LocalNotificationService.showTestNotification(
+      isFullAdhan: state.adhanSettings.isFullAdhan,
+      language: state.currentLanguage,
+      soundId: event.soundId,
+    );
+
+    if (UserHiveHelper.getPrayerAlertsEnabled()) {
+      LocalNotificationService.schedulePrayerNotifications(
+        prayers: state.prayerTimes,
+        isFullAdhan: state.adhanSettings.isFullAdhan,
+        language: state.currentLanguage,
+        soundId: event.soundId,
+        isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
+        preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+      );
+    }
+  }
+
+  void _onSelectPrayerAdhanSound(
+    SelectPrayerAdhanSoundEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    final updatedMap = Map<String, String>.from(state.adhanSettings.prayerSoundIds);
+    if (event.prayerType == null) {
+      UserHiveHelper.setAllPrayersAdhanSound(event.soundId);
+      const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+      for (final p in prayerNames) {
+        updatedMap[p] = event.soundId;
+      }
+      emit(
+        state.copyWith(
+          adhanSettings: state.adhanSettings.copyWith(
+            selectedSoundId: event.soundId,
+            prayerSoundIds: updatedMap,
+          ),
+        ),
+      );
+    } else {
+      UserHiveHelper.setPrayerAdhanSound(event.prayerType!.name, event.soundId);
+      updatedMap[event.prayerType!.name] = event.soundId;
+      emit(
+        state.copyWith(
+          adhanSettings: state.adhanSettings.copyWith(
+            prayerSoundIds: updatedMap,
+          ),
+        ),
+      );
+    }
 
     LocalNotificationService.showTestNotification(
       isFullAdhan: state.adhanSettings.isFullAdhan,

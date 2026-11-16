@@ -12,6 +12,7 @@ import '../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_event.dart';
 import '../../pages/app_info_content_page.dart';
+import 'salawat_settings_tile_widget.dart';
 import 'settings_app_card_widget.dart';
 import 'settings_header_widget.dart';
 import 'settings_section_card_widget.dart';
@@ -110,6 +111,13 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                           );
                         },
                       ),
+                    ],
+                  ),
+                  18.ver,
+                  SettingsSectionCardWidget(
+                    title: context.strings.salawatSectionTitle,
+                    children: const [
+                      SalawatSettingsTileWidget(),
                     ],
                   ),
                   18.ver,

@@ -3,6 +3,7 @@ import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/adhan_sound_model.dart';
+import 'adhan_more_sounds_button_widget.dart';
 import 'adhan_sound_row_widget.dart';
 
 class AdhanSoundCardWidget extends StatelessWidget {
@@ -75,6 +76,8 @@ class AdhanSoundCardWidget extends StatelessWidget {
             }),
           ),
         ),
+        12.ver,
+        const AdhanMoreSoundsButtonWidget(),
       ],
     );
   }

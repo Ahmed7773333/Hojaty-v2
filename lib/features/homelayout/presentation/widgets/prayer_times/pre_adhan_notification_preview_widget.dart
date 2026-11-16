@@ -35,20 +35,46 @@ class PreAdhanNotificationPreviewWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.notifications_active_outlined,
-                size: 14.r,
-                color: AppColors.accentGold,
+              Row(
+                children: [
+                  Icon(
+                    Icons.notifications_active_outlined,
+                    size: 14.r,
+                    color: AppColors.accentGold,
+                  ),
+                  6.hor,
+                  Text(
+                    context.strings.notificationPreviewLabel,
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: AppColors.accentGold,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 10.sp,
+                    ),
+                  ),
+                ],
               ),
-              6.hor,
-              Text(
-                context.strings.notificationPreviewLabel,
-                style: context.textTheme.labelSmall?.copyWith(
-                  color: AppColors.accentGold,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 10.sp,
-                ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.volume_up_rounded,
+                    size: 12.r,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.lightTextSecondary,
+                  ),
+                  4.hor,
+                  Text(
+                    context.strings.preAdhanSoundName,
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.lightTextSecondary,
+                      fontSize: 10.sp,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

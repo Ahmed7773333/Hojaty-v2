@@ -52,6 +52,11 @@ class _PrayerCalculationSettingsPageState
   Widget build(BuildContext context) {
     final isDark = context.isDark;
     final sounds = SettingsMockData.adhanSounds;
+    final currentSoundId = context.select(
+      (HomelayoutBloc bloc) => bloc.state.adhanSettings.selectedSoundId,
+    );
+    final effectiveSoundId =
+        currentSoundId.isNotEmpty ? currentSoundId : _selectedSoundId;
 
     return Scaffold(
       backgroundColor: isDark
@@ -76,7 +81,7 @@ class _PrayerCalculationSettingsPageState
                   // 20.ver,
                   AdhanSoundCardWidget(
                     sounds: sounds,
-                    selectedId: _selectedSoundId,
+                    selectedId: effectiveSoundId,
                     onSelect: _onSoundSelected,
                   ),
                   24.ver,

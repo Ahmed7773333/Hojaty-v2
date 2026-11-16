@@ -652,6 +652,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preAdhanTestSent => 'Test pre-adhan alert sent';
 
   @override
+  String get preAdhanSoundName => 'Sound: Prayer approaching';
+
+  @override
   String get prayerAlertSettingsTitle => 'Prayer Alert Options';
 
   @override
@@ -1339,4 +1342,168 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qiblaManualDialHint => 'Drag dial to simulate phone orientation';
+
+  @override
+  String get adhanLibraryTitle => 'Adhan Sounds Library';
+
+  @override
+  String get adhanLibrarySubtitle =>
+      'Listen, download, and customize adhan for each prayer';
+
+  @override
+  String get adhanLibrarySearchHint => 'Search adhan, muezzin, or city...';
+
+  @override
+  String get adhanFilterAll => 'All Adhans';
+
+  @override
+  String get adhanFilterBuiltIn => 'Pre-installed';
+
+  @override
+  String get adhanFilterDownloaded => 'Downloaded';
+
+  @override
+  String get setAdhanAction => 'Set';
+
+  @override
+  String get downloadAdhanAction => 'Download';
+
+  @override
+  String get deleteAdhanAction => 'Delete';
+
+  @override
+  String get setAdhanForPrayerTitle => 'Set Adhan Sound';
+
+  @override
+  String get setAdhanForPrayerSubtitle =>
+      'Select which prayers to assign this adhan to';
+
+  @override
+  String get setForAllPrayers => 'All Prayers';
+
+  @override
+  String get adhanSetSuccessMessage => 'Adhan sound set successfully';
+
+  @override
+  String get downloadFirstToSetAdhan => 'Downloading adhan first to set...';
+
+  @override
+  String get adhanDownloadSuccess => 'Adhan downloaded successfully';
+
+  @override
+  String get adhanDownloadFailed =>
+      'Failed to download adhan, please try again';
+
+  @override
+  String get adhanDeleteConfirmTitle => 'Delete Adhan Sound';
+
+  @override
+  String get adhanDeleteConfirmMessage =>
+      'Are you sure you want to delete this downloaded adhan file?';
+
+  @override
+  String get noDownloadedAdhans => 'No downloaded adhans yet';
+
+  @override
+  String get noAdhansFound => 'No matching adhans found';
+
+  @override
+  String get changeAdhanSound => 'Change Adhan';
+
+  @override
+  String get openAdhanLibrary => 'Adhan Sounds Library';
+
+  @override
+  String get openAdhanLibraryDesc =>
+      'Browse and download over 80 adhans and customize for prayers';
+
+  @override
+  String get adhanPlayFailed =>
+      'Could not play adhan sound, please check internet connection';
+
+  @override
+  String get salawatSectionTitle => 'Blessings upon the Prophet ﷺ';
+
+  @override
+  String get salawatReminderTitle => 'Prophet\'s Blessings Reminder';
+
+  @override
+  String get salawatReminderActiveSubtitle =>
+      'Active • Hourly with Salli Ala Muhammad audio';
+
+  @override
+  String get salawatReminderDisabledSubtitle => 'Disabled';
+
+  @override
+  String get salawatReminderSwitchLabel => 'Hourly Audio Reminder';
+
+  @override
+  String get salawatSettingsTitle => 'Blessings upon the Prophet ﷺ';
+
+  @override
+  String get salawatSettingsSubtitle =>
+      'Periodic audio reminder to send blessings upon the Prophet ﷺ';
+
+  @override
+  String get salawatHadithText =>
+      '«Whoever sends blessings upon me once, Allah will send blessings upon him tenfold»';
+
+  @override
+  String get salawatHadithSource => 'Sahih Muslim';
+
+  @override
+  String get salawatHourlyToggleTitle => 'Enable Hourly Reminder';
+
+  @override
+  String get salawatHourlyToggleSubtitle =>
+      'Send an automatic hourly audio notification reminding you to send blessings upon the Prophet ﷺ';
+
+  @override
+  String get salawatSoundCardTitle => 'Reminder Sound';
+
+  @override
+  String get salawatSoundName => 'Salli Ala Muhammad';
+
+  @override
+  String get salawatSoundDuration => '00:02';
+
+  @override
+  String get salawatSoundDesc =>
+      'Clear audio recording reminding you every hour';
+
+  @override
+  String get salawatListenSound => 'Listen to Audio';
+
+  @override
+  String get salawatStopSound => 'Stop Audio';
+
+  @override
+  String get salawatNotificationPreviewTitle => 'Notification Preview';
+
+  @override
+  String get salawatNotificationPreviewSubtitle =>
+      'How the notification appears on your phone screen';
+
+  @override
+  String get salawatNotificationContentTitle => 'Blessings upon the Prophet ﷺ';
+
+  @override
+  String get salawatNotificationContentBody =>
+      'O Allah, bestow peace and blessings upon our Master Muhammad and his family';
+
+  @override
+  String get salawatTestButton => 'Test Salawat Notification Now';
+
+  @override
+  String get salawatTestNotificationSent =>
+      'Test Salawat notification has been sent';
+
+  @override
+  String get salawatRepeatInterval => 'Every Hour';
+
+  @override
+  String get salawatNotificationDismiss => 'OK';
+
+  @override
+  String get salawatNotificationOpen => 'Open App';
 }

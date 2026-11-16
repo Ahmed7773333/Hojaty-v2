@@ -1,18 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../config/routes/app_router.dart';
+import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
+import '../../../data/models/azan_audio_item_model.dart';
+import '../../../data/services/azan_audio_service.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_event.dart';
 import '../../bloc/homelayout_state.dart';
+import 'adhan_library_banner_card_widget.dart';
 import 'adhan_prayer_toggle_widget.dart';
 import 'adhan_test_button_widget.dart';
 import 'adhan_type_card_widget.dart';
 import 'pre_adhan_reminder_card_widget.dart';
 
-class AdhanSettingsTabView extends StatelessWidget {
+class AdhanSettingsTabView extends StatefulWidget {
   const AdhanSettingsTabView({super.key});
+
+  @override
+  State<AdhanSettingsTabView> createState() => _AdhanSettingsTabViewState();
+}
+
+class _AdhanSettingsTabViewState extends State<AdhanSettingsTabView> {
+  List<AzanAudioItemModel> _loadedAzans = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAzansMetadata();
+  }
+
+  Future<void> _loadAzansMetadata() async {
+    try {
+      final items = await injector<AzanAudioService>().loadAllAzans();
+      if (mounted) {
+        setState(() {
+          _loadedAzans = items;
+        });
+      }
+    } catch (_) {}
+  }
+
+  String _getSoundTitle(BuildContext context, String soundId) {
+    switch (soundId) {
+      case 'makkah':
+        return context.strings.adhanMakkah;
+      case 'madinah':
+        return context.strings.adhanMadinah;
+      case 'azan':
+        return context.strings.adhanAlafasy;
+      default:
+        final found = _loadedAzans.where((a) => a.id == soundId).firstOrNull;
+        return found?.title ?? soundId;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +86,8 @@ class AdhanSettingsTabView extends StatelessWidget {
                   );
                 },
               ),
+              18.ver,
+              const AdhanLibraryBannerCardWidget(),
               18.ver,
               Text(
                 context.strings.prayerNotificationTypeSection,
@@ -96,13 +141,24 @@ class AdhanSettingsTabView extends StatelessWidget {
                 child: Column(
                   children: List.generate(state.prayerTimes.length, (index) {
                     final prayer = state.prayerTimes[index];
+                    final soundId =
+                        state.adhanSettings.getSoundForPrayer(prayer.type);
+                    final soundTitle = _getSoundTitle(context, soundId);
+
                     return Column(
                       children: [
                         AdhanPrayerToggleWidget(
                           prayer: prayer,
+                          soundTitle: soundTitle,
                           onToggle: (val) {
                             context.read<HomelayoutBloc>().add(
                               TogglePrayerNotificationEvent(prayer.type),
+                            );
+                          },
+                          onSelectSound: () {
+                            context.pushNamed(
+                              AppRoutes.adhanSoundsLibrary,
+                              extra: prayer.type,
                             );
                           },
                         ),

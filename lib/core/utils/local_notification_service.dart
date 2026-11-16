@@ -4,11 +4,15 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import '../../config/routes/app_router.dart';
 import '../../features/homelayout/data/models/occasion_item_model.dart';
 import '../../features/homelayout/data/models/prayer_time_model.dart';
 import '../../features/homelayout/data/models/prayers_helper.dart';
+import '../../features/homelayout/data/services/azan_audio_service.dart';
 import '../../main.dart';
+import '../di/injector.dart';
 import '../local/user_hive_helper.dart';
 
 @pragma('vm:entry-point')
@@ -26,14 +30,80 @@ class LocalNotificationService {
   static const String prayersChannelMakkahKey = 'prayers_channel_makkah_v2';
   static const String prayersChannelMadinahKey = 'prayers_channel_madinah_v2';
   static const String prayersChannelAzanKey = 'prayers_channel_azan_v2';
-  static const String prePrayerChannelKey = 'pre_prayer_channel_v2';
+  static const String prayersChannelCustomKey = 'prayers_channel_custom_v2';
+  static const String prePrayerChannelKey = 'pre_prayer_channel_v3';
   static const String occasionsChannelKey = 'occasions_channel_v2';
   static const String anaOsalyChannelKey = 'hojaty_channel_v2';
   static const String generalChannelKey = 'general_channel_v2';
+  static const String salawatChannelKey = 'salawat_channel_v2';
+
+  static const int salawatNotificationId = 777;
+  static const int salawatTestNotificationId = 776;
 
   /// Default notification small icon resource for Android
   static const String defaultNotificationIcon =
       'resource://drawable/res_app_icon';
+
+  static AudioPlayer? _notificationPlayer;
+
+  static Future<void> _playCustomAdhan(String filePath) async {
+    try {
+      _stopCustomAdhan();
+      final file = File(filePath);
+      if (!await file.exists()) return;
+      _notificationPlayer = AudioPlayer();
+      final source = AudioSource.file(
+        filePath,
+        tag: MediaItem(
+          id: filePath,
+          title: 'الأذان',
+          artist: 'مواقيت الصلاة',
+          album: 'أصوات الأذان',
+          artUri: Uri.parse('asset:///assets/icons/logo.png'),
+        ),
+      );
+      await _notificationPlayer?.setAudioSource(source);
+      await _notificationPlayer?.play();
+      log('Playing custom adhan notification sound: $filePath');
+    } catch (e) {
+      log('Error playing custom adhan: $e');
+    }
+  }
+
+  static void _stopCustomAdhan() {
+    try {
+      _notificationPlayer?.stop();
+      _notificationPlayer?.dispose();
+      _notificationPlayer = null;
+    } catch (_) {}
+  }
+
+  static bool _isNativeSalawatSoundAvailable = false;
+  static bool _isNativePrayerCloseSoundAvailable = false;
+
+  static Future<void> _playSalawatAudio() async {
+    try {
+      _stopCustomAdhan();
+      _notificationPlayer = AudioPlayer();
+      await _notificationPlayer?.setAsset('assets/audio/salli_ala_muhammad.wav');
+      await _notificationPlayer?.play();
+      log('Playing Salawat audio via just_audio from asset');
+    } catch (e) {
+      log('Error playing Salawat asset audio: $e');
+    }
+  }
+
+  static Future<void> _playPrePrayerAudio() async {
+    try {
+      _stopCustomAdhan();
+      _notificationPlayer = AudioPlayer();
+      await _notificationPlayer?.setAsset('assets/audio/prayer_time_is_close.wav');
+      await _notificationPlayer?.play();
+      log('Playing pre-prayer audio via just_audio from asset');
+    } catch (e) {
+      log('Error playing pre-prayer asset audio: $e');
+    }
+  }
 
   /// Helper to safely communicate with flip detector
   static Future<void> _startFlipDetector([int? notificationId]) async {
@@ -46,6 +116,7 @@ class LocalNotificationService {
   }
 
   static Future<void> _stopFlipDetector() async {
+    _stopCustomAdhan();
     if (!Platform.isAndroid) return;
     try {
       await _flipMethodChannel.invokeMethod('stopFlipDetector');
@@ -72,6 +143,7 @@ class LocalNotificationService {
         'hojaty_channel',
         'general_channel',
         'pre_prayer_channel',
+        'pre_prayer_channel_v2',
         'prayers_channel',
       ];
       for (final legacyKey in legacyKeys) {
@@ -84,226 +156,199 @@ class LocalNotificationService {
     try {
       await AwesomeNotifications().initialize(
         defaultNotificationIcon,
-        [
-          // 1. Makkah Prayer Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: prayersChannelMakkahKey,
-            channelName: 'أذان مكة المكرمة',
-            channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            channelShowBadge: true,
-            playSound: true,
-            criticalAlerts: true,
-            soundSource: Platform.isAndroid
-                ? 'resource://raw/makka_azan'
-                : null,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 2. Madinah Prayer Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: prayersChannelMadinahKey,
-            channelName: 'أذان المدينة المنورة',
-            channelDescription:
-                'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            channelShowBadge: true,
-            playSound: true,
-            criticalAlerts: true,
-            soundSource: Platform.isAndroid
-                ? 'resource://raw/madina_azan'
-                : null,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 3. Traditional Azan Prayer Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: prayersChannelAzanKey,
-            channelName: 'الأذان التقليدي',
-            channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            channelShowBadge: true,
-            playSound: true,
-            criticalAlerts: true,
-            soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 4. Occasions Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: occasionsChannelKey,
-            channelName: 'المناسبات الإسلامية',
-            channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            channelShowBadge: true,
-            playSound: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 5. Hojaty Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: anaOsalyChannelKey,
-            channelName: 'وضع حچتي',
-            channelDescription:
-                'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            channelShowBadge: true,
-            playSound: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 6. General Notifications (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: generalChannelKey,
-            channelName: 'تنبيهات عامة',
-            channelDescription: 'الأذكار اليومية والتنبيهات العامة',
-            defaultColor: const Color(0xFF1E3A34),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Default,
-            channelShowBadge: true,
-            playSound: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-
-          // 7. Pre-Prayer Reminder Channel (Vibration completely disabled)
-          NotificationChannel(
-            channelKey: prePrayerChannelKey,
-            channelName: 'التنبيه المسبق للأذان',
-            channelDescription:
-                'تنبيه خفيف للتذكير باقتراب موعد الصلاة قبل دخول الوقت',
-            defaultColor: const Color(0xFF1E3A34),
-            ledColor: const Color(0xFFD4AF37),
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            channelShowBadge: true,
-            playSound: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-        ],
+        _buildChannels(includeCustomRawSounds: true),
         debug: false,
       );
-
+      _isNativeSalawatSoundAvailable = true;
+      _isNativePrayerCloseSoundAvailable = true;
       _setListeners();
-      log('LocalNotificationService initialized successfully.');
-    } catch (e, st) {
-      log('Error initializing LocalNotificationService: $e\n$st');
+      log('LocalNotificationService initialized with custom native sounds.');
+    } catch (e) {
+      log('LocalNotificationService custom sound validation: $e');
+      _isNativeSalawatSoundAvailable = false;
+      _isNativePrayerCloseSoundAvailable = false;
       try {
-        await AwesomeNotifications().initialize(defaultNotificationIcon, [
-          NotificationChannel(
-            channelKey: prayersChannelMakkahKey,
-            channelName: 'أذان مكة المكرمة',
-            channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            playSound: true,
-            criticalAlerts: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: prayersChannelMadinahKey,
-            channelName: 'أذان المدينة المنورة',
-            channelDescription:
-                'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            playSound: true,
-            criticalAlerts: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: prayersChannelAzanKey,
-            channelName: 'الأذان التقليدي',
-            channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Max,
-            playSound: true,
-            criticalAlerts: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: occasionsChannelKey,
-            channelName: 'المناسبات الإسلامية',
-            channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: anaOsalyChannelKey,
-            channelName: 'وضع حچتي',
-            channelDescription:
-                'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: generalChannelKey,
-            channelName: 'تنبيهات عامة',
-            channelDescription: 'الأذكار اليومية والتنبيهات العامة',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.Default,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-          NotificationChannel(
-            channelKey: prePrayerChannelKey,
-            channelName: 'التنبيه المسبق للأذان',
-            channelDescription: 'تنبيه خفيف للتذكير باقتراب موعد الصلاة',
-            icon: defaultNotificationIcon,
-            importance: NotificationImportance.High,
-            playSound: true,
-            enableVibration: false,
-            vibrationPattern: Int64List.fromList([0]),
-            onlyAlertOnce: true,
-          ),
-        ], debug: false);
+        await AwesomeNotifications().initialize(
+          defaultNotificationIcon,
+          _buildChannels(includeCustomRawSounds: false),
+          debug: false,
+        );
         _setListeners();
         log('LocalNotificationService initialized with fallback channels.');
-      } catch (fallbackErr) {
-        log('Fallback initialization error: $fallbackErr');
+      } catch (fallbackErr, st) {
+        log('Fallback initialization error: $fallbackErr\n$st');
       }
     }
+  }
+
+  static List<NotificationChannel> _buildChannels({
+    required bool includeCustomRawSounds,
+  }) {
+    return [
+      // 1. Makkah Prayer Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: prayersChannelMakkahKey,
+        channelName: 'أذان مكة المكرمة',
+        channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مكة المكرمة',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        criticalAlerts: true,
+        soundSource: Platform.isAndroid ? 'resource://raw/makka_azan' : null,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 2. Madinah Prayer Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: prayersChannelMadinahKey,
+        channelName: 'أذان المدينة المنورة',
+        channelDescription:
+            'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        criticalAlerts: true,
+        soundSource: Platform.isAndroid ? 'resource://raw/madina_azan' : null,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 3. Traditional Azan Prayer Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: prayersChannelAzanKey,
+        channelName: 'الأذان التقليدي',
+        channelDescription: 'تنبيهات مواقيت الصلاة بصوت الأذان التقليدي',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        criticalAlerts: true,
+        soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 3.5 Custom Adhan Channel (Silent channel - audio handled dynamically)
+      NotificationChannel(
+        channelKey: prayersChannelCustomKey,
+        channelName: 'أذان مخصص',
+        channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان مخصص',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: false,
+        criticalAlerts: true,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 4. Occasions Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: occasionsChannelKey,
+        channelName: 'المناسبات الإسلامية',
+        channelDescription: 'تذكير بالمناسبات الإسلامية ومواسم الطاعات',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+        playSound: true,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 5. Hojaty Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: anaOsalyChannelKey,
+        channelName: 'وضع حچتي',
+        channelDescription:
+            'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+        playSound: true,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 6. General Notifications (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: generalChannelKey,
+        channelName: 'تنبيهات عامة',
+        channelDescription: 'الأذكار اليومية والتنبيهات العامة',
+        defaultColor: const Color(0xFF1E3A34),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.Default,
+        channelShowBadge: true,
+        playSound: true,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 7. Pre-Prayer Reminder Channel (Vibration completely disabled)
+      NotificationChannel(
+        channelKey: prePrayerChannelKey,
+        channelName: 'التنبيه المسبق للأذان',
+        channelDescription:
+            'تنبيه خفيف للتذكير باقتراب موعد الصلاة قبل دخول الوقت',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+        playSound: true,
+        soundSource: includeCustomRawSounds && Platform.isAndroid
+            ? 'resource://raw/prayer_time_is_close'
+            : null,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+
+      // 8. Salawat on the Prophet Reminder Channel
+      NotificationChannel(
+        channelKey: salawatChannelKey,
+        channelName: 'الصلاة على النبي ﷺ',
+        channelDescription:
+            'تذكير دوري كل ساعة بالصلاة والسلام على رسول الله ﷺ',
+        defaultColor: const Color(0xFF1E3A34),
+        ledColor: const Color(0xFFD4AF37),
+        icon: defaultNotificationIcon,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+        playSound: includeCustomRawSounds,
+        criticalAlerts: true,
+        soundSource: includeCustomRawSounds
+            ? (Platform.isAndroid
+                ? 'resource://raw/salli_ala_muhammad'
+                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+            : null,
+        enableVibration: false,
+        vibrationPattern: Int64List.fromList([0]),
+        onlyAlertOnce: true,
+      ),
+    ];
+  }
   }
 
   /// Check and request notification permissions automatically (no vibration permission requested)
@@ -384,8 +429,25 @@ class LocalNotificationService {
     log('Notification displayed: ${receivedNotification.id}');
     final id = receivedNotification.id;
     final type = receivedNotification.payload?['type'];
-    if ((id != null && id >= 100 && id <= 105) || id == 999 || type == 'prayer') {
+    if (type == 'salawat' ||
+        type == 'salawat_test' ||
+        id == salawatNotificationId ||
+        id == salawatTestNotificationId) {
+      if (!_isNativeSalawatSoundAvailable) {
+        await _playSalawatAudio();
+      }
+    } else if (type == 'pre_prayer') {
+      if (!_isNativePrayerCloseSoundAvailable) {
+        await _playPrePrayerAudio();
+      }
+    } else if ((id != null && id >= 100 && id <= 105) ||
+        id == 999 ||
+        type == 'prayer') {
       _startFlipDetector(id);
+      final soundPath = receivedNotification.payload?['soundPath'];
+      if (soundPath != null && soundPath.isNotEmpty) {
+        _playCustomAdhan(soundPath);
+      }
     }
   }
 
@@ -394,6 +456,7 @@ class LocalNotificationService {
     ReceivedAction receivedAction,
   ) async {
     log('Notification dismissed: ${receivedAction.id}');
+    _stopCustomAdhan();
     _stopFlipDetector();
   }
 
@@ -406,6 +469,7 @@ class LocalNotificationService {
       'Notification action clicked: ${receivedAction.id}, payload: ${receivedAction.payload}',
     );
 
+    _stopCustomAdhan();
     _stopFlipDetector();
 
     final payload = receivedAction.payload ?? {};
@@ -437,8 +501,9 @@ class LocalNotificationService {
       case 'azan':
         return prayersChannelAzanKey;
       case 'makkah':
-      default:
         return prayersChannelMakkahKey;
+      default:
+        return prayersChannelCustomKey;
     }
   }
 
@@ -491,7 +556,6 @@ class LocalNotificationService {
 
       final todayTimes = helper.getPrayerDateTimes(todayDate);
       final tomorrowTimes = helper.getPrayerDateTimes(tomorrowDate);
-      final soundResource = getSoundResource(soundId);
 
       for (int i = 0; i < PrayerType.values.length; i++) {
         final type = PrayerType.values[i];
@@ -523,20 +587,44 @@ class LocalNotificationService {
 
           final id = 100 + type.index;
 
+          final prayerSoundId = UserHiveHelper.getPrayerAdhanSound(
+            type.name,
+            defaultValue: soundId ?? 'makkah',
+          );
+          final isBuiltIn = prayerSoundId == 'makkah' ||
+              prayerSoundId == 'madinah' ||
+              prayerSoundId == 'azan';
+          String? localSoundPath;
+          if (!isBuiltIn) {
+            try {
+              localSoundPath = await injector<AzanAudioService>()
+                  .getExistingLocalPath(prayerSoundId);
+            } catch (_) {}
+          }
+          final channelKey = (localSoundPath != null)
+              ? prayersChannelCustomKey
+              : getPrayerChannelKey(prayerSoundId);
+          final soundResource = getSoundResource(prayerSoundId);
+
           final content = NotificationContent(
             id: id,
-            channelKey: getPrayerChannelKey(soundId),
+            channelKey: channelKey,
             title: title,
             body: body,
             icon: defaultNotificationIcon,
-            customSound: (isFullAdhan && Platform.isAndroid)
+            customSound: (isFullAdhan && Platform.isAndroid && isBuiltIn)
                 ? soundResource
                 : null,
             notificationLayout: NotificationLayout.Default,
             category: NotificationCategory.Reminder,
             wakeUpScreen: true,
             fullScreenIntent: true,
-            payload: {'type': 'prayer', 'prayer': type.name},
+            payload: {
+              'type': 'prayer',
+              'prayer': type.name,
+              'soundId': prayerSoundId,
+              'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+            },
           );
 
           final actionButtons = [
@@ -618,6 +706,9 @@ class LocalNotificationService {
                 notificationLayout: NotificationLayout.Default,
                 category: NotificationCategory.Reminder,
                 wakeUpScreen: true,
+                customSound: _isNativePrayerCloseSoundAvailable
+                    ? 'resource://raw/prayer_time_is_close'
+                    : null,
                 payload: {
                   'type': 'pre_prayer',
                   'prayer': type.name,
@@ -840,21 +931,41 @@ class LocalNotificationService {
           ? 'حان الآن وقت صلاة الظهر - حي على الصلاة'
           : 'It is now time for Dhuhr prayer - Come to prayer';
 
-      final soundResource = getSoundResource(soundId);
+      final effectiveSoundId = soundId ?? UserHiveHelper.getSelectedAdhanSound();
+      final isBuiltIn = effectiveSoundId == 'makkah' ||
+          effectiveSoundId == 'madinah' ||
+          effectiveSoundId == 'azan';
+      String? localSoundPath;
+      if (!isBuiltIn) {
+        try {
+          localSoundPath = await injector<AzanAudioService>()
+              .getExistingLocalPath(effectiveSoundId);
+        } catch (_) {}
+      }
+
+      final channelKey = (localSoundPath != null)
+          ? prayersChannelCustomKey
+          : getPrayerChannelKey(effectiveSoundId);
+      final soundResource = getSoundResource(effectiveSoundId);
 
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: 999,
-          channelKey: getPrayerChannelKey(soundId),
+          channelKey: channelKey,
           title: title,
           body: body,
           icon: defaultNotificationIcon,
-          customSound: (isFullAdhan && Platform.isAndroid)
+          customSound: (isFullAdhan && Platform.isAndroid && isBuiltIn)
               ? soundResource
               : null,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
-          payload: {'type': 'prayer', 'prayer': 'dhuhr'},
+          payload: {
+            'type': 'prayer',
+            'prayer': 'dhuhr',
+            'soundId': effectiveSoundId,
+            'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+          },
         ),
         actionButtons: [
           NotificationActionButton(
@@ -869,9 +980,14 @@ class LocalNotificationService {
           ),
         ],
       );
+
+      if (localSoundPath != null && isFullAdhan) {
+        await _playCustomAdhan(localSoundPath);
+      }
+
       _startFlipDetector(999);
       log(
-        'Instant test notification sent successfully with sound: $soundResource',
+        'Instant test notification sent successfully with sound: $effectiveSoundId',
       );
     } catch (e, st) {
       log('Error sending test notification: $e\n$st');
@@ -913,6 +1029,9 @@ class LocalNotificationService {
           notificationLayout: NotificationLayout.Default,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
+          customSound: _isNativePrayerCloseSoundAvailable
+              ? 'resource://raw/prayer_time_is_close'
+              : null,
           payload: {'type': 'pre_prayer', 'prayer': prayerType.name},
         ),
         actionButtons: [
@@ -927,15 +1046,158 @@ class LocalNotificationService {
           ),
         ],
       );
+      if (!_isNativePrayerCloseSoundAvailable) {
+        await _playPrePrayerAudio();
+      }
       log('Test pre-adhan notification sent successfully');
     } catch (e, st) {
       log('Error sending test pre-adhan notification: $e\n$st');
     }
   }
 
+  /// Schedules an hourly recurring notification for Salawat on the Prophet ﷺ
+  static Future<void> scheduleSalawatNotification({
+    required String language,
+    bool enabled = true,
+  }) async {
+    if (!isSupportedPlatform) return;
+    try {
+      await cancelSalawatNotification();
+      if (!enabled) return;
+
+      final title = language == 'ar'
+          ? 'الصلاة على النبي ﷺ'
+          : 'Blessings upon the Prophet ﷺ';
+      final body = language == 'ar'
+          ? 'اللهم صلِّ وسلِّم وبارك على سيدنا محمد وعلى آله وصحبه أجمعين'
+          : 'O Allah, bestow peace and blessings upon our Master Muhammad';
+
+      final content = NotificationContent(
+        id: salawatNotificationId,
+        channelKey: salawatChannelKey,
+        title: title,
+        body: body,
+        icon: defaultNotificationIcon,
+        notificationLayout: NotificationLayout.Default,
+        category: NotificationCategory.Reminder,
+        wakeUpScreen: true,
+        customSound: _isNativeSalawatSoundAvailable
+            ? (Platform.isAndroid
+                ? 'resource://raw/salli_ala_muhammad'
+                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+            : null,
+        payload: {'type': 'salawat'},
+      );
+
+      final actionButtons = [
+        NotificationActionButton(
+          key: 'OPEN_APP',
+          label: language == 'ar' ? 'فتح التطبيق' : 'Open App',
+        ),
+        NotificationActionButton(
+          key: 'DISMISS',
+          label: language == 'ar' ? 'حسناً' : 'OK',
+          actionType: ActionType.DismissAction,
+        ),
+      ];
+
+      try {
+        await AwesomeNotifications().createNotification(
+          content: content,
+          actionButtons: actionButtons,
+          schedule: NotificationInterval(
+            interval: const Duration(hours: 1),
+            repeats: true,
+            allowWhileIdle: true,
+            preciseAlarm: true,
+          ),
+        );
+      } catch (preciseErr) {
+        log('Precise alarm failed for salawat reminder, falling back: $preciseErr');
+        await AwesomeNotifications().createNotification(
+          content: content,
+          actionButtons: actionButtons,
+          schedule: NotificationInterval(
+            interval: const Duration(hours: 1),
+            repeats: true,
+            allowWhileIdle: true,
+            preciseAlarm: false,
+          ),
+        );
+      }
+      log('Salawat hourly notification scheduled successfully.');
+    } catch (e, st) {
+      log('Error scheduling salawat notification: $e\n$st');
+    }
+  }
+
+  /// Cancels the hourly Salawat notification
+  static Future<void> cancelSalawatNotification() async {
+    if (!isSupportedPlatform) return;
+    try {
+      await AwesomeNotifications().cancel(salawatNotificationId);
+      await AwesomeNotifications().cancelSchedule(salawatNotificationId);
+      log('Salawat notification cancelled.');
+    } catch (e) {
+      log('Error cancelling salawat notification: $e');
+    }
+  }
+
+  /// Shows an immediate test notification with the Salawat audio
+  static Future<void> showTestSalawatNotification({
+    required String language,
+  }) async {
+    if (!isSupportedPlatform) return;
+    try {
+      final title = language == 'ar'
+          ? 'الصلاة على النبي ﷺ'
+          : 'Blessings upon the Prophet ﷺ';
+      final body = language == 'ar'
+          ? 'اللهم صلِّ وسلِّم وبارك على سيدنا محمد وعلى آله وصحبه أجمعين'
+          : 'O Allah, bestow peace and blessings upon our Master Muhammad';
+
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: salawatTestNotificationId,
+          channelKey: salawatChannelKey,
+          title: title,
+          body: body,
+          icon: defaultNotificationIcon,
+          notificationLayout: NotificationLayout.Default,
+          category: NotificationCategory.Reminder,
+          wakeUpScreen: true,
+          customSound: _isNativeSalawatSoundAvailable
+              ? (Platform.isAndroid
+                  ? 'resource://raw/salli_ala_muhammad'
+                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+              : null,
+          payload: {'type': 'salawat_test'},
+        ),
+        actionButtons: [
+          NotificationActionButton(
+            key: 'OPEN_APP',
+            label: language == 'ar' ? 'فتح التطبيق' : 'Open App',
+          ),
+          NotificationActionButton(
+            key: 'DISMISS',
+            label: language == 'ar' ? 'حسناً' : 'OK',
+            actionType: ActionType.DismissAction,
+          ),
+        ],
+      );
+      if (!_isNativeSalawatSoundAvailable) {
+        await _playSalawatAudio();
+      }
+      log('Test salawat notification sent successfully.');
+    } catch (e, st) {
+      log('Error sending test salawat notification: $e\n$st');
+    }
+  }
+
   /// Cancels all prayer notifications (IDs 100 to 199)
   static Future<void> cancelPrayerNotifications() async {
     if (!isSupportedPlatform) return;
+    _stopCustomAdhan();
     _stopFlipDetector();
     for (int id = 100; id <= 199; id++) {
       try {
@@ -958,6 +1220,7 @@ class LocalNotificationService {
   /// Cancels all scheduled notifications
   static Future<void> cancelAll() async {
     if (!isSupportedPlatform) return;
+    _stopCustomAdhan();
     _stopFlipDetector();
     try {
       await AwesomeNotifications().cancelAll();

@@ -643,6 +643,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get preAdhanTestSent => 'تم إرسال التنبيه المسبق التجريبي';
 
   @override
+  String get preAdhanSoundName => 'صوت: اقتربت الصلاة';
+
+  @override
   String get prayerAlertSettingsTitle => 'خيارات تنبيه الصلاة';
 
   @override
@@ -1326,4 +1329,166 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get qiblaManualDialHint => 'اسحب القرص لمحاكاة حركة الهاتف';
+
+  @override
+  String get adhanLibraryTitle => 'مكتبة أصوات الأذان';
+
+  @override
+  String get adhanLibrarySubtitle =>
+      'استمع وحمّل أصوات الأذان وخصّص صوتاً لكل صلاة';
+
+  @override
+  String get adhanLibrarySearchHint => 'ابحث عن أذان أو مؤذن أو مدينة...';
+
+  @override
+  String get adhanFilterAll => 'جميع الأذانات';
+
+  @override
+  String get adhanFilterBuiltIn => 'المثبتة مسبقًا';
+
+  @override
+  String get adhanFilterDownloaded => 'المحمّلة';
+
+  @override
+  String get setAdhanAction => 'تعيين';
+
+  @override
+  String get downloadAdhanAction => 'تحميل';
+
+  @override
+  String get deleteAdhanAction => 'حذف';
+
+  @override
+  String get setAdhanForPrayerTitle => 'تعيين صوت الأذان';
+
+  @override
+  String get setAdhanForPrayerSubtitle =>
+      'اختر الصلوات التي تريد تعيين هذا الأذان لها';
+
+  @override
+  String get setForAllPrayers => 'جميع الصلوات';
+
+  @override
+  String get adhanSetSuccessMessage => 'تم تعيين صوت الأذان بنجاح';
+
+  @override
+  String get downloadFirstToSetAdhan => 'جاري تحميل الأذان أولاً للتعيين...';
+
+  @override
+  String get adhanDownloadSuccess => 'تم تحميل الأذان بنجاح';
+
+  @override
+  String get adhanDownloadFailed => 'فشل تحميل الأذان، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get adhanDeleteConfirmTitle => 'حذف صوت الأذان';
+
+  @override
+  String get adhanDeleteConfirmMessage =>
+      'هل تريد بالتأكيد حذف ملف هذا الأذان المحمّل؟';
+
+  @override
+  String get noDownloadedAdhans => 'لم تقم بتحميل أي أذان بعد';
+
+  @override
+  String get noAdhansFound => 'لا توجد أذانات مطابقة لبحثك';
+
+  @override
+  String get changeAdhanSound => 'تغيير الأذان';
+
+  @override
+  String get openAdhanLibrary => 'مكتبة أصوات الأذان';
+
+  @override
+  String get openAdhanLibraryDesc =>
+      'تصفح وتحميل أكثر من 80 صوت أذان وتخصيصها للصلوات';
+
+  @override
+  String get adhanPlayFailed =>
+      'تعذر تشغيل صوت الأذان، يرجى التحقق من اتصال الإنترنت';
+
+  @override
+  String get salawatSectionTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatReminderTitle => 'تذكير الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatReminderActiveSubtitle =>
+      'مفعل • كل ساعة بصوت صَلِّ عَلَى مُحَمَّد';
+
+  @override
+  String get salawatReminderDisabledSubtitle => 'معطّل';
+
+  @override
+  String get salawatReminderSwitchLabel => 'التذكير الصوتي كل ساعة';
+
+  @override
+  String get salawatSettingsTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatSettingsSubtitle =>
+      'تذكير صوتي دوري لتعطير لسانك بالصلاة على رسول الله ﷺ';
+
+  @override
+  String get salawatHadithText =>
+      '«مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللهُ عَلَيْهِ بِهَا عَشْرًا»';
+
+  @override
+  String get salawatHadithSource => 'صحيح مسلم';
+
+  @override
+  String get salawatHourlyToggleTitle => 'تفعيل التذكير كل ساعة';
+
+  @override
+  String get salawatHourlyToggleSubtitle =>
+      'إرسال إشعار صوتي تلقائي كل ساعة يذكّرك بالصلاة والسلام على الحبيب المصطفى ﷺ';
+
+  @override
+  String get salawatSoundCardTitle => 'صوت التذكير';
+
+  @override
+  String get salawatSoundName => 'صَلِّ عَلَى مُحَمَّد';
+
+  @override
+  String get salawatSoundDuration => '00:02';
+
+  @override
+  String get salawatSoundDesc => 'صوت نقي وواضح لتذكيرك في كل ساعة';
+
+  @override
+  String get salawatListenSound => 'استمع للتسجيل';
+
+  @override
+  String get salawatStopSound => 'إيقاف الصوت';
+
+  @override
+  String get salawatNotificationPreviewTitle => 'معاينة الإشعار';
+
+  @override
+  String get salawatNotificationPreviewSubtitle =>
+      'شكل الإشعار كما سيظهر على شاشة هاتفك';
+
+  @override
+  String get salawatNotificationContentTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatNotificationContentBody =>
+      'اللهم صلِّ وسلِّم وبارك على سيدنا محمد وعلى آله وصحبه أجمعين';
+
+  @override
+  String get salawatTestButton => 'تجربة إشعار الصلاة على النبي الآن';
+
+  @override
+  String get salawatTestNotificationSent =>
+      'تم إرسال إشعار تجريبي للصلاة على النبي ﷺ';
+
+  @override
+  String get salawatRepeatInterval => 'كل ساعة';
+
+  @override
+  String get salawatNotificationDismiss => 'حسناً';
+
+  @override
+  String get salawatNotificationOpen => 'فتح التطبيق';
 }

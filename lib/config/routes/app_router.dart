@@ -11,6 +11,8 @@ import '../../features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
 import '../../features/homelayout/data/models/athkar_category_model.dart';
 import '../../features/homelayout/data/models/athkar_detail_args.dart';
 import '../../features/homelayout/data/models/occasion_item_model.dart';
+import '../../features/homelayout/data/models/prayer_time_model.dart';
+import '../../features/homelayout/presentation/pages/adhan_sounds_library_page.dart';
 import '../../features/homelayout/presentation/pages/app_info_content_page.dart';
 import '../../features/homelayout/presentation/pages/asma_allah_page.dart';
 import '../../features/homelayout/presentation/pages/athkar_detail_page.dart';
@@ -25,6 +27,7 @@ import '../../features/homelayout/presentation/pages/notifications_page.dart';
 import '../../features/homelayout/presentation/pages/occasion_detail_page.dart';
 import '../../features/homelayout/presentation/pages/prayer_calculation_settings_page.dart';
 import '../../features/homelayout/presentation/pages/prayer_times_page.dart';
+import '../../features/homelayout/presentation/pages/salawat_settings_page.dart';
 import '../../features/homelayout/presentation/pages/sebha_page.dart';
 import '../../features/onboarding/presentation/pages/language_selection_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -83,6 +86,8 @@ class AppRoutes {
   static const String asmaAllah = '/asma-allah';
   static const String hojatyAi = '/hojaty-ai';
   static const String qibla = '/qibla';
+  static const String adhanSoundsLibrary = '/adhan-sounds-library';
+  static const String salawatSettings = '/salawat-settings';
 }
 
 class AppRouter {
@@ -188,6 +193,19 @@ class AppRouter {
       case AppRoutes.prayerCalculationSettings:
         return MaterialPageRoute(
           builder: (_) => const PrayerCalculationSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.salawatSettings:
+        return MaterialPageRoute(
+          builder: (_) => const SalawatSettingsPage(),
+          settings: settings,
+        );
+      case AppRoutes.adhanSoundsLibrary:
+        final initialPrayer = settings.arguments as PrayerType?;
+        return MaterialPageRoute(
+          builder: (_) => AdhanSoundsLibraryPage(
+            initialPrayerType: initialPrayer,
+          ),
           settings: settings,
         );
       case AppRoutes.locationSettings:

@@ -8,6 +8,7 @@ import '../data/datasources/remote/occasions_remote_data_source_impl.dart';
 import '../data/repositories/app_content_repository_impl.dart';
 import '../data/repositories/homelayout_repository_impl.dart';
 import '../data/repositories/occasions_repository_impl.dart';
+import '../data/services/azan_audio_service.dart';
 import '../domain/datasources/app_content_remote_data_source.dart';
 import '../domain/datasources/occasions_local_data_source.dart';
 import '../domain/datasources/occasions_remote_data_source.dart';
@@ -82,5 +83,10 @@ Future<void> initHomelayoutInjector() async {
 
   injector.registerLazySingleton<AppContentRemoteDataSource>(
     () => AppContentRemoteDataSourceImpl(dio: injector<Dio>()),
+  );
+
+  // Services
+  injector.registerLazySingleton<AzanAudioService>(
+    () => AzanAudioService(injector<Dio>()),
   );
 }
