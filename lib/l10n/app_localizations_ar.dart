@@ -1010,10 +1010,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nineBooksCategory => 'كتب السنة التسعة';
 
   @override
+  String get ibnBazCategory => 'كتب ابن باز رحمه الله';
+
+  @override
   String get fortiesCategory => 'الأربعينيات';
 
   @override
   String get otherBooksCategory => 'كتب ورسائل أخرى';
+
+  @override
+  String get viewPdf => 'عرض ملف PDF';
+
+  @override
+  String get readBookText => 'قراءة تفاعلية (نص الكتاب)';
+
+  @override
+  String get openBookOptionsTitle => 'اختر طريقة العرض';
+
+  @override
+  String get pdfNotFound => 'ملف الـ PDF غير متوفر';
+
+  @override
+  String get pdfOpenError => 'تعذر فتح ملف الـ PDF';
+
+  @override
+  String get hasPdfBadge => 'نسخة PDF';
 
   @override
   String get noBooksFound => 'لم يتم العثور على كتب مطابقة';

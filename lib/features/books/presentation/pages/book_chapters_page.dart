@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../data/models/book_chapter_model.dart';
 import '../../data/models/book_collection_model.dart';
 import '../../data/models/book_info_model.dart';
+import '../../data/repositories/books_repository.dart';
 import '../widgets/book_details/book_chapter_tile_widget.dart';
 import '../widgets/book_details/book_chapters_header_widget.dart';
 import '../widgets/book_details/book_read_mode_banner_widget.dart';
@@ -93,6 +95,35 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
     );
   }
 
+  Future<void> _openPdf() async {
+    final repo = injector<BooksRepository>();
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final success = await repo.openBookPdf(widget.book);
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
+
+      if (!success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfNotFound)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfOpenError)),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
@@ -108,6 +139,7 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
             totalHadiths: widget.collection.hadiths.length,
             onBack: () => context.pop(),
             onReadBook: _openFullBookReader,
+            onOpenPdf: widget.book.hasPdf ? _openPdf : null,
           ),
           12.ver,
           BookReadModeBannerWidget(

@@ -14,6 +14,7 @@ import '../bloc/books_event.dart';
 import '../bloc/books_state.dart';
 import '../widgets/books/book_card_widget.dart';
 import '../widgets/books/book_delete_confirm_dialog.dart';
+import '../widgets/books/book_open_options_sheet.dart';
 import '../widgets/books/books_category_filter_widget.dart';
 import '../widgets/books/books_header_widget.dart';
 import '../widgets/books/books_search_bar_widget.dart';
@@ -77,6 +78,57 @@ class _BooksPageState extends State<BooksPage> {
         Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.toString())),
+        );
+      }
+    }
+  }
+
+  void _onBookCardTap(BuildContext context, BookInfoModel book) {
+    if (book.hasPdf) {
+      showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (sheetContext) => BookOpenOptionsSheet(
+          book: book,
+          onReadText: () {
+            Navigator.of(sheetContext).pop();
+            _handleBookTap(context, book);
+          },
+          onOpenPdf: () {
+            Navigator.of(sheetContext).pop();
+            _handleOpenPdf(context, book);
+          },
+        ),
+      );
+    } else {
+      _handleBookTap(context, book);
+    }
+  }
+
+  Future<void> _handleOpenPdf(BuildContext context, BookInfoModel book) async {
+    final repo = injector<BooksRepository>();
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final success = await repo.openBookPdf(book);
+
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // dismiss loading
+
+      if (!success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfNotFound)),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfOpenError)),
         );
       }
     }
@@ -166,14 +218,16 @@ class _BooksPageState extends State<BooksPage> {
                               bookId: book.id,
                               status: BookDownloadStatus.downloaded,
                               progress: 1.0,
-                              localFilePath: 'assets/debug/${book.assetName}',
+                              localFilePath: book.category == BookCategory.ibnBaz
+                                  ? 'assets/debug/elbaz/${book.assetName}'
+                                  : 'assets/debug/${book.assetName}',
                             )
                           : state.getDownloadStatus(book.id);
 
                       return BookCardWidget(
                         book: book,
                         downloadProgress: progress,
-                        onTap: () => _handleBookTap(context, book),
+                        onTap: () => _onBookCardTap(context, book),
                         onDownload: () => _onDownload(book),
                         onDelete: () => _onDelete(book),
                       );

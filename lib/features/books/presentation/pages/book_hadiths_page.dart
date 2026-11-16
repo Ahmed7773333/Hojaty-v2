@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../data/models/book_collection_model.dart';
 import '../../data/models/book_info_model.dart';
 import '../../data/models/hadith_item_model.dart';
+import '../../data/repositories/books_repository.dart';
 import '../widgets/book_details/book_hadiths_header_widget.dart';
 import '../widgets/book_details/hadith_card_widget.dart';
 
@@ -75,6 +77,36 @@ class _BookHadithsPageState extends State<BookHadithsPage> {
     );
   }
 
+  Future<void> _openPdf() async {
+    if (widget.book == null) return;
+    final repo = injector<BooksRepository>();
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final success = await repo.openBookPdf(widget.book!);
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
+
+      if (!success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfNotFound)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfOpenError)),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
@@ -89,6 +121,7 @@ class _BookHadithsPageState extends State<BookHadithsPage> {
             count: _filteredHadiths.length,
             onBack: () => context.pop(),
             onReadBook: (widget.book != null && widget.collection != null) ? _openReader : null,
+            onOpenPdf: (widget.book?.hasPdf == true) ? _openPdf : null,
           ),
           12.ver,
           Padding(

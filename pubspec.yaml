@@ -68,6 +68,7 @@ flutter:
     - assets/audio/
     - assets/fonts/
     - assets/debug/
+    - assets/debug/elbaz/
   fonts:
     - family: Hafs Smart
       fonts:

@@ -13,6 +13,7 @@ class BookReaderHeaderWidget extends StatelessWidget {
   final VoidCallback onToc;
   final VoidCallback onSettings;
   final VoidCallback onShare;
+  final VoidCallback? onOpenPdf;
 
   const BookReaderHeaderWidget({
     super.key,
@@ -24,6 +25,7 @@ class BookReaderHeaderWidget extends StatelessWidget {
     required this.onToc,
     required this.onSettings,
     required this.onShare,
+    this.onOpenPdf,
   });
 
   @override
@@ -103,6 +105,12 @@ class BookReaderHeaderWidget extends StatelessWidget {
             icon: Icon(Icons.format_size_rounded, color: Colors.white, size: 20.sp),
             tooltip: context.strings.readerSettings,
           ),
+          if (onOpenPdf != null)
+            IconButton(
+              onPressed: onOpenPdf,
+              icon: Icon(Icons.picture_as_pdf_rounded, color: Colors.white, size: 20.sp),
+              tooltip: context.strings.viewPdf,
+            ),
           IconButton(
             onPressed: onShare,
             icon: Icon(Icons.share_rounded, color: Colors.white, size: 20.sp),

@@ -31,7 +31,8 @@ class BookCollectionModel extends Equatable {
             .toList() ??
         const [];
 
-    final hadithsList = (json['hadiths'] as List<dynamic>?)
+    final rawItems = json['hadiths'] ?? json['sections'];
+    final hadithsList = (rawItems as List<dynamic>?)
             ?.map((e) => HadithItemModel.fromJson(e as Map<String, dynamic>))
             .toList() ??
         const [];

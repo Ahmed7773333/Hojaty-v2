@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/utils/play_asset_delivery_service.dart';
 import '../models/book_collection_model.dart';
 import '../models/book_download_state.dart';
@@ -17,15 +19,20 @@ class BooksRepository {
       Map.unmodifiable(_cachedStatuses);
 
   Future<String?> _resolveBookFilePath(BookInfoModel book) async {
-    // 0. Check debug mode asset in assets/debug/
+    // 0. Check debug mode asset in assets/debug/ or assets/debug/elbaz/
     if (kDebugMode) {
-      final debugAssetPath = 'assets/debug/${book.assetName}';
-      try {
-        await rootBundle.load(debugAssetPath);
-        return debugAssetPath;
-      } catch (_) {
-        final debugFile = File(debugAssetPath);
-        if (await debugFile.exists()) return debugAssetPath;
+      final candidates = [
+        'assets/debug/${book.assetName}',
+        'assets/debug/elbaz/${book.assetName}',
+      ];
+      for (final candidate in candidates) {
+        try {
+          await rootBundle.load(candidate);
+          return candidate;
+        } catch (_) {
+          final debugFile = File(candidate);
+          if (await debugFile.exists()) return candidate;
+        }
       }
     }
 
@@ -49,6 +56,119 @@ class BooksRepository {
     if (await devFile.exists()) return devFile.path;
 
     return null;
+  }
+
+  Future<String?> resolvePdfFilePath(BookInfoModel book) async {
+    if (!book.hasPdf) return null;
+    final pdfName = book.pdfAssetName!;
+
+    // 0. Check debug mode asset in assets/debug/elbaz/ or assets/debug/
+    if (kDebugMode) {
+      final candidates = [
+        'assets/debug/elbaz/$pdfName',
+        'assets/debug/$pdfName',
+      ];
+      for (final candidate in candidates) {
+        final f = File(candidate);
+        if (await f.exists()) return f.path;
+        try {
+          await rootBundle.load(candidate);
+          return candidate;
+        } catch (_) {}
+      }
+    }
+
+    // 1. Check Play Asset Delivery path on Android
+    final packPath = await PlayAssetDeliveryService.getAssetPackPath(book.assetPackName);
+    if (packPath != null && packPath.isNotEmpty) {
+      final f = File('$packPath/$pdfName');
+      if (await f.exists()) return f.path;
+    }
+
+    // 2. Check App Documents directory /books/
+    try {
+      final docsDir = await getApplicationDocumentsDirectory();
+      final localFile = File('${docsDir.path}/books/$pdfName');
+      if (await localFile.exists()) return localFile.path;
+    } catch (_) {}
+
+    // 3. Check dev / source directory fallback if running locally
+    final devPath = 'android/${book.assetPackName}/src/main/assets/$pdfName';
+    final devFile = File(devPath);
+    if (await devFile.exists()) return devFile.path;
+
+    return null;
+  }
+
+  Future<File?> getOrExtractPdfFile(BookInfoModel book) async {
+    if (!book.hasPdf) return null;
+    final resolved = await resolvePdfFilePath(book);
+    if (resolved == null) return null;
+
+    if (resolved.startsWith('assets/')) {
+      try {
+        final fileOnDisk = File(resolved);
+        if (await fileOnDisk.exists()) return fileOnDisk;
+
+        final byteData = await rootBundle.load(resolved);
+        final tempDir = await getTemporaryDirectory();
+        final cacheDir = Directory('${tempDir.path}/books_pdf');
+        if (!await cacheDir.exists()) {
+          await cacheDir.create(recursive: true);
+        }
+        final cachedFile = File('${cacheDir.path}/${book.pdfAssetName!}');
+        await cachedFile.writeAsBytes(
+          byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+        );
+        return cachedFile;
+      } catch (e) {
+        log('Error extracting PDF asset: $e');
+        return null;
+      }
+    } else {
+      final f = File(resolved);
+      return (await f.exists()) ? f : null;
+    }
+  }
+
+  Future<bool> openBookPdf(BookInfoModel book) async {
+    final file = await getOrExtractPdfFile(book);
+    if (file == null || !await file.exists()) {
+      return false;
+    }
+
+    if (Platform.isAndroid) {
+      final opened = await PlayAssetDeliveryService.openPdf(file.path);
+      if (opened) return true;
+      try {
+        await Share.shareXFiles([XFile(file.path)], text: book.titleAr);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    } else if (Platform.isWindows) {
+      try {
+        await Process.run('cmd', ['/c', 'start', '', file.path]);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    } else if (Platform.isMacOS) {
+      try {
+        await Process.run('open', [file.path]);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    } else if (Platform.isLinux) {
+      try {
+        await Process.run('xdg-open', [file.path]);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<BookDownloadProgress> checkBookStatus(BookInfoModel book) async {
@@ -200,6 +320,17 @@ class BooksRepository {
         final localFile = File('${docsDir.path}/books/${book.assetName}');
         if (await localFile.exists()) {
           await localFile.delete();
+        }
+        if (book.hasPdf) {
+          final localPdf = File('${docsDir.path}/books/${book.pdfAssetName!}');
+          if (await localPdf.exists()) {
+            await localPdf.delete();
+          }
+          final tempDir = await getTemporaryDirectory();
+          final cachedPdf = File('${tempDir.path}/books_pdf/${book.pdfAssetName!}');
+          if (await cachedPdf.exists()) {
+            await cachedPdf.delete();
+          }
         }
       } catch (_) {}
 

@@ -88,6 +88,37 @@ class BookCardWidget extends StatelessWidget {
                           color: Colors.white.withValues(alpha: 0.08),
                         ),
                       ),
+                      if (book.hasPdf)
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                            decoration: BoxDecoration(
+                              color: AppColors.accentGold.withValues(alpha: 0.9),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.picture_as_pdf_rounded,
+                                  size: 10.sp,
+                                  color: Colors.white,
+                                ),
+                                3.hor,
+                                Text(
+                                  'PDF',
+                                  style: context.textTheme.labelSmall?.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

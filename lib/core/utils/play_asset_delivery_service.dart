@@ -221,4 +221,18 @@ class PlayAssetDeliveryService {
       return null;
     }
   }
+
+  /// Opens a local PDF file using Android's native Intent.ACTION_VIEW via FileProvider.
+  static Future<bool> openPdf(String filePath) async {
+    if (!Platform.isAndroid) return false;
+    try {
+      final bool? success = await _channel.invokeMethod<bool>('openPdf', {
+        'filePath': filePath,
+      });
+      return success ?? false;
+    } catch (e) {
+      log('Error in openPdf for $filePath: $e');
+      return false;
+    }
+  }
 }

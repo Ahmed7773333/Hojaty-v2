@@ -178,6 +178,34 @@ class MainActivity : AudioServiceActivity() {
                         }
                         result.success(null)
                     }
+                    "openPdf" -> {
+                        val filePath = call.argument<String>("filePath")
+                        if (filePath.isNullOrBlank()) {
+                            result.error("INVALID_PATH", "File path is required", null)
+                            return@setMethodCallHandler
+                        }
+                        val file = java.io.File(filePath)
+                        if (!file.exists()) {
+                            result.error("NOT_FOUND", "PDF file does not exist", null)
+                            return@setMethodCallHandler
+                        }
+                        try {
+                            val uri = androidx.core.content.FileProvider.getUriForFile(
+                                applicationContext,
+                                "${applicationContext.packageName}.fileprovider",
+                                file
+                            )
+                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                                setDataAndType(uri, "application/pdf")
+                                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            startActivity(intent)
+                            result.success(true)
+                        } catch (e: Exception) {
+                            result.error("OPEN_FAILED", e.message ?: "Failed to open PDF", null)
+                        }
+                    }
                     else -> {
                         result.notImplemented()
                     }

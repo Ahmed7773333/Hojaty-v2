@@ -21,6 +21,7 @@ class BooksCategoryFilterWidget extends StatelessWidget {
     final categories = <(BookCategory?, String)>[
       (null, context.strings.allCategory),
       (BookCategory.nineBooks, context.strings.nineBooksCategory),
+      (BookCategory.ibnBaz, context.strings.ibnBazCategory),
       (BookCategory.forties, context.strings.fortiesCategory),
       (BookCategory.other, context.strings.otherBooksCategory),
     ];

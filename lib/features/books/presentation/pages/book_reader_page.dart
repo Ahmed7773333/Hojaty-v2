@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hojaty/features/books/data/models/book_page_model.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../data/models/book_collection_model.dart';
 import '../../data/models/book_info_model.dart';
 import '../../data/models/book_reader_theme_model.dart';
+import '../../data/repositories/books_repository.dart';
 import '../../domain/utils/book_paginator.dart';
 import '../widgets/book_reader/book_page_leaf_widget.dart';
 import '../widgets/book_reader/book_reader_bottom_bar_widget.dart';
@@ -158,6 +160,35 @@ class _BookReaderPageState extends State<BookReaderPage> {
     );
   }
 
+  Future<void> _openPdf() async {
+    final repo = injector<BooksRepository>();
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final success = await repo.openBookPdf(widget.book);
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
+
+      if (!success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfNotFound)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.strings.pdfOpenError)),
+        );
+      }
+    }
+  }
+
   void _openJumpDialog() {
     showDialog(
       context: context,
@@ -229,6 +260,7 @@ class _BookReaderPageState extends State<BookReaderPage> {
                       onToc: _openToc,
                       onSettings: _openSettings,
                       onShare: _openShare,
+                      onOpenPdf: widget.book.hasPdf ? _openPdf : null,
                     ),
                   ),
 

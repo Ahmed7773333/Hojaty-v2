@@ -1025,10 +1025,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nineBooksCategory => 'Nine Hadith Books';
 
   @override
+  String get ibnBazCategory => 'Books of Ibn Baz (Rahimahullah)';
+
+  @override
   String get fortiesCategory => 'The Forties';
 
   @override
   String get otherBooksCategory => 'Other Books';
+
+  @override
+  String get viewPdf => 'View PDF';
+
+  @override
+  String get readBookText => 'Interactive Reader (Text)';
+
+  @override
+  String get openBookOptionsTitle => 'Select Reading Mode';
+
+  @override
+  String get pdfNotFound => 'PDF file not available';
+
+  @override
+  String get pdfOpenError => 'Could not open PDF file';
+
+  @override
+  String get hasPdfBadge => 'PDF Edition';
 
   @override
   String get noBooksFound => 'No matching books found';

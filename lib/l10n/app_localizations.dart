@@ -1988,6 +1988,12 @@ abstract class AppLocalizations {
   /// **'Nine Hadith Books'**
   String get nineBooksCategory;
 
+  /// No description provided for @ibnBazCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Books of Ibn Baz (Rahimahullah)'**
+  String get ibnBazCategory;
+
   /// No description provided for @fortiesCategory.
   ///
   /// In en, this message translates to:
@@ -1999,6 +2005,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other Books'**
   String get otherBooksCategory;
+
+  /// No description provided for @viewPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'View PDF'**
+  String get viewPdf;
+
+  /// No description provided for @readBookText.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive Reader (Text)'**
+  String get readBookText;
+
+  /// No description provided for @openBookOptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Reading Mode'**
+  String get openBookOptionsTitle;
+
+  /// No description provided for @pdfNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF file not available'**
+  String get pdfNotFound;
+
+  /// No description provided for @pdfOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open PDF file'**
+  String get pdfOpenError;
+
+  /// No description provided for @hasPdfBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF Edition'**
+  String get hasPdfBadge;
 
   /// No description provided for @noBooksFound.
   ///

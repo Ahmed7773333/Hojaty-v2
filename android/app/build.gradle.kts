@@ -67,7 +67,7 @@ android {
         // live Closed Testing baseline predates 1.1.31+51, remove this block altogether).
         // Do NOT include "db" or "sqlite" here: hojaty_rag.db is extracted to disk by Play Asset
         // Delivery and opened via filesystem path in sqflite, not via AssetManager.openFd().
-        noCompress += listOf("png", "json", "jpg", "jpeg", "webp")
+        noCompress += listOf("png", "json", "jpg", "jpeg", "webp", "pdf")
     }
 
     assetPacks += listOf(
@@ -94,7 +94,30 @@ android {
         ":book_adab",
         ":book_shamail",
         ":book_duaa",
-        ":hojaty_rag"
+        ":hojaty_rag",
+        ":book_elbaz_001",
+        ":book_elbaz_002",
+        ":book_elbaz_003",
+        ":book_elbaz_004",
+        ":book_elbaz_005",
+        ":book_elbaz_006",
+        ":book_elbaz_007",
+        ":book_elbaz_009",
+        ":book_elbaz_013",
+        ":book_elbaz_014",
+        ":book_elbaz_017",
+        ":book_elbaz_023",
+        ":book_elbaz_026",
+        ":book_elbaz_033",
+        ":book_elbaz_036",
+        ":book_elbaz_037",
+        ":book_elbaz_039",
+        ":book_elbaz_040",
+        ":book_elbaz_041",
+        ":book_elbaz_043",
+        ":book_elbaz_044",
+        ":book_elbaz_046",
+        ":book_elbaz_048"
     )
 }
 

@@ -9,6 +9,7 @@ class BookHadithsHeaderWidget extends StatelessWidget {
   final int count;
   final VoidCallback onBack;
   final VoidCallback? onReadBook;
+  final VoidCallback? onOpenPdf;
 
   const BookHadithsHeaderWidget({
     super.key,
@@ -17,6 +18,7 @@ class BookHadithsHeaderWidget extends StatelessWidget {
     required this.count,
     required this.onBack,
     this.onReadBook,
+    this.onOpenPdf,
   });
 
   @override
@@ -75,6 +77,18 @@ class BookHadithsHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
+          if (onOpenPdf != null) ...[
+            8.hor,
+            IconButton(
+              onPressed: onOpenPdf,
+              icon: Icon(
+                Icons.picture_as_pdf_rounded,
+                color: Colors.white,
+                size: 20.sp,
+              ),
+              tooltip: context.strings.viewPdf,
+            ),
+          ],
           if (onReadBook != null) ...[
             8.hor,
             IconButton(
