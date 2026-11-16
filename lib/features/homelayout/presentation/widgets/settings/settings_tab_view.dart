@@ -81,45 +81,43 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                   //   ],
                   // ),
                   // 18.ver,
-                  SettingsSectionCardWidget(
-                    title: context.strings.prayerTimesAndAdhanSection,
-                    children: [
-                      // SettingsTileWidget(
-                      //   title: context.strings.prayerTimesCalcSettings,
-                      //   subtitle: context.strings.egyptSurveyAuthority,
-                      //   onTap: () {
-                      //     context.pushNamed(
-                      //       AppRoutes.prayerCalculationSettings,
-                      //     );
-                      //   },
-                      // ),
-                      SettingsTileWidget(
-                        title: context.strings.notificationTypeLabel,
-                        subtitle: context.strings.fullAdhanTitle,
-                        onTap: () {
-                          context.pushNamed(
-                            AppRoutes.prayerCalculationSettings,
-                          );
-                        },
-                      ),
-                      SettingsSwitchTileWidget(
-                        title: context.strings.prayerAlertsLabel,
-                        value: _prayerAlerts,
-                        onChanged: (val) {
-                          setState(() => _prayerAlerts = val);
-                          context.read<HomelayoutBloc>().add(
-                            TogglePrayerAlertsEvent(val),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                  // SettingsSectionCardWidget(
+                  //   title: context.strings.prayerTimesAndAdhanSection,
+                  //   children: [
+                  //     // SettingsTileWidget(
+                  //     //   title: context.strings.prayerTimesCalcSettings,
+                  //     //   subtitle: context.strings.egyptSurveyAuthority,
+                  //     //   onTap: () {
+                  //     //     context.pushNamed(
+                  //     //       AppRoutes.prayerCalculationSettings,
+                  //     //     );
+                  //     //   },
+                  //     // ),
+                  //     SettingsTileWidget(
+                  //       title: context.strings.notificationTypeLabel,
+                  //       subtitle: context.strings.fullAdhanTitle,
+                  //       onTap: () {
+                  //         context.pushNamed(
+                  //           AppRoutes.prayerCalculationSettings,
+                  //         );
+                  //       },
+                  //     ),
+                  //     SettingsSwitchTileWidget(
+                  //       title: context.strings.prayerAlertsLabel,
+                  //       value: _prayerAlerts,
+                  //       onChanged: (val) {
+                  //         setState(() => _prayerAlerts = val);
+                  //         context.read<HomelayoutBloc>().add(
+                  //           TogglePrayerAlertsEvent(val),
+                  //         );
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                   18.ver,
                   SettingsSectionCardWidget(
                     title: context.strings.salawatSectionTitle,
-                    children: const [
-                      SalawatSettingsTileWidget(),
-                    ],
+                    children: const [SalawatSettingsTileWidget()],
                   ),
                   18.ver,
                   // SettingsSectionCardWidget(

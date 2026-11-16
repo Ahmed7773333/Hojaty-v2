@@ -1007,7 +1007,7 @@ abstract class AppLocalizations {
   /// No description provided for @adhanAlafasy.
   ///
   /// In en, this message translates to:
-  /// **'Sheikh Mishary Alafasy'**
+  /// **'Traditional'**
   String get adhanAlafasy;
 
   /// No description provided for @locationSettingsTitle.

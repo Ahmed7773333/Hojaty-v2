@@ -488,7 +488,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adhanMadinah => 'Adhan Al-Madinah Al-Munawwarah';
 
   @override
-  String get adhanAlafasy => 'Sheikh Mishary Alafasy';
+  String get adhanAlafasy => 'Traditional';
 
   @override
   String get locationSettingsTitle => 'Location & Governorate';

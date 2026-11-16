@@ -484,7 +484,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get adhanMadinah => 'أذان المدينة المنورة';
 
   @override
-  String get adhanAlafasy => 'الشيخ مشاري العفاسي';
+  String get adhanAlafasy => 'تقليدي';
 
   @override
   String get locationSettingsTitle => 'الموقع والمحافظة';
@@ -1231,8 +1231,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hojatyAiQuickAccessTitle => 'المساعد الذكي';
 
   @override
-  String get hojatyAiQuickAccessSubtitle =>
-      'استشارات وتوجيهات من الكتاب والسنة';
+  String get hojatyAiQuickAccessSubtitle => 'أدلة من الكتاب والسنة';
 
   @override
   String get hojatyAiDownloadTitle => 'تحميل قاعدة بيانات المساعد الإسلامي';

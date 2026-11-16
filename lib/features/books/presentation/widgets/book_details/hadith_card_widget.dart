@@ -56,30 +56,7 @@ class HadithCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.primaryDarkSurface
-                      : AppColors.lightCardSelected,
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(
-                    color: isDark
-                        ? AppColors.darkBorderSelected
-                        : AppColors.primaryDark.withValues(alpha: 0.3),
-                  ),
-                ),
-                child: Text(
-                  '${context.strings.hadithWord} ${hadith.idInBook > 0 ? hadith.idInBook : index}',
-                  style: context.textTheme.labelMedium?.copyWith(
-                    color: isDark
-                        ? AppColors.accentGold
-                        : AppColors.primaryDark,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                  ),
-                ),
-              ),
+              SizedBox.shrink(),
               IconButton(
                 icon: Icon(
                   Icons.copy_rounded,
