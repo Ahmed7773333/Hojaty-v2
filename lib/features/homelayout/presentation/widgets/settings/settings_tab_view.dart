@@ -15,6 +15,7 @@ import '../../pages/app_info_content_page.dart';
 import 'salawat_settings_tile_widget.dart';
 import 'settings_app_card_widget.dart';
 import 'settings_header_widget.dart';
+import 'settings_qr_button_widget.dart';
 import 'settings_section_card_widget.dart';
 import 'settings_switch_tile_widget.dart';
 import 'settings_tile_widget.dart';
@@ -198,6 +199,7 @@ class _SettingsTabViewState extends State<SettingsTabView> {
                     children: [
                       SettingsTileWidget(
                         title: context.strings.shareApp,
+                        trailing: const SettingsQrButtonWidget(),
                         onTap: () {
                           AppShareHelper.shareApp(context);
                         },

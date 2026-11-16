@@ -1610,4 +1610,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get salawatNotificationOpen => 'Open App';
+
+  @override
+  String get appQrCodeTitle => 'Scan App QR Code';
+
+  @override
+  String get appQrCodeSubtitle =>
+      'Scan via phone camera to open app directly on Google Play';
 }

@@ -3055,6 +3055,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open App'**
   String get salawatNotificationOpen;
+
+  /// No description provided for @appQrCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan App QR Code'**
+  String get appQrCodeTitle;
+
+  /// No description provided for @appQrCodeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan via phone camera to open app directly on Google Play'**
+  String get appQrCodeSubtitle;
 }
 
 class _AppLocalizationsDelegate

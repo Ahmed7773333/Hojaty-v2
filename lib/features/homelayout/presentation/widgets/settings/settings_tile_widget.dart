@@ -7,12 +7,14 @@ class SettingsTileWidget extends StatelessWidget {
   final String title;
   final String? subtitle;
   final VoidCallback onTap;
+  final Widget? trailing;
 
   const SettingsTileWidget({
     super.key,
     required this.title,
     this.subtitle,
     required this.onTap,
+    this.trailing,
   });
 
   @override
@@ -50,13 +52,14 @@ class SettingsTileWidget extends StatelessWidget {
                 ],
               ],
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 14.r,
-              color: isDark
-                  ? AppColors.darkTextMuted
-                  : AppColors.lightTextMuted,
-            ),
+            trailing ??
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14.r,
+                  color: isDark
+                      ? AppColors.darkTextMuted
+                      : AppColors.lightTextMuted,
+                ),
           ],
         ),
       ),

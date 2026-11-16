@@ -1593,4 +1593,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get salawatNotificationOpen => 'فتح التطبيق';
+
+  @override
+  String get appQrCodeTitle => 'رمز الاستجابة السريعة (QR Code)';
+
+  @override
+  String get appQrCodeSubtitle =>
+      'امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي';
 }

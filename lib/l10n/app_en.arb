@@ -577,5 +577,7 @@
   "salawatTestNotificationSent": "Test Salawat notification has been sent",
   "salawatRepeatInterval": "Every Hour",
   "salawatNotificationDismiss": "OK",
-  "salawatNotificationOpen": "Open App"
+  "salawatNotificationOpen": "Open App",
+  "appQrCodeTitle": "Scan App QR Code",
+  "appQrCodeSubtitle": "Scan via phone camera to open app directly on Google Play"
 }

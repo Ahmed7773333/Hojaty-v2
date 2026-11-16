@@ -577,5 +577,7 @@
   "salawatTestNotificationSent": "تم إرسال إشعار تجريبي للصلاة على النبي ﷺ",
   "salawatRepeatInterval": "كل ساعة",
   "salawatNotificationDismiss": "حسناً",
-  "salawatNotificationOpen": "فتح التطبيق"
+  "salawatNotificationOpen": "فتح التطبيق",
+  "appQrCodeTitle": "رمز الاستجابة السريعة (QR Code)",
+  "appQrCodeSubtitle": "امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي"
 }
