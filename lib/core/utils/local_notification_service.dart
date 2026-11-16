@@ -349,7 +349,7 @@ class LocalNotificationService {
       ),
     ];
   }
-  }
+  
 
   /// Check and request notification permissions automatically (no vibration permission requested)
   static Future<bool> requestPermission() async {
