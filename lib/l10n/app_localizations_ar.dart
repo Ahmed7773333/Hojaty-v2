@@ -622,6 +622,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get preAdhanTimingTitle => 'وقت التنبيه قبل الصلاة';
 
   @override
+  String get preAdhanCustomMinutesLabel => 'أو حدد بالدقائق (كتابة أو عداد):';
+
+  @override
+  String get preAdhanMinutesUnit => 'دقيقة';
+
+  @override
+  String get preAdhanMinutesHint => 'أدخل الدقائق';
+
+  @override
   String preAdhanMinutesChoice(int minutes) {
     return '$minutes دقائق';
   }
@@ -641,6 +650,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get preAdhanTestSent => 'تم إرسال التنبيه المسبق التجريبي';
+
+  @override
+  String get adhanTestButtonTitle => 'اختبار تنبيه الأذان';
+
+  @override
+  String get adhanTestButtonSubtitle => 'إرسال إشعار فوري وتجربة صوت التنبيه';
+
+  @override
+  String get adhanTestNotificationSent => 'تم إرسال إشعار تجريبي';
 
   @override
   String get preAdhanSoundName => 'صوت: اقتربت الصلاة';
@@ -1023,6 +1041,69 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get delete => 'حذف';
+
+  @override
+  String get readFullBook => 'قراءة الكتاب كاملاً (تصفح ورقي)';
+
+  @override
+  String get bookReaderMode => 'وضع تصفح الكتاب';
+
+  @override
+  String get readChapterInReader => 'قراءة الباب ككتاب';
+
+  @override
+  String get pageWord => 'صفحة';
+
+  @override
+  String get jumpToPage => 'الانتقال إلى صفحة';
+
+  @override
+  String get tableOfContents => 'فهرس الأبواب';
+
+  @override
+  String get readerSettings => 'إعدادات القراءة';
+
+  @override
+  String get themeVintage => 'ورقي';
+
+  @override
+  String get themeLight => 'نهاري';
+
+  @override
+  String get themeDark => 'ليلي';
+
+  @override
+  String get fontSize => 'حجم الخط';
+
+  @override
+  String get sharePdf => 'مشاركة وتصدير PDF';
+
+  @override
+  String get exportingPdf => 'جاري إنشاء ملف PDF...';
+
+  @override
+  String get shareCurrentPage => 'مشاركة نص الصفحة الحالية';
+
+  @override
+  String get shareCurrentChapterPdf => 'مشاركة الباب الحالي كـ PDF';
+
+  @override
+  String get shareBookPdf => 'مشاركة الكتاب كـ PDF';
+
+  @override
+  String get pdfExportSuccess => 'تم إنشاء ملف PDF بنجاح';
+
+  @override
+  String get pdfExportFailed => 'حدث خطأ أثناء إنشاء ملف PDF';
+
+  @override
+  String get previousPage => 'الصفحة السابقة';
+
+  @override
+  String get nextPage => 'الصفحة التالية';
+
+  @override
+  String get englishTranslation => 'الترجمة الإنجليزية';
 
   @override
   String get shareApp => 'مشاركة التطبيق';

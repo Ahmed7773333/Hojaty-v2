@@ -72,7 +72,8 @@ class PrayerCardWidget extends StatelessWidget {
       (b) => b.state.adhanSettings.isPreAdhanReminderEnabled,
     );
     final preMinutes = context.select<HomelayoutBloc, int>(
-      (b) => b.state.adhanSettings.preAdhanReminderMinutes,
+      (b) =>
+          b.state.adhanSettings.getPreAdhanReminderMinutesForPrayer(prayer.type),
     );
     final hasNextBadge = isHighlighted;
     final hasPreAlertBadge =

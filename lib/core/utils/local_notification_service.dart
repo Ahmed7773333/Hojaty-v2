@@ -35,10 +35,13 @@ class LocalNotificationService {
   static const String occasionsChannelKey = 'occasions_channel_v2';
   static const String anaOsalyChannelKey = 'hojaty_channel_v2';
   static const String generalChannelKey = 'general_channel_v2';
-  static const String salawatChannelKey = 'salawat_channel_v2';
+  static const String salawatChannelKey = 'salawat_channel_v3';
 
   static const int salawatNotificationId = 777;
   static const int salawatTestNotificationId = 776;
+  static int _salawatTestToggle = 0;
+  static int _adhanTestToggle = 0;
+  static int _preAdhanTestToggle = 0;
 
   /// Default notification small icon resource for Android
   static const String defaultNotificationIcon =
@@ -85,7 +88,16 @@ class LocalNotificationService {
     try {
       _stopCustomAdhan();
       _notificationPlayer = AudioPlayer();
-      await _notificationPlayer?.setAsset('assets/audio/salli_ala_muhammad.wav');
+      await _notificationPlayer?.setAudioSource(
+        AudioSource.asset(
+          'assets/audio/salli_ala_muhammad.wav',
+          tag: const MediaItem(
+            id: 'salawat_audio',
+            title: 'الصلاة على النبي ﷺ',
+            artist: 'تطبيق أنا أصلي',
+          ),
+        ),
+      );
       await _notificationPlayer?.play();
       log('Playing Salawat audio via just_audio from asset');
     } catch (e) {
@@ -97,7 +109,16 @@ class LocalNotificationService {
     try {
       _stopCustomAdhan();
       _notificationPlayer = AudioPlayer();
-      await _notificationPlayer?.setAsset('assets/audio/prayer_time_is_close.wav');
+      await _notificationPlayer?.setAudioSource(
+        AudioSource.asset(
+          'assets/audio/prayer_time_is_close.wav',
+          tag: const MediaItem(
+            id: 'pre_prayer_audio',
+            title: 'اقترب موعد الصلاة',
+            artist: 'تطبيق أنا أصلي',
+          ),
+        ),
+      );
       await _notificationPlayer?.play();
       log('Playing pre-prayer audio via just_audio from asset');
     } catch (e) {
@@ -145,6 +166,7 @@ class LocalNotificationService {
         'pre_prayer_channel',
         'pre_prayer_channel_v2',
         'prayers_channel',
+        'salawat_channel_v2',
       ];
       for (final legacyKey in legacyKeys) {
         try {
@@ -200,7 +222,7 @@ class LocalNotificationService {
         soundSource: Platform.isAndroid ? 'resource://raw/makka_azan' : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 2. Madinah Prayer Channel (Vibration completely disabled)
@@ -219,7 +241,7 @@ class LocalNotificationService {
         soundSource: Platform.isAndroid ? 'resource://raw/madina_azan' : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 3. Traditional Azan Prayer Channel (Vibration completely disabled)
@@ -237,7 +259,7 @@ class LocalNotificationService {
         soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 3.5 Custom Adhan Channel (Silent channel - audio handled dynamically)
@@ -254,7 +276,7 @@ class LocalNotificationService {
         criticalAlerts: true,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 4. Occasions Channel (Vibration completely disabled)
@@ -270,7 +292,7 @@ class LocalNotificationService {
         playSound: true,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 5. Hojaty Channel (Vibration completely disabled)
@@ -287,7 +309,7 @@ class LocalNotificationService {
         playSound: true,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 6. General Notifications (Vibration completely disabled)
@@ -302,7 +324,7 @@ class LocalNotificationService {
         playSound: true,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 7. Pre-Prayer Reminder Channel (Vibration completely disabled)
@@ -322,7 +344,7 @@ class LocalNotificationService {
             : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
 
       // 8. Salawat on the Prophet Reminder Channel
@@ -345,7 +367,7 @@ class LocalNotificationService {
             : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
-        onlyAlertOnce: true,
+        onlyAlertOnce: false,
       ),
     ];
   }
@@ -432,7 +454,8 @@ class LocalNotificationService {
     if (type == 'salawat' ||
         type == 'salawat_test' ||
         id == salawatNotificationId ||
-        id == salawatTestNotificationId) {
+        id == salawatTestNotificationId ||
+        id == (salawatTestNotificationId - 1)) {
       if (!_isNativeSalawatSoundAvailable) {
         await _playSalawatAudio();
       }
@@ -442,6 +465,7 @@ class LocalNotificationService {
       }
     } else if ((id != null && id >= 100 && id <= 105) ||
         id == 999 ||
+        id == 996 ||
         type == 'prayer') {
       _startFlipDetector(id);
       final soundPath = receivedNotification.payload?['soundPath'];
@@ -532,6 +556,7 @@ class LocalNotificationService {
     String? soundId,
     bool isPreReminderEnabled = true,
     int preReminderMinutes = 5,
+    Map<String, int>? prayerPreReminderMinutes,
   }) async {
     if (!isSupportedPlatform) return;
     try {
@@ -685,17 +710,22 @@ class LocalNotificationService {
           );
 
           // Schedule Pre-Prayer Reminder (e.g. 5 minutes before)
-          if (isPreReminderEnabled && preReminderMinutes > 0) {
+          final specificPreMinutes = prayerPreReminderMinutes?[type.name] ??
+              UserHiveHelper.getPrayerPreAdhanReminderMinutes(
+                type.name,
+                defaultValue: preReminderMinutes,
+              );
+          if (isPreReminderEnabled && specificPreMinutes > 0) {
             final preTime =
-                targetTime.subtract(Duration(minutes: preReminderMinutes));
+                targetTime.subtract(Duration(minutes: specificPreMinutes));
             if (preTime.isAfter(now)) {
               final preId = 150 + type.index;
               final preTitle = language == 'ar'
                   ? 'اقترب موعد صلاة $prayerName'
                   : '$prayerName prayer is approaching';
               final preBody = language == 'ar'
-                  ? 'فاضل $preReminderMinutes دقائق على صلاة $prayerName، استعد للصلاة'
-                  : 'Remaining $preReminderMinutes minutes until $prayerName prayer. Prepare for prayer.';
+                  ? 'فاضل $specificPreMinutes دقائق على صلاة $prayerName، استعد للصلاة'
+                  : 'Remaining $specificPreMinutes minutes until $prayerName prayer. Prepare for prayer.';
 
               final preContent = NotificationContent(
                 id: preId,
@@ -712,7 +742,7 @@ class LocalNotificationService {
                 payload: {
                   'type': 'pre_prayer',
                   'prayer': type.name,
-                  'minutes': preReminderMinutes.toString(),
+                  'minutes': specificPreMinutes.toString(),
                 },
               );
 
@@ -948,9 +978,14 @@ class LocalNotificationService {
           : getPrayerChannelKey(effectiveSoundId);
       final soundResource = getSoundResource(effectiveSoundId);
 
+      await AwesomeNotifications().cancel(999);
+      await AwesomeNotifications().cancel(996);
+      _adhanTestToggle = (_adhanTestToggle == 0) ? 1 : 0;
+      final int activeId = (_adhanTestToggle == 0) ? 999 : 996;
+
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: 999,
+          id: activeId,
           channelKey: channelKey,
           title: title,
           body: body,
@@ -985,7 +1020,7 @@ class LocalNotificationService {
         await _playCustomAdhan(localSoundPath);
       }
 
-      _startFlipDetector(999);
+      _startFlipDetector(activeId);
       log(
         'Instant test notification sent successfully with sound: $effectiveSoundId',
       );
@@ -1019,9 +1054,14 @@ class LocalNotificationService {
           ? 'فاضل $minutes دقائق على صلاة $prayerName، استعد للصلاة'
           : 'Remaining $minutes minutes until $prayerName prayer. Prepare for prayer.';
 
+      await AwesomeNotifications().cancel(998);
+      await AwesomeNotifications().cancel(995);
+      _preAdhanTestToggle = (_preAdhanTestToggle == 0) ? 1 : 0;
+      final int activeId = (_preAdhanTestToggle == 0) ? 998 : 995;
+
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: 998,
+          id: activeId,
           channelKey: prePrayerChannelKey,
           title: title,
           body: body,
@@ -1149,6 +1189,21 @@ class LocalNotificationService {
   }) async {
     if (!isSupportedPlatform) return;
     try {
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (!isAllowed) {
+        final granted = await requestPermission();
+        if (!granted) return;
+      }
+
+      // 1. Cancel previous test notification IDs from the bar first
+      await AwesomeNotifications().cancel(salawatTestNotificationId);
+      await AwesomeNotifications().cancel(salawatTestNotificationId - 1);
+
+      // 2. Toggle active ID between 776 and 775 to guarantee Android always treats each tap
+      // as a brand-new notification and triggers the heads-up banner & sound immediately
+      _salawatTestToggle = (_salawatTestToggle == 0) ? 1 : 0;
+      final int activeTestId = salawatTestNotificationId - _salawatTestToggle;
+
       final title = language == 'ar'
           ? 'الصلاة على النبي ﷺ'
           : 'Blessings upon the Prophet ﷺ';
@@ -1158,7 +1213,7 @@ class LocalNotificationService {
 
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: salawatTestNotificationId,
+          id: activeTestId,
           channelKey: salawatChannelKey,
           title: title,
           body: body,
@@ -1188,7 +1243,7 @@ class LocalNotificationService {
       if (!_isNativeSalawatSoundAvailable) {
         await _playSalawatAudio();
       }
-      log('Test salawat notification sent successfully.');
+      log('Test salawat notification sent successfully with ID $activeTestId.');
     } catch (e, st) {
       log('Error sending test salawat notification: $e\n$st');
     }

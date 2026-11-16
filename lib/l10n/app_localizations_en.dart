@@ -631,6 +631,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preAdhanTimingTitle => 'Alert timing before prayer';
 
   @override
+  String get preAdhanCustomMinutesLabel =>
+      'Or custom minutes (counter or input):';
+
+  @override
+  String get preAdhanMinutesUnit => 'minutes';
+
+  @override
+  String get preAdhanMinutesHint => 'Enter minutes';
+
+  @override
   String preAdhanMinutesChoice(int minutes) {
     return '$minutes minutes';
   }
@@ -650,6 +660,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preAdhanTestSent => 'Test pre-adhan alert sent';
+
+  @override
+  String get adhanTestButtonTitle => 'Test Adhan Notification';
+
+  @override
+  String get adhanTestButtonSubtitle =>
+      'Send instant notification to test alert sound';
+
+  @override
+  String get adhanTestNotificationSent => 'Test notification sent';
 
   @override
   String get preAdhanSoundName => 'Sound: Prayer approaching';
@@ -1036,6 +1056,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get readFullBook => 'Read Full Book (Book Mode)';
+
+  @override
+  String get bookReaderMode => 'Book Reader Mode';
+
+  @override
+  String get readChapterInReader => 'Read Chapter as Book';
+
+  @override
+  String get pageWord => 'Page';
+
+  @override
+  String get jumpToPage => 'Jump to Page';
+
+  @override
+  String get tableOfContents => 'Table of Contents';
+
+  @override
+  String get readerSettings => 'Reader Settings';
+
+  @override
+  String get themeVintage => 'Vintage';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get fontSize => 'Font Size';
+
+  @override
+  String get sharePdf => 'Export & Share PDF';
+
+  @override
+  String get exportingPdf => 'Generating PDF...';
+
+  @override
+  String get shareCurrentPage => 'Share Current Page Text';
+
+  @override
+  String get shareCurrentChapterPdf => 'Share Current Chapter as PDF';
+
+  @override
+  String get shareBookPdf => 'Share Book as PDF';
+
+  @override
+  String get pdfExportSuccess => 'PDF created successfully';
+
+  @override
+  String get pdfExportFailed => 'Failed to generate PDF';
+
+  @override
+  String get previousPage => 'Previous Page';
+
+  @override
+  String get nextPage => 'Next Page';
+
+  @override
+  String get englishTranslation => 'English Translation';
 
   @override
   String get shareApp => 'Share App';

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../../core/utils/play_asset_delivery_service.dart';
 import '../models/book_collection_model.dart';
@@ -16,6 +17,18 @@ class BooksRepository {
       Map.unmodifiable(_cachedStatuses);
 
   Future<String?> _resolveBookFilePath(BookInfoModel book) async {
+    // 0. Check debug mode asset in assets/debug/
+    if (kDebugMode) {
+      final debugAssetPath = 'assets/debug/${book.assetName}';
+      try {
+        await rootBundle.load(debugAssetPath);
+        return debugAssetPath;
+      } catch (_) {
+        final debugFile = File(debugAssetPath);
+        if (await debugFile.exists()) return debugAssetPath;
+      }
+    }
+
     // 1. Check Play Asset Delivery path on Android
     final packPath = await PlayAssetDeliveryService.getAssetPackPath(book.assetPackName);
     if (packPath != null && packPath.isNotEmpty) {
@@ -171,6 +184,7 @@ class BooksRepository {
   }
 
   Future<bool> deleteBook(BookInfoModel book) async {
+    if (kDebugMode) return false;
     _memoryCache.remove(book.id);
     _cachedStatuses[book.id] = BookDownloadProgress(
       bookId: book.id,
@@ -213,12 +227,26 @@ class BooksRepository {
       throw Exception('Book file not found. Please download it first.');
     }
 
-    final file = File(path);
-    if (!await file.exists()) {
-      throw Exception('Book file does not exist at $path');
+    String jsonString;
+    if (path.startsWith('assets/')) {
+      try {
+        jsonString = await rootBundle.loadString(path);
+      } catch (_) {
+        final file = File(path);
+        if (await file.exists()) {
+          jsonString = await file.readAsString();
+        } else {
+          throw Exception('Book asset not found at $path');
+        }
+      }
+    } else {
+      final file = File(path);
+      if (!await file.exists()) {
+        throw Exception('Book file does not exist at $path');
+      }
+      jsonString = await file.readAsString();
     }
 
-    final jsonString = await file.readAsString();
     final collection = await compute(_parseBookCollectionJson, jsonString);
     _memoryCache[book.id] = collection;
     return collection;
@@ -226,7 +254,10 @@ class BooksRepository {
 }
 
 BookCollectionModel _parseBookCollectionJson(String jsonString) {
-  final Map<String, dynamic> decoded = jsonDecode(jsonString) as Map<String, dynamic>;
-  return BookCollectionModel.fromJson(decoded);
+  final dynamic decoded = jsonDecode(jsonString);
+  if (decoded is List) {
+    return BookCollectionModel.fromDuaaList(decoded);
+  }
+  return BookCollectionModel.fromJson(decoded as Map<String, dynamic>);
 }
 

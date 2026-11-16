@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/routes/app_router.dart';
@@ -5,6 +6,7 @@ import '../../../../core/di/injector.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
+import '../../data/models/book_download_state.dart';
 import '../../data/models/book_info_model.dart';
 import '../../data/repositories/books_repository.dart';
 import '../bloc/books_bloc.dart';
@@ -65,6 +67,8 @@ class _BooksPageState extends State<BooksPage> {
             'bookTitle': book.getDisplayTitle(isAr),
             'chapterTitle': collection.chapters.isNotEmpty ? collection.chapters.first.arabic : '',
             'hadiths': collection.hadiths,
+            'book': book,
+            'collection': collection,
           },
         );
       }
@@ -83,6 +87,7 @@ class _BooksPageState extends State<BooksPage> {
   }
 
   Future<void> _onDelete(BookInfoModel book) async {
+    if (kDebugMode) return;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => BookDeleteConfirmDialog(book: book),
@@ -156,7 +161,14 @@ class _BooksPageState extends State<BooksPage> {
                     ),
                     itemBuilder: (context, index) {
                       final book = books[index];
-                      final progress = state.getDownloadStatus(book.id);
+                      final progress = kDebugMode
+                          ? BookDownloadProgress(
+                              bookId: book.id,
+                              status: BookDownloadStatus.downloaded,
+                              progress: 1.0,
+                              localFilePath: 'assets/debug/${book.assetName}',
+                            )
+                          : state.getDownloadStatus(book.id);
 
                       return BookCardWidget(
                         book: book,

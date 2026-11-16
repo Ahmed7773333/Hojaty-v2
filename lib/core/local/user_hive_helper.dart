@@ -210,6 +210,41 @@ class UserHiveHelper {
     } catch (_) {}
   }
 
+  static int getPrayerPreAdhanReminderMinutes(
+    String prayerName, {
+    int? defaultValue,
+  }) {
+    try {
+      final fallback = defaultValue ?? getPreAdhanReminderMinutes();
+      return prayersBox.get(
+            'pre_adhan_reminder_minutes_$prayerName',
+            defaultValue: fallback,
+          ) as int;
+    } catch (_) {
+      return defaultValue ?? getPreAdhanReminderMinutes();
+    }
+  }
+
+  static void setPrayerPreAdhanReminderMinutes(String prayerName, int minutes) {
+    try {
+      prayersBox.put('pre_adhan_reminder_minutes_$prayerName', minutes);
+    } catch (_) {}
+  }
+
+  static Map<String, int> getAllPrayerPreAdhanReminderMinutes({
+    int defaultMinutes = 5,
+  }) {
+    const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    final result = <String, int>{};
+    final globalDefault =
+        getPreAdhanReminderMinutes(defaultValue: defaultMinutes);
+    for (final p in prayers) {
+      result[p] =
+          getPrayerPreAdhanReminderMinutes(p, defaultValue: globalDefault);
+    }
+    return result;
+  }
+
   static bool getAnaOsalyEnabled({bool defaultValue = true}) {
     try {
       return prayersBox.get('hojaty_enabled', defaultValue: defaultValue)

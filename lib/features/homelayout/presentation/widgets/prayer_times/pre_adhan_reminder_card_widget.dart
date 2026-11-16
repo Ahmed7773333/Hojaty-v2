@@ -6,6 +6,7 @@ import '../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_event.dart';
 import '../../bloc/homelayout_state.dart';
+import 'pre_adhan_minutes_counter_widget.dart';
 import 'pre_adhan_notification_preview_widget.dart';
 import 'pre_adhan_test_button_widget.dart';
 import 'pre_adhan_time_chip_widget.dart';
@@ -141,6 +142,15 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
                       },
                     );
                   }).toList(),
+                ),
+                14.ver,
+                PreAdhanMinutesCounterWidget(
+                  minutes: selectedMinutes,
+                  onChanged: (val) {
+                    context
+                        .read<HomelayoutBloc>()
+                        .add(ChangePreAdhanReminderMinutesEvent(val));
+                  },
                 ),
                 14.ver,
                 PreAdhanNotificationPreviewWidget(

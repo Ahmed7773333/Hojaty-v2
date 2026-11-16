@@ -14,7 +14,6 @@ class AdhanTestButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return InkWell(
       onTap: onTap,
@@ -57,7 +56,7 @@ class AdhanTestButtonWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isArabic ? 'اختبار تنبيه الأذان' : 'Test Adhan Notification',
+                    context.strings.adhanTestButtonTitle,
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 15.sp,
@@ -65,9 +64,7 @@ class AdhanTestButtonWidget extends StatelessWidget {
                   ),
                   3.ver,
                   Text(
-                    isArabic
-                        ? 'إرسال إشعار فوري وتجربة صوت التنبيه'
-                        : 'Send instant notification to test alert sound',
+                    context.strings.adhanTestButtonSubtitle,
                     style: context.textTheme.bodySmall?.copyWith(
                       color: isDark
                           ? AppColors.darkTextSecondary

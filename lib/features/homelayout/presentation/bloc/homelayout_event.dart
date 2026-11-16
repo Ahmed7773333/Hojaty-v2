@@ -169,10 +169,12 @@ class TogglePreAdhanReminderEvent extends HomelayoutEvent {
 
 class ChangePreAdhanReminderMinutesEvent extends HomelayoutEvent {
   final int minutes;
-  const ChangePreAdhanReminderMinutesEvent(this.minutes);
+  final PrayerType? prayerType;
+
+  const ChangePreAdhanReminderMinutesEvent(this.minutes, {this.prayerType});
 
   @override
-  List<Object?> get props => [minutes];
+  List<Object?> get props => [minutes, prayerType];
 }
 
 class TogglePrayerAlertsEvent extends HomelayoutEvent {

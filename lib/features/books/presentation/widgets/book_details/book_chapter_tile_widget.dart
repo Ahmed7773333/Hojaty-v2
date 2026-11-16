@@ -9,6 +9,7 @@ class BookChapterTileWidget extends StatelessWidget {
   final int index;
   final int hadithsCount;
   final VoidCallback onTap;
+  final VoidCallback? onReadBookTap;
 
   const BookChapterTileWidget({
     super.key,
@@ -16,6 +17,7 @@ class BookChapterTileWidget extends StatelessWidget {
     required this.index,
     required this.hadithsCount,
     required this.onTap,
+    this.onReadBookTap,
   });
 
   @override
@@ -107,6 +109,19 @@ class BookChapterTileWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onReadBookTap != null) ...[
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  icon: Icon(
+                    Icons.auto_stories_rounded,
+                    size: 18.sp,
+                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                  ),
+                  tooltip: context.strings.readChapterInReader,
+                  onPressed: onReadBookTap,
+                ),
+                4.hor,
+              ],
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14.sp,

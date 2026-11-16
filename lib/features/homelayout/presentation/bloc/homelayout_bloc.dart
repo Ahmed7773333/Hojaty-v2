@@ -272,6 +272,11 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
               defaultValue:
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
+            prayerPreAdhanReminderMinutes:
+                UserHiveHelper.getAllPrayerPreAdhanReminderMinutes(
+              defaultMinutes:
+                  HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
+            ),
             isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
           ),
           currentLanguage: lang,
@@ -315,6 +320,11 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
             ),
             preAdhanReminderMinutes: UserHiveHelper.getPreAdhanReminderMinutes(
               defaultValue:
+                  HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
+            ),
+            prayerPreAdhanReminderMinutes:
+                UserHiveHelper.getAllPrayerPreAdhanReminderMinutes(
+              defaultMinutes:
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
             isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
@@ -470,6 +480,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
     if (UserHiveHelper.getOccasionsNotificationsEnabled()) {
@@ -745,6 +757,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
   }
@@ -777,6 +791,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     } else {
       LocalNotificationService.cancelPrayerNotifications();
@@ -803,6 +819,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
   }
@@ -937,6 +955,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     } else {
       LocalNotificationService.cancelPrayerNotifications();
@@ -964,6 +984,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: event.isEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
   }
@@ -972,14 +994,39 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     ChangePreAdhanReminderMinutesEvent event,
     Emitter<HomelayoutState> emit,
   ) {
-    UserHiveHelper.setPreAdhanReminderMinutes(event.minutes);
-    emit(
-      state.copyWith(
-        adhanSettings: state.adhanSettings.copyWith(
-          preAdhanReminderMinutes: event.minutes,
-        ),
-      ),
+    final updatedMap = Map<String, int>.from(
+      state.adhanSettings.prayerPreAdhanReminderMinutes,
     );
+
+    if (event.prayerType == null) {
+      UserHiveHelper.setPreAdhanReminderMinutes(event.minutes);
+      const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+      for (final p in prayerNames) {
+        UserHiveHelper.setPrayerPreAdhanReminderMinutes(p, event.minutes);
+        updatedMap[p] = event.minutes;
+      }
+      emit(
+        state.copyWith(
+          adhanSettings: state.adhanSettings.copyWith(
+            preAdhanReminderMinutes: event.minutes,
+            prayerPreAdhanReminderMinutes: updatedMap,
+          ),
+        ),
+      );
+    } else {
+      UserHiveHelper.setPrayerPreAdhanReminderMinutes(
+        event.prayerType!.name,
+        event.minutes,
+      );
+      updatedMap[event.prayerType!.name] = event.minutes;
+      emit(
+        state.copyWith(
+          adhanSettings: state.adhanSettings.copyWith(
+            prayerPreAdhanReminderMinutes: updatedMap,
+          ),
+        ),
+      );
+    }
 
     if (UserHiveHelper.getPrayerAlertsEnabled()) {
       LocalNotificationService.schedulePrayerNotifications(
@@ -988,7 +1035,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         language: state.currentLanguage,
         soundId: state.adhanSettings.selectedSoundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
-        preReminderMinutes: event.minutes,
+        preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes: updatedMap,
       );
     }
   }
@@ -1084,6 +1132,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: event.soundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
   }
@@ -1133,6 +1183,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         soundId: event.soundId,
         isPreReminderEnabled: state.adhanSettings.isPreAdhanReminderEnabled,
         preReminderMinutes: state.adhanSettings.preAdhanReminderMinutes,
+        prayerPreReminderMinutes:
+            state.adhanSettings.prayerPreAdhanReminderMinutes,
       );
     }
   }

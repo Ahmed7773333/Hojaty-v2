@@ -6,6 +6,7 @@ import '../../features/books/data/models/book_info_model.dart';
 import '../../features/books/data/models/hadith_item_model.dart';
 import '../../features/books/presentation/pages/book_chapters_page.dart';
 import '../../features/books/presentation/pages/book_hadiths_page.dart';
+import '../../features/books/presentation/pages/book_reader_page.dart';
 import '../../features/books/presentation/pages/books_page.dart';
 import '../../features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
 import '../../features/homelayout/data/models/athkar_category_model.dart';
@@ -83,6 +84,7 @@ class AppRoutes {
   static const String books = '/books';
   static const String bookChapters = '/book-chapters';
   static const String bookHadiths = '/book-hadiths';
+  static const String bookReader = '/book-reader';
   static const String asmaAllah = '/asma-allah';
   static const String hojatyAi = '/hojaty-ai';
   static const String qibla = '/qibla';
@@ -338,11 +340,32 @@ class AppRouter {
         final bookTitle = map['bookTitle'] as String;
         final chapterTitle = map['chapterTitle'] as String;
         final hadiths = map['hadiths'] as List<HadithItemModel>;
+        final book = map['book'] as BookInfoModel?;
+        final collection = map['collection'] as BookCollectionModel?;
         return MaterialPageRoute(
           builder: (_) => BookHadithsPage(
             bookTitle: bookTitle,
             chapterTitle: chapterTitle,
             hadiths: hadiths,
+            book: book,
+            collection: collection,
+          ),
+          settings: settings,
+        );
+      case AppRoutes.bookReader:
+        final map = settings.arguments as Map<String, dynamic>;
+        final book = map['book'] as BookInfoModel;
+        final collection = map['collection'] as BookCollectionModel;
+        final initialChapterId = map['initialChapterId'] as int?;
+        final initialHadithId = map['initialHadithId'] as int?;
+        final scopedToChapter = map['scopedToChapter'] as bool? ?? false;
+        return MaterialPageRoute(
+          builder: (_) => BookReaderPage(
+            book: book,
+            collection: collection,
+            initialChapterId: initialChapterId,
+            initialHadithId: initialHadithId,
+            scopedToChapter: scopedToChapter,
           ),
           settings: settings,
         );

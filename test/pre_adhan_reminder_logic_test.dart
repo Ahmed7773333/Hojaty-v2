@@ -7,13 +7,29 @@ void main() {
   assert(defaultSettings.isPreAdhanReminderEnabled == true, 'Pre-adhan reminder should be enabled by default');
   assert(defaultSettings.preAdhanReminderMinutes == 5, 'Pre-adhan reminder default should be 5 minutes');
 
-  // 2. Verify copyWith
+  // 2. Verify copyWith and per-prayer minutes
   final updatedSettings = defaultSettings.copyWith(
     preAdhanReminderMinutes: 10,
     isPreAdhanReminderEnabled: false,
+    prayerPreAdhanReminderMinutes: {
+      PrayerType.fajr.name: 5,
+      PrayerType.dhuhr.name: 6,
+    },
   );
   assert(updatedSettings.preAdhanReminderMinutes == 10, 'preAdhanReminderMinutes should be updated to 10');
   assert(updatedSettings.isPreAdhanReminderEnabled == false, 'isPreAdhanReminderEnabled should be false');
+  assert(
+    updatedSettings.getPreAdhanReminderMinutesForPrayer(PrayerType.fajr) == 5,
+    'Fajr pre-adhan reminder should be 5 minutes',
+  );
+  assert(
+    updatedSettings.getPreAdhanReminderMinutesForPrayer(PrayerType.dhuhr) == 6,
+    'Dhuhr pre-adhan reminder should be 6 minutes',
+  );
+  assert(
+    updatedSettings.getPreAdhanReminderMinutesForPrayer(PrayerType.asr) == 10,
+    'Asr without custom minutes should fallback to preAdhanReminderMinutes (10)',
+  );
 
   // 3. Verify Pre-Reminder Time calculation
   final prayerTime = DateTime(2026, 11, 14, 12, 0); // 12:00 PM

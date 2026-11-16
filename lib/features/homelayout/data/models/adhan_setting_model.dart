@@ -12,6 +12,7 @@ class AdhanSettingModel extends Equatable {
   final String customMessageEn;
   final bool isPreAdhanReminderEnabled;
   final int preAdhanReminderMinutes;
+  final Map<String, int> prayerPreAdhanReminderMinutes;
   final bool isSalawatReminderEnabled;
 
   const AdhanSettingModel({
@@ -25,6 +26,7 @@ class AdhanSettingModel extends Equatable {
     this.customMessageEn = 'I am praying',
     this.isPreAdhanReminderEnabled = true,
     this.preAdhanReminderMinutes = 5,
+    this.prayerPreAdhanReminderMinutes = const {},
     this.isSalawatReminderEnabled = true,
   });
 
@@ -33,6 +35,10 @@ class AdhanSettingModel extends Equatable {
 
   String getSoundForPrayer(PrayerType type) {
     return prayerSoundIds[type.name] ?? selectedSoundId;
+  }
+
+  int getPreAdhanReminderMinutesForPrayer(PrayerType type) {
+    return prayerPreAdhanReminderMinutes[type.name] ?? preAdhanReminderMinutes;
   }
 
   AdhanSettingModel copyWith({
@@ -46,6 +52,7 @@ class AdhanSettingModel extends Equatable {
     String? customMessageEn,
     bool? isPreAdhanReminderEnabled,
     int? preAdhanReminderMinutes,
+    Map<String, int>? prayerPreAdhanReminderMinutes,
     bool? isSalawatReminderEnabled,
   }) {
     return AdhanSettingModel(
@@ -61,6 +68,8 @@ class AdhanSettingModel extends Equatable {
           isPreAdhanReminderEnabled ?? this.isPreAdhanReminderEnabled,
       preAdhanReminderMinutes:
           preAdhanReminderMinutes ?? this.preAdhanReminderMinutes,
+      prayerPreAdhanReminderMinutes:
+          prayerPreAdhanReminderMinutes ?? this.prayerPreAdhanReminderMinutes,
       isSalawatReminderEnabled:
           isSalawatReminderEnabled ?? this.isSalawatReminderEnabled,
     );
@@ -78,6 +87,7 @@ class AdhanSettingModel extends Equatable {
     customMessageEn,
     isPreAdhanReminderEnabled,
     preAdhanReminderMinutes,
+    prayerPreAdhanReminderMinutes,
     isSalawatReminderEnabled,
   ];
 }

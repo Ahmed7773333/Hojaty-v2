@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -42,7 +43,16 @@ class _SalawatSoundCardWidgetState extends State<SalawatSoundCardWidget> {
       if (_isPlaying) {
         await _player.stop();
       } else {
-        await _player.setAsset('assets/audio/salli_ala_muhammad.wav');
+        await _player.setAudioSource(
+          AudioSource.asset(
+            'assets/audio/salli_ala_muhammad.wav',
+            tag: const MediaItem(
+              id: 'salawat_preview_audio',
+              title: 'الصلاة على النبي ﷺ',
+              artist: 'تطبيق أنا أصلي',
+            ),
+          ),
+        );
         await _player.play();
       }
     } catch (e) {

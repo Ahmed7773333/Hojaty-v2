@@ -9,6 +9,7 @@ import '../../bloc/homelayout_bloc.dart';
 import '../../bloc/homelayout_event.dart';
 import '../../bloc/homelayout_state.dart';
 import 'prayer_alert_sheet_header_widget.dart';
+import 'pre_adhan_minutes_counter_widget.dart';
 import 'pre_adhan_notification_preview_widget.dart';
 import 'pre_adhan_test_button_widget.dart';
 import 'pre_adhan_time_chip_widget.dart';
@@ -64,7 +65,8 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
         final isNotificationEnabled = currentPrayer.isNotificationEnabled;
         final isPreReminderEnabled =
             state.adhanSettings.isPreAdhanReminderEnabled;
-        final selectedMinutes = state.adhanSettings.preAdhanReminderMinutes;
+        final selectedMinutes = state.adhanSettings
+            .getPreAdhanReminderMinutesForPrayer(prayer.type);
         final prayerName = _getPrayerName(context, prayer.type);
 
         return Container(
@@ -80,11 +82,15 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: SafeArea(
             top: false,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Center(
                     child: Container(
                       width: 40.w,
@@ -243,11 +249,26 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
                                 isSelected: selectedMinutes == mins,
                                 onSelected: (val) {
                                   context.read<HomelayoutBloc>().add(
-                                        ChangePreAdhanReminderMinutesEvent(val),
+                                        ChangePreAdhanReminderMinutesEvent(
+                                          val,
+                                          prayerType: prayer.type,
+                                        ),
                                       );
                                 },
                               );
                             }).toList(),
+                          ),
+                          14.ver,
+                          PreAdhanMinutesCounterWidget(
+                            minutes: selectedMinutes,
+                            onChanged: (val) {
+                              context.read<HomelayoutBloc>().add(
+                                    ChangePreAdhanReminderMinutesEvent(
+                                      val,
+                                      prayerType: prayer.type,
+                                    ),
+                                  );
+                            },
                           ),
                           14.ver,
                           PreAdhanNotificationPreviewWidget(
@@ -283,7 +304,8 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
               ),
             ),
           ),
-        );
+        ),
+      );
       },
     );
   }

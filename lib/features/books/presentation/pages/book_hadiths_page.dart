@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../../../config/routes/app_router.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
+import '../../data/models/book_collection_model.dart';
+import '../../data/models/book_info_model.dart';
 import '../../data/models/hadith_item_model.dart';
 import '../widgets/book_details/book_hadiths_header_widget.dart';
 import '../widgets/book_details/hadith_card_widget.dart';
@@ -10,12 +13,16 @@ class BookHadithsPage extends StatefulWidget {
   final String bookTitle;
   final String chapterTitle;
   final List<HadithItemModel> hadiths;
+  final BookInfoModel? book;
+  final BookCollectionModel? collection;
 
   const BookHadithsPage({
     super.key,
     required this.bookTitle,
     required this.chapterTitle,
     required this.hadiths,
+    this.book,
+    this.collection,
   });
 
   @override
@@ -54,6 +61,20 @@ class _BookHadithsPageState extends State<BookHadithsPage> {
     });
   }
 
+  void _openReader() {
+    if (widget.book == null || widget.collection == null) return;
+    final firstHadith = widget.hadiths.isNotEmpty ? widget.hadiths.first : null;
+    context.pushNamed(
+      AppRoutes.bookReader,
+      extra: {
+        'book': widget.book,
+        'collection': widget.collection,
+        'initialChapterId': firstHadith?.chapterId,
+        'initialHadithId': firstHadith?.id,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
@@ -67,6 +88,7 @@ class _BookHadithsPageState extends State<BookHadithsPage> {
             chapterTitle: widget.chapterTitle,
             count: _filteredHadiths.length,
             onBack: () => context.pop(),
+            onReadBook: (widget.book != null && widget.collection != null) ? _openReader : null,
           ),
           12.ver,
           Padding(

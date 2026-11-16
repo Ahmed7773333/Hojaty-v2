@@ -8,6 +8,7 @@ import '../../data/models/book_collection_model.dart';
 import '../../data/models/book_info_model.dart';
 import '../widgets/book_details/book_chapter_tile_widget.dart';
 import '../widgets/book_details/book_chapters_header_widget.dart';
+import '../widgets/book_details/book_read_mode_banner_widget.dart';
 
 class BookChaptersPage extends StatefulWidget {
   final BookInfoModel book;
@@ -65,6 +66,29 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
         'bookTitle': widget.book.getDisplayTitle(isAr),
         'chapterTitle': chapter.arabic,
         'hadiths': hadiths,
+        'book': widget.book,
+        'collection': widget.collection,
+      },
+    );
+  }
+
+  void _openFullBookReader() {
+    context.pushNamed(
+      AppRoutes.bookReader,
+      extra: {
+        'book': widget.book,
+        'collection': widget.collection,
+      },
+    );
+  }
+
+  void _openChapterInReader(BookChapterModel chapter) {
+    context.pushNamed(
+      AppRoutes.bookReader,
+      extra: {
+        'book': widget.book,
+        'collection': widget.collection,
+        'initialChapterId': chapter.id,
       },
     );
   }
@@ -83,6 +107,11 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
             author: widget.book.getDisplayAuthor(isAr),
             totalHadiths: widget.collection.hadiths.length,
             onBack: () => context.pop(),
+            onReadBook: _openFullBookReader,
+          ),
+          12.ver,
+          BookReadModeBannerWidget(
+            onTap: _openFullBookReader,
           ),
           12.ver,
           Padding(
@@ -141,6 +170,7 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
                         index: index + 1,
                         hadithsCount: count,
                         onTap: () => _openChapter(chapter),
+                        onReadBookTap: () => _openChapterInReader(chapter),
                       );
                     },
                   ),

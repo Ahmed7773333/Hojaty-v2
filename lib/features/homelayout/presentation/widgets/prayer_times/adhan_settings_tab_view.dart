@@ -75,11 +75,7 @@ class _AdhanSettingsTabViewState extends State<AdhanSettingsTabView> {
                       .add(const SendTestNotificationEvent());
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                        Localizations.localeOf(context).languageCode == 'ar'
-                            ? 'تم إرسال إشعار تجريبي'
-                            : 'Test notification sent',
-                      ),
+                      content: Text(context.strings.adhanTestNotificationSent),
                       duration: const Duration(seconds: 2),
                       behavior: SnackBarBehavior.floating,
                     ),

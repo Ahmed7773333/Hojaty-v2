@@ -1268,6 +1268,24 @@ abstract class AppLocalizations {
   /// **'Alert timing before prayer'**
   String get preAdhanTimingTitle;
 
+  /// No description provided for @preAdhanCustomMinutesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Or custom minutes (counter or input):'**
+  String get preAdhanCustomMinutesLabel;
+
+  /// No description provided for @preAdhanMinutesUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get preAdhanMinutesUnit;
+
+  /// No description provided for @preAdhanMinutesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter minutes'**
+  String get preAdhanMinutesHint;
+
   /// No description provided for @preAdhanMinutesChoice.
   ///
   /// In en, this message translates to:
@@ -1297,6 +1315,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Test pre-adhan alert sent'**
   String get preAdhanTestSent;
+
+  /// No description provided for @adhanTestButtonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Adhan Notification'**
+  String get adhanTestButtonTitle;
+
+  /// No description provided for @adhanTestButtonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send instant notification to test alert sound'**
+  String get adhanTestButtonSubtitle;
+
+  /// No description provided for @adhanTestNotificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification sent'**
+  String get adhanTestNotificationSent;
 
   /// No description provided for @preAdhanSoundName.
   ///
@@ -2017,6 +2053,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @readFullBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Full Book (Book Mode)'**
+  String get readFullBook;
+
+  /// No description provided for @bookReaderMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Reader Mode'**
+  String get bookReaderMode;
+
+  /// No description provided for @readChapterInReader.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Chapter as Book'**
+  String get readChapterInReader;
+
+  /// No description provided for @pageWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Page'**
+  String get pageWord;
+
+  /// No description provided for @jumpToPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to Page'**
+  String get jumpToPage;
+
+  /// No description provided for @tableOfContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Table of Contents'**
+  String get tableOfContents;
+
+  /// No description provided for @readerSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Reader Settings'**
+  String get readerSettings;
+
+  /// No description provided for @themeVintage.
+  ///
+  /// In en, this message translates to:
+  /// **'Vintage'**
+  String get themeVintage;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @fontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Font Size'**
+  String get fontSize;
+
+  /// No description provided for @sharePdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Share PDF'**
+  String get sharePdf;
+
+  /// No description provided for @exportingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating PDF...'**
+  String get exportingPdf;
+
+  /// No description provided for @shareCurrentPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Current Page Text'**
+  String get shareCurrentPage;
+
+  /// No description provided for @shareCurrentChapterPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Current Chapter as PDF'**
+  String get shareCurrentChapterPdf;
+
+  /// No description provided for @shareBookPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Book as PDF'**
+  String get shareBookPdf;
+
+  /// No description provided for @pdfExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF created successfully'**
+  String get pdfExportSuccess;
+
+  /// No description provided for @pdfExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to generate PDF'**
+  String get pdfExportFailed;
+
+  /// No description provided for @previousPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Page'**
+  String get previousPage;
+
+  /// No description provided for @nextPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Page'**
+  String get nextPage;
+
+  /// No description provided for @englishTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'English Translation'**
+  String get englishTranslation;
 
   /// No description provided for @shareApp.
   ///

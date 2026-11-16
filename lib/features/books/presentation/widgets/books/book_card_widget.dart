@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/books/data/models/book_download_state.dart';
 import 'package:hojaty/features/books/data/models/book_info_model.dart';
-import 'package:flutter/material.dart';
 
 class BookCardWidget extends StatelessWidget {
   final BookInfoModel book;
@@ -193,20 +194,21 @@ class BookCardWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    InkWell(
-                      onTap: onDelete,
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: Padding(
-                        padding: EdgeInsets.all(4.r),
-                        child: Icon(
-                          Icons.delete_outline_rounded,
-                          size: 16.sp,
-                          color: isDark
-                              ? AppColors.darkTextMuted
-                              : AppColors.lightTextMuted,
+                    if (!kDebugMode)
+                      InkWell(
+                        onTap: onDelete,
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.r),
+                          child: Icon(
+                            Icons.delete_outline_rounded,
+                            size: 16.sp,
+                            color: isDark
+                                ? AppColors.darkTextMuted
+                                : AppColors.lightTextMuted,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ] else ...[

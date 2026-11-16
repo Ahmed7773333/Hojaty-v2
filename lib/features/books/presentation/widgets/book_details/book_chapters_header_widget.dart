@@ -8,6 +8,7 @@ class BookChaptersHeaderWidget extends StatelessWidget {
   final String author;
   final int totalHadiths;
   final VoidCallback onBack;
+  final VoidCallback? onReadBook;
 
   const BookChaptersHeaderWidget({
     super.key,
@@ -15,6 +16,7 @@ class BookChaptersHeaderWidget extends StatelessWidget {
     required this.author,
     required this.totalHadiths,
     required this.onBack,
+    this.onReadBook,
   });
 
   @override
@@ -71,6 +73,18 @@ class BookChaptersHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
+          if (onReadBook != null) ...[
+            8.hor,
+            IconButton(
+              onPressed: onReadBook,
+              icon: Icon(
+                Icons.auto_stories_rounded,
+                color: Colors.white,
+                size: 22.sp,
+              ),
+              tooltip: context.strings.readFullBook,
+            ),
+          ],
         ],
       ),
     );
