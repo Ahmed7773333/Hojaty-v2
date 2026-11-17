@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
@@ -10,7 +11,6 @@ import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dar
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_progress_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/live_timer_display.dart';
-import 'package:material_ui/material_ui.dart';
 
 class HomeNextPrayerCardWidget extends StatefulWidget {
   const HomeNextPrayerCardWidget({super.key});

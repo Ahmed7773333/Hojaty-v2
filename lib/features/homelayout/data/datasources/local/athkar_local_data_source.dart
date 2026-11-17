@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import '../../../../../l10n/app_localizations.dart';
-import '../../models/asma_allah_model.dart';
-import '../../models/athkar_category_model.dart';
-import '../../models/thikr_item_model.dart';
+import 'package:hojaty/l10n/app_localizations.dart';
+import 'package:hojaty/features/homelayout/data/models/asma_allah_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
 
 class AthkarLocalDataSource {
   static const String _adhkarJsonAssetPath = 'assets/data/adhkar.json';

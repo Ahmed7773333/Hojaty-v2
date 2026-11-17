@@ -31,13 +31,19 @@ class BookReaderThemeCardWidget extends StatelessWidget {
           color: previewColor,
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
-            color: isSelected ? AppColors.accentGold : Colors.grey.withValues(alpha: 0.3),
+            color: isSelected
+                ? AppColors.accentGold
+                : Colors.grey.withValues(alpha: 0.3),
             width: isSelected ? 2.0 : 1.0,
           ),
         ),
         child: Column(
           children: [
-            Icon(icon, color: isSelected ? AppColors.accentGold : textColor, size: 20.sp),
+            Icon(
+              icon,
+              color: isSelected ? AppColors.accentGold : textColor,
+              size: 20.sp,
+            ),
             6.ver,
             Text(
               label,
@@ -53,4 +59,3 @@ class BookReaderThemeCardWidget extends StatelessWidget {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 
 class AppShareHelper {
   AppShareHelper._();
@@ -25,7 +25,8 @@ class AppShareHelper {
 
   static Future<void> shareApp(BuildContext context) async {
     final strings = context.strings;
-    final message = '''
+    final message =
+        '''
 ${strings.shareAppMessage}
 
 ${strings.downloadAppPrompt}:
@@ -34,7 +35,7 @@ $appStoreUrl
 ${strings.developedByPrompt}:
 $companyWebsiteUrl
 '''
-        .trim();
+            .trim();
 
     final box = context.findRenderObject() as RenderBox?;
     final sharePositionOrigin = box != null
@@ -42,10 +43,7 @@ $companyWebsiteUrl
         : null;
 
     await SharePlus.instance.share(
-      ShareParams(
-        text: message,
-        sharePositionOrigin: sharePositionOrigin,
-      ),
+      ShareParams(text: message, sharePositionOrigin: sharePositionOrigin),
     );
   }
 }

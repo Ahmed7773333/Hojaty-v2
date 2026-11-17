@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class SettingsSwitchTileWidget extends StatelessWidget {
   final String title;
@@ -28,10 +28,7 @@ class SettingsSwitchTileWidget extends StatelessWidget {
               fontSize: 14.sp,
             ),
           ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-          ),
+          Switch(value: value, onChanged: onChanged),
         ],
       ),
     );

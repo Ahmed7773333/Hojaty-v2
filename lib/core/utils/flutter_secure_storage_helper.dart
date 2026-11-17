@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../constants/app_constants.dart';
+import 'package:hojaty/core/constants/app_constants.dart';
 
 class FlutterSecureStorageHelper {
   static const _storage = FlutterSecureStorage();

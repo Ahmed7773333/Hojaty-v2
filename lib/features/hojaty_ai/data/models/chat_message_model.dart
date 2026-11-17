@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 enum MessageSender { user, ai }
 
@@ -70,7 +70,6 @@ class ChatMessageModel extends Equatable {
       timestamp: DateTime.tryParse(json['timestamp'] as String? ?? '') ??
           DateTime.now(),
       sources: parsedSources,
-      isStreaming: false,
       isOffline: json['isOffline'] as bool? ?? false,
     );
   }

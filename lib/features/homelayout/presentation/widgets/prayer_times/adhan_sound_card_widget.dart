@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/adhan_sound_model.dart';
-import 'adhan_more_sounds_button_widget.dart';
-import 'adhan_sound_row_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_sound_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_more_sounds_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_sound_row_widget.dart';
 
 class AdhanSoundCardWidget extends StatelessWidget {
   final List<AdhanSoundModel> sounds;
@@ -46,7 +46,6 @@ class AdhanSoundCardWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.lightBorderUnselected,
-              width: 1.0,
             ),
           ),
           child: Column(

@@ -1,5 +1,5 @@
-import '../../../domain/datasources/onboarding_remote_data_source.dart';
-import '../../models/onboardingmodel.dart';
+import 'package:hojaty/features/onboarding/domain/datasources/onboarding_remote_data_source.dart';
+import 'package:hojaty/features/onboarding/data/models/onboardingmodel.dart';
 
 class OnboardingRemoteDataSourceImpl implements OnboardingRemoteDataSource {
   // final ApiConsumer apiConsumer;

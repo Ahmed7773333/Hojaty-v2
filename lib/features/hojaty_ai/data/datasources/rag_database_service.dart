@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
-import '../../../../core/utils/play_asset_delivery_service.dart';
-import '../models/rag_chunk_model.dart';
+import 'package:hojaty/core/utils/play_asset_delivery_service.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 class _ScoredChunkId {
   final int id;

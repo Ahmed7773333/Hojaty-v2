@@ -2,18 +2,18 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/play_asset_delivery_service.dart';
-import '../../constants/quran_text_helper.dart';
-import '../../data/models/page_data_model.dart';
-import '../../data/models/quran_search_result_model.dart';
-import '../../domain/usecases/get_all_last_pages_usecase.dart';
-import '../../domain/usecases/get_last_read_page_usecase.dart';
-import '../../domain/usecases/get_quran_pages_usecase.dart';
-import '../../domain/usecases/get_selected_qirat_usecase.dart';
-import '../../domain/usecases/save_last_read_page_usecase.dart';
-import '../../domain/usecases/save_selected_qirat_usecase.dart';
-import 'quran_event.dart';
-import 'quran_state.dart';
+import 'package:hojaty/core/utils/play_asset_delivery_service.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/quran/data/models/quran_search_result_model.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_all_last_pages_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_last_read_page_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_quran_pages_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_selected_qirat_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/save_last_read_page_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/save_selected_qirat_usecase.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
 
 class QuranBloc extends Bloc<QuranEvent, QuranState> {
   final GetQuranPagesUseCase getQuranPagesUseCase;
@@ -59,7 +59,7 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       final lastPage = allLastPages[selectedQirat] ?? 1;
 
       final Map<int, PageDataModel> pagesMap = {
-        for (var page in pagesList) page.pageNumber ?? 0: page,
+        for (final page in pagesList) page.pageNumber ?? 0: page,
       };
       _searchIndex = null;
 
@@ -212,7 +212,6 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       emit(
         state.copyWith(
           assetStatus: QuranAssetStatus.downloaded,
-          assetsPath: null,
           downloadProgress: 1.0,
           qiratStatuses: statuses,
         ),
@@ -252,7 +251,6 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
         emit(
           state.copyWith(
             assetStatus: QuranAssetStatus.requiresDownload,
-            assetsPath: null,
             downloadProgress: 0.0,
             qiratStatuses: statuses,
           ),
@@ -262,7 +260,6 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       emit(
         state.copyWith(
           assetStatus: QuranAssetStatus.requiresDownload,
-          assetsPath: null,
         ),
       );
     }

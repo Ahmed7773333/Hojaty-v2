@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../bloc/hojaty_ai_cubit.dart';
-import '../bloc/hojaty_ai_state.dart';
-import '../widgets/hojaty_ai_asset_download_widget.dart';
-import '../widgets/hojaty_ai_empty_state_widget.dart';
-import '../widgets/hojaty_ai_header_widget.dart';
-import '../widgets/hojaty_ai_input_bar_widget.dart';
-import '../widgets/hojaty_ai_messages_list_widget.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_asset_download_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_empty_state_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_header_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_input_bar_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_messages_list_widget.dart';
 
 class HojatyAiPage extends StatelessWidget {
   const HojatyAiPage({super.key});

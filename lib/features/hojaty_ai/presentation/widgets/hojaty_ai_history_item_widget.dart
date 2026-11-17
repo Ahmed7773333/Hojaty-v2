@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/chat_session_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
 
 class HojatyAiHistoryItemWidget extends StatelessWidget {
   final ChatSessionModel session;
@@ -22,7 +22,9 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
-    final dateText = DateFormat('yyyy/MM/dd • hh:mm a').format(session.updatedAt);
+    final dateText = DateFormat(
+      'yyyy/MM/dd • hh:mm a',
+    ).format(session.updatedAt);
 
     return Material(
       color: isSelected
@@ -40,8 +42,8 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
               color: isSelected
                   ? (isDark ? AppColors.accentGold : AppColors.primaryDark)
                   : (isDark
-                      ? AppColors.darkBorderUnselected
-                      : AppColors.lightBorderUnselected),
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected),
               width: isSelected ? 1.5 : 1.0,
             ),
           ),
@@ -54,16 +56,20 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
                   color: isSelected
                       ? AppColors.accentGold.withValues(alpha: 0.2)
                       : (isDark
-                          ? AppColors.darkBackground
-                          : AppColors.lightBackground),
+                            ? AppColors.darkBackground
+                            : AppColors.lightBackground),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
                   Icons.chat_bubble_outline_rounded,
                   size: 18.r,
                   color: isSelected
-                      ? (isDark ? AppColors.accentGoldLight : AppColors.primaryDark)
-                      : (isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary),
+                      ? (isDark
+                            ? AppColors.accentGoldLight
+                            : AppColors.primaryDark)
+                      : (isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary),
                 ),
               ),
               12.hor,
@@ -76,7 +82,9 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: context.textTheme.titleSmall?.copyWith(
-                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                        fontWeight: isSelected
+                            ? FontWeight.w700
+                            : FontWeight.w600,
                         fontSize: 14.sp,
                         color: isDark
                             ? AppColors.darkTextPrimary
@@ -87,7 +95,9 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          context.strings.hojatyAiMessagesCount(session.messages.length),
+                          context.strings.hojatyAiMessagesCount(
+                            session.messages.length,
+                          ),
                           style: context.textTheme.bodySmall?.copyWith(
                             color: isDark
                                 ? AppColors.accentGoldLight
@@ -133,4 +143,3 @@ class HojatyAiHistoryItemWidget extends StatelessWidget {
     );
   }
 }
-

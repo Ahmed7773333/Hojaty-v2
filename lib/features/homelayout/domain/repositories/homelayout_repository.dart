@@ -1,4 +1,4 @@
-import '../../data/models/homelayoutmodel.dart';
+import 'package:hojaty/features/homelayout/data/models/homelayoutmodel.dart';
 // import 'package:dartz/dartz.dart';
 // import '../../../../core/error/failures.dart';
 

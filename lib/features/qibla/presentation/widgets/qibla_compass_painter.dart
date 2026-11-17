@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
 
 class QiblaCompassPainter extends CustomPainter {
   final double qiblaBearing;
@@ -38,7 +38,9 @@ class QiblaCompassPainter extends CustomPainter {
     final outerRingPaint = Paint()
       ..color = isAligned
           ? AppColors.accentGold
-          : (isDark ? AppColors.primaryDarkBorder : AppColors.lightBorderUnselected)
+          : (isDark
+                ? AppColors.primaryDarkBorder
+                : AppColors.lightBorderUnselected)
       ..style = PaintingStyle.stroke
       ..strokeWidth = isAligned ? 3.0 : 1.5;
     canvas.drawCircle(center, radius - 6, outerRingPaint);
@@ -56,7 +58,9 @@ class QiblaCompassPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final majorTickPaint = Paint()
-      ..color = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary
+      ..color = isDark
+          ? AppColors.darkTextSecondary
+          : AppColors.lightTextSecondary
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2.0;
 
@@ -69,8 +73,8 @@ class QiblaCompassPainter extends CustomPainter {
       final double innerR = isCardinal
           ? radius - 22
           : isMajor
-              ? radius - 18
-              : radius - 13;
+          ? radius - 18
+          : radius - 13;
 
       final p1 = Offset(
         center.dx + outerR * math.cos(rad),
@@ -85,7 +89,14 @@ class QiblaCompassPainter extends CustomPainter {
     }
 
     // 4. Cardinal direction labels (North, East, South, West)
-    _drawCardinalLabel(canvas, center, radius - 36, 0, northLabel, isNorth: true);
+    _drawCardinalLabel(
+      canvas,
+      center,
+      radius - 36,
+      0,
+      northLabel,
+      isNorth: true,
+    );
     _drawCardinalLabel(canvas, center, radius - 36, 90, eastLabel);
     _drawCardinalLabel(canvas, center, radius - 36, 180, southLabel);
     _drawCardinalLabel(canvas, center, radius - 36, 270, westLabel);
@@ -146,7 +157,9 @@ class QiblaCompassPainter extends CustomPainter {
         style: TextStyle(
           color: isNorth
               ? AppColors.accentGoldLight
-              : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary),
+              : (isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.lightTextPrimary),
           fontSize: isNorth ? 16 : 13,
           fontWeight: FontWeight.w800,
         ),
@@ -168,4 +181,3 @@ class QiblaCompassPainter extends CustomPainter {
         oldDelegate.isDark != isDark;
   }
 }
-

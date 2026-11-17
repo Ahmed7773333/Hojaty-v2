@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QiblaCalibrationTipRow extends StatelessWidget {
   final IconData icon;
@@ -28,18 +28,16 @@ class QiblaCalibrationTipRow extends StatelessWidget {
               shape: BoxShape.circle,
               color: AppColors.accentGold.withValues(alpha: 0.15),
             ),
-            child: Icon(
-              icon,
-              size: 18.r,
-              color: AppColors.accentGold,
-            ),
+            child: Icon(icon, size: 18.r, color: AppColors.accentGold),
           ),
           12.hor,
           Expanded(
             child: Text(
               text,
               style: context.textTheme.bodyMedium?.copyWith(
-                color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.lightTextPrimary,
                 fontSize: 13.sp,
                 height: 1.4,
               ),
@@ -50,4 +48,3 @@ class QiblaCalibrationTipRow extends StatelessWidget {
     );
   }
 }
-

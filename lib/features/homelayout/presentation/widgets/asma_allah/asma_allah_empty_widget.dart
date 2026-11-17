@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AsmaAllahEmptyWidget extends StatelessWidget {
   final VoidCallback onClear;
 
-  const AsmaAllahEmptyWidget({
-    super.key,
-    required this.onClear,
-  });
+  const AsmaAllahEmptyWidget({super.key, required this.onClear});
 
   @override
   Widget build(BuildContext context) {
@@ -59,4 +56,3 @@ class AsmaAllahEmptyWidget extends StatelessWidget {
     );
   }
 }
-

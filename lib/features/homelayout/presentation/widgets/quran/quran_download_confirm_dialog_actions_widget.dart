@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../shared/widgets/custom_elevated_button.dart';
-import '../../../../quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
 
 class QuranDownloadConfirmDialogActionsWidget extends StatelessWidget {
   final QiratType qirat;
@@ -24,10 +24,12 @@ class QuranDownloadConfirmDialogActionsWidget extends StatelessWidget {
           child: CustomElevatedButton(
             text: context.strings.cancel,
             onPressed: () => Navigator.of(context).pop(false),
-            backgroundColor:
-                isDark ? AppColors.darkCardSelected : AppColors.lightCardSelected,
-            foregroundColor:
-                isDark ? AppColors.darkTextPrimary : AppColors.primaryDark,
+            backgroundColor: isDark
+                ? AppColors.darkCardSelected
+                : AppColors.lightCardSelected,
+            foregroundColor: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.primaryDark,
             height: 46.h,
             borderRadius: 23.r,
           ),
@@ -47,4 +49,3 @@ class QuranDownloadConfirmDialogActionsWidget extends StatelessWidget {
     );
   }
 }
-

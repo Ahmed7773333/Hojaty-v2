@@ -1,7 +1,7 @@
-import '../../features/homelayout/data/models/adhan_sound_model.dart';
-import '../../features/homelayout/data/models/calculation_method_model.dart';
-import '../../features/homelayout/data/models/font_type_model.dart';
-import '../../features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_sound_model.dart';
+import 'package:hojaty/features/homelayout/data/models/calculation_method_model.dart';
+import 'package:hojaty/features/homelayout/data/models/font_type_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 
 class SettingsMockData {
   static List<FontTypeModel> get fontTypes => const [
@@ -374,7 +374,7 @@ class SettingsMockData {
   /// استخراج اسم المدينة الأساسي وتجريده من الزوائد و"ال" التعريف وحروف الجر
   static String _extractCityKey(String raw) {
     // أخذ الجزء الأول قبل أي فاصلة لتجاهل اسم الدولة (مثل: "الإسكندرية، مصر")
-    final firstPart = raw.split(RegExp(r'[،,]')).first;
+    final firstPart = raw.split(RegExp('[،,]')).first;
     var normalized = _normalizeText(firstPart);
 
     // إزالة الكلمات والبادئات الوصفية
@@ -416,7 +416,7 @@ class SettingsMockData {
         // إزالة التشكيل والمد (التطويل)
         .replaceAll(RegExp(r'[\u064B-\u065F\u0670\u0640]'), '')
         // توحيد الهمزات
-        .replaceAll(RegExp(r'[أإآٱ]'), 'ا')
+        .replaceAll(RegExp('[أإآٱ]'), 'ا')
         .replaceAll('ؤ', 'و')
         .replaceAll('ئ', 'ي')
         // توحيد التاء المربوطة والياء

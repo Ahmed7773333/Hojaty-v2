@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class SalawatPreviewCardWidget extends StatelessWidget {
   const SalawatPreviewCardWidget({super.key});
@@ -22,7 +22,6 @@ class SalawatPreviewCardWidget extends StatelessWidget {
           color: isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Column(
@@ -71,7 +70,6 @@ class SalawatPreviewCardWidget extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected.withValues(alpha: 0.6)
                     : AppColors.lightBorderUnselected,
-                width: 1.0,
               ),
             ),
             child: Column(

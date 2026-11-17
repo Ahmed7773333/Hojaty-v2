@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/domain/entities/qirat_type.dart';
-import '../../../../quran/presentation/bloc/quran_bloc.dart';
-import '../../../../quran/presentation/bloc/quran_event.dart';
-import '../../../../quran/presentation/bloc/quran_state.dart';
-import '../../../../quran/presentation/widgets/quran_delete_confirm_dialog.dart';
-import 'quran_download_confirm_dialog.dart';
-import 'quran_qirat_card_action_widget.dart';
-import 'quran_qirat_card_header_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_download_confirm_dialog.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_action_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_header_widget.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_delete_confirm_dialog.dart';
 
 class QuranQiratCardWidget extends StatelessWidget {
   final QiratType qirat;
 
-  const QuranQiratCardWidget({
-    super.key,
-    required this.qirat,
-  });
+  const QuranQiratCardWidget({super.key, required this.qirat});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,8 @@ class QuranQiratCardWidget extends StatelessWidget {
     final state = context.watch<QuranBloc>().state;
     final lastPage = state.qiratLastPages[qirat] ?? 1;
     final isSelected = state.selectedQirat == qirat;
-    final status = state.qiratStatuses[qirat] ?? QuranAssetStatus.requiresDownload;
+    final status =
+        state.qiratStatuses[qirat] ?? QuranAssetStatus.requiresDownload;
     final progress = state.qiratProgress[qirat] ?? 0.0;
     final isDownloaded = status == QuranAssetStatus.downloaded;
 
@@ -44,7 +42,9 @@ class QuranQiratCardWidget extends StatelessWidget {
         builder: (dialogContext) => QuranDownloadConfirmDialog(qirat: qirat),
       );
       if (confirmed == true && context.mounted) {
-        context.read<QuranBloc>().add(StartDownloadQuranAssetEvent(qirat: qirat));
+        context.read<QuranBloc>().add(
+          StartDownloadQuranAssetEvent(qirat: qirat),
+        );
       }
     }
 
@@ -61,20 +61,28 @@ class QuranQiratCardWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: isDark
-            ? Color.alphaBlend(color.withValues(alpha: isSelected ? 0.12 : 0.05), AppColors.darkCardUnselected)
-            : Color.alphaBlend(color.withValues(alpha: isSelected ? 0.08 : 0.03), AppColors.lightSurface),
+            ? Color.alphaBlend(
+                color.withValues(alpha: isSelected ? 0.12 : 0.05),
+                AppColors.darkCardUnselected,
+              )
+            : Color.alphaBlend(
+                color.withValues(alpha: isSelected ? 0.08 : 0.03),
+                AppColors.lightSurface,
+              ),
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(
           color: isSelected
               ? color
               : (isDark
-                  ? color.withValues(alpha: 0.35)
-                  : color.withValues(alpha: 0.22)),
+                    ? color.withValues(alpha: 0.35)
+                    : color.withValues(alpha: 0.22)),
           width: isSelected ? 1.8 : 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: color.withValues(alpha: isDark ? 0.15 : (isSelected ? 0.12 : 0.05)),
+            color: color.withValues(
+              alpha: isDark ? 0.15 : (isSelected ? 0.12 : 0.05),
+            ),
             blurRadius: isSelected ? 12 : 8,
             offset: const Offset(0, 3),
           ),
@@ -113,4 +121,3 @@ class QuranQiratCardWidget extends StatelessWidget {
     );
   }
 }
-

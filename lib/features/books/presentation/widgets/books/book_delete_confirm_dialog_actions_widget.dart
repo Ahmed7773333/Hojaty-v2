@@ -3,6 +3,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
+
 class BookDeleteConfirmDialogActionsWidget extends StatelessWidget {
   const BookDeleteConfirmDialogActionsWidget({super.key});
 
@@ -17,10 +18,12 @@ class BookDeleteConfirmDialogActionsWidget extends StatelessWidget {
           child: CustomElevatedButton(
             text: context.strings.cancel,
             onPressed: () => Navigator.of(context).pop(false),
-            backgroundColor:
-                isDark ? AppColors.darkCardSelected : AppColors.lightCardSelected,
-            foregroundColor:
-                isDark ? AppColors.darkTextPrimary : AppColors.primaryDark,
+            backgroundColor: isDark
+                ? AppColors.darkCardSelected
+                : AppColors.lightCardSelected,
+            foregroundColor: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.primaryDark,
             height: 46.h,
             borderRadius: 23.r,
           ),

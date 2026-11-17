@@ -37,11 +37,14 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
       return;
     }
 
-    final matched = widget.hadiths.where((h) {
-      return h.arabic.toLowerCase().contains(trimmed) ||
-          h.englishText.toLowerCase().contains(trimmed) ||
-          h.idInBook.toString() == trimmed;
-    }).take(50).toList();
+    final matched = widget.hadiths
+        .where((h) {
+          return h.arabic.toLowerCase().contains(trimmed) ||
+              h.englishText.toLowerCase().contains(trimmed) ||
+              h.idInBook.toString() == trimmed;
+        })
+        .take(50)
+        .toList();
 
     setState(() => _results = matched);
   }
@@ -64,7 +67,9 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
             height: 4.h,
             margin: EdgeInsets.only(bottom: 12.h),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+              color: isDark
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -93,8 +98,13 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
               hintText: context.strings.searchHadithsHint,
               prefixIcon: const Icon(Icons.search_rounded),
               filled: true,
-              fillColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
-              contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+              fillColor: isDark
+                  ? AppColors.darkBackground
+                  : AppColors.lightBackground,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 14.w,
+                vertical: 10.h,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
@@ -110,7 +120,9 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
                           ? context.strings.noHadithsFound
                           : context.strings.searchHadithsHint,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                        color: isDark
+                            ? AppColors.darkTextMuted
+                            : AppColors.lightTextMuted,
                       ),
                     ),
                   )
@@ -136,7 +148,9 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
                         title: Text(
                           '${context.strings.hadithWord} ${h.idInBook > 0 ? h.idInBook : h.id}',
                           style: context.textTheme.labelMedium?.copyWith(
-                            color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                            color: isDark
+                                ? AppColors.accentGold
+                                : AppColors.primaryDark,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -153,9 +167,14 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
                           ),
                         ),
                         trailing: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : AppColors.lightSurface,
                             borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Text(
@@ -178,4 +197,3 @@ class _BookReaderSearchSheetState extends State<BookReaderSearchSheet> {
     );
   }
 }
-

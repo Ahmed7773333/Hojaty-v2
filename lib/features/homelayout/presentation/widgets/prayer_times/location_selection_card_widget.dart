@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class LocationSelectionCardWidget extends StatelessWidget {
   final List<String> cities;
@@ -27,7 +27,6 @@ class LocationSelectionCardWidget extends StatelessWidget {
           color: isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Column(
@@ -75,7 +74,7 @@ class LocationSelectionCardWidget extends StatelessWidget {
                         Container(
                           width: 22.r,
                           height: 22.r,
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: AppColors.primaryDarkBackground,
                           ),

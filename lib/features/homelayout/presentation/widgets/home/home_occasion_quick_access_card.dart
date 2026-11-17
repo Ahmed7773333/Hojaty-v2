@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../data/mocks/occasions_mock_data.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/occasions_mock_data.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 
 class HomeOccasionQuickAccessCard extends StatelessWidget {
   const HomeOccasionQuickAccessCard({super.key});
@@ -24,10 +24,7 @@ class HomeOccasionQuickAccessCard extends StatelessWidget {
 
         return InkWell(
           onTap: () {
-            context.pushNamed(
-              AppRoutes.occasionDetail,
-              extra: occasion,
-            );
+            context.pushNamed(AppRoutes.occasionDetail, extra: occasion);
           },
           borderRadius: BorderRadius.circular(16.r),
           child: Container(
@@ -41,7 +38,6 @@ class HomeOccasionQuickAccessCard extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected
                     : AppColors.lightBorderUnselected,
-                width: 1.0,
               ),
               boxShadow: [
                 BoxShadow(

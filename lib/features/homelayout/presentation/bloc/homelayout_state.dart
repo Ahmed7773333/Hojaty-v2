@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/adhan_setting_model.dart';
-import '../../data/models/banner_model.dart';
-import '../../data/models/notification_item_model.dart';
-import '../../data/models/occasion_item_model.dart';
-import '../../data/models/prayer_time_model.dart';
-import '../../data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_setting_model.dart';
+import 'package:hojaty/features/homelayout/data/models/banner_model.dart';
+import 'package:hojaty/features/homelayout/data/models/notification_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
 enum HomelayoutStatus { initial, loading, success, failure }
 

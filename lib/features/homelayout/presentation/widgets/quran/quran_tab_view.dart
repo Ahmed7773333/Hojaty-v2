@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/domain/entities/qirat_type.dart';
-import '../../../../quran/presentation/bloc/quran_bloc.dart';
-import '../../../../quran/presentation/bloc/quran_event.dart';
-import 'quran_qirat_card_widget.dart';
-import 'quran_tab_header_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_tab_header_widget.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
 
 class QuranTabView extends StatefulWidget {
   const QuranTabView({super.key});
@@ -32,7 +32,9 @@ class _QuranTabViewState extends State<QuranTabView> {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           const QuranTabHeaderWidget(),

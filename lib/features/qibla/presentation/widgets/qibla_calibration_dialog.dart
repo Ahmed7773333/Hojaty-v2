@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'qibla_calibration_tip_row.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_calibration_tip_row.dart';
 
 class QiblaCalibrationDialog extends StatelessWidget {
   const QiblaCalibrationDialog({super.key});
@@ -35,7 +35,9 @@ class QiblaCalibrationDialog extends StatelessWidget {
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                  color: isDark
+                      ? AppColors.darkBorderUnselected
+                      : AppColors.lightBorderUnselected,
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -56,7 +58,9 @@ class QiblaCalibrationDialog extends StatelessWidget {
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w800,
                       fontSize: 16.sp,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.lightTextPrimary,
                     ),
                   ),
                 ),
@@ -106,4 +110,3 @@ class QiblaCalibrationDialog extends StatelessWidget {
     );
   }
 }
-

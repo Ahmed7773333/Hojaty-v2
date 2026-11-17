@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'hijri_date_model.dart';
-import 'next_ramadan_model.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_date_model.dart';
+import 'package:hojaty/features/homelayout/data/models/next_ramadan_model.dart';
 
 class RamadanCheckData extends Equatable {
   final bool isRamadan;

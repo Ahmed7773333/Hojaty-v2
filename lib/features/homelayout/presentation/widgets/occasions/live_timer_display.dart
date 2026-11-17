@@ -1,6 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import '../../../data/models/live_time_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/live_time_helper.dart';
 
 /// LiveTimerDisplay shows elapsed since start or a countdown to end when start is missing.
 class LiveTimerDisplay extends StatefulWidget {
@@ -74,7 +75,7 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final isTickerActive = TickerMode.of(context);
+    final isTickerActive = TickerMode.valuesOf(context).enabled;
     if (!isTickerActive) {
       _timer?.cancel();
       _timer = null;
@@ -92,7 +93,7 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
       return;
     }
 
-    if (!mounted || !TickerMode.of(context)) {
+    if (!mounted || !TickerMode.valuesOf(context).enabled) {
       return;
     }
 
@@ -172,8 +173,6 @@ class _LiveTimerDisplayState extends State<LiveTimerDisplay> {
     }
 
     // fallback
-    return RepaintBoundary(
-      child: Text('-', style: widget.style),
-    );
+    return RepaintBoundary(child: Text('-', style: widget.style));
   }
 }

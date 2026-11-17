@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AsmaAllahBannerCardWidget extends StatelessWidget {
   const AsmaAllahBannerCardWidget({super.key});
@@ -29,7 +29,6 @@ class AsmaAllahBannerCardWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.accentGold.withValues(alpha: 0.3)
                   : AppColors.accentGold.withValues(alpha: 0.35),
-              width: 1.0,
             ),
             boxShadow: [
               BoxShadow(
@@ -92,7 +91,9 @@ class AsmaAllahBannerCardWidget extends StatelessWidget {
                 child: Text(
                   '99',
                   style: context.textTheme.labelSmall?.copyWith(
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                     fontWeight: FontWeight.w800,
                     fontSize: 11.sp,
                   ),
@@ -113,4 +114,3 @@ class AsmaAllahBannerCardWidget extends StatelessWidget {
     );
   }
 }
-

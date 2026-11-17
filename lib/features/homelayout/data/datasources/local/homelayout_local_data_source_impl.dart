@@ -1,5 +1,5 @@
-import '../../../domain/datasources/homelayout_local_data_source.dart';
-import '../../models/homelayoutmodel.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/homelayout_local_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/homelayoutmodel.dart';
 
 class HomelayoutLocalDataSourceImpl implements HomelayoutLocalDataSource {
   // final FlutterSecureStorage storage;

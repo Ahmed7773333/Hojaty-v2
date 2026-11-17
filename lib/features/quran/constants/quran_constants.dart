@@ -1,7 +1,7 @@
-import '../data/models/hezb_info_model.dart';
-import '../data/models/juz_info_model.dart';
-import '../data/models/page_info_model.dart';
-import '../data/models/surah_info_model.dart';
+import 'package:hojaty/features/quran/data/models/hezb_info_model.dart';
+import 'package:hojaty/features/quran/data/models/juz_info_model.dart';
+import 'package:hojaty/features/quran/data/models/page_info_model.dart';
+import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
 
 class QuranConstants {
   static const Map<int, SurahInfoModel> surahMap = {
@@ -1033,420 +1033,420 @@ class QuranConstants {
     ),
   };
   static final List<HezbInfoModel> hezbs = [
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 1,
       firstQuarterVerse: [1, 1],
       secondQuarterVerse: [2, 26],
       thirdQuarterVerse: [2, 44],
       fourthQuarterVerse: [2, 60],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 2,
       firstQuarterVerse: [2, 75],
       secondQuarterVerse: [2, 92],
       thirdQuarterVerse: [2, 106],
       fourthQuarterVerse: [2, 124],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 3,
       firstQuarterVerse: [2, 142],
       secondQuarterVerse: [2, 158],
       thirdQuarterVerse: [2, 177],
       fourthQuarterVerse: [2, 189],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 4,
       firstQuarterVerse: [2, 203],
       secondQuarterVerse: [2, 219],
       thirdQuarterVerse: [2, 233],
       fourthQuarterVerse: [2, 243],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 5,
       firstQuarterVerse: [2, 253],
       secondQuarterVerse: [2, 263],
       thirdQuarterVerse: [2, 272],
       fourthQuarterVerse: [2, 283],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 6,
       firstQuarterVerse: [3, 15],
       secondQuarterVerse: [3, 33],
       thirdQuarterVerse: [3, 52],
       fourthQuarterVerse: [3, 75],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 7,
       firstQuarterVerse: [3, 93],
       secondQuarterVerse: [3, 113],
       thirdQuarterVerse: [3, 133],
       fourthQuarterVerse: [3, 153],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 8,
       firstQuarterVerse: [3, 171],
       secondQuarterVerse: [3, 186],
       thirdQuarterVerse: [4, 1],
       fourthQuarterVerse: [4, 12],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 9,
       firstQuarterVerse: [4, 24],
       secondQuarterVerse: [4, 36],
       thirdQuarterVerse: [4, 58],
       fourthQuarterVerse: [4, 74],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 10,
       firstQuarterVerse: [4, 88],
       secondQuarterVerse: [4, 100],
       thirdQuarterVerse: [4, 114],
       fourthQuarterVerse: [4, 135],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 11,
       firstQuarterVerse: [4, 148],
       secondQuarterVerse: [4, 163],
       thirdQuarterVerse: [5, 1],
       fourthQuarterVerse: [5, 12],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 12,
       firstQuarterVerse: [5, 27],
       secondQuarterVerse: [5, 41],
       thirdQuarterVerse: [5, 51],
       fourthQuarterVerse: [5, 67],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 13,
       firstQuarterVerse: [5, 82],
       secondQuarterVerse: [5, 97],
       thirdQuarterVerse: [5, 109],
       fourthQuarterVerse: [6, 12],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 14,
       firstQuarterVerse: [6, 36],
       secondQuarterVerse: [6, 59],
       thirdQuarterVerse: [6, 74],
       fourthQuarterVerse: [6, 95],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 15,
       firstQuarterVerse: [6, 111],
       secondQuarterVerse: [6, 127],
       thirdQuarterVerse: [6, 141],
       fourthQuarterVerse: [6, 151],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 16,
       firstQuarterVerse: [7, 1],
       secondQuarterVerse: [7, 31],
       thirdQuarterVerse: [7, 47],
       fourthQuarterVerse: [7, 65],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 17,
       firstQuarterVerse: [7, 88],
       secondQuarterVerse: [7, 117],
       thirdQuarterVerse: [7, 141],
       fourthQuarterVerse: [7, 156],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 18,
       firstQuarterVerse: [7, 172],
       secondQuarterVerse: [7, 189],
       thirdQuarterVerse: [8, 1],
       fourthQuarterVerse: [8, 21],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 19,
       firstQuarterVerse: [8, 41],
       secondQuarterVerse: [8, 61],
       thirdQuarterVerse: [9, 1],
       fourthQuarterVerse: [9, 19],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 20,
       firstQuarterVerse: [9, 34],
       secondQuarterVerse: [9, 46],
       thirdQuarterVerse: [9, 60],
       fourthQuarterVerse: [9, 75],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 21,
       firstQuarterVerse: [9, 93],
       secondQuarterVerse: [9, 111],
       thirdQuarterVerse: [9, 122],
       fourthQuarterVerse: [10, 10],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 22,
       firstQuarterVerse: [10, 26],
       secondQuarterVerse: [10, 53],
       thirdQuarterVerse: [10, 71],
       fourthQuarterVerse: [10, 89],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 23,
       firstQuarterVerse: [11, 6],
       secondQuarterVerse: [11, 24],
       thirdQuarterVerse: [11, 41],
       fourthQuarterVerse: [11, 61],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 24,
       firstQuarterVerse: [11, 84],
       secondQuarterVerse: [11, 108],
       thirdQuarterVerse: [12, 7],
       fourthQuarterVerse: [12, 30],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 25,
       firstQuarterVerse: [12, 53],
       secondQuarterVerse: [12, 77],
       thirdQuarterVerse: [12, 101],
       fourthQuarterVerse: [13, 5],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 26,
       firstQuarterVerse: [13, 19],
       secondQuarterVerse: [13, 35],
       thirdQuarterVerse: [14, 10],
       fourthQuarterVerse: [14, 28],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 27,
       firstQuarterVerse: [15, 1],
       secondQuarterVerse: [15, 49],
       thirdQuarterVerse: [16, 1],
       fourthQuarterVerse: [16, 30],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 28,
       firstQuarterVerse: [16, 51],
       secondQuarterVerse: [16, 75],
       thirdQuarterVerse: [16, 90],
       fourthQuarterVerse: [16, 111],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 29,
       firstQuarterVerse: [17, 1],
       secondQuarterVerse: [17, 23],
       thirdQuarterVerse: [17, 50],
       fourthQuarterVerse: [17, 70],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 30,
       firstQuarterVerse: [17, 99],
       secondQuarterVerse: [18, 17],
       thirdQuarterVerse: [18, 31],
       fourthQuarterVerse: [18, 51],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 31,
       firstQuarterVerse: [18, 75],
       secondQuarterVerse: [18, 99],
       thirdQuarterVerse: [19, 22],
       fourthQuarterVerse: [19, 59],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 32,
       firstQuarterVerse: [20, 1],
       secondQuarterVerse: [20, 55],
       thirdQuarterVerse: [20, 83],
       fourthQuarterVerse: [20, 111],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 33,
       firstQuarterVerse: [21, 1],
       secondQuarterVerse: [21, 29],
       thirdQuarterVerse: [21, 51],
       fourthQuarterVerse: [21, 83],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 34,
       firstQuarterVerse: [22, 1],
       secondQuarterVerse: [22, 19],
       thirdQuarterVerse: [22, 38],
       fourthQuarterVerse: [22, 60],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 35,
       firstQuarterVerse: [23, 1],
       secondQuarterVerse: [23, 36],
       thirdQuarterVerse: [23, 75],
       fourthQuarterVerse: [24, 1],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 36,
       firstQuarterVerse: [24, 21],
       secondQuarterVerse: [24, 35],
       thirdQuarterVerse: [24, 53],
       fourthQuarterVerse: [25, 1],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 37,
       firstQuarterVerse: [25, 21],
       secondQuarterVerse: [25, 53],
       thirdQuarterVerse: [26, 1],
       fourthQuarterVerse: [26, 52],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 38,
       firstQuarterVerse: [26, 111],
       secondQuarterVerse: [26, 181],
       thirdQuarterVerse: [27, 1],
       fourthQuarterVerse: [27, 27],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 39,
       firstQuarterVerse: [27, 56],
       secondQuarterVerse: [27, 82],
       thirdQuarterVerse: [28, 12],
       fourthQuarterVerse: [28, 29],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 40,
       firstQuarterVerse: [28, 51],
       secondQuarterVerse: [28, 76],
       thirdQuarterVerse: [29, 1],
       fourthQuarterVerse: [29, 26],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 41,
       firstQuarterVerse: [29, 46],
       secondQuarterVerse: [30, 1],
       thirdQuarterVerse: [30, 31],
       fourthQuarterVerse: [30, 54],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 42,
       firstQuarterVerse: [31, 22],
       secondQuarterVerse: [32, 11],
       thirdQuarterVerse: [33, 1],
       fourthQuarterVerse: [33, 18],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 43,
       firstQuarterVerse: [33, 31],
       secondQuarterVerse: [33, 51],
       thirdQuarterVerse: [33, 60],
       fourthQuarterVerse: [34, 10],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 44,
       firstQuarterVerse: [34, 24],
       secondQuarterVerse: [34, 46],
       thirdQuarterVerse: [35, 15],
       fourthQuarterVerse: [35, 41],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 45,
       firstQuarterVerse: [36, 28],
       secondQuarterVerse: [36, 60],
       thirdQuarterVerse: [37, 22],
       fourthQuarterVerse: [37, 83],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 46,
       firstQuarterVerse: [37, 145],
       secondQuarterVerse: [38, 21],
       thirdQuarterVerse: [38, 52],
       fourthQuarterVerse: [39, 8],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 47,
       firstQuarterVerse: [39, 32],
       secondQuarterVerse: [39, 53],
       thirdQuarterVerse: [40, 1],
       fourthQuarterVerse: [40, 21],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 48,
       firstQuarterVerse: [40, 41],
       secondQuarterVerse: [40, 66],
       thirdQuarterVerse: [41, 9],
       fourthQuarterVerse: [41, 25],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 49,
       firstQuarterVerse: [41, 47],
       secondQuarterVerse: [42, 13],
       thirdQuarterVerse: [42, 27],
       fourthQuarterVerse: [42, 57],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 50,
       firstQuarterVerse: [43, 24],
       secondQuarterVerse: [43, 57],
       thirdQuarterVerse: [44, 17],
       fourthQuarterVerse: [45, 12],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 51,
       firstQuarterVerse: [46, 1],
       secondQuarterVerse: [46, 21],
       thirdQuarterVerse: [47, 10],
       fourthQuarterVerse: [47, 33],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 52,
       firstQuarterVerse: [48, 18],
       secondQuarterVerse: [49, 1],
       thirdQuarterVerse: [49, 14],
       fourthQuarterVerse: [50, 27],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 53,
       firstQuarterVerse: [51, 31],
       secondQuarterVerse: [52, 24],
       thirdQuarterVerse: [53, 26],
       fourthQuarterVerse: [54, 9],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 54,
       firstQuarterVerse: [55, 1],
       secondQuarterVerse: [56, 1],
       thirdQuarterVerse: [56, 75],
       fourthQuarterVerse: [57, 16],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 55,
       firstQuarterVerse: [58, 1],
       secondQuarterVerse: [58, 14],
       thirdQuarterVerse: [59, 11],
       fourthQuarterVerse: [60, 7],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 56,
       firstQuarterVerse: [62, 1],
       secondQuarterVerse: [63, 4],
       thirdQuarterVerse: [65, 1],
       fourthQuarterVerse: [66, 1],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 57,
       firstQuarterVerse: [67, 1],
       secondQuarterVerse: [68, 1],
       thirdQuarterVerse: [69, 1],
       fourthQuarterVerse: [70, 19],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 58,
       firstQuarterVerse: [72, 1],
       secondQuarterVerse: [73, 20],
       thirdQuarterVerse: [75, 1],
       fourthQuarterVerse: [76, 19],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 59,
       firstQuarterVerse: [78, 1],
       secondQuarterVerse: [80, 1],
       thirdQuarterVerse: [82, 1],
       fourthQuarterVerse: [84, 1],
     ),
-    HezbInfoModel(
+    const HezbInfoModel(
       id: 60,
       firstQuarterVerse: [87, 1],
       secondQuarterVerse: [90, 1],

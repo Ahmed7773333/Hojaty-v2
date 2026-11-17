@@ -1,11 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:hojaty/features/homelayout/data/models/adhan_setting_model.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 
 void main() {
   // 1. Verify default values of AdhanSettingModel
   const defaultSettings = AdhanSettingModel();
-  assert(defaultSettings.isPreAdhanReminderEnabled == true, 'Pre-adhan reminder should be enabled by default');
-  assert(defaultSettings.preAdhanReminderMinutes == 5, 'Pre-adhan reminder default should be 5 minutes');
+  assert(
+    defaultSettings.isPreAdhanReminderEnabled == true,
+    'Pre-adhan reminder should be enabled by default',
+  );
+  assert(
+    defaultSettings.preAdhanReminderMinutes == 5,
+    'Pre-adhan reminder default should be 5 minutes',
+  );
 
   // 2. Verify copyWith and per-prayer minutes
   final updatedSettings = defaultSettings.copyWith(
@@ -16,8 +23,14 @@ void main() {
       PrayerType.dhuhr.name: 6,
     },
   );
-  assert(updatedSettings.preAdhanReminderMinutes == 10, 'preAdhanReminderMinutes should be updated to 10');
-  assert(updatedSettings.isPreAdhanReminderEnabled == false, 'isPreAdhanReminderEnabled should be false');
+  assert(
+    updatedSettings.preAdhanReminderMinutes == 10,
+    'preAdhanReminderMinutes should be updated to 10',
+  );
+  assert(
+    updatedSettings.isPreAdhanReminderEnabled == false,
+    'isPreAdhanReminderEnabled should be false',
+  );
   assert(
     updatedSettings.getPreAdhanReminderMinutesForPrayer(PrayerType.fajr) == 5,
     'Fajr pre-adhan reminder should be 5 minutes',
@@ -32,9 +45,11 @@ void main() {
   );
 
   // 3. Verify Pre-Reminder Time calculation
-  final prayerTime = DateTime(2026, 11, 14, 12, 0); // 12:00 PM
+  final prayerTime = DateTime(2026, 11, 14, 12); // 12:00 PM
   const minutesBefore = 5;
-  final preReminderTime = prayerTime.subtract(const Duration(minutes: minutesBefore));
+  final preReminderTime = prayerTime.subtract(
+    const Duration(minutes: minutesBefore),
+  );
   assert(
     preReminderTime.hour == 11 && preReminderTime.minute == 55,
     '5 minutes before 12:00 must be 11:55',
@@ -50,5 +65,5 @@ void main() {
     assert(mainId != preId, 'Main ID and Pre ID must never collide');
   }
 
-  print('All Pre-Adhan Reminder logic checks passed successfully!');
+  debugPrint('All Pre-Adhan Reminder logic checks passed successfully!');
 }

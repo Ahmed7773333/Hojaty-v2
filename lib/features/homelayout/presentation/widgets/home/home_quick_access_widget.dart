@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'home_athkar_quick_access_card.dart';
-import 'home_hadith_quick_access_card.dart';
-import 'home_hojaty_ai_quick_access_card.dart';
-import 'home_occasion_quick_access_card.dart';
-import 'home_quran_quick_access_card.dart';
-import 'home_radio_quick_access_card.dart';
-import 'home_sebha_quick_access_card.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_athkar_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_hadith_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_hojaty_ai_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_occasion_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_quran_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_radio_quick_access_card.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_sebha_quick_access_card.dart';
 
 class HomeQuickAccessWidget extends StatelessWidget {
   const HomeQuickAccessWidget({super.key});
@@ -91,7 +91,7 @@ class HomeQuickAccessWidget extends StatelessWidget {
 //         break;
 //       case QuickAccessType.sebha:
 //         context.pushNamed(AppRoutes.sebha);
-//         break;  
+//         break;
 //     }
 //   }
 //

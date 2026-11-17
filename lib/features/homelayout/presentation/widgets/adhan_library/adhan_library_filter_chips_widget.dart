@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
-enum AdhanFilterType {
-  all,
-  builtIn,
-  downloaded,
-}
+enum AdhanFilterType { all, builtIn, downloaded }
 
 class AdhanLibraryFilterChipsWidget extends StatelessWidget {
   final AdhanFilterType selectedFilter;
@@ -56,8 +52,8 @@ class AdhanLibraryFilterChipsWidget extends StatelessWidget {
                   color: isSelected
                       ? AppColors.white
                       : (isDark
-                          ? AppColors.darkTextSecondary
-                          : AppColors.lightTextSecondary),
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary),
                 ),
               ),
               selected: isSelected,
@@ -71,9 +67,8 @@ class AdhanLibraryFilterChipsWidget extends StatelessWidget {
                   color: isSelected
                       ? AppColors.primaryDarkBackground
                       : (isDark
-                          ? AppColors.darkBorderUnselected
-                          : AppColors.lightBorderUnselected),
-                  width: 1.0,
+                            ? AppColors.darkBorderUnselected
+                            : AppColors.lightBorderUnselected),
                 ),
               ),
               showCheckmark: false,
@@ -86,4 +81,3 @@ class AdhanLibraryFilterChipsWidget extends StatelessWidget {
     );
   }
 }
-

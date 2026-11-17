@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../domain/entities/qirat_type.dart';
-import '../bloc/quran_bloc.dart';
-import '../bloc/quran_event.dart';
-import '../bloc/quran_state.dart';
-import 'quran_delete_confirm_dialog.dart';
-import 'quran_qirat_tile_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_delete_confirm_dialog.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_qirat_tile_widget.dart';
 
 class QuranQiratBottomSheetWidget extends StatelessWidget {
   const QuranQiratBottomSheetWidget({super.key});
@@ -35,7 +35,9 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
                     width: 40.w,
                     height: 4.h,
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                      color: isDark
+                          ? AppColors.darkBorderUnselected
+                          : AppColors.lightBorderUnselected,
                       borderRadius: BorderRadius.circular(2.r),
                     ),
                   ),
@@ -44,7 +46,9 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
                 Text(
                   context.strings.select_qirat,
                   style: context.textTheme.titleLarge?.copyWith(
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.lightTextPrimary,
                     fontWeight: FontWeight.w800,
                     fontSize: 20.sp,
                   ),
@@ -53,10 +57,16 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
                 Column(
                   children: QiratType.values.map((qirat) {
                     final isSelected = state.selectedQirat == qirat;
-                    final status = state.qiratStatuses[qirat] ??
-                        (qirat == state.selectedQirat ? state.assetStatus : QuranAssetStatus.requiresDownload);
-                    final progress = state.qiratProgress[qirat] ??
-                        (qirat == state.selectedQirat ? state.downloadProgress : 0.0);
+                    final status =
+                        state.qiratStatuses[qirat] ??
+                        (qirat == state.selectedQirat
+                            ? state.assetStatus
+                            : QuranAssetStatus.requiresDownload);
+                    final progress =
+                        state.qiratProgress[qirat] ??
+                        (qirat == state.selectedQirat
+                            ? state.downloadProgress
+                            : 0.0);
 
                     return QuranQiratTileWidget(
                       qirat: qirat,
@@ -68,15 +78,20 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
                         Navigator.of(context).pop();
                       },
                       onDownload: () {
-                        context.read<QuranBloc>().add(StartDownloadQuranAssetEvent(qirat: qirat));
+                        context.read<QuranBloc>().add(
+                          StartDownloadQuranAssetEvent(qirat: qirat),
+                        );
                       },
                       onDelete: () async {
                         final confirmed = await showDialog<bool>(
                           context: context,
-                          builder: (_) => QuranDeleteConfirmDialog(qirat: qirat),
+                          builder: (_) =>
+                              QuranDeleteConfirmDialog(qirat: qirat),
                         );
                         if (confirmed == true && context.mounted) {
-                          context.read<QuranBloc>().add(DeleteQuranAssetEvent(qirat));
+                          context.read<QuranBloc>().add(
+                            DeleteQuranAssetEvent(qirat),
+                          );
                         }
                       },
                     );

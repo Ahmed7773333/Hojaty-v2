@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../../core/utils/screen_util_like.dart';
-import '../shared/app_qr_code_dialog.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/app_qr_code_dialog.dart';
 
 class SettingsQrButtonWidget extends StatelessWidget {
   const SettingsQrButtonWidget({super.key});
@@ -16,9 +16,7 @@ class SettingsQrButtonWidget extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            context.showDialogRoute(
-              builder: const AppQrCodeDialog(),
-            );
+            context.showDialogRoute(builder: const AppQrCodeDialog());
           },
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
@@ -33,12 +31,9 @@ class SettingsQrButtonWidget extends StatelessWidget {
         Icon(
           Icons.arrow_forward_ios,
           size: 14.r,
-          color: isDark
-              ? AppColors.darkTextMuted
-              : AppColors.lightTextMuted,
+          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
         ),
       ],
     );
   }
 }
-

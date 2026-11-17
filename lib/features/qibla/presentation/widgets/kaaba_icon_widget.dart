@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
 
 class KaabaIconWidget extends StatelessWidget {
   final double size;
 
-  const KaabaIconWidget({
-    super.key,
-    this.size = 28.0,
-  });
+  const KaabaIconWidget({super.key, this.size = 28.0});
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(size, size),
-      painter: _KaabaPainter(),
-    );
+    return CustomPaint(size: Size(size, size), painter: _KaabaPainter());
   }
 }
 
@@ -70,4 +64,3 @@ class _KaabaPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

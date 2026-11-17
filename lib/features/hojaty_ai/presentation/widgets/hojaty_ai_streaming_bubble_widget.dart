@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/rag_chunk_model.dart';
-import 'hojaty_ai_sources_section_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_sources_section_widget.dart';
 
 class HojatyAiStreamingBubbleWidget extends StatelessWidget {
   final String text;
@@ -102,4 +102,3 @@ class HojatyAiStreamingBubbleWidget extends StatelessWidget {
     );
   }
 }
-

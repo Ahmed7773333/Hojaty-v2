@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/rate_app_helper.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../shared/widgets/custom_elevated_button.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/rate_app_helper.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
 
 class RateAppDialogActionsWidget extends StatelessWidget {
   const RateAppDialogActionsWidget({super.key});
@@ -71,4 +71,3 @@ class RateAppDialogActionsWidget extends StatelessWidget {
     );
   }
 }
-

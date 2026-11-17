@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../models/chat_session_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
 
 class HojatyChatHistoryLocalDataSource {
   static const String _boxName = 'hojaty_ai_history_box';

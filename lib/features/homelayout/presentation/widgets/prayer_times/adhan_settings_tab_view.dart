@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/di/injector.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/azan_audio_item_model.dart';
-import '../../../data/services/azan_audio_service.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import '../../bloc/homelayout_state.dart';
-import 'adhan_library_banner_card_widget.dart';
-import 'adhan_prayer_toggle_widget.dart';
-import 'adhan_test_button_widget.dart';
-import 'adhan_type_card_widget.dart';
-import 'pre_adhan_reminder_card_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/azan_audio_item_model.dart';
+import 'package:hojaty/features/homelayout/data/services/azan_audio_service.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_library_banner_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_prayer_toggle_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_test_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_type_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pre_adhan_reminder_card_widget.dart';
 
 class AdhanSettingsTabView extends StatefulWidget {
   const AdhanSettingsTabView({super.key});
@@ -70,9 +70,9 @@ class _AdhanSettingsTabViewState extends State<AdhanSettingsTabView> {
             children: [
               AdhanTestButtonWidget(
                 onTap: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const SendTestNotificationEvent());
+                  context.read<HomelayoutBloc>().add(
+                    const SendTestNotificationEvent(),
+                  );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(context.strings.adhanTestNotificationSent),
@@ -130,15 +130,15 @@ class _AdhanSettingsTabViewState extends State<AdhanSettingsTabView> {
                     color: isDark
                         ? AppColors.darkBorderUnselected
                         : AppColors.lightBorderUnselected,
-                    width: 1.0,
                   ),
                 ),
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: Column(
                   children: List.generate(state.prayerTimes.length, (index) {
                     final prayer = state.prayerTimes[index];
-                    final soundId =
-                        state.adhanSettings.getSoundForPrayer(prayer.type);
+                    final soundId = state.adhanSettings.getSoundForPrayer(
+                      prayer.type,
+                    );
                     final soundTitle = _getSoundTitle(context, soundId);
 
                     return Column(

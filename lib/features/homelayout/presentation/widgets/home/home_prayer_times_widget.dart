@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
@@ -11,7 +12,6 @@ import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.da
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_row_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_sunrise_row_widget.dart';
-import 'package:material_ui/material_ui.dart';
 
 class HomePrayerTimesWidget extends StatelessWidget {
   const HomePrayerTimesWidget({super.key});

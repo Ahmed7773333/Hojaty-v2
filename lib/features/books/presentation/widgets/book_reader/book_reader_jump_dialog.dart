@@ -51,7 +51,9 @@ class _BookReaderJumpDialogState extends State<BookReaderJumpDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       title: Text(
         context.strings.jumpToPage,
-        style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        style: context.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -63,7 +65,9 @@ class _BookReaderJumpDialogState extends State<BookReaderJumpDialog> {
             textAlign: TextAlign.center,
             decoration: InputDecoration(
               hintText: '1 - ${widget.totalPages}',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
             ),
             onSubmitted: (_) => _submit(),
           ),
@@ -71,7 +75,9 @@ class _BookReaderJumpDialogState extends State<BookReaderJumpDialog> {
           Text(
             'أدخل رقم الصفحة بين 1 و ${widget.totalPages}',
             style: context.textTheme.bodySmall?.copyWith(
-              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              color: isDark
+                  ? AppColors.darkTextMuted
+                  : AppColors.lightTextMuted,
             ),
           ),
         ],
@@ -85,7 +91,9 @@ class _BookReaderJumpDialogState extends State<BookReaderJumpDialog> {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primaryDark,
             foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
           ),
           onPressed: _submit,
           child: Text(MaterialLocalizations.of(context).okButtonLabel),
@@ -94,4 +102,3 @@ class _BookReaderJumpDialogState extends State<BookReaderJumpDialog> {
     );
   }
 }
-

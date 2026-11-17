@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../features/homelayout/presentation/widgets/shared/rate_app_dialog.dart';
-import '../local/user_hive_helper.dart';
-import 'app_share_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/rate_app_dialog.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_share_helper.dart';
 
 /// Handles daily rate-app prompt throttling and store listing redirection.
 class RateAppHelper {
@@ -49,9 +49,7 @@ class RateAppHelper {
     markPromptedToday();
     await showDialog<void>(
       context: context,
-      barrierDismissible: true,
       builder: (_) => const RateAppDialog(),
     );
   }
 }
-

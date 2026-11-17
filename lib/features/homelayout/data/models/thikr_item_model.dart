@@ -21,7 +21,6 @@ class ThikrItemModel extends Equatable {
     return ThikrItemModel(
       id: json['id']?.toString() ?? '0',
       text: json['text'] as String? ?? '',
-      reference: '',
       requiredCount: json['count'] as int? ?? 1,
       audio: json['audio'] as String?,
       filename: json['filename'] as String?,

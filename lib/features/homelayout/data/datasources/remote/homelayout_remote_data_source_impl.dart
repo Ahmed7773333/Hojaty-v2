@@ -1,5 +1,5 @@
-import '../../../domain/datasources/homelayout_remote_data_source.dart';
-import '../../models/homelayoutmodel.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/homelayout_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/homelayoutmodel.dart';
 
 class HomelayoutRemoteDataSourceImpl implements HomelayoutRemoteDataSource {
   // final ApiConsumer apiConsumer;

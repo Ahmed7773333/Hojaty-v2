@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
-import '../../features/homelayout/data/models/prayers_helper.dart';
-import '../local/user_hive_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
 
 /// Service managing GPS and cached geographic coordinates for prayer times.
 class LocationService {

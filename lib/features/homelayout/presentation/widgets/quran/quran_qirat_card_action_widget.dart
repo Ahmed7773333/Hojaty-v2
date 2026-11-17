@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/domain/entities/qirat_type.dart';
-import '../../../../quran/presentation/bloc/quran_state.dart';
-import 'quran_qirat_download_progress_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_download_progress_widget.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
 
 class QuranQiratCardActionWidget extends StatelessWidget {
   final QiratType qirat;
@@ -53,11 +53,7 @@ class QuranQiratCardActionWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.check_circle_rounded,
-                  color: color,
-                  size: 13.sp,
-                ),
+                Icon(Icons.check_circle_rounded, color: color, size: 13.sp),
                 4.hor,
                 Text(
                   context.strings.offlineAvailable,
@@ -79,7 +75,9 @@ class QuranQiratCardActionWidget extends StatelessWidget {
               child: Icon(
                 Icons.delete_outline_rounded,
                 size: 18.sp,
-                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                color: isDark
+                    ? AppColors.darkTextMuted
+                    : AppColors.lightTextMuted,
               ),
             ),
           ),
@@ -109,11 +107,7 @@ class QuranQiratCardActionWidget extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.download_rounded,
-              size: 14.sp,
-              color: color,
-            ),
+            Icon(Icons.download_rounded, size: 14.sp, color: color),
             4.hor,
             Text(
               '${qirat.approximateSizeMb} MB',
@@ -129,4 +123,3 @@ class QuranQiratCardActionWidget extends StatelessWidget {
     );
   }
 }
-

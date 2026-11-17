@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'quran_search_field_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_search_field_widget.dart';
 
 class QuranHeaderWidget extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
@@ -40,7 +40,8 @@ class QuranHeaderWidget extends StatelessWidget {
                       color: AppColors.white,
                       size: 20.sp,
                     ),
-                    onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
+                    onPressed:
+                        onBackPressed ?? () => Navigator.of(context).pop(),
                   ),
                   12.hor,
                 ],

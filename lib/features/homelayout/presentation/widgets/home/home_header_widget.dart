@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_share_button_widget.dart';
 import 'package:intl/intl.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
-import 'home_share_button_widget.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
   const HomeHeaderWidget({super.key});
@@ -22,7 +22,8 @@ class HomeHeaderWidget extends StatelessWidget {
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
       buildWhen: (prev, curr) =>
-          prev.ramadanCheckData?.hijriDate != curr.ramadanCheckData?.hijriDate ||
+          prev.ramadanCheckData?.hijriDate !=
+              curr.ramadanCheckData?.hijriDate ||
           prev.prayerCityName != curr.prayerCityName ||
           prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {

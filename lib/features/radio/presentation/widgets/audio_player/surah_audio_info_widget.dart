@@ -28,7 +28,7 @@ class SurahAudioInfoWidget extends StatelessWidget {
           height: 180.r,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient:  LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [

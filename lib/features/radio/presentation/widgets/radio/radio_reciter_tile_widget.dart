@@ -26,8 +26,8 @@ class RadioReciterTileWidget extends StatelessWidget {
     final moshafTitle = (moshaf?.name?.isNotEmpty ?? false)
         ? moshaf!.name
         : ((reciter.moshaf?.isNotEmpty ?? false)
-            ? reciter.moshaf?.first.name
-            : context.strings.listenToSurah);
+              ? reciter.moshaf?.first.name
+              : context.strings.listenToSurah);
 
     return RepaintBoundary(
       child: Material(

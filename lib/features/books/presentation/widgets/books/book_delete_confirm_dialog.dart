@@ -3,15 +3,12 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/books/data/models/book_info_model.dart';
-import 'book_delete_confirm_dialog_actions_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/book_delete_confirm_dialog_actions_widget.dart';
 
 class BookDeleteConfirmDialog extends StatelessWidget {
   final BookInfoModel book;
 
-  const BookDeleteConfirmDialog({
-    super.key,
-    required this.book,
-  });
+  const BookDeleteConfirmDialog({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {

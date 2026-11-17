@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../core/utils/snackbar_helper.dart';
-import '../../data/models/rag_chunk_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/snackbar_helper.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
   final RagChunkModel source;
 
-  const HojatyAiSourceDetailSheetWidget({
-    super.key,
-    required this.source,
-  });
+  const HojatyAiSourceDetailSheetWidget({super.key, required this.source});
 
   static Future<void> show(BuildContext context, RagChunkModel source) {
     return showModalBottomSheet(
@@ -48,7 +45,9 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkTextMuted : AppColors.lightBorderUnselected,
+              color: isDark
+                  ? AppColors.darkTextMuted
+                  : AppColors.lightBorderUnselected,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -58,16 +57,23 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.accentGold.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(color: AppColors.accentGold.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: AppColors.accentGold.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Text(
                     source.category,
                     style: context.textTheme.labelSmall?.copyWith(
-                      color: isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark,
+                      color: isDark
+                          ? AppColors.accentGoldLight
+                          : AppColors.accentGoldDark,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -82,14 +88,18 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 15.sp,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
                         ),
                       ),
                       if (source.reference.isNotEmpty)
                         Text(
                           source.reference,
                           style: context.textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
                             fontSize: 12.sp,
                           ),
                         ),
@@ -98,7 +108,9 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close_rounded),
-                  color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                  color: isDark
+                      ? AppColors.darkTextMuted
+                      : AppColors.lightTextMuted,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -113,7 +125,9 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+                  color: isDark
+                      ? AppColors.darkBackground
+                      : AppColors.lightBackground,
                   borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
                     color: isDark
@@ -124,7 +138,9 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
                 child: SelectableText(
                   source.content,
                   style: context.textTheme.bodyLarge?.copyWith(
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.lightTextPrimary,
                     height: 1.8,
                     fontSize: 15.sp,
                   ),
@@ -148,7 +164,12 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Clipboard.setData(ClipboardData(text: '${source.sourceTitle} - ${source.reference}\n${source.content}'));
+                  Clipboard.setData(
+                    ClipboardData(
+                      text:
+                          '${source.sourceTitle} - ${source.reference}\n${source.content}',
+                    ),
+                  );
                   HapticFeedback.lightImpact();
                   Navigator.of(context).pop();
                   SnackbarHelper.showSuccess(
@@ -164,4 +185,3 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
     );
   }
 }
-

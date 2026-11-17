@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../constants/quran_constants.dart';
-import '../../constants/quran_text_helper.dart';
-import 'quran_quarter_card_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_quarter_card_widget.dart';
 
 class QuranJuzCardWidget extends StatelessWidget {
   final int index;
@@ -29,8 +29,9 @@ class QuranJuzCardWidget extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
         boxShadow: [
           BoxShadow(
@@ -48,11 +49,12 @@ class QuranJuzCardWidget extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+                color: isDark
+                    ? AppColors.primaryDarkSurface
+                    : AppColors.lightCardSelected,
                 borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
                   color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                  width: 1.0,
                 ),
               ),
               child: Text(
@@ -70,7 +72,9 @@ class QuranJuzCardWidget extends StatelessWidget {
           Text(
             QuranTextHelper.convertToArabicHizbs((index * 2) + 1),
             style: context.textTheme.titleSmall?.copyWith(
-              color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
               fontWeight: FontWeight.w700,
               fontSize: 14.sp,
             ),
@@ -105,7 +109,9 @@ class QuranJuzCardWidget extends StatelessWidget {
           Text(
             QuranTextHelper.convertToArabicHizbs((index * 2) + 2),
             style: context.textTheme.titleSmall?.copyWith(
-              color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
               fontWeight: FontWeight.w700,
               fontSize: 14.sp,
             ),

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AsmaAllahHeaderWidget extends StatelessWidget {
   final int totalCount;
 
-  const AsmaAllahHeaderWidget({
-    super.key,
-    required this.totalCount,
-  });
+  const AsmaAllahHeaderWidget({super.key, required this.totalCount});
 
   @override
   Widget build(BuildContext context) {
@@ -73,4 +70,3 @@ class AsmaAllahHeaderWidget extends StatelessWidget {
     );
   }
 }
-

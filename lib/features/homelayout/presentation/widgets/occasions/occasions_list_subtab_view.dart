@@ -1,14 +1,14 @@
-import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_hero_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../data/mocks/occasions_mock_data.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
-import 'occasion_item_row_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/occasions_mock_data.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_hero_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_item_row_widget.dart';
 
 class OccasionsListSubtabView extends StatelessWidget {
   const OccasionsListSubtabView({super.key});

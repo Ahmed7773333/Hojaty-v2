@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/settings_mock_data.dart';
-import '../widgets/settings/font_type_preview_card_widget.dart';
-import '../widgets/settings/font_type_selection_card_widget.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/settings_mock_data.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/font_type_preview_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/font_type_selection_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
 class FontTypeSettingsPage extends StatefulWidget {
   const FontTypeSettingsPage({super.key});
@@ -23,8 +23,9 @@ class _FontTypeSettingsPageState extends State<FontTypeSettingsPage> {
     final fontTypes = SettingsMockData.fontTypes;
 
     return Scaffold(
-      backgroundColor:
-          isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           SettingsPageHeaderWidget(
@@ -36,9 +37,7 @@ class _FontTypeSettingsPageState extends State<FontTypeSettingsPage> {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Column(
                 children: [
-                  FontTypePreviewCardWidget(
-                    selectedFontId: _selectedFontId,
-                  ),
+                  FontTypePreviewCardWidget(selectedFontId: _selectedFontId),
                   20.ver,
                   FontTypeSelectionCardWidget(
                     fontTypes: fontTypes,

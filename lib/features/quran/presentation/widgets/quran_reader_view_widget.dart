@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../constants/mushaf_page_image_resolver.dart';
-import '../../domain/entities/qirat_type.dart';
-import '../utils/mushaf_shader_program_loader.dart';
-import 'quran_page_image_widget.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/quran/constants/mushaf_page_image_resolver.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/utils/mushaf_shader_program_loader.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_page_image_widget.dart';
 
 class QuranReaderViewWidget extends StatefulWidget {
   final int initialPage;
@@ -87,7 +87,8 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
       }
       _precacheAdjacentPages(
         widget.initialPage,
-        force: oldWidget.basePath != widget.basePath ||
+        force:
+            oldWidget.basePath != widget.basePath ||
             oldWidget.qirat != widget.qirat,
       );
     }
@@ -142,7 +143,9 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
             controller: _pageController,
             itemCount: itemCount,
             onPageChanged: (index) {
-              final pageNum = widget.isTwoPageMode ? (index * 2) + 1 : index + 1;
+              final pageNum = widget.isTwoPageMode
+                  ? (index * 2) + 1
+                  : index + 1;
               _precacheAdjacentPages(pageNum);
               widget.onPageChanged(pageNum);
             },

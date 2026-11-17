@@ -46,4 +46,3 @@ class MushafShaderPainter extends CustomPainter {
         oldDelegate.bgColor != bgColor;
   }
 }
-

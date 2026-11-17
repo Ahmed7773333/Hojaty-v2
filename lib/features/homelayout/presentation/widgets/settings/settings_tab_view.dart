@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'package:flutter/material.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
@@ -15,7 +16,6 @@ import 'package:hojaty/features/homelayout/presentation/widgets/settings/setting
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_section_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tile_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_settings_tile_widget.dart';
-import 'package:material_ui/material_ui.dart';
 
 class SettingsTabView extends StatefulWidget {
   const SettingsTabView({super.key});

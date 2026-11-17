@@ -1,7 +1,7 @@
-import '../../domain/entities/qirat_type.dart';
-import '../../domain/repositories/quran_repository.dart';
-import '../datasources/quran_local_data_source.dart';
-import '../models/page_data_model.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/domain/repositories/quran_repository.dart';
+import 'package:hojaty/features/quran/data/datasources/quran_local_data_source.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
 
 class QuranRepositoryImpl implements QuranRepository {
   final QuranLocalDataSource localDataSource;

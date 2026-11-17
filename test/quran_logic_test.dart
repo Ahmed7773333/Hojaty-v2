@@ -28,7 +28,7 @@ void main() {
 
   test('QuranTextHelper Logic Checks', () {
     // Arabic Normalization
-    final raw = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ';
+    const raw = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ';
     final normalized = QuranTextHelper.normalizeArabic(raw);
     expect(normalized, 'بسم الله الرحمن الرحيم');
 

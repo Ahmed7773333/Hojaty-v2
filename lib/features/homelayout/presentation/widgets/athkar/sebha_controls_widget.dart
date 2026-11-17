@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class SebhaControlsWidget extends StatelessWidget {
   final VoidCallback onReset;
 
-  const SebhaControlsWidget({
-    super.key,
-    required this.onReset,
-  });
+  const SebhaControlsWidget({super.key, required this.onReset});
 
   @override
   Widget build(BuildContext context) {
@@ -44,4 +41,3 @@ class SebhaControlsWidget extends StatelessWidget {
     );
   }
 }
-

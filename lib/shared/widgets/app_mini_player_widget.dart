@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import '../../config/routes/app_router.dart';
-import '../../core/di/injector.dart';
-import '../../core/utils/app_colors.dart';
-import '../../core/utils/extensions/context_extensions.dart';
-import '../../core/utils/screen_util_like.dart';
-import '../../features/radio/data/models/surah_audio_args.dart';
-import '../../features/radio/services/radio_audio_player_service.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
 
 class AppMiniPlayerWidget extends StatefulWidget {
   const AppMiniPlayerWidget({super.key});
@@ -48,8 +48,8 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
             }
 
             final isPlaying = playerSnapshot.data?.playing ?? false;
-            final surahName = _playerService.currentSurahName ??
-                context.strings.quranFehres;
+            final surahName =
+                _playerService.currentSurahName ?? context.strings.quranFehres;
             final reciterName = _playerService.currentReciterName ?? '';
 
             return Container(
@@ -61,7 +61,6 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
                   color: isDark
                       ? AppColors.darkBorderUnselected
                       : AppColors.lightBorderUnselected,
-                  width: 1.0,
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -170,4 +169,3 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
     );
   }
 }
-

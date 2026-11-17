@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../models/reciter_model.dart';
-import 'radio_remote_data_source.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/datasources/remote/radio_remote_data_source.dart';
 
 class RadioRemoteDataSourceImpl implements RadioRemoteDataSource {
   final Dio dio;

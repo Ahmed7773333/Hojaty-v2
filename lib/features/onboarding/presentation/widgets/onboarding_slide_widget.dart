@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/onboarding_item_model.dart';
-import 'onboarding_badge_widget.dart';
-import 'onboarding_content_widget.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/onboarding/data/models/onboarding_item_model.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_badge_widget.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_content_widget.dart';
 
 class OnboardingSlideWidget extends StatelessWidget {
   final OnboardingItemModel item;
 
-  const OnboardingSlideWidget({
-    super.key,
-    required this.item,
-  });
+  const OnboardingSlideWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

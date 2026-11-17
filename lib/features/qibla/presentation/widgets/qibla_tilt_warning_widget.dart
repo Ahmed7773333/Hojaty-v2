@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QiblaTiltWarningWidget extends StatelessWidget {
   final bool isLevel;
@@ -30,10 +30,7 @@ class QiblaTiltWarningWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.accentGold.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(
-          color: AppColors.accentGold.withValues(alpha: 0.4),
-          width: 1.0,
-        ),
+        border: Border.all(color: AppColors.accentGold.withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [
@@ -43,10 +40,7 @@ class QiblaTiltWarningWidget extends StatelessWidget {
             height: 28.r,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                color: AppColors.accentGoldLight,
-                width: 1.5,
-              ),
+              border: Border.all(color: AppColors.accentGoldLight, width: 1.5),
               color: AppColors.primaryDarkSurface,
             ),
             child: Align(
@@ -77,4 +71,3 @@ class QiblaTiltWarningWidget extends StatelessWidget {
     );
   }
 }
-

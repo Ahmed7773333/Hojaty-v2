@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/hojaty_ai_mock_data.dart';
-import 'hojaty_ai_starter_chip_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/hojaty_ai_mock_data.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_starter_chip_widget.dart';
 
 class HojatyAiEmptyStateWidget extends StatelessWidget {
   final ValueChanged<String> onSelectStarter;
 
-  const HojatyAiEmptyStateWidget({
-    super.key,
-    required this.onSelectStarter,
-  });
+  const HojatyAiEmptyStateWidget({super.key, required this.onSelectStarter});
 
   @override
   Widget build(BuildContext context) {
@@ -82,4 +79,3 @@ class HojatyAiEmptyStateWidget extends StatelessWidget {
     );
   }
 }
-

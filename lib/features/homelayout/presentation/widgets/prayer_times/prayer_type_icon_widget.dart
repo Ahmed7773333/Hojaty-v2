@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../data/models/prayer_time_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 
 class PrayerTypeIconWidget extends StatelessWidget {
   final PrayerType type;

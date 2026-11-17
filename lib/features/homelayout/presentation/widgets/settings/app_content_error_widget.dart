@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AppContentErrorWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
-  const AppContentErrorWidget({
-    super.key,
-    required this.onRetry,
-  });
+  const AppContentErrorWidget({super.key, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +26,7 @@ class AppContentErrorWidget extends StatelessWidget {
             ),
             16.ver,
             Text(
-              isAr
-                  ? 'تعذر الاتصال بالخادم'
-                  : 'Could not connect to server',
+              isAr ? 'تعذر الاتصال بالخادم' : 'Could not connect to server',
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
               ),

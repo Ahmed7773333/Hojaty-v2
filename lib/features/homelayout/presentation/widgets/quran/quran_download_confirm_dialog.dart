@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/domain/entities/qirat_type.dart';
-import 'quran_download_confirm_dialog_actions_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_download_confirm_dialog_actions_widget.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 class QuranDownloadConfirmDialog extends StatelessWidget {
   final QiratType qirat;
 
-  const QuranDownloadConfirmDialog({
-    super.key,
-    required this.qirat,
-  });
+  const QuranDownloadConfirmDialog({super.key, required this.qirat});
 
   @override
   Widget build(BuildContext context) {
@@ -80,4 +77,3 @@ class QuranDownloadConfirmDialog extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
 
 class ChatSessionModel extends Equatable {
   final String id;

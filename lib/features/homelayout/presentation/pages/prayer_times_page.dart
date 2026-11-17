@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../widgets/prayer_times/adhan_settings_tab_view.dart';
-import '../widgets/prayer_times/prayer_times_header_widget.dart';
-import '../widgets/prayer_times/prayer_times_tab_bar_widget.dart';
-import '../widgets/prayer_times/prayer_times_tab_view.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_settings_tab_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_times_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_times_tab_bar_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_times_tab_view.dart';
 
 class PrayerTimesPage extends StatefulWidget {
   final int initialTabIndex;

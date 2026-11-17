@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QiblaManualSliderWidget extends StatelessWidget {
   final double heading;
@@ -24,8 +24,9 @@ class QiblaManualSliderWidget extends StatelessWidget {
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
       ),
       child: Column(
@@ -39,7 +40,9 @@ class QiblaManualSliderWidget extends StatelessWidget {
                 style: context.textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 12.sp,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.lightTextPrimary,
                 ),
               ),
               Text(
@@ -65,7 +68,6 @@ class QiblaManualSliderWidget extends StatelessWidget {
             ),
             child: Slider(
               value: heading.clamp(0.0, 360.0),
-              min: 0.0,
               max: 360.0,
               onChanged: onHeadingChanged,
             ),
@@ -75,4 +77,3 @@ class QiblaManualSliderWidget extends StatelessWidget {
     );
   }
 }
-

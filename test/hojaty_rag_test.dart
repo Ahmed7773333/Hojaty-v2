@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/gemini_key_pool.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 void main() {
-  print('=== Running Hojaty RAG Self-Check ===');
+  debugPrint('=== Running Hojaty RAG Self-Check ===');
 
   // Test 1: GeminiKeyPool Round-Robin and Cooldowns
   final pool = GeminiKeyPool();
@@ -21,7 +22,7 @@ void main() {
   assert(pool.getNextKey() == 'KEY_A', 'Round robin wraps back to KEY_A');
 
   // Put KEY_A on cooldown for 62s
-  pool.markCooldown('KEY_A', duration: const Duration(seconds: 62));
+  pool.markCooldown('KEY_A');
   assert(!pool.isKeyAvailable('KEY_A'), 'KEY_A must be on cooldown');
   assert(pool.getNextKey() == 'KEY_B', 'Should skip KEY_A and return KEY_B');
 
@@ -30,8 +31,11 @@ void main() {
   pool.markCooldown('KEY_C', duration: const Duration(seconds: 200));
 
   // When all are on cooldown, returns KEY_A because its 62s expires soonest
-  assert(pool.getNextKey() == 'KEY_A', 'Must return KEY_A with earliest expiry');
-  print('✓ GeminiKeyPool tests passed');
+  assert(
+    pool.getNextKey() == 'KEY_A',
+    'Must return KEY_A with earliest expiry',
+  );
+  debugPrint('✓ GeminiKeyPool tests passed');
 
   // Test 2: Vector unpacking & Cosine Similarity
   final f1 = Float32List(512);
@@ -44,7 +48,10 @@ void main() {
   final blob1 = f1.buffer.asUint8List();
   assert(blob1.lengthInBytes == 2048, 'Blob must be 2048 bytes');
 
-  final unpacked = blob1.buffer.asFloat32List(blob1.offsetInBytes, blob1.lengthInBytes ~/ 4);
+  final unpacked = blob1.buffer.asFloat32List(
+    blob1.offsetInBytes,
+    blob1.lengthInBytes ~/ 4,
+  );
   assert(unpacked.length == 512, 'Unpacked floats must be 512');
   assert(unpacked[0] == 1.0, 'Float value match');
 
@@ -57,8 +64,11 @@ void main() {
     n2 += f2[i] * f2[i];
   }
   final sim = dot / (math.sqrt(n1) * math.sqrt(n2));
-  assert((sim - 1.0).abs() < 1e-5, 'Identical vectors should have similarity 1.0');
-  print('✓ Vector Cosine Similarity logic passed');
+  assert(
+    (sim - 1.0).abs() < 1e-5,
+    'Identical vectors should have similarity 1.0',
+  );
+  debugPrint('✓ Vector Cosine Similarity logic passed');
 
   // Test 3: Verify hojaty_rag.db exists (Debug or Production location)
   final debugDb = File('assets/debug/hojaty_rag.db');
@@ -69,11 +79,13 @@ void main() {
   );
   final activeDb = debugDb.existsSync() ? debugDb : prodDb;
   assert(activeDb.lengthSync() > 1024 * 1024, 'Database size must be > 1MB');
-  print('✓ Database existence verified at ${activeDb.path} (${(activeDb.lengthSync() / (1024 * 1024)).toStringAsFixed(1)} MB)');
+  debugPrint(
+    '✓ Database existence verified at ${activeDb.path} (${(activeDb.lengthSync() / (1024 * 1024)).toStringAsFixed(1)} MB)',
+  );
 
   // Test 4: Verify ChatSessionModel & ChatMessageModel JSON Serialization
   final now = DateTime.now();
-  final sampleChunk = RagChunkModel(
+  const sampleChunk = RagChunkModel(
     id: 42,
     category: 'quran',
     sourceTitle: 'سورة البقرة',
@@ -92,7 +104,7 @@ void main() {
     text: 'اطمئن بذكر الله',
     sender: MessageSender.ai,
     timestamp: now,
-    sources: [sampleChunk],
+    sources: const [sampleChunk],
   );
   final session = ChatSessionModel(
     id: 's1',
@@ -103,15 +115,22 @@ void main() {
   );
 
   final encoded = jsonEncode(session.toJson());
-  final decoded = ChatSessionModel.fromJson(jsonDecode(encoded) as Map<String, dynamic>);
+  final decoded = ChatSessionModel.fromJson(
+    jsonDecode(encoded) as Map<String, dynamic>,
+  );
   assert(decoded.id == session.id, 'Session ID matches');
   assert(decoded.title == session.title, 'Session title matches');
   assert(decoded.messages.length == 2, 'Session messages count matches');
   assert(decoded.messages[1].sources.length == 1, 'Sources preserved');
-  assert(decoded.messages[1].sources.first.sourceTitle == 'سورة البقرة', 'Source title matches');
-  assert(decoded.messages[1].sources.first.similarity == 0.92, 'Similarity preserved');
-  print('✓ ChatSessionModel & ChatMessageModel JSON serialization passed');
+  assert(
+    decoded.messages[1].sources.first.sourceTitle == 'سورة البقرة',
+    'Source title matches',
+  );
+  assert(
+    decoded.messages[1].sources.first.similarity == 0.92,
+    'Similarity preserved',
+  );
+  debugPrint('✓ ChatSessionModel & ChatMessageModel JSON serialization passed');
 
-  print('=== ALL HOJATY RAG CHECKS PASSED ===');
+  debugPrint('=== ALL HOJATY RAG CHECKS PASSED ===');
 }
-

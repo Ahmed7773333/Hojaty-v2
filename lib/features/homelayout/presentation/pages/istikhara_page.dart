@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/athkar_mock_data.dart';
-import '../widgets/occasions/istikhara_dua_card_widget.dart';
-import '../widgets/occasions/istikhara_header_widget.dart';
-import '../widgets/occasions/istikhara_step_card_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/athkar_mock_data.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/istikhara_dua_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/istikhara_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/istikhara_step_card_widget.dart';
 
 class IstikharaPage extends StatelessWidget {
   const IstikharaPage({super.key});

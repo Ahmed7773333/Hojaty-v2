@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../utils/local_notification_service.dart';
-import '../../config/theme/app_theme_mode.dart';
-import '../../features/homelayout/data/models/prayers_helper.dart';
-import 'user_data.dart';
+import 'package:hojaty/core/utils/local_notification_service.dart';
+import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/core/local/user_data.dart';
 
 class UserHiveHelper {
   // Box names
@@ -45,16 +45,7 @@ class UserHiveHelper {
       if (UserHiveHelper.getUser() == null) {
         UserHiveHelper.saveUser(
           UserData(
-            id: null,
-            name: null,
-            firstName: null,
-            secondName: null,
-            email: null,
-            phone: null,
             createdAt: DateTime.now().toIso8601String(),
-            language: 'ar',
-            role: null,
-            token: null,
             onBoardingCompleted: false,
           ),
         );

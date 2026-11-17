@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/settings/font_slider_card_widget.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/font_slider_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
 class FontSettingsPage extends StatefulWidget {
   const FontSettingsPage({super.key});
@@ -20,7 +20,9 @@ class _FontSettingsPageState extends State<FontSettingsPage> {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           SettingsPageHeaderWidget(

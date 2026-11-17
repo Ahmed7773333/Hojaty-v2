@@ -8,7 +8,7 @@ import 'package:hojaty/features/radio/presentation/bloc/radio_state.dart';
 import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'radio_reciter_tile_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/radio/radio_reciter_tile_widget.dart';
 
 class RadioRecitersListWidget extends StatelessWidget {
   final SurahInfoModel? targetSurah;
@@ -68,7 +68,9 @@ class RadioRecitersListWidget extends StatelessWidget {
                       width: 140.w,
                       height: 44.h,
                       onPressed: () {
-                        final lang = Localizations.localeOf(context).languageCode;
+                        final lang = Localizations.localeOf(
+                          context,
+                        ).languageCode;
                         context.read<RadioBloc>().add(
                           LoadRadioEvent(language: lang),
                         );
@@ -83,8 +85,8 @@ class RadioRecitersListWidget extends StatelessWidget {
 
         final reciters = targetSurah != null
             ? state.filteredReciters
-                .where((r) => r.hasSurah(targetSurah!.number))
-                .toList()
+                  .where((r) => r.hasSurah(targetSurah!.number))
+                  .toList()
             : state.filteredReciters;
         if (reciters.isEmpty) {
           return SliverToBoxAdapter(

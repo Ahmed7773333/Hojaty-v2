@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class ThikrNavControlsWidget extends StatelessWidget {
   final bool hasPrevious;
@@ -34,7 +34,9 @@ class ThikrNavControlsWidget extends StatelessWidget {
               Icons.skip_previous_rounded,
               color: hasPrevious
                   ? (isDark ? AppColors.white : AppColors.primaryDark)
-                  : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted),
+                  : (isDark
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted),
               size: 28.r,
             ),
           ),
@@ -42,7 +44,9 @@ class ThikrNavControlsWidget extends StatelessWidget {
             onPressed: onReset,
             icon: Icon(
               Icons.replay_rounded,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
               size: 24.r,
             ),
           ),
@@ -52,7 +56,9 @@ class ThikrNavControlsWidget extends StatelessWidget {
               Icons.skip_next_rounded,
               color: hasNext
                   ? (isDark ? AppColors.white : AppColors.primaryDark)
-                  : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted),
+                  : (isDark
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted),
               size: 28.r,
             ),
           ),

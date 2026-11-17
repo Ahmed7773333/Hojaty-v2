@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'home_header_widget.dart';
-import 'home_next_prayer_card_widget.dart';
-import 'home_prayer_times_widget.dart';
-import 'home_qibla_banner_widget.dart';
-import 'home_quick_access_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_next_prayer_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_times_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_qibla_banner_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_quick_access_widget.dart';
 
 class HomeDashboardView extends StatelessWidget {
   const HomeDashboardView({super.key});
@@ -18,7 +18,7 @@ class HomeDashboardView extends StatelessWidget {
       child: Column(
         children: [
           RepaintBoundary(
-            child: Container(
+            child: ColoredBox(
               color: AppColors.primaryDarkBackground,
               child: SafeArea(
                 bottom: false,
@@ -34,7 +34,7 @@ class HomeDashboardView extends StatelessWidget {
             ),
           ),
           RepaintBoundary(
-            child: Container(
+            child: ColoredBox(
               color: context.isDark
                   ? AppColors.darkBackground
                   : AppColors.lightBackground,

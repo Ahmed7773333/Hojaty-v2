@@ -1,14 +1,14 @@
-import '../../../core/di/injector.dart';
-import '../data/datasources/quran_local_data_source.dart';
-import '../data/repositories/quran_repository_impl.dart';
-import '../domain/repositories/quran_repository.dart';
-import '../domain/usecases/get_all_last_pages_usecase.dart';
-import '../domain/usecases/get_last_read_page_usecase.dart';
-import '../domain/usecases/get_quran_pages_usecase.dart';
-import '../domain/usecases/get_selected_qirat_usecase.dart';
-import '../domain/usecases/save_last_read_page_usecase.dart';
-import '../domain/usecases/save_selected_qirat_usecase.dart';
-import '../presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/features/quran/data/datasources/quran_local_data_source.dart';
+import 'package:hojaty/features/quran/data/repositories/quran_repository_impl.dart';
+import 'package:hojaty/features/quran/domain/repositories/quran_repository.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_all_last_pages_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_last_read_page_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_quran_pages_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/get_selected_qirat_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/save_last_read_page_usecase.dart';
+import 'package:hojaty/features/quran/domain/usecases/save_selected_qirat_usecase.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
 
 Future<void> initQuranInjector() async {
   // Data Source

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/chat_message_model.dart';
-import '../../data/models/chat_session_model.dart';
-import '../../data/models/rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 enum HojatyAiStatus {
   initial,

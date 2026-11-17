@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/qibla_bloc.dart';
-import '../bloc/qibla_event.dart';
-import '../bloc/qibla_state.dart';
-import 'qibla_app_bar_widget.dart';
-import 'qibla_compass_dial_widget.dart';
-import 'qibla_guidance_card_widget.dart';
-import 'qibla_location_info_card_widget.dart';
-import 'qibla_manual_slider_widget.dart';
-import 'qibla_status_banner_widget.dart';
-import 'qibla_tilt_warning_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/bloc/qibla_bloc.dart';
+import 'package:hojaty/features/qibla/presentation/bloc/qibla_event.dart';
+import 'package:hojaty/features/qibla/presentation/bloc/qibla_state.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_app_bar_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_compass_dial_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_guidance_card_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_location_info_card_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_manual_slider_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_status_banner_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_tilt_warning_widget.dart';
 
 class QiblaPageView extends StatelessWidget {
   const QiblaPageView({super.key});
@@ -22,7 +22,9 @@ class QiblaPageView extends StatelessWidget {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           const QiblaAppBarWidget(),
@@ -86,4 +88,3 @@ class QiblaPageView extends StatelessWidget {
     );
   }
 }
-

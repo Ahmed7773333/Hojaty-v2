@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/surah_item_model.dart';
-import 'surah_number_badge_widget.dart';
-import 'surah_type_badge_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/surah_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/surah_number_badge_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/surah_type_badge_widget.dart';
 
 class SurahItemRowWidget extends StatelessWidget {
   final SurahItemModel surah;

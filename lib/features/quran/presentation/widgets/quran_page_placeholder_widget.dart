@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 
 class QuranPagePlaceholderWidget extends StatelessWidget {
   final int pageNumber;
 
-  const QuranPagePlaceholderWidget({
-    super.key,
-    required this.pageNumber,
-  });
+  const QuranPagePlaceholderWidget({super.key, required this.pageNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,9 @@ class QuranPagePlaceholderWidget extends StatelessWidget {
       child: Text(
         '${context.strings.quranPageLabel} $pageNumber',
         style: context.textTheme.bodyMedium?.copyWith(
-          color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+          color: isDark
+              ? AppColors.darkTextSecondary
+              : AppColors.lightTextSecondary,
         ),
       ),
     );

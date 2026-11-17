@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
 
-enum BookReaderThemeMode {
-  vintage,
-  light,
-  dark,
-}
+enum BookReaderThemeMode { vintage, light, dark }
 
 class BookReaderThemeModel {
   final BookReaderThemeMode mode;
@@ -77,4 +73,3 @@ class BookReaderThemeModel {
     }
   }
 }
-

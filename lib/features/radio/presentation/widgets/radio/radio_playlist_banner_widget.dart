@@ -31,8 +31,6 @@ class RadioPlaylistBannerWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
                 colors: [
                   AppColors.primaryDarkBackground.withValues(alpha: 0.85),
                   AppColors.primaryDarkSurface.withValues(alpha: 0.65),

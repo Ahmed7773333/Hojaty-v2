@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:upgrader/upgrader.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/local_notification_service.dart';
-import '../../../../core/utils/rate_app_helper.dart';
-import '../bloc/homelayout_bloc.dart';
-import '../bloc/homelayout_event.dart';
-import '../bloc/homelayout_state.dart';
-import '../widgets/athkar/athkar_grid_view.dart';
-import '../widgets/shared/app_upgrader_messages.dart';
-import '../widgets/shared/exit_app_dialog.dart';
-import '../widgets/home/home_bottom_nav_bar_widget.dart';
-import '../widgets/home/home_dashboard_view.dart';
-import '../../../../shared/widgets/app_mini_player_widget.dart';
-import '../widgets/occasions/occasions_tab_view.dart';
-import '../widgets/quran/quran_tab_view.dart';
-import '../widgets/settings/settings_tab_view.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/local_notification_service.dart';
+import 'package:hojaty/core/utils/rate_app_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_grid_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/app_upgrader_messages.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/exit_app_dialog.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_bottom_nav_bar_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_dashboard_view.dart';
+import 'package:hojaty/shared/widgets/app_mini_player_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_tab_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_tab_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tab_view.dart';
 
 class HomelayoutPage extends StatefulWidget {
   const HomelayoutPage({super.key});
@@ -37,15 +37,16 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
       languageCode: lang,
       durationUntilAlertAgain: const Duration(days: 1),
       messages: AppUpgraderMessages(code: lang),
-      willDisplayUpgrade: ({
-        required bool display,
-        String? installedVersion,
-        UpgraderVersionInfo? versionInfo,
-      }) {
-        if (display) {
-          _isUpdatePromptScheduled = true;
-        }
-      },
+      willDisplayUpgrade:
+          ({
+            required bool display,
+            String? installedVersion,
+            UpgraderVersionInfo? versionInfo,
+          }) {
+            if (display) {
+              _isUpdatePromptScheduled = true;
+            }
+          },
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -99,9 +100,6 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
           child: UpgradeAlert(
             upgrader: _upgrader,
             barrierDismissible: true,
-            showIgnore: true,
-            showLater: true,
-            showReleaseNotes: true,
             child: Scaffold(
               body: IndexedStack(index: state.currentTabIndex, children: tabs),
               bottomNavigationBar: Column(

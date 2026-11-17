@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AdhanMoreSoundsButtonWidget extends StatelessWidget {
   const AdhanMoreSoundsButtonWidget({super.key});
@@ -23,7 +23,6 @@ class AdhanMoreSoundsButtonWidget extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
         ),
         child: Row(
@@ -40,7 +39,9 @@ class AdhanMoreSoundsButtonWidget extends StatelessWidget {
               child: Icon(
                 Icons.library_music_rounded,
                 size: 18.r,
-                color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                color: isDark
+                    ? AppColors.accentGoldLight
+                    : AppColors.primaryDark,
               ),
             ),
             12.hor,
@@ -82,4 +83,3 @@ class AdhanMoreSoundsButtonWidget extends StatelessWidget {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QuranSearchInputWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -21,25 +21,32 @@ class QuranSearchInputWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? AppColors.darkCardUnselected : AppColors.lightCardSelected,
+        color: isDark
+            ? AppColors.darkCardUnselected
+            : AppColors.lightCardSelected,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
       ),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
         style: context.textTheme.bodyMedium?.copyWith(
-          color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+          color: isDark
+              ? AppColors.darkTextPrimary
+              : AppColors.lightTextPrimary,
           fontSize: 14.sp,
           fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
           hintText: context.strings.quranSearchHint,
           hintStyle: context.textTheme.bodyMedium?.copyWith(
-            color: isDark ? AppColors.darkTextMuted : AppColors.lightTextSecondary,
+            color: isDark
+                ? AppColors.darkTextMuted
+                : AppColors.lightTextSecondary,
             fontSize: 13.sp,
           ),
           prefixIcon: Icon(
@@ -52,13 +59,18 @@ class QuranSearchInputWidget extends StatelessWidget {
                   icon: Icon(
                     Icons.clear_rounded,
                     size: 18.sp,
-                    color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                    color: isDark
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted,
                   ),
                   onPressed: onClear,
                 )
               : null,
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 14.w,
+            vertical: 12.h,
+          ),
         ),
       ),
     );

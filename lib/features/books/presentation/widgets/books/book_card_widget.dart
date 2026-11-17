@@ -50,7 +50,6 @@ class BookCardWidget extends StatelessWidget {
                   : (isDark
                         ? AppColors.darkBorderUnselected
                         : AppColors.lightBorderUnselected),
-              width: 1.0,
             ),
           ),
           padding: EdgeInsets.all(12.r),
@@ -93,9 +92,14 @@ class BookCardWidget extends StatelessWidget {
                           top: 0,
                           left: 0,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 6.w,
+                              vertical: 2.h,
+                            ),
                             decoration: BoxDecoration(
-                              color: AppColors.accentGold.withValues(alpha: 0.9),
+                              color: AppColors.accentGold.withValues(
+                                alpha: 0.9,
+                              ),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Row(

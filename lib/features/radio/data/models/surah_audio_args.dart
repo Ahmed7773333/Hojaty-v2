@@ -1,4 +1,4 @@
-import 'playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
 
 class SurahAudioArgs {
   final int surahNumber;

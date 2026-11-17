@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
@@ -9,7 +10,6 @@ import 'package:hojaty/features/onboarding/data/models/onboarding_item_model.dar
 import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_actions_widget.dart';
 import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_slide_widget.dart';
 import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_top_bar_widget.dart';
-import 'package:material_ui/material_ui.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

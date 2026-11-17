@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import '../models/azan_audio_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/azan_audio_item_model.dart';
 
 class AzanAudioService {
   final Dio _dio;
@@ -200,7 +200,6 @@ class AzanAudioService {
         if (index != -1) {
           _cachedList![index] = _cachedList![index].copyWith(
             isDownloaded: false,
-            localPath: null,
           );
         }
       }

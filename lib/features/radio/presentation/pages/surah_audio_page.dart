@@ -2,32 +2,29 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../shared/widgets/custom_elevated_button.dart';
-import '../../data/models/surah_audio_args.dart';
-import '../../services/radio_audio_player_service.dart';
-import '../../services/radio_download_service.dart';
-import '../bloc/radio_bloc.dart';
-import '../bloc/radio_event.dart';
-import '../bloc/radio_state.dart';
-import '../widgets/audio_player/radio_add_to_playlist_dialog.dart';
-import '../widgets/audio_player/radio_audio_controls_widget.dart';
-import '../widgets/audio_player/radio_progress_bar_widget.dart';
-import '../widgets/audio_player/share_download_confirmation_dialog.dart';
-import '../widgets/audio_player/surah_audio_header_widget.dart';
-import '../widgets/audio_player/surah_audio_info_widget.dart';
-import '../widgets/audio_player/surah_download_button_widget.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
+import 'package:hojaty/features/radio/services/radio_download_service.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_bloc.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_event.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_state.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/radio_add_to_playlist_dialog.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/radio_audio_controls_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/radio_progress_bar_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/share_download_confirmation_dialog.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/surah_audio_header_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/surah_audio_info_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/surah_download_button_widget.dart';
 
 class SurahAudioPage extends StatefulWidget {
   final SurahAudioArgs args;
 
-  const SurahAudioPage({
-    super.key,
-    required this.args,
-  });
+  const SurahAudioPage({super.key, required this.args});
 
   @override
   State<SurahAudioPage> createState() => _SurahAudioPageState();
@@ -114,10 +111,7 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
   Future<void> _onDownloadDeleted() async {
     final wasPlaying = _playerService.isPlaying;
     final position = _playerService.currentPosition;
-    await _playerService.playSurahSequence(
-      args: _activeArgs,
-      localFilePath: null,
-    );
+    await _playerService.playSurahSequence(args: _activeArgs);
     await _playerService.seek(position);
     if (!wasPlaying) {
       await _playerService.pause();
@@ -214,8 +208,9 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
     return BlocProvider.value(
       value: _radioBloc,
       child: Scaffold(
-        backgroundColor:
-            isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: Column(
           children: [
             BlocBuilder<RadioBloc, RadioState>(

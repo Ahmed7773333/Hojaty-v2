@@ -19,7 +19,6 @@ dependencies:
   dio: ^5.11.0
   intl: ^0.20.2
   flutter_secure_storage: ^11.0.0
-  recase: ^4.1.0
   awesome_notifications: ^0.12.1
   firebase_messaging: ^16.5.0
   hive: ^2.2.3
@@ -43,8 +42,7 @@ dependencies:
   geolocator: ^13.0.2
   pdf: ^3.13.1
   qr_flutter: ^4.1.0
-
-  material_ui: any
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

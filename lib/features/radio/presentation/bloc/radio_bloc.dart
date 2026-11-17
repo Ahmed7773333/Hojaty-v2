@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../quran/constants/quran_text_helper.dart';
-import '../../data/models/reciter_model.dart';
-import '../../domain/repositories/radio_repository.dart';
-import '../../domain/usecases/get_reciters_usecase.dart';
-import 'radio_event.dart';
-import 'radio_state.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/domain/repositories/radio_repository.dart';
+import 'package:hojaty/features/radio/domain/usecases/get_reciters_usecase.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_event.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_state.dart';
 
 class RadioBloc extends Bloc<RadioEvent, RadioState> {
   final GetRecitersUseCase getRecitersUseCase;

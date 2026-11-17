@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../models/playlist_item_model.dart';
-import '../../models/playlist_model.dart';
-import '../../models/reciter_model.dart';
-import 'radio_local_data_source.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/datasources/local/radio_local_data_source.dart';
 
 class RadioLocalDataSourceImpl implements RadioLocalDataSource {
   static const String _boxName = 'radio_data_box';
@@ -66,7 +66,6 @@ class RadioLocalDataSourceImpl implements RadioLocalDataSource {
             id: favoritesId,
             name: 'المفضلة',
             isSystem: true,
-            items: [],
           ),
         );
       }
@@ -78,7 +77,6 @@ class RadioLocalDataSourceImpl implements RadioLocalDataSource {
             id: downloadsId,
             name: 'التسجيلات المحملة',
             isSystem: true,
-            items: [],
           ),
         );
       }
@@ -111,8 +109,8 @@ class RadioLocalDataSourceImpl implements RadioLocalDataSource {
     } catch (_) {}
 
     return const [
-      PlaylistModel(id: favoritesId, name: 'المفضلة', isSystem: true, items: []),
-      PlaylistModel(id: downloadsId, name: 'التسجيلات المحملة', isSystem: true, items: []),
+      PlaylistModel(id: favoritesId, name: 'المفضلة', isSystem: true),
+      PlaylistModel(id: downloadsId, name: 'التسجيلات المحملة', isSystem: true),
     ];
   }
 
@@ -128,7 +126,7 @@ class RadioLocalDataSourceImpl implements RadioLocalDataSource {
     final newId = 'playlist_${DateTime.now().millisecondsSinceEpoch}';
     final updated = [
       ...playlists,
-      PlaylistModel(id: newId, name: name, isSystem: false, items: const []),
+      PlaylistModel(id: newId, name: name),
     ];
     await _savePlaylists(updated);
   }
@@ -181,7 +179,7 @@ class RadioLocalDataSourceImpl implements RadioLocalDataSource {
     final playlists = await getPlaylists();
     final fav = playlists.firstWhere(
       (p) => p.id == favoritesId,
-      orElse: () => const PlaylistModel(id: favoritesId, name: 'المفضلة', isSystem: true, items: []),
+      orElse: () => const PlaylistModel(id: favoritesId, name: 'المفضلة', isSystem: true),
     );
     return fav.items.any((e) => e.surahId == surahId && e.reciterName == reciterName);
   }

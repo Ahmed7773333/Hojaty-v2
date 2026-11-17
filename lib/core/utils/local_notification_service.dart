@@ -1,19 +1,20 @@
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/services/azan_audio_service.dart';
+import 'package:hojaty/hojaty_app.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import '../../config/routes/app_router.dart';
-import '../../features/homelayout/data/models/occasion_item_model.dart';
-import '../../features/homelayout/data/models/prayer_time_model.dart';
-import '../../features/homelayout/data/models/prayers_helper.dart';
-import '../../features/homelayout/data/services/azan_audio_service.dart';
-import '../../main.dart';
-import '../di/injector.dart';
-import '../local/user_hive_helper.dart';
 
 @pragma('vm:entry-point')
 class LocalNotificationService {
@@ -22,8 +23,9 @@ class LocalNotificationService {
       !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
 
   // MethodChannel for native device flip detection (flip face-down to stop Azan)
-  static const MethodChannel _flipMethodChannel =
-      MethodChannel('com.wolfdev.hojaty/azan_flip');
+  static const MethodChannel _flipMethodChannel = MethodChannel(
+    'com.wolfdev.hojaty/azan_flip',
+  );
 
   // Channel Keys (v2 to guarantee no vibration across all device states & clear cached OS settings)
   static const String prayersChannelKey = 'prayers_channel_makkah_v2';
@@ -179,7 +181,6 @@ class LocalNotificationService {
       await AwesomeNotifications().initialize(
         defaultNotificationIcon,
         _buildChannels(includeCustomRawSounds: true),
-        debug: false,
       );
       _isNativeSalawatSoundAvailable = true;
       _isNativePrayerCloseSoundAvailable = true;
@@ -193,7 +194,6 @@ class LocalNotificationService {
         await AwesomeNotifications().initialize(
           defaultNotificationIcon,
           _buildChannels(includeCustomRawSounds: false),
-          debug: false,
         );
         _setListeners();
         log('LocalNotificationService initialized with fallback channels.');
@@ -229,8 +229,7 @@ class LocalNotificationService {
       NotificationChannel(
         channelKey: prayersChannelMadinahKey,
         channelName: 'أذان المدينة المنورة',
-        channelDescription:
-            'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
+        channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
         defaultColor: const Color(0xFF1E3A34),
         ledColor: const Color(0xFFD4AF37),
         icon: defaultNotificationIcon,
@@ -299,8 +298,7 @@ class LocalNotificationService {
       NotificationChannel(
         channelKey: anaOsalyChannelKey,
         channelName: 'وضع حچتي',
-        channelDescription:
-            'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
+        channelDescription: 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
         defaultColor: const Color(0xFF1E3A34),
         ledColor: const Color(0xFFD4AF37),
         icon: defaultNotificationIcon,
@@ -362,8 +360,8 @@ class LocalNotificationService {
         criticalAlerts: true,
         soundSource: includeCustomRawSounds
             ? (Platform.isAndroid
-                ? 'resource://raw/salli_ala_muhammad'
-                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                  ? 'resource://raw/salli_ala_muhammad'
+                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
             : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
@@ -371,24 +369,25 @@ class LocalNotificationService {
       ),
     ];
   }
-  
 
   /// Check and request notification permissions automatically (no vibration permission requested)
   static Future<bool> requestPermission() async {
     if (!isSupportedPlatform) return false;
     try {
-      final bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      final bool isAllowed = await AwesomeNotifications()
+          .isNotificationAllowed();
       if (!isAllowed) {
-        final bool userChoice = await AwesomeNotifications().requestPermissionToSendNotifications(
-          permissions: const [
-            NotificationPermission.Alert,
-            NotificationPermission.Sound,
-            NotificationPermission.Badge,
-            NotificationPermission.Light,
-            NotificationPermission.FullScreenIntent,
-            NotificationPermission.PreciseAlarms,
-          ],
-        );
+        final bool userChoice = await AwesomeNotifications()
+            .requestPermissionToSendNotifications(
+              permissions: const [
+                NotificationPermission.Alert,
+                NotificationPermission.Sound,
+                NotificationPermission.Badge,
+                NotificationPermission.Light,
+                NotificationPermission.FullScreenIntent,
+                NotificationPermission.PreciseAlarms,
+              ],
+            );
         if (!userChoice) {
           log('User denied basic notification permissions.');
           return false;
@@ -429,7 +428,9 @@ class LocalNotificationService {
       _flipMethodChannel.setMethodCallHandler((call) async {
         if (call.method == 'onAzanStoppedByFlip') {
           final notifId = call.arguments?['notificationId'];
-          log('Azan notification $notifId was successfully stopped by flipping device face down.');
+          log(
+            'Azan notification $notifId was successfully stopped by flipping device face down.',
+          );
         }
       });
     } catch (e) {
@@ -499,7 +500,7 @@ class LocalNotificationService {
     final payload = receivedAction.payload ?? {};
     final type = payload['type'];
 
-    final navContext = AnaOsalyApp.navigatorKey.currentContext;
+    final navContext = HojatyApp.navigatorKey.currentContext;
     if (navContext == null) return;
 
     if (type == 'prayer' || type == 'pre_prayer') {
@@ -565,7 +566,9 @@ class LocalNotificationService {
       if (!isAllowed) {
         final granted = await requestPermission();
         if (!granted) {
-          log('Notification permissions not granted, aborting prayer scheduling.');
+          log(
+            'Notification permissions not granted, aborting prayer scheduling.',
+          );
           return;
         }
       }
@@ -590,7 +593,7 @@ class LocalNotificationService {
           final prayerModel = prayers.where((p) => p.type == type).firstOrNull;
           final isEnabled =
               prayerModel?.isNotificationEnabled ??
-              UserHiveHelper.getPrayerNotification(type.name, defaultValue: true);
+              UserHiveHelper.getPrayerNotification(type.name);
           if (!isEnabled) continue;
 
           // Use today's prayer time if upcoming; otherwise roll over to tomorrow
@@ -616,7 +619,8 @@ class LocalNotificationService {
             type.name,
             defaultValue: soundId ?? 'makkah',
           );
-          final isBuiltIn = prayerSoundId == 'makkah' ||
+          final isBuiltIn =
+              prayerSoundId == 'makkah' ||
               prayerSoundId == 'madinah' ||
               prayerSoundId == 'azan';
           String? localSoundPath;
@@ -640,7 +644,6 @@ class LocalNotificationService {
             customSound: (isFullAdhan && Platform.isAndroid && isBuiltIn)
                 ? soundResource
                 : null,
-            notificationLayout: NotificationLayout.Default,
             category: NotificationCategory.Reminder,
             wakeUpScreen: true,
             fullScreenIntent: true,
@@ -648,7 +651,9 @@ class LocalNotificationService {
               'type': 'prayer',
               'prayer': type.name,
               'soundId': prayerSoundId,
-              'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+              'soundPath': (isFullAdhan && localSoundPath != null)
+                  ? localSoundPath
+                  : '',
             },
           );
 
@@ -677,9 +682,7 @@ class LocalNotificationService {
                 hour: targetTime.hour,
                 minute: targetTime.minute,
                 second: targetTime.second,
-                repeats: false,
                 allowWhileIdle: true,
-                preciseAlarm: true,
                 timeZone: localTz,
               ),
             );
@@ -697,7 +700,6 @@ class LocalNotificationService {
                 hour: targetTime.hour,
                 minute: targetTime.minute,
                 second: targetTime.second,
-                repeats: false,
                 allowWhileIdle: true,
                 preciseAlarm: false,
                 timeZone: localTz,
@@ -710,14 +712,16 @@ class LocalNotificationService {
           );
 
           // Schedule Pre-Prayer Reminder (e.g. 5 minutes before)
-          final specificPreMinutes = prayerPreReminderMinutes?[type.name] ??
+          final specificPreMinutes =
+              prayerPreReminderMinutes?[type.name] ??
               UserHiveHelper.getPrayerPreAdhanReminderMinutes(
                 type.name,
                 defaultValue: preReminderMinutes,
               );
           if (isPreReminderEnabled && specificPreMinutes > 0) {
-            final preTime =
-                targetTime.subtract(Duration(minutes: specificPreMinutes));
+            final preTime = targetTime.subtract(
+              Duration(minutes: specificPreMinutes),
+            );
             if (preTime.isAfter(now)) {
               final preId = 150 + type.index;
               final preTitle = language == 'ar'
@@ -733,7 +737,6 @@ class LocalNotificationService {
                 title: preTitle,
                 body: preBody,
                 icon: defaultNotificationIcon,
-                notificationLayout: NotificationLayout.Default,
                 category: NotificationCategory.Reminder,
                 wakeUpScreen: true,
                 customSound: _isNativePrayerCloseSoundAvailable
@@ -769,9 +772,7 @@ class LocalNotificationService {
                     hour: preTime.hour,
                     minute: preTime.minute,
                     second: preTime.second,
-                    repeats: false,
                     allowWhileIdle: true,
-                    preciseAlarm: true,
                     timeZone: localTz,
                   ),
                 );
@@ -786,7 +787,6 @@ class LocalNotificationService {
                     hour: preTime.hour,
                     minute: preTime.minute,
                     second: preTime.second,
-                    repeats: false,
                     allowWhileIdle: true,
                     preciseAlarm: false,
                     timeZone: localTz,
@@ -800,7 +800,9 @@ class LocalNotificationService {
             }
           }
         } catch (itemErr, itemSt) {
-          log('Error scheduling single prayer notification for $type: $itemErr\n$itemSt');
+          log(
+            'Error scheduling single prayer notification for $type: $itemErr\n$itemSt',
+          );
         }
       }
     } catch (e, st) {
@@ -819,7 +821,9 @@ class LocalNotificationService {
       if (!isAllowed) {
         final granted = await requestPermission();
         if (!granted) {
-          log('Notification permissions not granted, aborting occasion scheduling.');
+          log(
+            'Notification permissions not granted, aborting occasion scheduling.',
+          );
           return;
         }
       }
@@ -842,7 +846,6 @@ class LocalNotificationService {
             dayBefore.month,
             dayBefore.day,
             9,
-            0,
           );
 
           if (dayBeforeTime.isAfter(now)) {
@@ -878,7 +881,6 @@ class LocalNotificationService {
                 schedule: NotificationCalendar.fromDate(
                   date: dayBeforeTime,
                   allowWhileIdle: true,
-                  preciseAlarm: false,
                 ),
               );
             }
@@ -890,7 +892,6 @@ class LocalNotificationService {
             targetDate.month,
             targetDate.day,
             8,
-            0,
           );
 
           if (morningTime.isAfter(now)) {
@@ -926,7 +927,6 @@ class LocalNotificationService {
                 schedule: NotificationCalendar.fromDate(
                   date: morningTime,
                   allowWhileIdle: true,
-                  preciseAlarm: false,
                 ),
               );
             }
@@ -961,8 +961,10 @@ class LocalNotificationService {
           ? 'حان الآن وقت صلاة الظهر - حي على الصلاة'
           : 'It is now time for Dhuhr prayer - Come to prayer';
 
-      final effectiveSoundId = soundId ?? UserHiveHelper.getSelectedAdhanSound();
-      final isBuiltIn = effectiveSoundId == 'makkah' ||
+      final effectiveSoundId =
+          soundId ?? UserHiveHelper.getSelectedAdhanSound();
+      final isBuiltIn =
+          effectiveSoundId == 'makkah' ||
           effectiveSoundId == 'madinah' ||
           effectiveSoundId == 'azan';
       String? localSoundPath;
@@ -999,7 +1001,9 @@ class LocalNotificationService {
             'type': 'prayer',
             'prayer': 'dhuhr',
             'soundId': effectiveSoundId,
-            'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+            'soundPath': (isFullAdhan && localSoundPath != null)
+                ? localSoundPath
+                : '',
           },
         ),
         actionButtons: [
@@ -1066,7 +1070,6 @@ class LocalNotificationService {
           title: title,
           body: body,
           icon: defaultNotificationIcon,
-          notificationLayout: NotificationLayout.Default,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
           customSound: _isNativePrayerCloseSoundAvailable
@@ -1118,13 +1121,12 @@ class LocalNotificationService {
         title: title,
         body: body,
         icon: defaultNotificationIcon,
-        notificationLayout: NotificationLayout.Default,
         category: NotificationCategory.Reminder,
         wakeUpScreen: true,
         customSound: _isNativeSalawatSoundAvailable
             ? (Platform.isAndroid
-                ? 'resource://raw/salli_ala_muhammad'
-                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                  ? 'resource://raw/salli_ala_muhammad'
+                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
             : null,
         payload: {'type': 'salawat'},
       );
@@ -1149,11 +1151,12 @@ class LocalNotificationService {
             interval: const Duration(hours: 1),
             repeats: true,
             allowWhileIdle: true,
-            preciseAlarm: true,
           ),
         );
       } catch (preciseErr) {
-        log('Precise alarm failed for salawat reminder, falling back: $preciseErr');
+        log(
+          'Precise alarm failed for salawat reminder, falling back: $preciseErr',
+        );
         await AwesomeNotifications().createNotification(
           content: content,
           actionButtons: actionButtons,
@@ -1218,13 +1221,12 @@ class LocalNotificationService {
           title: title,
           body: body,
           icon: defaultNotificationIcon,
-          notificationLayout: NotificationLayout.Default,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
           customSound: _isNativeSalawatSoundAvailable
               ? (Platform.isAndroid
-                  ? 'resource://raw/salli_ala_muhammad'
-                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                    ? 'resource://raw/salli_ala_muhammad'
+                    : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
               : null,
           payload: {'type': 'salawat_test'},
         ),

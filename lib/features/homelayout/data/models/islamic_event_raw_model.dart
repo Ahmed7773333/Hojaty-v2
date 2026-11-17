@@ -1,4 +1,4 @@
-import 'occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 
 class IslamicEventRawModel {
   final String id;

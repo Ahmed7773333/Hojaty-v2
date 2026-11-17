@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/theme/app_theme_mode.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'theme_preview_badge_widget.dart';
+import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_preview_badge_widget.dart';
 
 class ThemeRadioCardWidget extends StatelessWidget {
   final String title;
@@ -32,11 +32,12 @@ class ThemeRadioCardWidget extends StatelessWidget {
     final borderColor = isSelected
         ? (isDark ? AppColors.accentGold : AppColors.primaryDark)
         : (isDark
-            ? AppColors.darkBorderUnselected
-            : AppColors.lightBorderUnselected);
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected);
 
-    final activeIndicatorColor =
-        isDark ? AppColors.accentGold : AppColors.primaryDark;
+    final activeIndicatorColor = isDark
+        ? AppColors.accentGold
+        : AppColors.primaryDark;
 
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
@@ -89,8 +90,8 @@ class ThemeRadioCardWidget extends StatelessWidget {
                     color: isSelected
                         ? activeIndicatorColor
                         : (isDark
-                            ? AppColors.darkBorderUnselected
-                            : AppColors.lightBorderUnselected),
+                              ? AppColors.darkBorderUnselected
+                              : AppColors.lightBorderUnselected),
                     width: 2.0,
                   ),
                 ),
@@ -109,4 +110,3 @@ class ThemeRadioCardWidget extends StatelessWidget {
     );
   }
 }
-

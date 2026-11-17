@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../shared/widgets/custom_elevated_button.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
 
 class ShareDownloadConfirmationDialog extends StatelessWidget {
   final VoidCallback onConfirmDownload;
@@ -22,13 +22,17 @@ class ShareDownloadConfirmationDialog extends StatelessWidget {
         context.strings.shareRecitation,
         style: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w700,
-          color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+          color: isDark
+              ? AppColors.darkTextPrimary
+              : AppColors.lightTextPrimary,
         ),
       ),
       content: Text(
         context.strings.downloadAudioPrompt,
         style: context.textTheme.bodyMedium?.copyWith(
-          color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+          color: isDark
+              ? AppColors.darkTextSecondary
+              : AppColors.lightTextSecondary,
         ),
       ),
       actions: [
@@ -37,7 +41,9 @@ class ShareDownloadConfirmationDialog extends StatelessWidget {
           child: Text(
             context.strings.cancel,
             style: context.textTheme.labelLarge?.copyWith(
-              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              color: isDark
+                  ? AppColors.darkTextMuted
+                  : AppColors.lightTextMuted,
             ),
           ),
         ),
@@ -54,4 +60,3 @@ class ShareDownloadConfirmationDialog extends StatelessWidget {
     );
   }
 }
-

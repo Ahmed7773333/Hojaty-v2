@@ -1,7 +1,7 @@
-import '../../data/models/book_chapter_model.dart';
-import '../../data/models/book_collection_model.dart';
-import '../../data/models/book_page_model.dart';
-import '../../data/models/hadith_item_model.dart';
+import 'package:hojaty/features/books/data/models/book_chapter_model.dart';
+import 'package:hojaty/features/books/data/models/book_collection_model.dart';
+import 'package:hojaty/features/books/data/models/book_page_model.dart';
+import 'package:hojaty/features/books/data/models/hadith_item_model.dart';
 
 class BookPaginationResult {
   final List<BookPageModel> pages;

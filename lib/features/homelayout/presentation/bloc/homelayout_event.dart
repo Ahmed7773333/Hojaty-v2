@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/prayer_time_model.dart';
-import '../../data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 
 abstract class HomelayoutEvent extends Equatable {
   const HomelayoutEvent();

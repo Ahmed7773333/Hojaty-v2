@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'hadith_item_model.dart';
+import 'package:hojaty/features/books/data/models/hadith_item_model.dart';
 
 class BookPageModel extends Equatable {
   final int pageNumber;

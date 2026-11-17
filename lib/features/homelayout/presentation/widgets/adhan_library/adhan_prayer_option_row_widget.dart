@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AdhanPrayerOptionRowWidget extends StatelessWidget {
   final String title;
@@ -28,15 +28,19 @@ class AdhanPrayerOptionRowWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primaryDarkBackground.withValues(alpha: isDark ? 0.35 : 0.12)
-              : (isDark ? AppColors.darkCardUnselected : AppColors.lightSurface),
+              ? AppColors.primaryDarkBackground.withValues(
+                  alpha: isDark ? 0.35 : 0.12,
+                )
+              : (isDark
+                    ? AppColors.darkCardUnselected
+                    : AppColors.lightSurface),
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryDarkBackground
                 : (isDark
-                    ? AppColors.darkBorderUnselected
-                    : AppColors.lightBorderUnselected),
+                      ? AppColors.darkBorderUnselected
+                      : AppColors.lightBorderUnselected),
             width: isSelected ? 1.5 : 1.0,
           ),
         ),
@@ -49,10 +53,12 @@ class AdhanPrayerOptionRowWidget extends StatelessWidget {
                   icon,
                   size: 20.r,
                   color: isSelected
-                      ? (isDark ? AppColors.accentGoldLight : AppColors.primaryDark)
+                      ? (isDark
+                            ? AppColors.accentGoldLight
+                            : AppColors.primaryDark)
                       : (isDark
-                          ? AppColors.darkTextSecondary
-                          : AppColors.lightTextSecondary),
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary),
                 ),
                 12.hor,
                 Text(

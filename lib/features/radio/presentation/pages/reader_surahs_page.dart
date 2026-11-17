@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../quran/constants/quran_constants.dart';
-import '../../../quran/constants/quran_text_helper.dart';
-import '../../../quran/data/models/surah_info_model.dart';
-import '../../data/models/reciter_model.dart';
-import '../../data/models/surah_audio_args.dart';
-import '../widgets/reader_surahs/reader_surahs_header_widget.dart';
-import '../widgets/reader_surahs/reader_surahs_list_widget.dart';
-import '../widgets/reader_surahs/reader_surahs_search_bar_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:hojaty/features/radio/presentation/widgets/reader_surahs/reader_surahs_header_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/reader_surahs/reader_surahs_list_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/reader_surahs/reader_surahs_search_bar_widget.dart';
 
 class ReaderSurahsPage extends StatefulWidget {
   final ReciterModel reciter;
 
-  const ReaderSurahsPage({
-    super.key,
-    required this.reciter,
-  });
+  const ReaderSurahsPage({super.key, required this.reciter});
 
   @override
   State<ReaderSurahsPage> createState() => _ReaderSurahsPageState();
@@ -38,10 +35,10 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
 
   void _initSurahs() {
     final moshaf = widget.reciter.moshaf?.firstOrNull;
-    if (moshaf == null || (moshaf.surahList?.isEmpty??true)) {
+    if (moshaf == null || (moshaf.surahList?.isEmpty ?? true)) {
       _allSurahs = QuranConstants.surahMap.values.toList();
     } else {
-      final numbers = (moshaf.surahList??"")
+      final numbers = (moshaf.surahList ?? "")
           .split(',')
           .map((s) => int.tryParse(s.trim()))
           .whereType<int>()
@@ -72,7 +69,9 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
     setState(() {
       _filteredSurahs = _allSurahs.where((surah) {
         if ('${surah.number}'.contains(trimmed)) return true;
-        final nameAr = QuranTextHelper.normalizeArabic(surah.name).toLowerCase();
+        final nameAr = QuranTextHelper.normalizeArabic(
+          surah.name,
+        ).toLowerCase();
         if (nameAr.contains(normalized)) return true;
         final nameEn = surah.englishName.toLowerCase();
         if (nameEn.contains(normalized)) return true;
@@ -94,8 +93,8 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
         surahNumber: surah.number,
         surahNameAr: surah.name,
         surahNameEn: surah.englishName,
-        reciterName: widget.reciter.name??'',
-        reciterLetter: widget.reciter.letter??'',
+        reciterName: widget.reciter.name ?? '',
+        reciterLetter: widget.reciter.letter ?? '',
         serverUrl: serverUrl,
         reciterId: '${widget.reciter.id}',
       ),
@@ -106,7 +105,9 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           ReaderSurahsHeaderWidget(
@@ -129,7 +130,9 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
                     '${context.strings.listenToSurah} (${_filteredSurahs.length})',
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.lightTextPrimary,
                     ),
                   ),
                   12.ver,
@@ -146,4 +149,3 @@ class _ReaderSurahsPageState extends State<ReaderSurahsPage> {
     );
   }
 }
-

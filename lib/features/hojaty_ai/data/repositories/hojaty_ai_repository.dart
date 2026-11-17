@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../datasources/gemini_key_pool.dart';
-import '../datasources/rag_database_service.dart';
-import '../models/rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/datasources/gemini_key_pool.dart';
+import 'package:hojaty/features/hojaty_ai/data/datasources/rag_database_service.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 class HojatyAiRepository {
   final Dio _dio;
@@ -154,8 +154,6 @@ class HojatyAiRepository {
     if (queryVector != null && queryVector.length == 512) {
       final results = await _ragDbService.searchTopK(
         queryVector,
-        topK: 6,
-        minSimilarity: 0.40,
       );
       if (results.isNotEmpty) {
         return results;
@@ -163,7 +161,7 @@ class HojatyAiRepository {
     }
 
     // Fallback to keyword search in local DB
-    return await _ragDbService.searchByKeywords(userMessage, limit: 6);
+    return await _ragDbService.searchByKeywords(userMessage);
   }
 
   /// Formats retrieved chunks into the prompt structure

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/hijri_calendar_helper.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import '../../bloc/homelayout_state.dart';
-import 'calendar_grid_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/calendar_grid_widget.dart';
 
 class CalendarSubtabView extends StatelessWidget {
   const CalendarSubtabView({super.key});
@@ -32,7 +32,8 @@ class CalendarSubtabView extends StatelessWidget {
         final realHijriYear = hijriData?.yearNumber ?? 1448;
         final realHijriDay = hijriData?.dayNumber ?? 12;
 
-        final isCurrentHijri = state.activeHijriMonth == realHijriMonth &&
+        final isCurrentHijri =
+            state.activeHijriMonth == realHijriMonth &&
             state.activeHijriYear == realHijriYear;
 
         final hijriMonthName = HijriCalendarHelper.getHijriMonthName(
@@ -48,7 +49,8 @@ class CalendarSubtabView extends StatelessWidget {
         );
 
         final now = DateTime.now();
-        final isCurrentGreg = state.activeGregorianMonth == now.month &&
+        final isCurrentGreg =
+            state.activeGregorianMonth == now.month &&
             state.activeGregorianYear == now.year;
 
         final gregMonthName = HijriCalendarHelper.getGregorianMonthName(
@@ -84,19 +86,19 @@ class CalendarSubtabView extends StatelessWidget {
                 cells: hijriCells,
                 isCurrentMonth: isCurrentHijri,
                 onReturnToToday: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const ResetHijriMonthToCurrentEvent());
+                  context.read<HomelayoutBloc>().add(
+                    const ResetHijriMonthToCurrentEvent(),
+                  );
                 },
                 onPrev: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const NavigateHijriMonthEvent(-1));
+                  context.read<HomelayoutBloc>().add(
+                    const NavigateHijriMonthEvent(-1),
+                  );
                 },
                 onNext: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const NavigateHijriMonthEvent(1));
+                  context.read<HomelayoutBloc>().add(
+                    const NavigateHijriMonthEvent(1),
+                  );
                 },
               ),
               20.ver,
@@ -116,19 +118,19 @@ class CalendarSubtabView extends StatelessWidget {
                 cells: gregCells,
                 isCurrentMonth: isCurrentGreg,
                 onReturnToToday: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const ResetGregorianMonthToCurrentEvent());
+                  context.read<HomelayoutBloc>().add(
+                    const ResetGregorianMonthToCurrentEvent(),
+                  );
                 },
                 onPrev: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const NavigateGregorianMonthEvent(-1));
+                  context.read<HomelayoutBloc>().add(
+                    const NavigateGregorianMonthEvent(-1),
+                  );
                 },
                 onNext: () {
-                  context
-                      .read<HomelayoutBloc>()
-                      .add(const NavigateGregorianMonthEvent(1));
+                  context.read<HomelayoutBloc>().add(
+                    const NavigateGregorianMonthEvent(1),
+                  );
                 },
               ),
               24.ver,

@@ -1,11 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-enum NotificationIconType {
-  prayer,
-  occasion,
-  athkar,
-}
+enum NotificationIconType { prayer, occasion, athkar }
 
 class NotificationItemModel extends Equatable {
   final String id;

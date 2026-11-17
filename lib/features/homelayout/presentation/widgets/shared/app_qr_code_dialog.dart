@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_share_helper.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/app_share_helper.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
 
 class AppQrCodeDialog extends StatelessWidget {
   const AppQrCodeDialog({super.key});
@@ -77,18 +77,8 @@ class AppQrCodeDialog extends StatelessWidget {
               ),
               child: QrImageView(
                 data: AppShareHelper.androidPlayStoreUrl,
-                version: QrVersions.auto,
                 size: 200.r,
-                gapless: true,
                 backgroundColor: AppColors.white,
-                dataModuleStyle: const QrDataModuleStyle(
-                  dataModuleShape: QrDataModuleShape.square,
-                  color: Colors.black,
-                ),
-                eyeStyle: const QrEyeStyle(
-                  eyeShape: QrEyeShape.square,
-                  color: Colors.black,
-                ),
               ),
             ),
             20.ver,

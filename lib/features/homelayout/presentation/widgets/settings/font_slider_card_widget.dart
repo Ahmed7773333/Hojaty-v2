@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class FontSliderCardWidget extends StatelessWidget {
   final double fontSize;
@@ -23,11 +23,14 @@ class FontSliderCardWidget extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightSurface,
             borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
-              color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-              width: 1.0,
+              color: isDark
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
             ),
           ),
           child: Column(
@@ -44,7 +47,9 @@ class FontSliderCardWidget extends StatelessWidget {
               Text(
                 '${context.strings.fontSizeLabel}: ${fontSize.toInt()}',
                 style: context.textTheme.bodySmall?.copyWith(
-                  color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                  color: isDark
+                      ? AppColors.darkTextMuted
+                      : AppColors.lightTextMuted,
                   fontSize: 12.sp,
                 ),
               ),
@@ -55,11 +60,14 @@ class FontSliderCardWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightSurface,
             borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
-              color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-              width: 1.0,
+              color: isDark
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
             ),
           ),
           child: Row(

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/quran_mock_data.dart';
-import '../../../homelayout/data/models/surah_item_model.dart';
-import '../../../homelayout/presentation/widgets/quran/quran_continue_reading_widget.dart';
-import '../../../homelayout/presentation/widgets/quran/quran_header_widget.dart';
-import '../../../homelayout/presentation/widgets/quran/surah_list_card_widget.dart';
-import '../../constants/quran_text_helper.dart';
-import '../bloc/quran_bloc.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/quran_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/models/surah_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_continue_reading_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/surah_list_card_widget.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
 
 class QuranFehresPage extends StatefulWidget {
   const QuranFehresPage({super.key});
@@ -68,7 +68,9 @@ class _QuranFehresPageState extends State<QuranFehresPage> {
     final lastSurahName = QuranTextHelper.getSurahName(lastPage);
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           QuranHeaderWidget(
@@ -78,7 +80,7 @@ class _QuranFehresPageState extends State<QuranFehresPage> {
           ),
           Expanded(
             child: CustomScrollView(
-              cacheExtent: 400,
+              scrollCacheExtent: const ScrollCacheExtent.pixels(400),
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 SliverPadding(

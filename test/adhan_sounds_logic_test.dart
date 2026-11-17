@@ -28,7 +28,6 @@ void main() {
 
   // 3. Verify AdhanSettingModel per-prayer sound assignment
   const settings = AdhanSettingModel(
-    selectedSoundId: 'makkah',
     prayerSoundIds: {
       'fajr': 'azan_07',
       'maghrib': 'madinah',

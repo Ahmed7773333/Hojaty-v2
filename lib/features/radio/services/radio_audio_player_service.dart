@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import '../../../features/quran/constants/quran_constants.dart';
-import '../data/models/surah_audio_args.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
 
 class RadioAudioPlayerService {
   static final RadioAudioPlayerService _instance =
@@ -143,7 +143,6 @@ class RadioAudioPlayerService {
 
       final playlist = ConcatenatingAudioSource(
         children: sources,
-        useLazyPreparation: true,
       );
 
       final initialIndex =

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'qibla_calibration_dialog.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_calibration_dialog.dart';
 
 class QiblaAppBarWidget extends StatelessWidget {
   const QiblaAppBarWidget({super.key});
@@ -75,4 +75,3 @@ class QiblaAppBarWidget extends StatelessWidget {
     );
   }
 }
-

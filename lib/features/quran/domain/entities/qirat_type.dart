@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 
 enum QiratType {
   hafs,
@@ -77,9 +77,13 @@ enum QiratType {
       case QiratType.qalon:
         return const Color(0xFF2E9CD3); // Ocean / Sky Blue (#67C7F3 inspired)
       case QiratType.shubah:
-        return const Color(0xFFE2833F); // Warm Terracotta / Peach (#FDB885 inspired)
+        return const Color(
+          0xFFE2833F,
+        ); // Warm Terracotta / Peach (#FDB885 inspired)
       case QiratType.warsh:
-        return const Color(0xFF9E6B97); // Elegant Lilac / Mauve (#C7A1C2 inspired)
+        return const Color(
+          0xFF9E6B97,
+        ); // Elegant Lilac / Mauve (#C7A1C2 inspired)
       case QiratType.douri:
         return const Color(0xFFB59353); // Sand Gold / Ochre (#CDB081 inspired)
     }

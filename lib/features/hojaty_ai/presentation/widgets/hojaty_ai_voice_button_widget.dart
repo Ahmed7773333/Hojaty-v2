@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class HojatyAiVoiceButtonWidget extends StatefulWidget {
   final bool isEnabled;
@@ -17,7 +17,8 @@ class HojatyAiVoiceButtonWidget extends StatefulWidget {
   });
 
   @override
-  State<HojatyAiVoiceButtonWidget> createState() => _HojatyAiVoiceButtonWidgetState();
+  State<HojatyAiVoiceButtonWidget> createState() =>
+      _HojatyAiVoiceButtonWidgetState();
 }
 
 class _HojatyAiVoiceButtonWidgetState extends State<HojatyAiVoiceButtonWidget>
@@ -106,11 +107,9 @@ class _HojatyAiVoiceButtonWidgetState extends State<HojatyAiVoiceButtonWidget>
             widget.onTextRecognized(result.recognizedWords);
           }
         },
-        localeId: selectedLocaleId ?? 'ar_SA',
         listenOptions: stt.SpeechListenOptions(
           listenMode: stt.ListenMode.dictation,
-          partialResults: true,
-          cancelOnError: false,
+          localeId: selectedLocaleId ?? 'ar_SA',
         ),
       );
     } catch (e) {
@@ -147,7 +146,9 @@ class _HojatyAiVoiceButtonWidgetState extends State<HojatyAiVoiceButtonWidget>
           child: Material(
             color: _isListening
                 ? Colors.redAccent
-                : (isDark ? AppColors.darkCardUnselected : AppColors.lightCardUnselected),
+                : (isDark
+                      ? AppColors.darkCardUnselected
+                      : AppColors.lightCardUnselected),
             shape: const CircleBorder(),
             elevation: _isListening ? 4 : 0,
             child: InkWell(
@@ -161,7 +162,9 @@ class _HojatyAiVoiceButtonWidgetState extends State<HojatyAiVoiceButtonWidget>
                   _isListening ? Icons.mic_rounded : Icons.mic_none_rounded,
                   color: _isListening
                       ? AppColors.white
-                      : (isDark ? AppColors.accentGoldLight : AppColors.primaryDark),
+                      : (isDark
+                            ? AppColors.accentGoldLight
+                            : AppColors.primaryDark),
                   size: 22.r,
                 ),
               ),
@@ -172,4 +175,3 @@ class _HojatyAiVoiceButtonWidgetState extends State<HojatyAiVoiceButtonWidget>
     );
   }
 }
-

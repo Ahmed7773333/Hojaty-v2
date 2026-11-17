@@ -2,33 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/azan_audio_item_model.dart';
-import '../../data/models/prayer_time_model.dart';
-import '../../data/services/azan_audio_service.dart';
-import '../../../radio/services/radio_audio_player_service.dart';
-import '../bloc/homelayout_bloc.dart';
-import '../bloc/homelayout_event.dart';
-import '../bloc/homelayout_state.dart';
-import '../widgets/adhan_library/adhan_delete_confirm_dialog.dart';
-import '../widgets/adhan_library/adhan_library_empty_widget.dart';
-import '../widgets/adhan_library/adhan_library_filter_chips_widget.dart';
-import '../widgets/adhan_library/adhan_library_item_card_widget.dart';
-import '../widgets/adhan_library/adhan_library_search_bar_widget.dart';
-import '../widgets/adhan_library/adhan_prayer_selector_bottom_sheet.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/azan_audio_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/services/azan_audio_service.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_delete_confirm_dialog.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_library_empty_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_library_filter_chips_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_library_item_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_library_search_bar_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_prayer_selector_bottom_sheet.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
 class AdhanSoundsLibraryPage extends StatefulWidget {
   final PrayerType? initialPrayerType;
 
-  const AdhanSoundsLibraryPage({
-    super.key,
-    this.initialPrayerType,
-  });
+  const AdhanSoundsLibraryPage({super.key, this.initialPrayerType});
 
   @override
   State<AdhanSoundsLibraryPage> createState() => _AdhanSoundsLibraryPageState();
@@ -62,7 +59,8 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
       if (!mounted) return;
       final isPlaying =
           state.playing && state.processingState != ProcessingState.completed;
-      final isBuffering = state.processingState == ProcessingState.buffering ||
+      final isBuffering =
+          state.processingState == ProcessingState.buffering ||
           state.processingState == ProcessingState.loading;
 
       setState(() {
@@ -125,20 +123,11 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
 
       final AudioSource audioSource;
       if (item.isBuiltIn && item.localPath != null) {
-        audioSource = AudioSource.asset(
-          item.localPath!,
-          tag: mediaItem,
-        );
+        audioSource = AudioSource.asset(item.localPath!, tag: mediaItem);
       } else if (item.isDownloaded && item.localPath != null) {
-        audioSource = AudioSource.file(
-          item.localPath!,
-          tag: mediaItem,
-        );
+        audioSource = AudioSource.file(item.localPath!, tag: mediaItem);
       } else {
-        audioSource = AudioSource.uri(
-          Uri.parse(item.url),
-          tag: mediaItem,
-        );
+        audioSource = AudioSource.uri(Uri.parse(item.url), tag: mediaItem);
       }
 
       await _player.setAudioSource(audioSource);
@@ -160,7 +149,10 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
     }
   }
 
-  Future<void> _startDownload(AzanAudioItemModel item, {VoidCallback? onDone}) async {
+  Future<void> _startDownload(
+    AzanAudioItemModel item, {
+    VoidCallback? onDone,
+  }) async {
     if (_downloadProgress.containsKey(item.id)) return;
 
     setState(() {
@@ -237,11 +229,8 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
         if (UserHiveHelper.getPrayerAdhanSound(type.name) == item.id) {
           if (!mounted) return;
           context.read<HomelayoutBloc>().add(
-                SelectPrayerAdhanSoundEvent(
-                  prayerType: type,
-                  soundId: 'makkah',
-                ),
-              );
+            SelectPrayerAdhanSoundEvent(prayerType: type, soundId: 'makkah'),
+          );
         }
       }
 
@@ -249,10 +238,7 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
       setState(() {
         final index = _allAzans.indexWhere((a) => a.id == item.id);
         if (index != -1) {
-          _allAzans[index] = _allAzans[index].copyWith(
-            isDownloaded: false,
-            localPath: null,
-          );
+          _allAzans[index] = _allAzans[index].copyWith(isDownloaded: false);
         }
       });
     }
@@ -266,11 +252,14 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      _startDownload(item, onDone: () {
-        if (mounted) {
-          _showPrayerSelector(item, state);
-        }
-      });
+      _startDownload(
+        item,
+        onDone: () {
+          if (mounted) {
+            _showPrayerSelector(item, state);
+          }
+        },
+      );
       return;
     }
 
@@ -291,11 +280,11 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
         currentPrayerSounds: prayerSounds,
         onSelect: (selectedPrayer) {
           context.read<HomelayoutBloc>().add(
-                SelectPrayerAdhanSoundEvent(
-                  prayerType: selectedPrayer,
-                  soundId: item.id,
-                ),
-              );
+            SelectPrayerAdhanSoundEvent(
+              prayerType: selectedPrayer,
+              soundId: item.id,
+            ),
+          );
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -319,8 +308,8 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
   ) {
     final Map<String, String> prayerSounds =
         state.adhanSettings.prayerSoundIds.isNotEmpty
-            ? state.adhanSettings.prayerSoundIds
-            : UserHiveHelper.getAllPrayerAdhanSounds();
+        ? state.adhanSettings.prayerSoundIds
+        : UserHiveHelper.getAllPrayerAdhanSounds();
 
     final List<String> names = [];
     for (final type in PrayerType.values) {
@@ -374,12 +363,14 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
       builder: (context, state) {
         final filteredList = _filterList(_allAzans);
         final builtInCount = _allAzans.where((a) => a.isBuiltIn).length;
-        final downloadedCount =
-            _allAzans.where((a) => a.isDownloaded || a.isBuiltIn).length;
+        final downloadedCount = _allAzans
+            .where((a) => a.isDownloaded || a.isBuiltIn)
+            .length;
 
         return Scaffold(
-          backgroundColor:
-              isDark ? AppColors.darkBackground : AppColors.lightBackground,
+          backgroundColor: isDark
+              ? AppColors.darkBackground
+              : AppColors.lightBackground,
           body: Column(
             children: [
               SettingsPageHeaderWidget(
@@ -388,15 +379,13 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
               ),
               Expanded(
                 child: _isLoadingList
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? const Center(child: CircularProgressIndicator())
                     : RefreshIndicator(
                         onRefresh: () => _audioService
                             .loadAllAzans(forceRefresh: true)
                             .then((items) {
-                          if (mounted) setState(() => _allAzans = items);
-                        }),
+                              if (mounted) setState(() => _allAzans = items);
+                            }),
                         child: CustomScrollView(
                           slivers: [
                             SliverToBoxAdapter(
@@ -436,8 +425,8 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
                               SliverFillRemaining(
                                 hasScrollBody: false,
                                 child: AdhanLibraryEmptyWidget(
-                                  message: _filterType ==
-                                          AdhanFilterType.downloaded
+                                  message:
+                                      _filterType == AdhanFilterType.downloaded
                                       ? context.strings.noDownloadedAdhans
                                       : context.strings.noAdhansFound,
                                 ),
@@ -459,16 +448,16 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
                                         isCurrentItem && _isPlaying;
                                     final isLoading =
                                         isCurrentItem && _isAudioBuffering;
-                                    final isDownloading =
-                                        _downloadProgress.containsKey(item.id);
+                                    final isDownloading = _downloadProgress
+                                        .containsKey(item.id);
                                     final progress =
                                         _downloadProgress[item.id] ?? 0.0;
                                     final assignedPrayers =
                                         _getAssignedPrayerNames(
-                                      context,
-                                      item.id,
-                                      state,
-                                    );
+                                          context,
+                                          item.id,
+                                          state,
+                                        );
 
                                     return AdhanLibraryItemCardWidget(
                                       item: item,
@@ -485,9 +474,7 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
                                   },
                                 ),
                               ),
-                            SliverToBoxAdapter(
-                              child: 24.ver,
-                            ),
+                            SliverToBoxAdapter(child: 24.ver),
                           ],
                         ),
                       ),
@@ -499,4 +486,3 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
     );
   }
 }
-

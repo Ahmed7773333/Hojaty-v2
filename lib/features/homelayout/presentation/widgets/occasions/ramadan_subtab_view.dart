@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'ramadan_hero_card_widget.dart';
-import 'ramadan_imsakiya_table_widget.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_hero_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_imsakiya_table_widget.dart';
 
 class RamadanSubtabView extends StatelessWidget {
   const RamadanSubtabView({super.key});

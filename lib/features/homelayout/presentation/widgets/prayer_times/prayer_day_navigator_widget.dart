@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayers_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 
 class PrayerDayNavigatorWidget extends StatelessWidget {
   final int dayOffset;
@@ -26,8 +26,11 @@ class PrayerDayNavigatorWidget extends StatelessWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final isToday = dayOffset == 0;
 
-    final formattedDate =
-        PrayersHelper.formatDayOffset(dayOffset, date, language: lang);
+    final formattedDate = PrayersHelper.formatDayOffset(
+      dayOffset,
+      date,
+      language: lang,
+    );
 
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
@@ -39,7 +42,6 @@ class PrayerDayNavigatorWidget extends StatelessWidget {
           color: isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Row(
@@ -61,8 +63,8 @@ class PrayerDayNavigatorWidget extends StatelessWidget {
               color: dayOffset > -15
                   ? (isDark ? AppColors.white : AppColors.primaryDark)
                   : (isDark
-                      ? AppColors.darkTextMuted
-                      : AppColors.lightTextMuted),
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted),
             ),
           ),
 
@@ -91,8 +93,9 @@ class PrayerDayNavigatorWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.primaryDark.withValues(alpha: 0.5)
-                            : AppColors.primaryDarkBackground
-                                .withValues(alpha: 0.08),
+                            : AppColors.primaryDarkBackground.withValues(
+                                alpha: 0.08,
+                              ),
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
                           color: AppColors.accentGold.withValues(alpha: 0.5),
@@ -143,8 +146,8 @@ class PrayerDayNavigatorWidget extends StatelessWidget {
               color: dayOffset < 15
                   ? (isDark ? AppColors.white : AppColors.primaryDark)
                   : (isDark
-                      ? AppColors.darkTextMuted
-                      : AppColors.lightTextMuted),
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted),
             ),
           ),
         ],
