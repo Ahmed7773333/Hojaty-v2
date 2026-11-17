@@ -1,15 +1,16 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/local/user_hive_helper.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayers_helper.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
-import '../occasions/live_timer_display.dart';
-import 'home_prayer_progress_widget.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_progress_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/live_timer_display.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HomeNextPrayerCardWidget extends StatefulWidget {
   const HomeNextPrayerCardWidget({super.key});
@@ -30,7 +31,8 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
   }
 
   void _scheduleTransitionTimer(DateTime targetTime) {
-    if (_currentTargetTime == targetTime && _transitionTimer?.isActive == true) {
+    if (_currentTargetTime == targetTime &&
+        _transitionTimer?.isActive == true) {
       return;
     }
     _currentTargetTime = targetTime;
@@ -62,10 +64,16 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
 
     final isPostAdhan = activeWindow != null && activeWindow.isPostAdhan;
 
-    final prayerName = PrayersHelper.getPrayerName(
-      isPostAdhan ? activeWindow.type : nextPrayerInfo.nextType,
-      language: lang,
-    );
+    final prayerName = isPostAdhan
+        ? PrayersHelper.getPrayerName(activeWindow.type, language: lang)
+        : (nextPrayerInfo.isSunrise
+              ? context.strings.sunrise
+              : (nextPrayerInfo.nextType != null
+                    ? PrayersHelper.getPrayerName(
+                        nextPrayerInfo.nextType!,
+                        language: lang,
+                      )
+                    : ''));
 
     final formattedTime = PrayersHelper.formatTimeTo12Hour(
       isPostAdhan ? activeWindow.prayerTime : nextPrayerInfo.nextTime,
@@ -76,16 +84,19 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
         ? context.strings.currentPrayerBadge
         : context.strings.nextPrayerTitle;
 
-    final targetTime =
-        isPostAdhan ? activeWindow.windowEnd : nextPrayerInfo.nextTime;
-    final previousTime =
-        isPostAdhan ? activeWindow.prayerTime : nextPrayerInfo.previousTime;
+    final targetTime = isPostAdhan
+        ? activeWindow.windowEnd
+        : nextPrayerInfo.nextTime;
+    final previousTime = isPostAdhan
+        ? activeWindow.prayerTime
+        : nextPrayerInfo.previousTime;
 
     _scheduleTransitionTimer(targetTime);
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
       buildWhen: (prev, curr) =>
           prev.prayerTimes != curr.prayerTimes ||
+          prev.sunriseTime != curr.sunriseTime ||
           prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         return RepaintBoundary(
@@ -97,7 +108,6 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
                 color: AppColors.white.withValues(alpha: 0.12),
-                width: 1.0,
               ),
             ),
             child: Column(
@@ -178,16 +188,3 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
     );
   }
 }
-
-// ==========================================
-// ARCHIVED ORIGINAL HOME NEXT PRAYER CODE
-// ==========================================
-// Widget _archivedOriginalBuild(BuildContext context) {
-//   final lang = Localizations.localeOf(context).languageCode;
-//   final now = DateTime.now();
-//   const helper = PrayersHelper(coordinates: GeoCoordinates.cairo);
-//   final activeWindow = helper.getActivePrayerWindow(now);
-//   if (activeWindow == null) return const SizedBox.shrink();
-//   return const SizedBox.shrink();
-// }
-

@@ -128,6 +128,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fajr => 'Fajr';
 
   @override
+  String get sunrise => 'Sunrise';
+
+  @override
   String get dhuhr => 'Dhuhr';
 
   @override

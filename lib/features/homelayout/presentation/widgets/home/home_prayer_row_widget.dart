@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayer_time_model.dart';
-import '../../../data/models/prayers_helper.dart';
-import '../prayer_times/prayer_type_icon_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_type_icon_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HomePrayerRowWidget extends StatelessWidget {
   final PrayerTimeModel prayer;

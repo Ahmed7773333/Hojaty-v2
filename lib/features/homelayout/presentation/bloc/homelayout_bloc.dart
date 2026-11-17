@@ -161,9 +161,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
 
   ({
     List<PrayerTimeModel> prayerTimes,
+    DateTime sunriseTime,
     DateTime selectedDate,
     DateTime nextTime,
-    PrayerType nextType,
+    PrayerType? nextType,
     String nextName,
     DateTime previousTime,
     double progress,
@@ -177,6 +178,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     final helper = PrayersHelper(coordinates: coords);
     final now = DateTime.now();
     final targetDate = now.add(Duration(days: dayOffset));
+    final sunriseTime = helper.getSunriseDateTime(targetDate);
 
     final notifOverrides = <PrayerType, bool>{};
     final windowOverrides = <PrayerType, ({String? start, String? end})>{};
@@ -200,10 +202,14 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     );
 
     final nextInfo = helper.getNextPrayerInfo(now);
-    final nextName = PrayersHelper.getPrayerName(
-      nextInfo.nextType,
-      language: language,
-    );
+    final nextName = nextInfo.isSunrise
+        ? (language == 'ar' ? 'الشروق' : 'Sunrise')
+        : (nextInfo.nextType != null
+            ? PrayersHelper.getPrayerName(
+                nextInfo.nextType!,
+                language: language,
+              )
+            : '');
     final progress = PrayersHelper.calculatePrayerProgress(
       now: now,
       previousTime: nextInfo.previousTime,
@@ -212,6 +218,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
 
     return (
       prayerTimes: prayersList,
+      sunriseTime: sunriseTime,
       selectedDate: targetDate,
       nextTime: nextInfo.nextTime,
       nextType: nextInfo.nextType,
@@ -244,6 +251,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           status: HomelayoutStatus.success,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDayOffset: 0,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -294,6 +302,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           status: HomelayoutStatus.success,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDayOffset: 0,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -419,6 +428,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       emit(
         state.copyWith(
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           prayerCityName: cityName.isNotEmpty ? cityName : state.prayerCityName,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -457,6 +467,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       state.copyWith(
         prayerCityName: event.cityName,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         selectedPrayerDate: prayerData.selectedDate,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
@@ -521,6 +532,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           currentLanguage: lang,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
@@ -542,6 +554,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           currentLanguage: lang,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
@@ -673,6 +686,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         selectedPrayerDayOffset: newOffset,
         selectedPrayerDate: prayerData.selectedDate,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
         nextPrayerName: prayerData.nextName,
@@ -696,6 +710,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         selectedPrayerDayOffset: 0,
         selectedPrayerDate: prayerData.selectedDate,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
         nextPrayerName: prayerData.nextName,
@@ -717,6 +732,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     emit(
       state.copyWith(
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         selectedPrayerDate: prayerData.selectedDate,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
