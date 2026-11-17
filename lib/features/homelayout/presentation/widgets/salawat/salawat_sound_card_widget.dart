@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 class SalawatSoundCardWidget extends StatefulWidget {
   const SalawatSoundCardWidget({super.key});
@@ -15,14 +16,14 @@ class SalawatSoundCardWidget extends StatefulWidget {
 }
 
 class _SalawatSoundCardWidgetState extends State<SalawatSoundCardWidget> {
-  late final AudioPlayer _player;
+  late final RadioAudioPlayerService _playerService;
   bool _isPlaying = false;
 
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
-    _player.playerStateStream.listen((state) {
+    _playerService = injector<RadioAudioPlayerService>();
+    _playerService.playerStateStream.listen((state) {
       if (!mounted) return;
       final playing =
           state.playing && state.processingState != ProcessingState.completed;
@@ -34,27 +35,19 @@ class _SalawatSoundCardWidgetState extends State<SalawatSoundCardWidget> {
 
   @override
   void dispose() {
-    _player.stop();
-    _player.dispose();
     super.dispose();
   }
 
   Future<void> _toggleAudio() async {
     try {
       if (_isPlaying) {
-        await _player.stop();
+        await _playerService.stop();
       } else {
-        await _player.setAudioSource(
-          AudioSource.asset(
-            'assets/audio/salli_ala_muhammad.wav',
-            tag: const MediaItem(
-              id: 'salawat_preview_audio',
-              title: 'الصلاة على النبي ﷺ',
-              artist: 'تطبيق أنا أصلي',
-            ),
-          ),
+        await _playerService.playAsset(
+          assetPath: 'assets/audio/salli_ala_muhammad.wav',
+          title: 'الصلاة على النبي ﷺ',
+          artist: 'تطبيق أنا أصلي',
         );
-        await _player.play();
       }
     } catch (e) {
       log('Error playing Salawat preview audio: $e');

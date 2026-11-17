@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_audio_art_helper.dart';
 import 'package:hojaty/hojaty_app.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.wait([
+    AppAudioArtHelper.init(),
     JustAudioBackground.init(
       androidNotificationChannelId: 'com.wolfdev.hojaty.audio',
       androidNotificationChannelName: 'تلاوة القرآن الكريم',

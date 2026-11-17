@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
@@ -33,7 +32,7 @@ class AdhanSoundsLibraryPage extends StatefulWidget {
 
 class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
   late final AzanAudioService _audioService;
-  final AudioPlayer _player = AudioPlayer();
+  late final RadioAudioPlayerService _playerService;
   final TextEditingController _searchController = TextEditingController();
 
   List<AzanAudioItemModel> _allAzans = [];
@@ -50,12 +49,13 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
   void initState() {
     super.initState();
     _audioService = injector<AzanAudioService>();
+    _playerService = injector<RadioAudioPlayerService>();
     _initAudioPlayer();
     _loadAzans();
   }
 
   void _initAudioPlayer() {
-    _player.playerStateStream.listen((state) {
+    _playerService.playerStateStream.listen((state) {
       if (!mounted) return;
       final isPlaying =
           state.playing && state.processingState != ProcessingState.completed;
@@ -85,8 +85,7 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
 
   @override
   void dispose() {
-    _player.stop();
-    _player.dispose();
+    _playerService.stop();
     _searchController.dispose();
     super.dispose();
   }
@@ -94,9 +93,9 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
   Future<void> _togglePlay(AzanAudioItemModel item) async {
     if (_currentAzanId == item.id) {
       if (_isPlaying) {
-        await _player.pause();
+        await _playerService.pause();
       } else {
-        await _player.play();
+        await _playerService.play();
       }
       return;
     }
@@ -107,31 +106,28 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
         _isAudioBuffering = true;
       });
 
-      try {
-        injector<RadioAudioPlayerService>().pause();
-      } catch (_) {}
-
-      await _player.stop();
-
-      final mediaItem = MediaItem(
-        id: item.id,
-        title: item.title,
-        artist: 'أذان',
-        album: 'أصوات الأذان',
-        artUri: Uri.parse('asset:///assets/icons/logo.png'),
-      );
-
-      final AudioSource audioSource;
       if (item.isBuiltIn && item.localPath != null) {
-        audioSource = AudioSource.asset(item.localPath!, tag: mediaItem);
+        await _playerService.playAsset(
+          assetPath: item.localPath!,
+          title: item.title,
+          artist: 'أذان',
+          album: 'أصوات الأذان',
+        );
       } else if (item.isDownloaded && item.localPath != null) {
-        audioSource = AudioSource.file(item.localPath!, tag: mediaItem);
+        await _playerService.playFilePath(
+          filePath: item.localPath!,
+          surahName: item.title,
+          reciterName: 'أذان',
+          album: 'أصوات الأذان',
+          isAlert: true,
+        );
       } else {
-        audioSource = AudioSource.uri(Uri.parse(item.url), tag: mediaItem);
+        await _playerService.playUrl(
+          url: item.url,
+          surahName: item.title,
+          reciterName: 'أذان',
+        );
       }
-
-      await _player.setAudioSource(audioSource);
-      await _player.play();
     } catch (e) {
       debugPrint('Adhan play error: $e');
       if (!mounted) return;
@@ -215,7 +211,7 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
 
     if (confirmed == true) {
       if (_currentAzanId == item.id) {
-        await _player.stop();
+        await _playerService.stop();
         setState(() {
           _currentAzanId = null;
           _isPlaying = false;
@@ -267,6 +263,7 @@ class _AdhanSoundsLibraryPageState extends State<AdhanSoundsLibraryPage> {
   }
 
   void _showPrayerSelector(AzanAudioItemModel item, HomelayoutState state) {
+    _playerService.stop();
     final prayerSounds = state.adhanSettings.prayerSoundIds.isNotEmpty
         ? state.adhanSettings.prayerSoundIds
         : UserHiveHelper.getAllPrayerAdhanSounds();

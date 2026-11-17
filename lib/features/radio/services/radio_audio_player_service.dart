@@ -1,9 +1,11 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+import 'package:hojaty/core/utils/app_audio_art_helper.dart';
 import 'package:hojaty/features/quran/constants/quran_constants.dart';
 import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 class RadioAudioPlayerService {
   static final RadioAudioPlayerService _instance =
@@ -20,6 +22,7 @@ class RadioAudioPlayerService {
   String? _currentAudioUrl;
   String? _currentFilePath;
   SurahAudioArgs? _currentArgs;
+  bool _isAdhanOrAlert = false;
 
   RadioAudioPlayerService._internal() {
     _player.processingStateStream.listen((state) {
@@ -61,7 +64,8 @@ class RadioAudioPlayerService {
   Stream<double> get speedStream => _player.speedStream;
   Stream<int?> get currentIndexStream => _player.currentIndexStream;
   Stream<SequenceState?> get sequenceStateStream => _player.sequenceStateStream;
-  Stream<SurahAudioArgs?> get currentArgsStream => _currentArgsController.stream;
+  Stream<SurahAudioArgs?> get currentArgsStream =>
+      _currentArgsController.stream;
 
   // Getters
   bool get isPlaying => _player.playing;
@@ -76,9 +80,10 @@ class RadioAudioPlayerService {
   SurahAudioArgs? get currentArgs => _currentArgs;
   bool get isPlayingLocal => _currentFilePath != null;
   bool get hasActiveTrack =>
-      _currentSurahId != null ||
-      _currentAudioUrl != null ||
-      _currentFilePath != null;
+      !_isAdhanOrAlert &&
+      (_currentSurahId != null ||
+          _currentAudioUrl != null ||
+          _currentFilePath != null);
   bool get hasNext => _player.hasNext;
   bool get hasPrevious => _player.hasPrevious;
 
@@ -91,6 +96,7 @@ class RadioAudioPlayerService {
     String? localFilePath,
   }) async {
     try {
+      _isAdhanOrAlert = false;
       _currentArgs = args;
       _currentSurahId = args.surahNumber;
       _currentSurahName = args.surahNameAr;
@@ -121,7 +127,7 @@ class RadioAudioPlayerService {
                 title: s.name,
                 artist: args.reciterName,
                 album: 'القرآن الكريم',
-                artUri: Uri.parse('asset:///assets/icons/logo.png'),
+                artUri: AppAudioArtHelper.logoUri,
               ),
             ),
           );
@@ -134,19 +140,16 @@ class RadioAudioPlayerService {
                 title: s.name,
                 artist: args.reciterName,
                 album: 'القرآن الكريم',
-                artUri: Uri.parse('asset:///assets/icons/logo.png'),
+                artUri: AppAudioArtHelper.logoUri,
               ),
             ),
           );
         }
       }
 
-      final playlist = ConcatenatingAudioSource(
-        children: sources,
-      );
+      final playlist = ConcatenatingAudioSource(children: sources);
 
-      final initialIndex =
-          (args.surahNumber - 1).clamp(0, sources.length - 1);
+      final initialIndex = (args.surahNumber - 1).clamp(0, sources.length - 1);
       await _player.setAudioSource(playlist, initialIndex: initialIndex);
       await _player.play();
     } catch (e) {
@@ -164,6 +167,8 @@ class RadioAudioPlayerService {
     try {
       _currentArgs = null;
       _currentSurahId = surahId;
+      _isAdhanOrAlert = false;
+      _currentSurahId = null;
       _currentSurahName = surahName;
       _currentReciterName = reciterName;
       _currentAudioUrl = url;
@@ -178,9 +183,10 @@ class RadioAudioPlayerService {
           title: surahName ?? reciterName ?? 'إذاعة القرآن الكريم',
           artist: reciterName ?? 'القرآن الكريم',
           album: 'القرآن الكريم',
-          artUri: Uri.parse('asset:///assets/icons/logo.png'),
+          artUri: AppAudioArtHelper.logoUri,
         ),
       );
+      await _player.stop();
       await _player.setAudioSource(audioSource);
       await _player.play();
     } catch (e) {
@@ -194,8 +200,11 @@ class RadioAudioPlayerService {
     int? surahId,
     String? surahName,
     String? reciterName,
+    String? album,
+    bool isAlert = false,
   }) async {
     try {
+      _isAdhanOrAlert = isAlert;
       _currentArgs = null;
       _currentSurahId = surahId;
       _currentSurahName = surahName;
@@ -209,16 +218,54 @@ class RadioAudioPlayerService {
         filePath,
         tag: MediaItem(
           id: filePath,
-          title: surahName ?? reciterName ?? 'إذاعة القرآن الكريم',
-          artist: reciterName ?? 'القرآن الكريم',
-          album: 'القرآن الكريم',
-          artUri: Uri.parse('asset:///assets/icons/logo.png'),
+          title: surahName ?? reciterName ?? 'الأذان',
+          artist: reciterName ?? 'مواقيت الصلاة',
+          album: album ?? 'أصوات الأذان',
+          artUri: AppAudioArtHelper.logoUri,
         ),
       );
+      await _player.stop();
       await _player.setAudioSource(audioSource);
       await _player.play();
     } catch (e) {
       debugPrint('RadioAudioPlayerService playFilePath error: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> playAsset({
+    required String assetPath,
+    String? title,
+    String? artist,
+    String? album,
+    bool isAlert = true,
+  }) async {
+    try {
+      _isAdhanOrAlert = isAlert;
+      _currentArgs = null;
+      _currentSurahId = null;
+      _currentSurahName = title;
+      _currentReciterName = artist;
+      _currentAudioUrl = null;
+      _currentFilePath = null;
+      _currentArgsController.add(null);
+
+      debugPrint('RadioAudioPlayerService: Loading asset $assetPath');
+      final audioSource = AudioSource.asset(
+        assetPath,
+        tag: MediaItem(
+          id: assetPath,
+          title: title ?? 'تنبيه',
+          artist: artist ?? 'حچتي',
+          album: album ?? 'حچتي',
+          artUri: AppAudioArtHelper.logoUri,
+        ),
+      );
+      await _player.stop();
+      await _player.setAudioSource(audioSource);
+      await _player.play();
+    } catch (e) {
+      debugPrint('RadioAudioPlayerService playAsset error: $e');
       rethrow;
     }
   }
@@ -228,6 +275,7 @@ class RadioAudioPlayerService {
   Future<void> pause() => _player.pause();
 
   Future<void> stop() async {
+    _isAdhanOrAlert = false;
     _currentSurahId = null;
     _currentSurahName = null;
     _currentReciterName = null;
