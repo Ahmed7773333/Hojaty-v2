@@ -1,6 +1,69 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+analyzer:
+  errors:
+    unnecessary_underscores: ignore
+  exclude:
+    - build/**
+    - l10n/
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 include: package:flutter_lints/flutter.yaml
 
 linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at https://dart.dev/lints.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
   rules:
-    # prefer_single_quotes: true
-    # camel_case_types: true
+    # =========================================================================
+    # Type & Immutability Strictness
+    # =========================================================================
+    - always_declare_return_types
+    - prefer_final_locals
+    - prefer_final_in_for_each
+    - prefer_final_fields
+    - unnecessary_nullable_for_final_variable_declarations
+
+    # =========================================================================
+    # Flutter Performance & Widget Tree Cleanliness
+    # =========================================================================
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - use_key_in_widget_constructors
+    - use_super_parameters
+    - sized_box_for_whitespace
+    - sized_box_shrink_expand
+    - use_colored_box
+
+    # =========================================================================
+    # Clean Architecture & Formatting Consistency
+    # =========================================================================
+    - always_use_package_imports # Enforces absolute imports across packages
+    - avoid_redundant_argument_values
+    - avoid_unnecessary_containers
+    - no_leading_underscores_for_local_identifiers
+    - unnecessary_parenthesis
+    - unnecessary_raw_strings
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options

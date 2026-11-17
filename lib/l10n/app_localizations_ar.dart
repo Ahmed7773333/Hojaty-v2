@@ -1,0 +1,1605 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Arabic (`ar`).
+class AppLocalizationsAr extends AppLocalizations {
+  AppLocalizationsAr([String locale = 'ar']) : super(locale);
+
+  @override
+  String get hello => 'مرحبا';
+
+  @override
+  String get chooseLanguage => 'اختر لغتك';
+
+  @override
+  String get chooseLanguageSubtitle => 'يمكنك تغيير اللغة لاحقًا من الإعدادات';
+
+  @override
+  String get arabicLanguage => 'العربية';
+
+  @override
+  String get arabicSubtitle => 'Arabic';
+
+  @override
+  String get englishLanguage => 'English';
+
+  @override
+  String get englishSubtitle => 'الإنجليزية';
+
+  @override
+  String get continueButton => 'متابعة';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get skipAll => 'تخطي الكل';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get deleteDownloadConfirm =>
+      'هل أنت متأكد من رغبتك في حذف هذا الكتاب؟';
+
+  @override
+  String get getStarted => 'ابدأ الآن';
+
+  @override
+  String get quranFehres => 'فهرس القرآن';
+
+  @override
+  String get onboardingSlide1Subtitle => 'مواقيت دقيقة لكل صلاة';
+
+  @override
+  String get onboardingSlide1Title => 'صلاتك في وقتها';
+
+  @override
+  String get onboardingSlide1Desc =>
+      'نوفر لك مواقيت الصلاة الدقيقة بحسب موقعك الجغرافي، مع إشعارات تذكرك بكل صلاة في وقتها.';
+
+  @override
+  String get onboardingSlide2Subtitle => 'اقرأ وسبّح في أي وقت';
+
+  @override
+  String get onboardingSlide2Title => 'القرآن والأذكار معك دائمًا';
+
+  @override
+  String get onboardingSlide2Desc =>
+      'تصفّح القرآن الكريم بتجربة قراءة هادئة، وأدِّ أذكار الصباح والمساء مع عداد تفاعلي.';
+
+  @override
+  String get onboardingSlide3Subtitle => 'ميزة المؤمن الذكية';
+
+  @override
+  String get onboardingSlide3Title => 'حچتي';
+
+  @override
+  String get onboardingSlide3Desc =>
+      'عند اتصال أحدهم بك أثناء الصلاة، يُرسَل له تلقائيًا: \"حچتي\" — لأن وقت الصلاة مقدّس.';
+
+  @override
+  String get onboardingSlide4Subtitle => 'التقويم الهجري والمناسبات';
+
+  @override
+  String get onboardingSlide4Title => 'ابقَ قريبًا من مناسباتك الدينية';
+
+  @override
+  String get onboardingSlide4Desc =>
+      'تابع المناسبات الإسلامية وأيام الصيام وإمساكية رمضان، مع إشعارات تذكّرك قبل كل مناسبة.';
+
+  @override
+  String get homeLocation => 'القاهرة، مصر';
+
+  @override
+  String get homeGregorianDate => 'السبت، 16 أغسطس 2026';
+
+  @override
+  String get homeHijriDate => '18 محرم 1447 هـ';
+
+  @override
+  String get nextPrayerTitle => 'الصلاة القادمة';
+
+  @override
+  String get nextPrayerRemaining => 'متبقى على الصلاة';
+
+  @override
+  String upcomingOccasionBanner(Object days, Object title) {
+    return 'المناسبة القادمة: $title — متبقى $days يوم';
+  }
+
+  @override
+  String get prayerTimesSectionTitle => 'مواقيت الصلاة';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get currentPrayerBadge => 'الصلاة الحالية';
+
+  @override
+  String get nextPrayerBadge => 'الصلاة القادمة';
+
+  @override
+  String get fajr => 'الفجر';
+
+  @override
+  String get sunrise => 'الشروق';
+
+  @override
+  String get dhuhr => 'الظهر';
+
+  @override
+  String get asr => 'العصر';
+
+  @override
+  String get maghrib => 'المغرب';
+
+  @override
+  String get isha => 'العشاء';
+
+  @override
+  String get quickAccess => 'الوصول السريع';
+
+  @override
+  String get quranKareem => 'القرآن الكريم';
+
+  @override
+  String get continueReading => 'متابعة القراءة';
+
+  @override
+  String get quranStatsSubtitle => '114 سورة - 30 جزء - 60 حزب';
+
+  @override
+  String get searchSurahHint => 'ابحث عن سورة...';
+
+  @override
+  String get surahsListTitle => 'قائمة السور';
+
+  @override
+  String get surahBaqarah => 'سورة البقرة';
+
+  @override
+  String ayahNumber(Object number) {
+    return 'الآية $number';
+  }
+
+  @override
+  String ayahCountText(Object count) {
+    return '$count آية';
+  }
+
+  @override
+  String get meccanType => 'مكية';
+
+  @override
+  String get medinanType => 'مدنية';
+
+  @override
+  String get athkar => 'الأذكار';
+
+  @override
+  String get morningAthkar => 'أذكار الصباح';
+
+  @override
+  String get eveningAthkar => 'أذكار المساء';
+
+  @override
+  String get sleepAthkar => 'أذكار قبل النوم';
+
+  @override
+  String get afterPrayerAthkar => 'أذكار بعد الصلاة';
+
+  @override
+  String get miscAthkar => 'أذكار متنوعة';
+
+  @override
+  String get electronicSebha => 'السبحة الإلكترونية';
+
+  @override
+  String get sebhaSubtitle => 'عداد إلكتروني للتسبيح والذكر الحر';
+
+  @override
+  String get reset => 'إعادة ضبط';
+
+  @override
+  String get salatAlIstikhara => 'صلاة الإستخارة';
+
+  @override
+  String get athkarSubtitle => 'أذكار يومية للمسلم';
+
+  @override
+  String countThikr(Object count) {
+    return '$count ذكر';
+  }
+
+  @override
+  String get requiredLabel => 'المطلوب';
+
+  @override
+  String timesUnit(Object count) {
+    return '$count مرة';
+  }
+
+  @override
+  String get tapLabel => 'اضغط';
+
+  @override
+  String get istikharaStepsTitle => 'خطوات الصلاة';
+
+  @override
+  String get istikharaDuaTitle => 'الدعاء بعد الصلاة:';
+
+  @override
+  String get occasions => 'المناسبات';
+
+  @override
+  String get occasionsTitle => 'المناسبات الإسلامية';
+
+  @override
+  String get occasionsSubtitle => 'التقويم الهجري والمناسبات الدينية';
+
+  @override
+  String get tabOccasions => 'المناسبات';
+
+  @override
+  String get tabCalendar => 'التقويم';
+
+  @override
+  String get tabRamadan => 'رمضان';
+
+  @override
+  String get upcomingOccasion => 'المناسبة القادمة';
+
+  @override
+  String get upcomingOccasionsList => 'المناسبات القادمة';
+
+  @override
+  String get prophetBirthday => 'المولد النبوي';
+
+  @override
+  String get eidAlAdha => 'عيد الأضحى';
+
+  @override
+  String get hijriNewYear => 'رأس السنة الهجرية';
+
+  @override
+  String get ashura => 'عاشوراء';
+
+  @override
+  String daysRemainingUnit(Object count) {
+    return '$count يوم';
+  }
+
+  @override
+  String daysRemainingText(Object count) {
+    return 'متبقى $count أيام';
+  }
+
+  @override
+  String get hijriCalendarTitle => 'التقويم الهجري';
+
+  @override
+  String get gregorianCalendarTitle => 'التقويم الميلادي';
+
+  @override
+  String get today => 'اليوم';
+
+  @override
+  String get returnToToday => 'العودة لليوم';
+
+  @override
+  String get ramadanKareem => 'رمضان كريم';
+
+  @override
+  String get ramadanDay1Title => 'اليوم 1 من رمضان';
+
+  @override
+  String get ramadanDay1Date => '1 رمضان 1448 هـ';
+
+  @override
+  String get remainingOnRamadan => 'متبقى على رمضان';
+
+  @override
+  String get ramadanImsakiya => 'إمساكية رمضان';
+
+  @override
+  String get dayColumn => 'اليوم';
+
+  @override
+  String hijriYearLabel(Object year) {
+    return '$year هـ';
+  }
+
+  @override
+  String get occasionDetailsTitle => 'تفاصيل المناسبة';
+
+  @override
+  String get hijriDateLabel => 'التاريخ الهجري';
+
+  @override
+  String get gregorianDateLabel => 'التاريخ الميلادي';
+
+  @override
+  String get aboutOccasionLabel => 'عن المناسبة';
+
+  @override
+  String get aboutProphetBirthdayDesc =>
+      'المولد النبوى هو يوم مولد النبي محمد صلى الله عليه وسلم';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get settingsSubtitle => 'تخصيص تجربتك';
+
+  @override
+  String get locationAndGovSection => 'الموقع والمحافظة';
+
+  @override
+  String get currentLocationLabel => 'الموقع الحالي';
+
+  @override
+  String get governorateLabel => 'المحافظة';
+
+  @override
+  String get cairoLocation => 'القاهرة، مصر';
+
+  @override
+  String get cairoGov => 'القاهرة';
+
+  @override
+  String get prayerTimesAndAdhanSection => 'مواقيت الصلاة والأذان';
+
+  @override
+  String get prayerTimesCalcSettings => 'إعدادات مواقيت الصلاة والأذان';
+
+  @override
+  String get egyptSurveyAuthority => 'الهيئة المصرية العامة للمساحة';
+
+  @override
+  String get notificationTypeLabel => 'نوع التنبيه';
+
+  @override
+  String get prayerAlertsLabel => 'تنبيهات الصلاة';
+
+  @override
+  String get notificationsSection => 'الإشعارات';
+
+  @override
+  String get generalNotificationsLabel => 'الإشعارات العامة';
+
+  @override
+  String get occasionsNotificationsLabel => 'إشعارات المناسبات';
+
+  @override
+  String get athkarNotificationsLabel => 'إشعارات الأذكار';
+
+  @override
+  String get fontSection => 'الخط';
+
+  @override
+  String get fontSizeLabel => 'حجم الخط';
+
+  @override
+  String get fontTypeLabel => 'نوع الخط';
+
+  @override
+  String get naskhFont => 'نسخ';
+
+  @override
+  String get languageAndThemeSection => 'اللغة والمظهر';
+
+  @override
+  String get themeSettingsTitle => 'المظهر';
+
+  @override
+  String get themeSettingsSubtitle => 'اختر مظهر واجهة التطبيق المناسب لك';
+
+  @override
+  String get lightThemeTitle => 'الوضع الفاتح';
+
+  @override
+  String get lightThemeSubtitle => 'المظهر الافتراضي الفاتح المريح للعين';
+
+  @override
+  String get darkThemeTitle => 'الوضع الداكن';
+
+  @override
+  String get darkThemeSubtitle => 'مظهر إسلامي هادئ بدرجات الأخضر والذهبي';
+
+  @override
+  String get amoledThemeTitle => 'وضع أموليد';
+
+  @override
+  String get amoledThemeSubtitle => 'أسود نقي لتوفير طاقة البطارية وشاشات OLED';
+
+  @override
+  String get darkModeLabel => 'الوضع الداكن';
+
+  @override
+  String get languageLabel => 'اللغة';
+
+  @override
+  String get aboutAppSection => 'عن التطبيق';
+
+  @override
+  String get privacyPolicyLabel => 'سياسة الخصوصية';
+
+  @override
+  String get termsAndConditionsLabel => 'الشروط والأحكام';
+
+  @override
+  String get languageSettingsTitle => 'اللغة';
+
+  @override
+  String get languageSettingsSubtitle => 'اختر لغة واجهة التطبيق';
+
+  @override
+  String get prayerCalcSettingsTitle => 'إعدادات الصلاة والأذان';
+
+  @override
+  String get prayerCalcSettingsSubtitle => 'حدد طريقة حساب مواقيت الصلاة';
+
+  @override
+  String get calcMethodSectionTitle => 'طريقة حساب مواقيت الصلاة';
+
+  @override
+  String get adhanSoundSectionTitle => 'صوت الأذان';
+
+  @override
+  String get mwlTitle => 'رابطة العالم الإسلامي';
+
+  @override
+  String get mwlDesc => 'الأكثر شيوعًا في مصر والدول العربية';
+
+  @override
+  String get isnaTitle => 'الجمعية الإسلامية لأمريكا الشمالية';
+
+  @override
+  String get isnaDesc => 'ISNA';
+
+  @override
+  String get egyptSurveyTitle => 'الهيئة المصرية العامة للمساحة';
+
+  @override
+  String get egyptSurveyDesc => 'موصى بها في مصر';
+
+  @override
+  String get ummAlQuraTitle => 'أم القرى، مكة المكرمة';
+
+  @override
+  String get ummAlQuraDesc => 'المملكة العربية السعودية';
+
+  @override
+  String get karachiTitle => 'جامعة العلوم الإسلامية، كراتشي';
+
+  @override
+  String get karachiDesc => 'باكستان وأفغانستان والهند';
+
+  @override
+  String get adhanMakkah => 'أذان مكة المكرمة';
+
+  @override
+  String get adhanMadinah => 'أذان المدينة المنورة';
+
+  @override
+  String get adhanAlafasy => 'تقليدي';
+
+  @override
+  String get locationSettingsTitle => 'الموقع والمحافظة';
+
+  @override
+  String get locationSettingsSubtitle => 'تحديد موقعك لحساب المواقيت بدقة';
+
+  @override
+  String get fontSettingsTitle => 'إعدادات الخط';
+
+  @override
+  String get fontSettingsSubtitle => 'تخصيص حجم ونوع الخط لقراءة مريحة';
+
+  @override
+  String get fontPreviewText => 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+
+  @override
+  String get fontTypeSettingsTitle => 'نوع الخط';
+
+  @override
+  String get fontTypeSettingsSubtitle =>
+      'اختر نوع الخط المفضل لقراءة القرآن والأذكار';
+
+  @override
+  String get fontTypeSectionTitle => 'أنواع الخطوط المتاحة';
+
+  @override
+  String get uthmaniFont => 'عثماني';
+
+  @override
+  String get amiriFont => 'أميري';
+
+  @override
+  String get naskhFontDesc => 'خط واضح ومريح للقراءة';
+
+  @override
+  String get uthmaniFontDesc => 'الرسم العثماني المعتمد للمصحف';
+
+  @override
+  String get amiriFontDesc => 'خط عربي كلاسيكي أصيل';
+
+  @override
+  String get selectedFontLabel => 'الخط المحدد';
+
+  @override
+  String get privacyPolicyContent =>
+      'نحن نلتزم بحماية خصوصيتك وبياناتك. تطبيق حچتي يحفظ جميع معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) وإعداداتك في قاعدة البيانات المحلية (Local Database) على جهازك فقط، ولا يجمع أو يشارك أو يبيع أي بيانات شخصية مع أي أطراف ثالثة.';
+
+  @override
+  String get termsAndConditionsContent =>
+      'باستخدامك لتطبيق حچتي، فإنك توافق على الالتزام بجميع الشروط والأحكام الموضحة هنا. يُستخدم التطبيق لأغراض التذكير بالصلوات وقراءة القرآن والأذكار وفق التعاليم الإسلامية.\n\nتنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.';
+
+  @override
+  String get hijriCalendar => 'التقويم الهجري';
+
+  @override
+  String get prayerSchedule => 'الجدول الكامل';
+
+  @override
+  String get exclusiveFeature => 'ميزة حصرية';
+
+  @override
+  String get anaOsalyTitle => 'حچتي';
+
+  @override
+  String get anaOsalyPromoDesc =>
+      'أثناء وقت الصلاة، يرسل للمتصل تلقائيًا رسالة \"حچتي\"';
+
+  @override
+  String get enableFeature => 'تفعيل الميزة';
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navQuran => 'القرآن';
+
+  @override
+  String get navAthkar => 'الأذكار';
+
+  @override
+  String get navOccasions => 'المناسبات';
+
+  @override
+  String get navMore => 'المزيد';
+
+  @override
+  String get fullPrayerTimesTitle => 'مواقيت الصلاة';
+
+  @override
+  String get prayerTimesAddress =>
+      '2 هشام لبيب مكرم عبيد مدينة نصر القاهرة، مصر';
+
+  @override
+  String get changeLocation => 'تغيير الموقع';
+
+  @override
+  String get tabTimes => 'المواقيت';
+
+  @override
+  String get tabAdhanSettings => 'إعدادات الأذان';
+
+  @override
+  String get tabAnaOsaly => 'حچتي';
+
+  @override
+  String get enableAllPrayersNotifications => 'تفعيل تنبيهات جميع الصلوات';
+
+  @override
+  String get allPrayersNotificationsDesc => 'تلقى تنبيهات قبل كل صلاة';
+
+  @override
+  String get prayerNotificationTypeSection => 'نوع تنبيه الصلاة';
+
+  @override
+  String get fullAdhanTitle => 'الأذان الكامل';
+
+  @override
+  String get fullAdhanDesc => 'يشغّل الأذان كامل عند دخول وقت الصلاة';
+
+  @override
+  String get shortAlertTitle => 'تنبيه مختصر';
+
+  @override
+  String get shortAlertDesc => '\"الله أكبر، الله أكبر\" ثم يتوقف التنبيه';
+
+  @override
+  String get preAdhanReminderTitle => 'التنبيه المسبق قبل الأذان';
+
+  @override
+  String get preAdhanReminderSubtitle =>
+      'إشعار خفيف لتستعد للصلاة قبل دخول الوقت';
+
+  @override
+  String get preAdhanTimingTitle => 'وقت التنبيه قبل الصلاة';
+
+  @override
+  String get preAdhanCustomMinutesLabel => 'أو حدد بالدقائق (كتابة أو عداد):';
+
+  @override
+  String get preAdhanMinutesUnit => 'دقيقة';
+
+  @override
+  String get preAdhanMinutesHint => 'أدخل الدقائق';
+
+  @override
+  String preAdhanMinutesChoice(int minutes) {
+    return '$minutes دقائق';
+  }
+
+  @override
+  String preAdhanNotificationTitle(String prayerName) {
+    return 'اقترب موعد صلاة $prayerName';
+  }
+
+  @override
+  String preAdhanNotificationBody(int minutes, String prayerName) {
+    return 'فاضل $minutes دقائق على صلاة $prayerName، استعد للصلاة';
+  }
+
+  @override
+  String get preAdhanTestButton => 'تجربة التنبيه المسبق';
+
+  @override
+  String get preAdhanTestSent => 'تم إرسال التنبيه المسبق التجريبي';
+
+  @override
+  String get adhanTestButtonTitle => 'اختبار تنبيه الأذان';
+
+  @override
+  String get adhanTestButtonSubtitle => 'إرسال إشعار فوري وتجربة صوت التنبيه';
+
+  @override
+  String get adhanTestNotificationSent => 'تم إرسال إشعار تجريبي';
+
+  @override
+  String get preAdhanSoundName => 'صوت: اقتربت الصلاة';
+
+  @override
+  String get prayerAlertSettingsTitle => 'خيارات تنبيه الصلاة';
+
+  @override
+  String preAdhanBadgeText(int minutes) {
+    return 'قبل $minutes د';
+  }
+
+  @override
+  String get alertAtPrayerTime => 'تنبيه عند وقت الصلاة';
+
+  @override
+  String get alertAtPrayerTimeDesc => 'تشغيل الأذان أو التنبيه عند حلول الوقت';
+
+  @override
+  String get notificationPreviewLabel => 'معاينة الإشعار';
+
+  @override
+  String get anaOsalyHeroSubtitle =>
+      'عند تفعيل هذه الميزة، يمكن إعلام المتصل بأنك في وقت الصلاة تلقائيًا.';
+
+  @override
+  String get anaOsalyMessageLang => 'لغة الرسالة';
+
+  @override
+  String get anaOsalyToggleTitle => 'تفعيل ميزة حچتي';
+
+  @override
+  String get anaOsalyToggleSubtitle => 'تفعّل تلقائيًا وقت الصلاة';
+
+  @override
+  String get from => 'من';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get notificationsTitle => 'الإشعارات';
+
+  @override
+  String get markAllAsRead => 'تعيين الكل كمقروء';
+
+  @override
+  String minAgo(Object count) {
+    return 'منذ $count دقائق';
+  }
+
+  @override
+  String get hourAgo => 'منذ ساعة';
+
+  @override
+  String hoursAgo(Object count) {
+    return 'منذ $count ساعات';
+  }
+
+  @override
+  String get anaOsalyMessageAr => 'حچتي';
+
+  @override
+  String get anaOsalyMessageEn => 'I am praying';
+
+  @override
+  String get exitAppTitle => 'إغلاق التطبيق';
+
+  @override
+  String get exitAppMessage => 'هل أنت متأكد من أنك تريد إغلاق التطبيق؟';
+
+  @override
+  String get exitAppConfirm => 'خروج';
+
+  @override
+  String get exitAppCancel => 'إلغاء';
+
+  @override
+  String get surahs => 'السور';
+
+  @override
+  String get quranSearch => 'البحث';
+
+  @override
+  String get quranSearchHint => 'ابحث في آيات القرآن الكريم...';
+
+  @override
+  String get quranNoResults => 'لا توجد نتائج بحث';
+
+  @override
+  String get quranTafseer => 'التفسير';
+
+  @override
+  String get quranJuzs => 'الأجزاء والأحزاب';
+
+  @override
+  String get quranPageLabel => 'صفحة';
+
+  @override
+  String get safha => 'صفحة';
+
+  @override
+  String get qiraat => 'القراءات';
+
+  @override
+  String get surahs_list => 'فهرس السور';
+
+  @override
+  String get firstQuarter => 'الربع الأول';
+
+  @override
+  String get secondQuarter => 'الربع الثاني';
+
+  @override
+  String get thirdQuarter => 'الربع الثالث';
+
+  @override
+  String get fourthQuarter => 'الربع الرابع';
+
+  @override
+  String get itsNumber => 'رقمها';
+
+  @override
+  String get ayat => 'آياتها';
+
+  @override
+  String get select_qirat => 'اختر القراءة';
+
+  @override
+  String get qirat_hafs => 'حفص عن عاصم';
+
+  @override
+  String get qirat_douri => 'الدوري عن أبي عمرو';
+
+  @override
+  String get qirat_qalon => 'قالون عن نافع';
+
+  @override
+  String get qirat_shubah => 'شعبة عن عاصم';
+
+  @override
+  String get qirat_warsh => 'ورش عن نافع';
+
+  @override
+  String get downloadQuranError => 'حدث خطأ أثناء التحميل';
+
+  @override
+  String get downloadQuranSuccess => 'تم التحميل بنجاح';
+
+  @override
+  String get downloadingQuran => 'جاري التحميل...';
+
+  @override
+  String get download_selected => 'تحميل المحدد';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String juzNumber(Object number) {
+    return 'الجزء $number';
+  }
+
+  @override
+  String hizbNumber(Object number) {
+    return 'الحزب $number';
+  }
+
+  @override
+  String get allSurahs => 'جميع السور';
+
+  @override
+  String get twoPageMode => 'عرض صفحتين';
+
+  @override
+  String get singlePageMode => 'عرض صفحة واحدة';
+
+  @override
+  String get quranReaderTitle => 'المصحف الشريف';
+
+  @override
+  String get anaOsalyCallBlockingActive => 'حظر المكالمات أثناء الصلاة مفعل';
+
+  @override
+  String get anaOsalyPermissionRequiredTitle => 'إذن حظر المكالمات مطلوب';
+
+  @override
+  String get anaOsalyPermissionRequiredDesc =>
+      'يرجى منح إذن حظر المكالمات ليتمكن التطبيق من إلغاء المكالمات الواردة تلقائيًا أثناء وقت الصلاة';
+
+  @override
+  String get grantPermission => 'منح الإذن';
+
+  @override
+  String get permissionGranted => 'تم منح الإذن';
+
+  @override
+  String get downloadQuranPages => 'تحميل صفحات المصحف الشريف';
+
+  @override
+  String get downloadQuranPagesDesc =>
+      'يلزم تحميل صفحات المصحف للقراءة لأول مرة وبدون إنترنت (الحجم: ~140 ميجابايت)';
+
+  @override
+  String get downloadQiratConfirmTitle => 'تحميل رواية المصحف';
+
+  @override
+  String downloadQiratConfirmDesc(Object qiratName, Object size) {
+    return 'هل تريد تحميل مصحف $qiratName بحجم $size ميجابايت للقراءة بدون إنترنت؟';
+  }
+
+  @override
+  String get deleteQiratConfirmTitle => 'حذف رواية المصحف';
+
+  @override
+  String deleteQiratConfirmDesc(Object qiratName) {
+    return 'هل أنت متأكد من رغبتك في حذف مصحف $qiratName لتوفير مساحة في الهاتف؟ يمكنك إعادة تحميله في أي وقت.';
+  }
+
+  @override
+  String get deleteBookConfirmTitle => 'حذف الكتاب';
+
+  @override
+  String deleteBookConfirmDesc(Object bookTitle) {
+    return 'هل أنت متأكد من رغبتك في حذف كتاب $bookTitle لتوفير مساحة في الهاتف؟ يمكنك إعادة تحميله في أي وقت.';
+  }
+
+  @override
+  String get startDownload => 'بدء التحميل الآن';
+
+  @override
+  String get retryDownload => 'إعادة المحاولة';
+
+  @override
+  String downloadProgress(Object downloaded, Object percent, Object total) {
+    return '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+  }
+
+  @override
+  String get qiratComingSoon => 'قريباً إن شاء الله';
+
+  @override
+  String get radio => 'إذاعة القرآن';
+
+  @override
+  String get radioSubtitle => 'استمع إلى القرآن الكريم بأصوات كبار القراء';
+
+  @override
+  String get makkahLive => 'بث مباشر مكة المكرمة';
+
+  @override
+  String get madinahLive => 'بث مباشر المدينة المنورة';
+
+  @override
+  String get playlists => 'قوائم التشغيل';
+
+  @override
+  String get recitersList => 'قائمة القراء';
+
+  @override
+  String get searchReciter => 'ابحث عن قارئ...';
+
+  @override
+  String get searchSurah => 'ابحث عن سورة...';
+
+  @override
+  String get listenToSurah => 'استماع للسورة';
+
+  @override
+  String get addToPlaylist => 'إضافة إلى قائمة التشغيل';
+
+  @override
+  String get newPlaylistTitle => 'قائمة جديدة';
+
+  @override
+  String get playlistNameHint => 'اسم القائمة';
+
+  @override
+  String get deletePlaylistTitle => 'حذف القائمة';
+
+  @override
+  String get noSurahsInPlaylist => 'لا توجد سور في هذه القائمة';
+
+  @override
+  String get noRecitersFound => 'لم يتم العثور على قراء';
+
+  @override
+  String get noSurahsFound => 'لم يتم العثور على سور';
+
+  @override
+  String get nowPlaying => 'يتم الاستماع الآن';
+
+  @override
+  String get playbackSpeed => 'سرعة التشغيل';
+
+  @override
+  String get speedNormal => 'عادي (1.0x)';
+
+  @override
+  String get create => 'إنشاء';
+
+  @override
+  String get favorites => 'المفضلة';
+
+  @override
+  String get download => 'تحميل';
+
+  @override
+  String get downloading => 'جاري التحميل...';
+
+  @override
+  String get offlineAvailable => 'متاح بدون إنترنت';
+
+  @override
+  String get downloadSuccess => 'تم تحميل السورة بنجاح';
+
+  @override
+  String get downloadFailed => 'فشل تحميل السورة';
+
+  @override
+  String get deleteDownload => 'حذف الملف';
+
+  @override
+  String get offlinePlayback => 'تشغيل بدون إنترنت';
+
+  @override
+  String get downloadedAudios => 'التسجيلات المحملة';
+
+  @override
+  String get noDownloadsYet => 'لا توجد تسجيلات محملة بعد';
+
+  @override
+  String get hadithBooksTitle => 'كتب الحديث والمصنفات';
+
+  @override
+  String get hadithBooksSubtitle =>
+      'صحيح البخاري، مسلم، الأربعينيات ومصنفات السنة';
+
+  @override
+  String get searchBooksHint => 'ابحث عن كتاب أو مؤلف...';
+
+  @override
+  String get allCategory => 'الكل';
+
+  @override
+  String get nineBooksCategory => 'كتب السنة التسعة';
+
+  @override
+  String get ibnBazCategory => 'كتب ابن باز رحمه الله';
+
+  @override
+  String get fortiesCategory => 'الأربعينيات';
+
+  @override
+  String get otherBooksCategory => 'كتب ورسائل أخرى';
+
+  @override
+  String get viewPdf => 'عرض ملف PDF';
+
+  @override
+  String get readBookText => 'قراءة تفاعلية (نص الكتاب)';
+
+  @override
+  String get openBookOptionsTitle => 'اختر طريقة العرض';
+
+  @override
+  String get pdfNotFound => 'ملف الـ PDF غير متوفر';
+
+  @override
+  String get pdfOpenError => 'تعذر فتح ملف الـ PDF';
+
+  @override
+  String get hasPdfBadge => 'نسخة PDF';
+
+  @override
+  String get noBooksFound => 'لم يتم العثور على كتب مطابقة';
+
+  @override
+  String get searchChaptersHint => 'ابحث في الأبواب...';
+
+  @override
+  String get noChaptersFound => 'لم يتم العثور على أبواب';
+
+  @override
+  String get searchHadithsHint => 'ابحث في نص الأحاديث...';
+
+  @override
+  String get noHadithsFound => 'لم يتم العثور على أحاديث';
+
+  @override
+  String get hadithWord => 'حديث';
+
+  @override
+  String get hadithCopied => 'تم نسخ الحديث بنجاح';
+
+  @override
+  String get copy => 'نسخ';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get readFullBook => 'قراءة الكتاب كاملاً (تصفح ورقي)';
+
+  @override
+  String get bookReaderMode => 'وضع تصفح الكتاب';
+
+  @override
+  String get readChapterInReader => 'قراءة الباب ككتاب';
+
+  @override
+  String get pageWord => 'صفحة';
+
+  @override
+  String get jumpToPage => 'الانتقال إلى صفحة';
+
+  @override
+  String get tableOfContents => 'فهرس الأبواب';
+
+  @override
+  String get readerSettings => 'إعدادات القراءة';
+
+  @override
+  String get themeVintage => 'ورقي';
+
+  @override
+  String get themeLight => 'نهاري';
+
+  @override
+  String get themeDark => 'ليلي';
+
+  @override
+  String get fontSize => 'حجم الخط';
+
+  @override
+  String get sharePdf => 'مشاركة وتصدير PDF';
+
+  @override
+  String get exportingPdf => 'جاري إنشاء ملف PDF...';
+
+  @override
+  String get shareCurrentPage => 'مشاركة نص الصفحة الحالية';
+
+  @override
+  String get shareCurrentChapterPdf => 'مشاركة الباب الحالي كـ PDF';
+
+  @override
+  String get shareBookPdf => 'مشاركة الكتاب كـ PDF';
+
+  @override
+  String get pdfExportSuccess => 'تم إنشاء ملف PDF بنجاح';
+
+  @override
+  String get pdfExportFailed => 'حدث خطأ أثناء إنشاء ملف PDF';
+
+  @override
+  String get previousPage => 'الصفحة السابقة';
+
+  @override
+  String get nextPage => 'الصفحة التالية';
+
+  @override
+  String get englishTranslation => 'الترجمة الإنجليزية';
+
+  @override
+  String get shareApp => 'مشاركة التطبيق';
+
+  @override
+  String get shareAppMessage =>
+      'تطبيق حجتي - رفيقك الإسلامي الشامل لمواقيت الصلاة، القرآن الكريم، الأذكار، والمناسبات الإسلامية.';
+
+  @override
+  String get downloadAppPrompt => 'تحميل التطبيق';
+
+  @override
+  String get developedByPrompt => 'تم التطوير بواسطة صدّق';
+
+  @override
+  String get shareRecitation => 'مشاركة التلاوة';
+
+  @override
+  String get downloadAudioPrompt =>
+      'يجب تحميل الملف الصوتي أولاً لتتمكن من مشاركته. هل تريد بدء التحميل الآن؟';
+
+  @override
+  String get downloadAndShare => 'تحميل ومشاركة';
+
+  @override
+  String get downloadingInProgress => 'جاري التحميل حالياً، يرجى الانتظار...';
+
+  @override
+  String get searchAthkarHint => 'ابحث في الأذكار والأدعية...';
+
+  @override
+  String get hisnAlMuslim => 'حصن المسلم';
+
+  @override
+  String get dailyAthkar => 'الأذكار اليومية';
+
+  @override
+  String get noAthkarFound => 'لم يتم العثور على أذكار مطابقة';
+
+  @override
+  String get searchResults => 'نتائج البحث';
+
+  @override
+  String allAthkarCount(Object count) {
+    return '$count باباً';
+  }
+
+  @override
+  String get asmaAllahTitle => 'أسماء الله الحسنى';
+
+  @override
+  String get asmaAllahSubtitle => '٩٩ اسماً مع المعاني والتفسير';
+
+  @override
+  String get searchAsmaHint => 'ابحث في أسماء الله الحسنى...';
+
+  @override
+  String get noAsmaFound => 'لم يتم العثور على اسم مطابق';
+
+  @override
+  String asmaCount(Object count) {
+    return '$count اسماً';
+  }
+
+  @override
+  String get meaningLabel => 'المعنى';
+
+  @override
+  String get explanationLabel => 'التفسير';
+
+  @override
+  String get hojatyAiTitle => 'المساعد الإسلامي الذكي';
+
+  @override
+  String get hojatyAiSubtitle => 'إجابات وتوجيهات مستندة للكتاب والسنة';
+
+  @override
+  String get hojatyAiThinking =>
+      'جاري البحث في المصادر الشرعية وصياغة الإجابة...';
+
+  @override
+  String get hojatyAiInputHint => 'اسأل عن مسألة، أو شارك ما يضيق به صدرك...';
+
+  @override
+  String get hojatyAiSourcesTitle => 'المصادر الموثقة من التطبيق';
+
+  @override
+  String get hojatyAiCopyText => 'نسخ النص';
+
+  @override
+  String get hojatyAiTextCopied => 'تم نسخ النص إلى الحافظة';
+
+  @override
+  String get hojatyAiEmptyTitle => 'كيف يمكنني مساعدتك اليوم؟';
+
+  @override
+  String get hojatyAiEmptySubtitle =>
+      'اطرح سؤالاً شرعياً أو شارك موقفاً حياتياً للحصول على مواساة وتوجيه من الكتاب والسنة';
+
+  @override
+  String get hojatyAiClearChat => 'مسح المحادثة';
+
+  @override
+  String get hojatyAiQuickAccessTitle => 'المساعد الذكي';
+
+  @override
+  String get hojatyAiQuickAccessSubtitle => 'أدلة من الكتاب والسنة';
+
+  @override
+  String get hojatyAiDownloadTitle => 'تحميل قاعدة بيانات المساعد الإسلامي';
+
+  @override
+  String get hojatyAiDownloadDesc =>
+      'يلزم تحميل قاعدة البيانات الإسلامية الموثقة (أكثر من 57 ألف نص شرعي وتفسير) لتمكين المساعد الذكي من استخراج الآيات والأحاديث النبوية والإجابة بدقة وبدون تأليف.';
+
+  @override
+  String get hojatyAiDownloadSize => 'حجم التحميل: ~127 ميجابايت';
+
+  @override
+  String get hojatyAiStartDownload => 'بدء التحميل الآن';
+
+  @override
+  String get hojatyAiRetryDownload => 'إعادة المحاولة';
+
+  @override
+  String get hojatyAiCancelDownload => 'إلغاء التحميل';
+
+  @override
+  String get hojatyAiDownloadError =>
+      'تعذر تحميل قاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مجدداً.';
+
+  @override
+  String get hojatyAiDownloadReady => 'تم تجهيز قاعدة البيانات بنجاح';
+
+  @override
+  String hojatyAiDownloadProgress(int downloaded, int total, int percent) {
+    return '$downloaded ميجابايت من $total ميجابايت ($percent%)';
+  }
+
+  @override
+  String get hojatyAiMicListening => 'جاري الاستماع... تحدث الآن';
+
+  @override
+  String get hojatyAiMicPermissionDenied =>
+      'يرجى منح إذن الميكروفون لاستخدام الإدخال الصوتي';
+
+  @override
+  String get hojatyAiRequiresDownload => 'يتطلب التحميل (~127MB)';
+
+  @override
+  String get hojatyAiHistoryTitle => 'سجل المحادثات';
+
+  @override
+  String get hojatyAiHistoryEmpty => 'لا توجد محادثات محفوظة بعد';
+
+  @override
+  String get hojatyAiNewChat => 'محادثة جديدة';
+
+  @override
+  String get hojatyAiDeleteChat => 'حذف المحادثة';
+
+  @override
+  String get hojatyAiClearAllHistory => 'مسح السجل';
+
+  @override
+  String get hojatyAiClearAllConfirm =>
+      'هل أنت متأكد من حذف جميع المحادثات المحفوظة؟';
+
+  @override
+  String hojatyAiMessagesCount(int count) {
+    return '$count رسائل';
+  }
+
+  @override
+  String get rateAppLabel => 'تقييم التطبيق';
+
+  @override
+  String get rateAppTitle => 'قيّم تطبيق حچتي';
+
+  @override
+  String get rateAppMessage =>
+      'إذا أعجبك تطبيق حچتي، يسعدنا دعمك بتقييم التطبيق على المتجر لمساعدتنا على التطوير المستمر.';
+
+  @override
+  String get rateAppNow => 'تقييم الآن';
+
+  @override
+  String get rateAppLater => 'لاحقاً';
+
+  @override
+  String get rateAppAlreadyRated => 'لقد قمت بالتقييم بالفعل';
+
+  @override
+  String get appVersionLabel => 'الإصدار';
+
+  @override
+  String get termsAiDisclaimerAddendum =>
+      'تنويه حول المساعد الذكي (AI): المساعد الذكي داخل التطبيق ليس مفتياً ولا يُصدر فتاوى شرعية، وإنما يقتصر دوره على مساعدتك في البحث عن الأدلة والنصوص من المصادر الإسلامية الصحيحة والمعتمدة مثل القرآن الكريم وصحيح البخاري وصحيح مسلم وغيرها من كتب السنة الموثوقة.';
+
+  @override
+  String get privacyLocalDbAddendum =>
+      'تخزين البيانات والمحادثات: يتم حفظ معلوماتك الشخصية وسجل محادثاتك مع المساعد الذكي (AI) داخل قاعدة البيانات المحلية (Local Database) على جهازك فقط.';
+
+  @override
+  String get qiblaCompassTitle => 'بوصلة القبلة';
+
+  @override
+  String get qiblaCompassSubtitle => 'تحديد اتجاه الكعبة المشرفة بدقة';
+
+  @override
+  String get qiblaBannerTitle => 'بوصلة القبلة الذكية';
+
+  @override
+  String get qiblaBannerSubtitle =>
+      'تحديد اتجاه القبلة بدقة مع إرشادات المعايرة';
+
+  @override
+  String get qiblaFacingKaaba => 'أنت تواجه القبلة المشرفة بدقة الآن';
+
+  @override
+  String qiblaTurnRight(int degrees) {
+    return 'أدر الهاتف $degrees° نحو اليمين';
+  }
+
+  @override
+  String qiblaTurnLeft(int degrees) {
+    return 'أدر الهاتف $degrees° نحو اليسار';
+  }
+
+  @override
+  String get qiblaAlmostThere => 'أنت قريب جداً من اتجاه القبلة';
+
+  @override
+  String get qiblaTiltWarning =>
+      'يرجى وضع الهاتف بشكل مستوٍ وأفقي لضمان دقة القبلة';
+
+  @override
+  String get qiblaCalibrateHint =>
+      'حرّك الهاتف في الهواء على شكل رقم 8 لمعايرة البوصلة';
+
+  @override
+  String get qiblaInterferenceHint =>
+      'ابتعد عن الأجهزة الإلكترونية والأجسام المعدنية';
+
+  @override
+  String qiblaDistanceToKaaba(String distance) {
+    return '$distance كم إلى الكعبة المشرفة';
+  }
+
+  @override
+  String qiblaBearingLabel(int angle) {
+    return 'زاوية القبلة: $angle°';
+  }
+
+  @override
+  String qiblaCurrentHeading(int heading) {
+    return 'الاتجاه الحالي: $heading°';
+  }
+
+  @override
+  String get qiblaAccuracyLow => 'دقة البوصلة ضعيفة • يُرجى المعايرة';
+
+  @override
+  String get qiblaAccuracyGood => 'دقة البوصلة ممتازة';
+
+  @override
+  String get qiblaSensorUnavailable =>
+      'حساس البوصلة غير متوفر على هذا الجهاز — تم ضبط الاتجاه التقديري لموقعك';
+
+  @override
+  String get qiblaCalibrationTipsTitle => 'إرشادات الحصول على اتجاه دقيق';
+
+  @override
+  String get qiblaTipFlat =>
+      'ضع الهاتف في راحة يدك أو على سطح مستوٍ موازٍ تماماً للأرض.';
+
+  @override
+  String get qiblaTipMagnets =>
+      'ابتعد عن الحافظات (الجرابات) المحتوية على مغناطيس أو المعادن.';
+
+  @override
+  String get qiblaTipFigure8 =>
+      'قم بتحريك الهاتف في الهواء برسم شكل رقم 8 لمعايرة الحساس عند الحاجة.';
+
+  @override
+  String get qiblaTipGps =>
+      'تأكد من تفعيل خدمات الموقع الجغرافي (GPS) لضبط زاوية القبلة وفق مدينتك بدقة.';
+
+  @override
+  String get qiblaNorth => 'ش';
+
+  @override
+  String get qiblaEast => 'ق';
+
+  @override
+  String get qiblaSouth => 'ج';
+
+  @override
+  String get qiblaWest => 'غ';
+
+  @override
+  String get qiblaDegrees => 'درجة';
+
+  @override
+  String get qiblaManualDialHint => 'اسحب القرص لمحاكاة حركة الهاتف';
+
+  @override
+  String get adhanLibraryTitle => 'مكتبة أصوات الأذان';
+
+  @override
+  String get adhanLibrarySubtitle =>
+      'استمع وحمّل أصوات الأذان وخصّص صوتاً لكل صلاة';
+
+  @override
+  String get adhanLibrarySearchHint => 'ابحث عن أذان أو مؤذن أو مدينة...';
+
+  @override
+  String get adhanFilterAll => 'جميع الأذانات';
+
+  @override
+  String get adhanFilterBuiltIn => 'المثبتة مسبقًا';
+
+  @override
+  String get adhanFilterDownloaded => 'المحمّلة';
+
+  @override
+  String get setAdhanAction => 'تعيين';
+
+  @override
+  String get downloadAdhanAction => 'تحميل';
+
+  @override
+  String get deleteAdhanAction => 'حذف';
+
+  @override
+  String get setAdhanForPrayerTitle => 'تعيين صوت الأذان';
+
+  @override
+  String get setAdhanForPrayerSubtitle =>
+      'اختر الصلوات التي تريد تعيين هذا الأذان لها';
+
+  @override
+  String get setForAllPrayers => 'جميع الصلوات';
+
+  @override
+  String get adhanSetSuccessMessage => 'تم تعيين صوت الأذان بنجاح';
+
+  @override
+  String get downloadFirstToSetAdhan => 'جاري تحميل الأذان أولاً للتعيين...';
+
+  @override
+  String get adhanDownloadSuccess => 'تم تحميل الأذان بنجاح';
+
+  @override
+  String get adhanDownloadFailed => 'فشل تحميل الأذان، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get adhanDeleteConfirmTitle => 'حذف صوت الأذان';
+
+  @override
+  String get adhanDeleteConfirmMessage =>
+      'هل تريد بالتأكيد حذف ملف هذا الأذان المحمّل؟';
+
+  @override
+  String get noDownloadedAdhans => 'لم تقم بتحميل أي أذان بعد';
+
+  @override
+  String get noAdhansFound => 'لا توجد أذانات مطابقة لبحثك';
+
+  @override
+  String get changeAdhanSound => 'تغيير الأذان';
+
+  @override
+  String get openAdhanLibrary => 'مكتبة أصوات الأذان';
+
+  @override
+  String get openAdhanLibraryDesc =>
+      'تصفح وتحميل أكثر من 80 صوت أذان وتخصيصها للصلوات';
+
+  @override
+  String get adhanPlayFailed =>
+      'تعذر تشغيل صوت الأذان، يرجى التحقق من اتصال الإنترنت';
+
+  @override
+  String get salawatSectionTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatReminderTitle => 'تذكير الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatReminderActiveSubtitle =>
+      'مفعل • كل ساعة بصوت صَلِّ عَلَى مُحَمَّد';
+
+  @override
+  String get salawatReminderDisabledSubtitle => 'معطّل';
+
+  @override
+  String get salawatReminderSwitchLabel => 'التذكير الصوتي كل ساعة';
+
+  @override
+  String get salawatSettingsTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatSettingsSubtitle =>
+      'تذكير صوتي دوري لتعطير لسانك بالصلاة على رسول الله ﷺ';
+
+  @override
+  String get salawatHadithText =>
+      '«مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللهُ عَلَيْهِ بِهَا عَشْرًا»';
+
+  @override
+  String get salawatHadithSource => 'صحيح مسلم';
+
+  @override
+  String get salawatHourlyToggleTitle => 'تفعيل التذكير كل ساعة';
+
+  @override
+  String get salawatHourlyToggleSubtitle =>
+      'إرسال إشعار صوتي تلقائي كل ساعة يذكّرك بالصلاة والسلام على الحبيب المصطفى ﷺ';
+
+  @override
+  String get salawatSoundCardTitle => 'صوت التذكير';
+
+  @override
+  String get salawatSoundName => 'صَلِّ عَلَى مُحَمَّد';
+
+  @override
+  String get salawatSoundDuration => '00:02';
+
+  @override
+  String get salawatSoundDesc => 'صوت نقي وواضح لتذكيرك في كل ساعة';
+
+  @override
+  String get salawatListenSound => 'استمع للتسجيل';
+
+  @override
+  String get salawatStopSound => 'إيقاف الصوت';
+
+  @override
+  String get salawatNotificationPreviewTitle => 'معاينة الإشعار';
+
+  @override
+  String get salawatNotificationPreviewSubtitle =>
+      'شكل الإشعار كما سيظهر على شاشة هاتفك';
+
+  @override
+  String get salawatNotificationContentTitle => 'الصلاة على النبي ﷺ';
+
+  @override
+  String get salawatNotificationContentBody =>
+      'اللهم صلِّ وسلِّم وبارك على سيدنا محمد وعلى آله وصحبه أجمعين';
+
+  @override
+  String get salawatTestButton => 'تجربة إشعار الصلاة على النبي الآن';
+
+  @override
+  String get salawatTestNotificationSent =>
+      'تم إرسال إشعار تجريبي للصلاة على النبي ﷺ';
+
+  @override
+  String get salawatRepeatInterval => 'كل ساعة';
+
+  @override
+  String get salawatNotificationDismiss => 'حسناً';
+
+  @override
+  String get salawatNotificationOpen => 'فتح التطبيق';
+
+  @override
+  String get appQrCodeTitle => 'رمز الاستجابة السريعة (QR Code)';
+
+  @override
+  String get appQrCodeSubtitle =>
+      'امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي';
+}
