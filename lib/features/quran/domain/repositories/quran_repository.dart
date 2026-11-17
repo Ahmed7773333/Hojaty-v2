@@ -1,5 +1,5 @@
-import '../../data/models/page_data_model.dart';
-import '../entities/qirat_type.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 abstract class QuranRepository {
   Future<List<PageDataModel>> getQuranPages();

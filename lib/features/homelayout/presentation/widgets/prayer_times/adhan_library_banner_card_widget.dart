@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AdhanLibraryBannerCardWidget extends StatelessWidget {
   const AdhanLibraryBannerCardWidget({super.key});
@@ -22,10 +22,7 @@ class AdhanLibraryBannerCardWidget extends StatelessWidget {
                     AppColors.primaryDarkBackground,
                     AppColors.darkCardUnselected,
                   ]
-                : [
-                    AppColors.primaryDarkBackground,
-                    const Color(0xFF1E3A34),
-                  ],
+                : [AppColors.primaryDarkBackground, const Color(0xFF1E3A34)],
             begin: AlignmentDirectional.topStart,
             end: AlignmentDirectional.bottomEnd,
           ),
@@ -92,4 +89,3 @@ class AdhanLibraryBannerCardWidget extends StatelessWidget {
     );
   }
 }
-

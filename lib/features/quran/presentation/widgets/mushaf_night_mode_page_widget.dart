@@ -1,10 +1,10 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../utils/mushaf_shader_program_loader.dart';
-import 'mushaf_shader_painter.dart';
-import 'quran_page_placeholder_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/features/quran/presentation/utils/mushaf_shader_program_loader.dart';
+import 'package:hojaty/features/quran/presentation/widgets/mushaf_shader_painter.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_page_placeholder_widget.dart';
 
 /// Renders a scanned Mushaf page using the three-layer night-mode fragment shader.
 class MushafNightModePageWidget extends StatefulWidget {
@@ -133,9 +133,7 @@ class _MushafNightModePageWidgetState extends State<MushafNightModePageWidget> {
     final previous = _imageInfo;
     _imageInfo = nextInfo;
     if (previous != null) {
-      SchedulerBinding.instance.addPostFrameCallback(
-        (_) => previous.dispose(),
-      );
+      SchedulerBinding.instance.addPostFrameCallback((_) => previous.dispose());
     }
   }
 
@@ -194,4 +192,3 @@ class _MushafNightModePageWidgetState extends State<MushafNightModePageWidget> {
     );
   }
 }
-

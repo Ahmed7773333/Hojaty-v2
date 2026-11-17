@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import 'prayer_tab_item_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_tab_item_widget.dart';
 
 class PrayerTimesTabBarWidget extends StatelessWidget {
   final int selectedIndex;
@@ -25,7 +25,6 @@ class PrayerTimesTabBarWidget extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
         ),
       ),

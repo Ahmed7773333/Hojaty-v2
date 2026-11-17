@@ -5,8 +5,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
-import '../../data/models/book_info_model.dart';
-import '../../data/models/hadith_item_model.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/models/hadith_item_model.dart';
 
 class BookPdfExporter {
   static Future<String> exportAndShareChapterPdf({
@@ -180,7 +180,6 @@ class BookPdfExporter {
                   lineSpacing: 3.5,
                   color: darkTextColor,
                 ),
-                textAlign: pw.TextAlign.justify,
               ),
             );
 

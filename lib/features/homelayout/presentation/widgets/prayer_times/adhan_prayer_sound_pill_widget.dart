@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AdhanPrayerSoundPillWidget extends StatelessWidget {
   final String title;
@@ -23,10 +23,9 @@ class AdhanPrayerSoundPillWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
         decoration: BoxDecoration(
-          color: (isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightBorderUnselected)
-              .withValues(alpha: 0.4),
+          color:
+              (isDark ? AppColors.darkSurface : AppColors.lightBorderUnselected)
+                  .withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
@@ -35,9 +34,7 @@ class AdhanPrayerSoundPillWidget extends StatelessWidget {
             Icon(
               Icons.volume_up_rounded,
               size: 13.r,
-              color: isDark
-                  ? AppColors.accentGoldLight
-                  : AppColors.primaryDark,
+              color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
             ),
             5.hor,
             ConstrainedBox(
@@ -69,4 +66,3 @@ class AdhanPrayerSoundPillWidget extends StatelessWidget {
     );
   }
 }
-

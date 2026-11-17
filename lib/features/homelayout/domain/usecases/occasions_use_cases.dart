@@ -1,6 +1,6 @@
-import '../../data/models/occasion_item_model.dart';
-import '../../data/models/ramadan_check_response_model.dart';
-import '../repositories/occasions_repository.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/repositories/occasions_repository.dart';
 
 class GetRamadanCheckUseCase {
   final OccasionsRepository repository;

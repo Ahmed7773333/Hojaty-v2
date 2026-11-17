@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'screen_util_like.dart';
-import '../../main.dart'; // To access AnaOsalyApp.navigatorKey
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/hojaty_app.dart';
 
 class SnackbarHelper {
   static void showSuccess(BuildContext? context, {required String message}) {
-    final ctx = context ?? AnaOsalyApp.navigatorKey.currentContext;
+    final ctx = context ?? HojatyApp.navigatorKey.currentContext;
     if (ctx == null) return;
 
     _showCustomSnackbar(
@@ -16,7 +16,7 @@ class SnackbarHelper {
   }
 
   static void showError(BuildContext? context, {required String message}) {
-    final ctx = context ?? AnaOsalyApp.navigatorKey.currentContext;
+    final ctx = context ?? HojatyApp.navigatorKey.currentContext;
     if (ctx == null) return;
 
     _showCustomSnackbar(
@@ -28,7 +28,7 @@ class SnackbarHelper {
   }
 
   static void showInfo(BuildContext? context, {required String message}) {
-    final ctx = context ?? AnaOsalyApp.navigatorKey.currentContext;
+    final ctx = context ?? HojatyApp.navigatorKey.currentContext;
     if (ctx == null) return;
 
     _showCustomSnackbar(
@@ -81,11 +81,7 @@ class SnackbarHelper {
           ],
         ),
       ),
-      margin: EdgeInsets.only(
-        bottom: 24.h,
-        left: 20.w,
-        right: 20.w,
-      ),
+      margin: EdgeInsets.only(bottom: 24.h, left: 20.w, right: 20.w),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -127,6 +127,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fajr => 'الفجر';
 
   @override
+  String get sunrise => 'الشروق';
+
+  @override
   String get dhuhr => 'الظهر';
 
   @override

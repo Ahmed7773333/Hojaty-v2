@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AthkarCompletedCardWidget extends StatelessWidget {
   final VoidCallback onRestart;
@@ -25,7 +25,6 @@ class AthkarCompletedCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
           color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Column(

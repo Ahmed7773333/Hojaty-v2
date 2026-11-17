@@ -1,7 +1,7 @@
-import '../../domain/repositories/onboarding_repository.dart';
-import '../../domain/datasources/onboarding_remote_data_source.dart';
-import '../../domain/datasources/onboarding_local_data_source.dart';
-import '../models/onboardingmodel.dart';
+import 'package:hojaty/features/onboarding/domain/repositories/onboarding_repository.dart';
+import 'package:hojaty/features/onboarding/domain/datasources/onboarding_remote_data_source.dart';
+import 'package:hojaty/features/onboarding/domain/datasources/onboarding_local_data_source.dart';
+import 'package:hojaty/features/onboarding/data/models/onboardingmodel.dart';
 // import 'package:dartz/dartz.dart';
 // import '../../../../core/error/failures.dart';
 // import '../../../../core/error/exceptions.dart';

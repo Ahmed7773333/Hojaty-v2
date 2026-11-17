@@ -31,7 +31,11 @@ class BookPageChapterHeaderWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.auto_stories_rounded, size: 16.sp, color: theme.accent),
+              Icon(
+                Icons.auto_stories_rounded,
+                size: 16.sp,
+                color: theme.accent,
+              ),
               8.hor,
               Flexible(
                 child: Text(
@@ -52,4 +56,3 @@ class BookPageChapterHeaderWidget extends StatelessWidget {
     );
   }
 }
-

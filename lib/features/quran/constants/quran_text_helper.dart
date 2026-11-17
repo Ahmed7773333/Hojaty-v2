@@ -1,5 +1,5 @@
-import '../data/models/surah_info_model.dart';
-import 'quran_constants.dart';
+import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
 
 class QuranTextHelper {
   static const Map<String, String> _arabicDigits = {

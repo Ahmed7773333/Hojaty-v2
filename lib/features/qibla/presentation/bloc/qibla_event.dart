@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/qibla_compass_data.dart';
+import 'package:hojaty/features/qibla/data/models/qibla_compass_data.dart';
 
 abstract class QiblaEvent extends Equatable {
   const QiblaEvent();

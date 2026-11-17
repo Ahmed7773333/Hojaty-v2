@@ -3,7 +3,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/books/data/models/book_reader_theme_model.dart';
-import 'book_reader_theme_card_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_theme_card_widget.dart';
 
 class BookReaderSettingsSheet extends StatelessWidget {
   final double fontSize;
@@ -43,7 +43,9 @@ class BookReaderSettingsSheet extends StatelessWidget {
               height: 4.h,
               margin: EdgeInsets.only(bottom: 12.h),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                color: isDark
+                    ? AppColors.darkBorderUnselected
+                    : AppColors.lightBorderUnselected,
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
@@ -70,7 +72,9 @@ class BookReaderSettingsSheet extends StatelessWidget {
           Text(
             context.strings.fontSize,
             style: context.textTheme.labelMedium?.copyWith(
-              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -78,7 +82,9 @@ class BookReaderSettingsSheet extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+              color: isDark
+                  ? AppColors.darkBackground
+                  : AppColors.lightBackground,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
@@ -113,7 +119,9 @@ class BookReaderSettingsSheet extends StatelessWidget {
           Text(
             'نمط المظهر والقراءة',
             style: context.textTheme.labelMedium?.copyWith(
-              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
               fontWeight: FontWeight.w600,
             ),
           ),

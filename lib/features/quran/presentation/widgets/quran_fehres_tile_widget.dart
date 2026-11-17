@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/surah_info_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
 
 class QuranFehresTileWidget extends StatelessWidget {
   final SurahInfoModel surah;
@@ -24,8 +24,9 @@ class QuranFehresTileWidget extends StatelessWidget {
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
       ),
       child: InkWell(
@@ -40,10 +41,14 @@ class QuranFehresTileWidget extends StatelessWidget {
                 width: 40.w,
                 height: 40.w,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+                  color: isDark
+                      ? AppColors.primaryDarkSurface
+                      : AppColors.lightCardSelected,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                     width: 1.2,
                   ),
                 ),
@@ -51,7 +56,9 @@ class QuranFehresTileWidget extends StatelessWidget {
                 child: Text(
                   '${surah.number}',
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                     fontWeight: FontWeight.w800,
                     fontSize: 14.sp,
                   ),
@@ -66,7 +73,9 @@ class QuranFehresTileWidget extends StatelessWidget {
                     Text(
                       surah.name,
                       style: context.textTheme.titleMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
                         fontWeight: FontWeight.w700,
                         fontSize: 16.sp,
                       ),
@@ -75,7 +84,9 @@ class QuranFehresTileWidget extends StatelessWidget {
                     Text(
                       '${context.strings.ayahCountText(surah.ayahCount)} • ${surah.englishName}',
                       style: context.textTheme.bodySmall?.copyWith(
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
                         fontSize: 12.sp,
                       ),
                     ),
@@ -88,15 +99,24 @@ class QuranFehresTileWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 3.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+                      color: isDark
+                          ? AppColors.primaryDarkSurface
+                          : AppColors.lightCardSelected,
                       borderRadius: BorderRadius.circular(6.r),
                     ),
                     child: Text(
-                      surah.isMeccan ? context.strings.meccanType : context.strings.medinanType,
+                      surah.isMeccan
+                          ? context.strings.meccanType
+                          : context.strings.medinanType,
                       style: context.textTheme.bodySmall?.copyWith(
-                        color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.accentGoldLight
+                            : AppColors.primaryDark,
                         fontWeight: FontWeight.w600,
                         fontSize: 11.sp,
                       ),
@@ -106,7 +126,9 @@ class QuranFehresTileWidget extends StatelessWidget {
                   Text(
                     '${context.strings.safha} ${surah.pageNumber}',
                     style: context.textTheme.bodySmall?.copyWith(
-                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w500,
                     ),

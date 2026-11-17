@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/local/user_hive_helper.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class HomeSebhaQuickAccessCard extends StatelessWidget {
   const HomeSebhaQuickAccessCard({super.key});
@@ -36,7 +36,6 @@ class HomeSebhaQuickAccessCard extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected
                     : AppColors.lightBorderUnselected,
-                width: 1.0,
               ),
               boxShadow: [
                 BoxShadow(

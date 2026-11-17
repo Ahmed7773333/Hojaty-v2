@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'onboarding_indicator_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_indicator_widget.dart';
 
 class OnboardingTopBarWidget extends StatelessWidget {
   final int count;
@@ -23,10 +23,7 @@ class OnboardingTopBarWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          OnboardingIndicatorWidget(
-            count: count,
-            currentIndex: currentIndex,
-          ),
+          OnboardingIndicatorWidget(count: count, currentIndex: currentIndex),
           TextButton(
             onPressed: onSkip,
             style: TextButton.styleFrom(

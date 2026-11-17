@@ -3,9 +3,9 @@ import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dar
 import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
-import '../../domain/datasources/occasions_local_data_source.dart';
-import '../../domain/datasources/occasions_remote_data_source.dart';
-import '../../domain/repositories/occasions_repository.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/occasions_local_data_source.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/occasions_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/domain/repositories/occasions_repository.dart';
 
 class OccasionsRepositoryImpl implements OccasionsRepository {
   final OccasionsRemoteDataSource remote;

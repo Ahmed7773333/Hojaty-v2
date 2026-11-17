@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 abstract class QuranEvent extends Equatable {
   const QuranEvent();

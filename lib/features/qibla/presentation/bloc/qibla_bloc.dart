@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../data/models/qibla_compass_data.dart';
-import '../../data/services/qibla_sensor_service.dart';
-import 'qibla_event.dart';
-import 'qibla_state.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/features/qibla/data/models/qibla_compass_data.dart';
+import 'package:hojaty/features/qibla/data/services/qibla_sensor_service.dart';
+import 'package:hojaty/features/qibla/presentation/bloc/qibla_event.dart';
+import 'package:hojaty/features/qibla/presentation/bloc/qibla_state.dart';
 
 class QiblaBloc extends Bloc<QiblaEvent, QiblaState> {
   final QiblaSensorService sensorService;
@@ -71,7 +71,6 @@ class QiblaBloc extends Bloc<QiblaEvent, QiblaState> {
     final smooth = QiblaMath.smoothAngle(
       current: state.smoothHeading,
       target: raw.heading,
-      factor: 0.25,
     );
 
     final offset = QiblaMath.getAngularDifference(

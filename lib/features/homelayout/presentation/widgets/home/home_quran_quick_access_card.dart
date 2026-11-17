@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../quran/constants/quran_text_helper.dart';
-import '../../../../quran/presentation/bloc/quran_bloc.dart';
-import '../../../../quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
 
 class HomeQuranQuickAccessCard extends StatelessWidget {
   const HomeQuranQuickAccessCard({super.key});
@@ -49,7 +49,6 @@ class HomeQuranQuickAccessCard extends StatelessWidget {
                   color: isDark
                       ? AppColors.darkBorderUnselected
                       : AppColors.lightBorderUnselected,
-                  width: 1.0,
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -212,4 +211,3 @@ class HomeQuranQuickAccessCard extends StatelessWidget {
     );
   }
 }
-

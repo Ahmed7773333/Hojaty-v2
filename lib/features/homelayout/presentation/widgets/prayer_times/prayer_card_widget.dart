@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayer_time_model.dart';
-import '../../../data/models/prayers_helper.dart';
-import '../../bloc/homelayout_bloc.dart';
-import 'prayer_alert_settings_bottom_sheet_widget.dart';
-import 'prayer_pre_alert_badge_widget.dart';
-import 'prayer_type_icon_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_alert_settings_bottom_sheet_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_pre_alert_badge_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_type_icon_widget.dart';
 
 class PrayerCardWidget extends StatelessWidget {
   final PrayerTimeModel prayer;
@@ -72,8 +72,9 @@ class PrayerCardWidget extends StatelessWidget {
       (b) => b.state.adhanSettings.isPreAdhanReminderEnabled,
     );
     final preMinutes = context.select<HomelayoutBloc, int>(
-      (b) =>
-          b.state.adhanSettings.getPreAdhanReminderMinutesForPrayer(prayer.type),
+      (b) => b.state.adhanSettings.getPreAdhanReminderMinutesForPrayer(
+        prayer.type,
+      ),
     );
     final hasNextBadge = isHighlighted;
     final hasPreAlertBadge =
@@ -84,7 +85,7 @@ class PrayerCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: borderColor, width: 1.0),
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withValues(alpha: 0.04),
@@ -97,10 +98,7 @@ class PrayerCardWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            PrayerAlertSettingsBottomSheetWidget.show(
-              context,
-              prayer: prayer,
-            );
+            PrayerAlertSettingsBottomSheetWidget.show(context, prayer: prayer);
           },
           borderRadius: BorderRadius.circular(16.r),
           child: Padding(
@@ -160,9 +158,12 @@ class PrayerCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       prayer.dateTime != null
-                          ? PrayersHelper.formatTimeTo12Hour(prayer.dateTime!,
-                              language:
-                                  Localizations.localeOf(context).languageCode)
+                          ? PrayersHelper.formatTimeTo12Hour(
+                              prayer.dateTime!,
+                              language: Localizations.localeOf(
+                                context,
+                              ).languageCode,
+                            )
                           : prayer.time,
                       style: context.textTheme.titleMedium?.copyWith(
                         color: titleColor,

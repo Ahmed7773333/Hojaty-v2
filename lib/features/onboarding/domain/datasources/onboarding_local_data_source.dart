@@ -1,4 +1,4 @@
-import '../../data/models/onboardingmodel.dart';
+import 'package:hojaty/features/onboarding/data/models/onboardingmodel.dart';
 
 abstract class OnboardingLocalDataSource {
   Future<void> save(OnboardingModel model);

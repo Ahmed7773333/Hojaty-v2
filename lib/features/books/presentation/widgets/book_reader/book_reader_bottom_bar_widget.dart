@@ -83,16 +83,25 @@ class BookReaderBottomBarWidget extends StatelessWidget {
               GestureDetector(
                 onTap: onJumpToPage,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(color: AppColors.accentGold.withValues(alpha: 0.4)),
+                    border: Border.all(
+                      color: AppColors.accentGold.withValues(alpha: 0.4),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.touch_app_rounded, color: AppColors.accentGoldLight, size: 14.sp),
+                      Icon(
+                        Icons.touch_app_rounded,
+                        color: AppColors.accentGoldLight,
+                        size: 14.sp,
+                      ),
                       6.hor,
                       Text(
                         '${context.strings.pageWord} $currentPage / $totalPages',
@@ -110,7 +119,9 @@ class BookReaderBottomBarWidget extends StatelessWidget {
                 onPressed: currentPage < totalPages ? onNextPage : null,
                 icon: Icon(
                   Icons.navigate_next_rounded,
-                  color: currentPage < totalPages ? Colors.white : Colors.white30,
+                  color: currentPage < totalPages
+                      ? Colors.white
+                      : Colors.white30,
                   size: 26.sp,
                 ),
                 tooltip: context.strings.nextPage,
@@ -122,4 +133,3 @@ class BookReaderBottomBarWidget extends StatelessWidget {
     );
   }
 }
-

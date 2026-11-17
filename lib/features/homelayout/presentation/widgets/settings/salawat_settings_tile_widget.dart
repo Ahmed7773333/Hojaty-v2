@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import '../../bloc/homelayout_state.dart';
-import 'settings_switch_tile_widget.dart';
-import 'settings_tile_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_switch_tile_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tile_widget.dart';
 
 class SalawatSettingsTileWidget extends StatelessWidget {
   const SalawatSettingsTileWidget({super.key});
@@ -18,8 +18,7 @@ class SalawatSettingsTileWidget extends StatelessWidget {
           prev.adhanSettings.isSalawatReminderEnabled !=
           curr.adhanSettings.isSalawatReminderEnabled,
       builder: (context, state) {
-        final isSalawatEnabled =
-            state.adhanSettings.isSalawatReminderEnabled;
+        final isSalawatEnabled = state.adhanSettings.isSalawatReminderEnabled;
 
         return Column(
           children: [
@@ -37,8 +36,8 @@ class SalawatSettingsTileWidget extends StatelessWidget {
               value: isSalawatEnabled,
               onChanged: (val) {
                 context.read<HomelayoutBloc>().add(
-                      ToggleSalawatReminderEvent(val),
-                    );
+                  ToggleSalawatReminderEvent(val),
+                );
               },
             ),
           ],
@@ -47,4 +46,3 @@ class SalawatSettingsTileWidget extends StatelessWidget {
     );
   }
 }
-

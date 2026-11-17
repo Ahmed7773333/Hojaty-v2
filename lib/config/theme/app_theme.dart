@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/local/user_hive_helper.dart';
-import '../../core/utils/app_colors.dart';
-import 'app_theme_mode.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/config/theme/app_theme_mode.dart';
 
 class AppTheme {
   static final ValueNotifier<AppThemeMode> themeModeNotifier =
@@ -28,10 +28,10 @@ class AppTheme {
   }
 
   static ThemeData get activeTheme => switch (currentTheme) {
-        AppThemeMode.light => lightTheme,
-        AppThemeMode.dark => darkTheme,
-        AppThemeMode.amoled => amoledTheme,
-      };
+    AppThemeMode.light => lightTheme,
+    AppThemeMode.dark => darkTheme,
+    AppThemeMode.amoled => amoledTheme,
+  };
 
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,

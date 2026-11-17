@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/chat_message_model.dart';
-import 'hojaty_ai_sources_section_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_sources_section_widget.dart';
 
 class HojatyAiBotBubbleWidget extends StatelessWidget {
   final ChatMessageModel message;
 
-  const HojatyAiBotBubbleWidget({
-    super.key,
-    required this.message,
-  });
+  const HojatyAiBotBubbleWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +34,10 @@ class HojatyAiBotBubbleWidget extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(
-                alpha: isDark ? 0.2 : 0.04,
-              ),
+              color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -83,7 +77,10 @@ class HojatyAiBotBubbleWidget extends StatelessWidget {
                 if (message.isOffline) ...[
                   8.hor,
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 6.w,
+                      vertical: 2.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accentGold.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6.r),
@@ -123,4 +120,3 @@ class HojatyAiBotBubbleWidget extends StatelessWidget {
     );
   }
 }
-

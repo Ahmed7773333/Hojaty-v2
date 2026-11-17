@@ -2,7 +2,7 @@ import 'package:hojaty/features/homelayout/data/models/app_content_model.dart';
 import 'package:hojaty/features/homelayout/data/models/banner_model.dart';
 import 'package:hojaty/features/homelayout/domain/repositories/app_content_repository.dart';
 
-import '../../domain/datasources/app_content_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/app_content_remote_data_source.dart';
 
 class AppContentRepositoryImpl implements AppContentRepository {
   final AppContentRemoteDataSource remote;

@@ -1,7 +1,7 @@
-import '../../domain/repositories/homelayout_repository.dart';
-import '../../domain/datasources/homelayout_remote_data_source.dart';
-import '../../domain/datasources/homelayout_local_data_source.dart';
-import '../models/homelayoutmodel.dart';
+import 'package:hojaty/features/homelayout/domain/repositories/homelayout_repository.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/homelayout_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/homelayout_local_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/homelayoutmodel.dart';
 // import 'package:dartz/dartz.dart';
 // import '../../../../core/error/failures.dart';
 // import '../../../../core/error/exceptions.dart';

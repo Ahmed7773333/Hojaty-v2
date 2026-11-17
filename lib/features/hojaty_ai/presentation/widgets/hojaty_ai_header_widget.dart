@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/hojaty_ai_cubit.dart';
-import 'hojaty_ai_history_bottom_sheet_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_history_bottom_sheet_widget.dart';
 
 class HojatyAiHeaderWidget extends StatelessWidget {
   const HojatyAiHeaderWidget({super.key});
@@ -24,7 +24,6 @@ class HojatyAiHeaderWidget extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.primaryDarkBorder,
-            width: 1.0,
           ),
         ),
       ),

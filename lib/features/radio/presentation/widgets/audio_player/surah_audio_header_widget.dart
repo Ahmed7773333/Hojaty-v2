@@ -31,7 +31,7 @@ class SurahAudioHeaderWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.primaryDarkBackground,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(24.0),
           bottomRight: Radius.circular(24.0),
         ),

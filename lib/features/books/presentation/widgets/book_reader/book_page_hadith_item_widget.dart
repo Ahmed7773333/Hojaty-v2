@@ -39,7 +39,10 @@ class BookPageHadithItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.surface.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: theme.border.withValues(alpha: 0.7), width: 0.8),
+        border: Border.all(
+          color: theme.border.withValues(alpha: 0.7),
+          width: 0.8,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,4 +120,3 @@ class BookPageHadithItemWidget extends StatelessWidget {
     );
   }
 }
-

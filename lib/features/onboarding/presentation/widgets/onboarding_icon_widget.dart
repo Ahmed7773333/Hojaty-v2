@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/onboarding_item_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/onboarding/data/models/onboarding_item_model.dart';
 
 class OnboardingIconWidget extends StatelessWidget {
   final OnboardingIconType type;
 
-  const OnboardingIconWidget({
-    super.key,
-    required this.type,
-  });
+  const OnboardingIconWidget({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +49,7 @@ class OnboardingIconWidget extends StatelessWidget {
               size: 38.r,
               color: AppColors.darkTextSecondary,
             ),
-            Icon(
-              Icons.check,
-              size: 22.r,
-              color: AppColors.accentGoldLight,
-            ),
+            Icon(Icons.check, size: 22.r, color: AppColors.accentGoldLight),
           ],
         );
       case OnboardingIconType.hijriCalendar:

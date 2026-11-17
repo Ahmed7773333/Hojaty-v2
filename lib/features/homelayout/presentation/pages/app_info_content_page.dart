@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_version_helper.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/app_content_model.dart';
-import '../../domain/usecases/get_privacy_policy_use_case.dart';
-import '../../domain/usecases/get_terms_and_conditions_use_case.dart';
-import '../widgets/settings/app_content_card_widget.dart';
-import '../widgets/settings/app_content_error_widget.dart';
-import '../widgets/settings/app_content_loading_widget.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_version_helper.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/app_content_model.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/get_privacy_policy_use_case.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/get_terms_and_conditions_use_case.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/app_content_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/app_content_error_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/app_content_loading_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
-enum AppContentType {
-  privacyPolicy,
-  termsAndConditions,
-  custom,
-}
+enum AppContentType { privacyPolicy, termsAndConditions, custom }
 
 class AppInfoContentPage extends StatefulWidget {
   final AppContentType contentType;
@@ -134,28 +130,26 @@ class _AppInfoContentPageState extends State<AppInfoContentPage> {
             child: _isLoading
                 ? const AppContentLoadingWidget()
                 : _hasError && _displayContent.isEmpty
-                    ? AppContentErrorWidget(onRetry: _fetchRemoteContent)
-                    : SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 20.h,
+                ? AppContentErrorWidget(onRetry: _fetchRemoteContent)
+                : SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 20.h,
+                    ),
+                    child: Column(
+                      children: [
+                        AppContentCardWidget(
+                          content: _displayContent,
+                          version: _version,
+                          updatedAt: _updatedAt,
                         ),
-                        child: Column(
-                          children: [
-                            AppContentCardWidget(
-                              content: _displayContent,
-                              version: _version,
-                              updatedAt: _updatedAt,
-                            ),
-                            if (_hasError) ...[
-                              16.ver,
-                              AppContentErrorWidget(
-                                onRetry: _fetchRemoteContent,
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
+                        if (_hasError) ...[
+                          16.ver,
+                          AppContentErrorWidget(onRetry: _fetchRemoteContent),
+                        ],
+                      ],
+                    ),
+                  ),
           ),
         ],
       ),

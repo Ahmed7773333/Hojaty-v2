@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class PreAdhanTestButtonWidget extends StatelessWidget {
   final VoidCallback onTap;
 
-  const PreAdhanTestButtonWidget({
-    super.key,
-    required this.onTap,
-  });
+  const PreAdhanTestButtonWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,6 @@ class PreAdhanTestButtonWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.primaryDark.withValues(alpha: 0.2),
-              width: 1.0,
             ),
           ),
           child: Row(

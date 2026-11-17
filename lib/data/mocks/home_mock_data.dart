@@ -1,10 +1,10 @@
-import '../../core/utils/app_colors.dart';
-import '../../features/homelayout/data/models/adhan_setting_model.dart';
-import '../../features/homelayout/data/models/banner_model.dart';
-import '../../features/homelayout/data/models/notification_item_model.dart';
-import '../../features/homelayout/data/models/prayer_time_model.dart';
-import '../../features/homelayout/data/models/quick_access_model.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_setting_model.dart';
+import 'package:hojaty/features/homelayout/data/models/banner_model.dart';
+import 'package:hojaty/features/homelayout/data/models/notification_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/quick_access_model.dart';
+import 'package:hojaty/l10n/app_localizations.dart';
 
 class HomeMockData {
   static List<PrayerTimeModel> get prayerTimes => const [
@@ -12,44 +12,30 @@ class HomeMockData {
       type: PrayerType.fajr,
       time: '04:48',
       isNotificationEnabled: false,
-      isCurrent: false,
-      isNext: false,
       startWindow: '05:15ص',
       endWindow: '05:35ص',
     ),
     PrayerTimeModel(
       type: PrayerType.dhuhr,
       time: '12:59',
-      isNotificationEnabled: true,
-      isCurrent: false,
-      isNext: false,
       startWindow: '01:15م',
       endWindow: '01:35م',
     ),
     PrayerTimeModel(
       type: PrayerType.asr,
       time: '04:36',
-      isNotificationEnabled: true,
-      isCurrent: false,
-      isNext: false,
       startWindow: '01:15م',
       endWindow: '01:35م',
     ),
     PrayerTimeModel(
       type: PrayerType.maghrib,
       time: '07:37',
-      isNotificationEnabled: true,
-      isCurrent: false,
-      isNext: false,
       startWindow: '01:15م',
       endWindow: '01:35م',
     ),
     PrayerTimeModel(
       type: PrayerType.isha,
       time: '09:00',
-      isNotificationEnabled: true,
-      isCurrent: false,
-      isNext: false,
       startWindow: '01:15م',
       endWindow: '01:35م',
     ),

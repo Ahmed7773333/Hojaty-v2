@@ -2,7 +2,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:flutter/material.dart';
-import '../../../data/models/book_chapter_model.dart';
+import 'package:hojaty/features/books/data/models/book_chapter_model.dart';
 
 class BookChapterTileWidget extends StatelessWidget {
   final BookChapterModel chapter;
@@ -115,7 +115,9 @@ class BookChapterTileWidget extends StatelessWidget {
                   icon: Icon(
                     Icons.auto_stories_rounded,
                     size: 18.sp,
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                   ),
                   tooltip: context.strings.readChapterInReader,
                   onPressed: onReadBookTap,

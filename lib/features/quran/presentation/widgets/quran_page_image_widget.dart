@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../constants/mushaf_page_image_resolver.dart';
-import '../../domain/entities/qirat_type.dart';
-import 'mushaf_night_mode_page_widget.dart';
-import 'quran_page_placeholder_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/quran/constants/mushaf_page_image_resolver.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/widgets/mushaf_night_mode_page_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_page_placeholder_widget.dart';
 
 class QuranPageImageWidget extends StatelessWidget {
   final int pageNumber;

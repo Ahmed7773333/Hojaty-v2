@@ -55,7 +55,6 @@ class RadioProgressBarWidget extends StatelessWidget {
                   ),
                   child: Slider(
                     value: currentMs.clamp(0.0, maxMs),
-                    min: 0.0,
                     max: maxMs,
                     onChanged: totalDuration > Duration.zero
                         ? (val) {

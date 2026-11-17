@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/homelayout_bloc.dart';
-import '../bloc/homelayout_event.dart';
-import '../widgets/settings/language_radio_card_widget.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/language_radio_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
 class LanguageSettingsPage extends StatefulWidget {
   const LanguageSettingsPage({super.key});
@@ -30,7 +30,9 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
       _selectedLanguage = langCode;
     });
     UserHiveHelper.getUser()?.languageSetter = langCode;
-    context.read<HomelayoutBloc>().add(LoadOccasionsDataEvent(language: langCode));
+    context.read<HomelayoutBloc>().add(
+      LoadOccasionsDataEvent(language: langCode),
+    );
   }
 
   @override

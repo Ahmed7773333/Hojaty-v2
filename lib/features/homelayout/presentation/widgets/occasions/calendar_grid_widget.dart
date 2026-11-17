@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/hijri_calendar_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dart';
 
 class CalendarGridWidget extends StatelessWidget {
   final String title;
@@ -40,7 +40,6 @@ class CalendarGridWidget extends StatelessWidget {
           color: isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Column(
@@ -87,12 +86,14 @@ class CalendarGridWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isDark
                                 ? AppColors.primaryDark.withValues(alpha: 0.5)
-                                : AppColors.primaryDarkBackground
-                                    .withValues(alpha: 0.08),
+                                : AppColors.primaryDarkBackground.withValues(
+                                    alpha: 0.08,
+                                  ),
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color:
-                                  AppColors.accentGold.withValues(alpha: 0.5),
+                              color: AppColors.accentGold.withValues(
+                                alpha: 0.5,
+                              ),
                               width: 0.8,
                             ),
                           ),
@@ -173,7 +174,6 @@ class CalendarGridWidget extends StatelessWidget {
               crossAxisCount: 7,
               crossAxisSpacing: 6.w,
               mainAxisSpacing: 8.h,
-              childAspectRatio: 1.0,
             ),
             itemBuilder: (context, index) {
               final cell = cells[index];
@@ -188,10 +188,10 @@ class CalendarGridWidget extends StatelessWidget {
                     color: isActive
                         ? AppColors.primaryDarkBackground
                         : (isCurrent
-                            ? (isDark
-                                ? AppColors.white.withValues(alpha: 0.08)
-                                : const Color(0xFFEFF6F4))
-                            : Colors.transparent),
+                              ? (isDark
+                                    ? AppColors.white.withValues(alpha: 0.08)
+                                    : const Color(0xFFEFF6F4))
+                              : Colors.transparent),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
@@ -201,14 +201,15 @@ class CalendarGridWidget extends StatelessWidget {
                         color: isActive
                             ? AppColors.white
                             : (isCurrent
-                                ? (isDark
-                                    ? AppColors.white
-                                    : AppColors.primaryDark)
-                                : (isDark
-                                    ? AppColors.darkTextMuted
-                                    : AppColors.lightTextMuted)),
-                        fontWeight:
-                            isActive ? FontWeight.w800 : FontWeight.w500,
+                                  ? (isDark
+                                        ? AppColors.white
+                                        : AppColors.primaryDark)
+                                  : (isDark
+                                        ? AppColors.darkTextMuted
+                                        : AppColors.lightTextMuted)),
+                        fontWeight: isActive
+                            ? FontWeight.w800
+                            : FontWeight.w500,
                         fontSize: 12.sp,
                       ),
                     ),

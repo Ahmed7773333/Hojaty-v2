@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/homelayout_bloc.dart';
-import '../bloc/homelayout_event.dart';
-import '../bloc/homelayout_state.dart';
-import '../widgets/salawat/salawat_hero_card_widget.dart';
-import '../widgets/salawat/salawat_preview_card_widget.dart';
-import '../widgets/salawat/salawat_sound_card_widget.dart';
-import '../widgets/salawat/salawat_test_button_widget.dart';
-import '../widgets/salawat/salawat_toggle_card_widget.dart';
-import '../widgets/settings/settings_page_header_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/salawat/salawat_hero_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/salawat/salawat_preview_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/salawat/salawat_sound_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/salawat/salawat_test_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/salawat/salawat_toggle_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
 
 class SalawatSettingsPage extends StatelessWidget {
   const SalawatSettingsPage({super.key});
@@ -45,9 +45,9 @@ class SalawatSettingsPage extends StatelessWidget {
                       SalawatToggleCardWidget(
                         isEnabled: isEnabled,
                         onChanged: (val) {
-                          context
-                              .read<HomelayoutBloc>()
-                              .add(ToggleSalawatReminderEvent(val));
+                          context.read<HomelayoutBloc>().add(
+                            ToggleSalawatReminderEvent(val),
+                          );
                         },
                       ),
                       16.ver,
@@ -68,4 +68,3 @@ class SalawatSettingsPage extends StatelessWidget {
     );
   }
 }
-

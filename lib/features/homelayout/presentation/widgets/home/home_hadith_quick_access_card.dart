@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class HomeHadithQuickAccessCard extends StatelessWidget {
   const HomeHadithQuickAccessCard({super.key});
@@ -25,13 +25,10 @@ class HomeHadithQuickAccessCard extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(
-                alpha: isDark ? 0.2 : 0.04,
-              ),
+              color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -98,4 +95,3 @@ class HomeHadithQuickAccessCard extends StatelessWidget {
     );
   }
 }
-

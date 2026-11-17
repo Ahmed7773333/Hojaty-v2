@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import '../../bloc/homelayout_state.dart';
-import 'pre_adhan_minutes_counter_widget.dart';
-import 'pre_adhan_notification_preview_widget.dart';
-import 'pre_adhan_test_button_widget.dart';
-import 'pre_adhan_time_chip_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pre_adhan_minutes_counter_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pre_adhan_notification_preview_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pre_adhan_test_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pre_adhan_time_chip_widget.dart';
 
 class PreAdhanReminderCardWidget extends StatelessWidget {
   static const List<int> minuteOptions = [5, 10, 15, 20, 30];
@@ -40,7 +40,6 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.lightBorderUnselected,
-              width: 1.0,
             ),
           ),
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
@@ -100,9 +99,9 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
                   Switch(
                     value: isEnabled,
                     onChanged: (val) {
-                      context
-                          .read<HomelayoutBloc>()
-                          .add(TogglePreAdhanReminderEvent(val));
+                      context.read<HomelayoutBloc>().add(
+                        TogglePreAdhanReminderEvent(val),
+                      );
                     },
                   ),
                 ],
@@ -136,9 +135,9 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
                       minutes: mins,
                       isSelected: selectedMinutes == mins,
                       onSelected: (val) {
-                        context
-                            .read<HomelayoutBloc>()
-                            .add(ChangePreAdhanReminderMinutesEvent(val));
+                        context.read<HomelayoutBloc>().add(
+                          ChangePreAdhanReminderMinutesEvent(val),
+                        );
                       },
                     );
                   }).toList(),
@@ -147,9 +146,9 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
                 PreAdhanMinutesCounterWidget(
                   minutes: selectedMinutes,
                   onChanged: (val) {
-                    context
-                        .read<HomelayoutBloc>()
-                        .add(ChangePreAdhanReminderMinutesEvent(val));
+                    context.read<HomelayoutBloc>().add(
+                      ChangePreAdhanReminderMinutesEvent(val),
+                    );
                   },
                 ),
                 14.ver,
@@ -160,9 +159,9 @@ class PreAdhanReminderCardWidget extends StatelessWidget {
                 12.ver,
                 PreAdhanTestButtonWidget(
                   onTap: () {
-                    context
-                        .read<HomelayoutBloc>()
-                        .add(const SendTestPreAdhanNotificationEvent());
+                    context.read<HomelayoutBloc>().add(
+                      const SendTestPreAdhanNotificationEvent(),
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(context.strings.preAdhanTestSent),

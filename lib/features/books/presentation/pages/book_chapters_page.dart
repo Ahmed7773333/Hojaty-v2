@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/book_chapter_model.dart';
-import '../../data/models/book_collection_model.dart';
-import '../../data/models/book_info_model.dart';
-import '../../data/repositories/books_repository.dart';
-import '../widgets/book_details/book_chapter_tile_widget.dart';
-import '../widgets/book_details/book_chapters_header_widget.dart';
-import '../widgets/book_details/book_read_mode_banner_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/books/data/models/book_chapter_model.dart';
+import 'package:hojaty/features/books/data/models/book_collection_model.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/repositories/books_repository.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_details/book_chapter_tile_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_details/book_chapters_header_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_details/book_read_mode_banner_widget.dart';
 
 class BookChaptersPage extends StatefulWidget {
   final BookInfoModel book;
@@ -77,10 +77,7 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
   void _openFullBookReader() {
     context.pushNamed(
       AppRoutes.bookReader,
-      extra: {
-        'book': widget.book,
-        'collection': widget.collection,
-      },
+      extra: {'book': widget.book, 'collection': widget.collection},
     );
   }
 
@@ -110,16 +107,16 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
       Navigator.of(context).pop();
 
       if (!success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfNotFound)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfNotFound)));
       }
     } catch (e) {
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfOpenError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfOpenError)));
       }
     }
   }
@@ -130,7 +127,9 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           BookChaptersHeaderWidget(
@@ -142,9 +141,7 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
             onOpenPdf: widget.book.hasPdf ? _openPdf : null,
           ),
           12.ver,
-          BookReadModeBannerWidget(
-            onTap: _openFullBookReader,
-          ),
+          BookReadModeBannerWidget(onTap: _openFullBookReader),
           12.ver,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -153,7 +150,9 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
                 color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
                 borderRadius: BorderRadius.circular(14.r),
                 border: Border.all(
-                  color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                  color: isDark
+                      ? AppColors.darkBorderUnselected
+                      : AppColors.lightBorderUnselected,
                 ),
               ),
               child: TextField(
@@ -162,16 +161,23 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
                 decoration: InputDecoration(
                   hintText: context.strings.searchChaptersHint,
                   hintStyle: context.textTheme.bodyMedium?.copyWith(
-                    color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                    color: isDark
+                        ? AppColors.darkTextMuted
+                        : AppColors.lightTextMuted,
                     fontSize: 13.sp,
                   ),
                   prefixIcon: Icon(
                     Icons.search_rounded,
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                     size: 20.sp,
                   ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                 ),
               ),
             ),
@@ -183,12 +189,17 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
                     child: Text(
                       context.strings.noChaptersFound,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                        color: isDark
+                            ? AppColors.darkTextMuted
+                            : AppColors.lightTextMuted,
                       ),
                     ),
                   )
                 : ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     itemCount: _filteredChapters.length,
                     separatorBuilder: (_, __) => 8.ver,
                     itemBuilder: (context, index) {
@@ -212,4 +223,3 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
     );
   }
 }
-

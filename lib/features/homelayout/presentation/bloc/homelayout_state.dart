@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/adhan_setting_model.dart';
-import '../../data/models/banner_model.dart';
-import '../../data/models/notification_item_model.dart';
-import '../../data/models/occasion_item_model.dart';
-import '../../data/models/prayer_time_model.dart';
-import '../../data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_setting_model.dart';
+import 'package:hojaty/features/homelayout/data/models/banner_model.dart';
+import 'package:hojaty/features/homelayout/data/models/notification_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
 enum HomelayoutStatus { initial, loading, success, failure }
 
@@ -12,6 +12,7 @@ class HomelayoutState extends Equatable {
   final HomelayoutStatus status;
   final int currentTabIndex;
   final List<PrayerTimeModel> prayerTimes;
+  final DateTime? sunriseTime;
   final int selectedPrayerDayOffset;
   final DateTime? selectedPrayerDate;
   final DateTime? nextPrayerTime;
@@ -37,6 +38,7 @@ class HomelayoutState extends Equatable {
     this.status = HomelayoutStatus.initial,
     this.currentTabIndex = 0,
     this.prayerTimes = const [],
+    this.sunriseTime,
     this.selectedPrayerDayOffset = 0,
     this.selectedPrayerDate,
     this.nextPrayerTime,
@@ -63,6 +65,7 @@ class HomelayoutState extends Equatable {
     HomelayoutStatus? status,
     int? currentTabIndex,
     List<PrayerTimeModel>? prayerTimes,
+    DateTime? sunriseTime,
     int? selectedPrayerDayOffset,
     DateTime? selectedPrayerDate,
     DateTime? nextPrayerTime,
@@ -89,6 +92,7 @@ class HomelayoutState extends Equatable {
       status: status ?? this.status,
       currentTabIndex: currentTabIndex ?? this.currentTabIndex,
       prayerTimes: prayerTimes ?? this.prayerTimes,
+      sunriseTime: sunriseTime ?? this.sunriseTime,
       selectedPrayerDayOffset:
           selectedPrayerDayOffset ?? this.selectedPrayerDayOffset,
       selectedPrayerDate: selectedPrayerDate ?? this.selectedPrayerDate,
@@ -118,6 +122,7 @@ class HomelayoutState extends Equatable {
         status,
         currentTabIndex,
         prayerTimes,
+        sunriseTime,
         selectedPrayerDayOffset,
         selectedPrayerDate,
         nextPrayerTime,

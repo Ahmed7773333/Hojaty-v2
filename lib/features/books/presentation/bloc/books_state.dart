@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/book_download_state.dart';
-import '../../data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/models/book_download_state.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
 
 enum BooksStatus {
   initial,
@@ -32,7 +32,6 @@ class BooksState extends Equatable {
     return downloadStatuses[bookId] ??
         BookDownloadProgress(
           bookId: bookId,
-          status: BookDownloadStatus.notDownloaded,
         );
   }
 

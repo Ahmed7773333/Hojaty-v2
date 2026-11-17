@@ -1,6 +1,6 @@
-import '../../models/playlist_item_model.dart';
-import '../../models/playlist_model.dart';
-import '../../models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
 
 abstract class RadioLocalDataSource {
   Future<List<ReciterModel>?> getCachedReciters(String language);

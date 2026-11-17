@@ -80,7 +80,7 @@ class BookReaderHeaderWidget extends StatelessWidget {
                   Text(
                     chapterTitle,
                     style: context.textTheme.bodySmall?.copyWith(
-                      color:  AppColors.accentGoldLight,
+                      color: AppColors.accentGoldLight,
                       fontSize: 11.sp,
                     ),
                     maxLines: 1,
@@ -97,18 +97,30 @@ class BookReaderHeaderWidget extends StatelessWidget {
           ),
           IconButton(
             onPressed: onToc,
-            icon: Icon(Icons.menu_book_rounded, color: Colors.white, size: 20.sp),
+            icon: Icon(
+              Icons.menu_book_rounded,
+              color: Colors.white,
+              size: 20.sp,
+            ),
             tooltip: context.strings.tableOfContents,
           ),
           IconButton(
             onPressed: onSettings,
-            icon: Icon(Icons.format_size_rounded, color: Colors.white, size: 20.sp),
+            icon: Icon(
+              Icons.format_size_rounded,
+              color: Colors.white,
+              size: 20.sp,
+            ),
             tooltip: context.strings.readerSettings,
           ),
           if (onOpenPdf != null)
             IconButton(
               onPressed: onOpenPdf,
-              icon: Icon(Icons.picture_as_pdf_rounded, color: Colors.white, size: 20.sp),
+              icon: Icon(
+                Icons.picture_as_pdf_rounded,
+                color: Colors.white,
+                size: 20.sp,
+              ),
               tooltip: context.strings.viewPdf,
             ),
           IconButton(
@@ -121,4 +133,3 @@ class BookReaderHeaderWidget extends StatelessWidget {
     );
   }
 }
-

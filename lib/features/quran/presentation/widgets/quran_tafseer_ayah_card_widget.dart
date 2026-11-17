@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QuranTafseerAyahCardWidget extends StatelessWidget {
   final int verseNumber;
@@ -26,8 +26,9 @@ class QuranTafseerAyahCardWidget extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-          width: 1.0,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
         boxShadow: [
           BoxShadow(
@@ -44,17 +45,20 @@ class QuranTafseerAyahCardWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+              color: isDark
+                  ? AppColors.primaryDarkSurface
+                  : AppColors.lightCardSelected,
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
                 color: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                width: 1.0,
               ),
             ),
             child: Text(
               context.strings.ayahNumber(verseNumber),
               style: context.textTheme.bodySmall?.copyWith(
-                color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                color: isDark
+                    ? AppColors.accentGoldLight
+                    : AppColors.primaryDark,
                 fontWeight: FontWeight.w700,
                 fontSize: 12.sp,
               ),
@@ -66,7 +70,9 @@ class QuranTafseerAyahCardWidget extends StatelessWidget {
               verseText,
               textAlign: TextAlign.justify,
               style: context.textTheme.titleMedium?.copyWith(
-                color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.lightTextPrimary,
                 fontWeight: FontWeight.w700,
                 fontSize: 16.sp,
                 height: 1.6,
@@ -85,7 +91,9 @@ class QuranTafseerAyahCardWidget extends StatelessWidget {
             tafseerText,
             textAlign: TextAlign.justify,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
               fontSize: 14.sp,
               height: 1.6,
             ),

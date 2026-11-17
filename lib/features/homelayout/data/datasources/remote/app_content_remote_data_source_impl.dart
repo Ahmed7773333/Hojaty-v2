@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import '../../../../../core/network/endpoints.dart';
-import '../../../domain/datasources/app_content_remote_data_source.dart';
-import '../../models/app_content_model.dart';
-import '../../models/banner_model.dart';
+import 'package:hojaty/core/network/endpoints.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/app_content_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/app_content_model.dart';
+import 'package:hojaty/features/homelayout/data/models/banner_model.dart';
 
 class AppContentRemoteDataSourceImpl implements AppContentRemoteDataSource {
   final Dio dio;

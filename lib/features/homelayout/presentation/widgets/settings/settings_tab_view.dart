@@ -1,25 +1,21 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/local/user_hive_helper.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/app_share_helper.dart';
-import '../../../../../core/utils/rate_app_helper.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import '../../pages/app_info_content_page.dart';
-import 'salawat_settings_tile_widget.dart';
-import 'settings_app_card_widget.dart';
-import 'settings_header_widget.dart';
-import 'settings_qr_button_widget.dart';
-import 'settings_section_card_widget.dart';
-import 'settings_switch_tile_widget.dart';
-import 'settings_tile_widget.dart';
-import 'theme_settings_tile_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_share_helper.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/rate_app_helper.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/app_info_content_page.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/salawat_settings_tile_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_app_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_qr_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_section_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tile_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_settings_tile_widget.dart';
 
 class SettingsTabView extends StatefulWidget {
   const SettingsTabView({super.key});

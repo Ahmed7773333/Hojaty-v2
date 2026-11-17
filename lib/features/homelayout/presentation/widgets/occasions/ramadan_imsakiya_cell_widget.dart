@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class RamadanImsakiyaCellWidget extends StatelessWidget {
   final String text;
@@ -25,11 +25,11 @@ class RamadanImsakiyaCellWidget extends StatelessWidget {
     if (isHeader) {
       textColor = AppColors.white;
     } else if (isHighlighted) {
-      textColor =
-          isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark;
+      textColor = isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark;
     } else {
-      textColor =
-          isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
+      textColor = isDark
+          ? AppColors.darkTextPrimary
+          : AppColors.lightTextPrimary;
     }
 
     final baseStyle = isHeader
@@ -52,4 +52,3 @@ class RamadanImsakiyaCellWidget extends StatelessWidget {
     );
   }
 }
-

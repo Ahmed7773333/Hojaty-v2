@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../shared/widgets/custom_elevated_button.dart';
-import '../bloc/hojaty_ai_cubit.dart';
-import '../bloc/hojaty_ai_state.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 
 class HojatyAiAssetDownloadWidget extends StatelessWidget {
   const HojatyAiAssetDownloadWidget({super.key});
@@ -15,14 +15,18 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+            color: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.lightTextPrimary,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -38,13 +42,17 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircularProgressIndicator(
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.accentGold
+                            : AppColors.primaryDark,
                       ),
                       24.ver,
                       Text(
                         context.strings.downloading,
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.lightTextSecondary,
                           fontSize: 14.sp,
                         ),
                       ),
@@ -52,26 +60,40 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                   );
                 }
 
-                final isDownloading = state.assetStatus == HojatyAiAssetStatus.downloading;
-                final isFailed = state.assetStatus == HojatyAiAssetStatus.failed;
+                final isDownloading =
+                    state.assetStatus == HojatyAiAssetStatus.downloading;
+                final isFailed =
+                    state.assetStatus == HojatyAiAssetStatus.failed;
 
-                final int downloadedMb = (state.bytesDownloaded / (1024 * 1024)).round();
+                final int downloadedMb = (state.bytesDownloaded / (1024 * 1024))
+                    .round();
                 final int totalMb = state.totalBytes > 0
                     ? (state.totalBytes / (1024 * 1024)).round()
                     : 237;
-                final int percent = (state.downloadProgress * 100).round().clamp(0, 100);
+                final int percent = (state.downloadProgress * 100)
+                    .round()
+                    .clamp(0, 100);
 
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 32.h,
+                  ),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                    color: isDark
+                        ? AppColors.darkSurface
+                        : AppColors.lightSurface,
                     borderRadius: BorderRadius.circular(24.r),
                     border: Border.all(
-                      color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                      color: isDark
+                          ? AppColors.darkBorderUnselected
+                          : AppColors.lightBorderUnselected,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.black26 : Colors.black.withValues(alpha: 0.04),
+                        color: isDark
+                            ? Colors.black26
+                            : Colors.black.withValues(alpha: 0.04),
                         blurRadius: 16,
                         offset: const Offset(0, 8),
                       ),
@@ -92,11 +114,15 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                         child: Icon(
                           isDownloading
                               ? Icons.cloud_download_rounded
-                              : (isFailed ? Icons.error_outline_rounded : Icons.auto_awesome_rounded),
+                              : (isFailed
+                                    ? Icons.error_outline_rounded
+                                    : Icons.auto_awesome_rounded),
                           size: 42.sp,
                           color: isFailed
                               ? Colors.redAccent
-                              : (isDark ? AppColors.accentGold : AppColors.primaryDark),
+                              : (isDark
+                                    ? AppColors.accentGold
+                                    : AppColors.primaryDark),
                         ),
                       ),
                       20.ver,
@@ -104,7 +130,9 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                         context.strings.hojatyAiDownloadTitle,
                         textAlign: TextAlign.center,
                         style: context.textTheme.titleLarge?.copyWith(
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.sp,
                         ),
@@ -114,14 +142,19 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                         context.strings.hojatyAiDownloadDesc,
                         textAlign: TextAlign.center,
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.lightTextSecondary,
                           fontSize: 14.sp,
                           height: 1.5,
                         ),
                       ),
                       14.ver,
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
                         decoration: BoxDecoration(
                           color: isDark
                               ? AppColors.darkCardUnselected
@@ -131,7 +164,9 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                         child: Text(
                           context.strings.hojatyAiDownloadSize,
                           style: context.textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                            color: isDark
+                                ? AppColors.accentGoldLight
+                                : AppColors.primaryDark,
                             fontWeight: FontWeight.w600,
                             fontSize: 12.sp,
                           ),
@@ -142,21 +177,31 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
                           child: LinearProgressIndicator(
-                            value: state.downloadProgress > 0 ? state.downloadProgress : null,
+                            value: state.downloadProgress > 0
+                                ? state.downloadProgress
+                                : null,
                             minHeight: 10.h,
                             backgroundColor: isDark
                                 ? AppColors.darkCardUnselected
                                 : AppColors.lightBorderUnselected,
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              isDark ? AppColors.accentGold : AppColors.primaryDark,
+                              isDark
+                                  ? AppColors.accentGold
+                                  : AppColors.primaryDark,
                             ),
                           ),
                         ),
                         16.ver,
                         Text(
-                          context.strings.hojatyAiDownloadProgress(downloadedMb, totalMb, percent),
+                          context.strings.hojatyAiDownloadProgress(
+                            downloadedMb,
+                            totalMb,
+                            percent,
+                          ),
                           style: context.textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
                             fontWeight: FontWeight.w600,
                             fontSize: 13.sp,
                           ),
@@ -167,9 +212,13 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                             context.read<HojatyAiCubit>().cancelDownload();
                           },
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                            foregroundColor: isDark
+                                ? AppColors.accentGold
+                                : AppColors.primaryDark,
                             side: BorderSide(
-                              color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                              color: isDark
+                                  ? AppColors.accentGold
+                                  : AppColors.primaryDark,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.r),
@@ -194,8 +243,12 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
                           text: isFailed
                               ? context.strings.hojatyAiRetryDownload
                               : context.strings.hojatyAiStartDownload,
-                          backgroundColor: isDark ? AppColors.accentGold : AppColors.primaryDark,
-                          foregroundColor: isDark ? AppColors.primaryDarkBackground : AppColors.white,
+                          backgroundColor: isDark
+                              ? AppColors.accentGold
+                              : AppColors.primaryDark,
+                          foregroundColor: isDark
+                              ? AppColors.primaryDarkBackground
+                              : AppColors.white,
                           onPressed: () {
                             context.read<HojatyAiCubit>().startDownload();
                           },
@@ -212,4 +265,3 @@ class HojatyAiAssetDownloadWidget extends StatelessWidget {
     );
   }
 }
-

@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/quran_bloc.dart';
-import '../bloc/quran_event.dart';
-import '../bloc/quran_state.dart';
-import '../widgets/quran_search_input_widget.dart';
-import '../widgets/quran_search_result_card_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_search_input_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_search_result_card_widget.dart';
 
 class QuranSearchPage extends StatefulWidget {
   const QuranSearchPage({super.key});
@@ -49,7 +49,9 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       appBar: AppBar(
         titleSpacing: 0,
         title: Padding(
@@ -63,7 +65,9 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+            color: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.lightTextPrimary,
             size: 20.sp,
           ),
           onPressed: () => Navigator.of(context).pop(),
@@ -84,13 +88,17 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
                     Icon(
                       Icons.search_rounded,
                       size: 48.sp,
-                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
                     ),
                     12.ver,
                     Text(
                       context.strings.quranSearchHint,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextSecondary,
+                        color: isDark
+                            ? AppColors.darkTextMuted
+                            : AppColors.lightTextSecondary,
                         fontSize: 14.sp,
                       ),
                     ),
@@ -107,13 +115,17 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
                     Icon(
                       Icons.find_in_page_outlined,
                       size: 48.sp,
-                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
                     ),
                     12.ver,
                     Text(
                       context.strings.quranNoResults,
                       style: context.textTheme.titleMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -124,7 +136,7 @@ class _QuranSearchPageState extends State<QuranSearchPage> {
             }
 
             return ListView.builder(
-              cacheExtent: 500,
+              scrollCacheExtent: const ScrollCacheExtent.pixels(500),
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               itemCount: results.length,
               itemBuilder: (context, index) {

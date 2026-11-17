@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/surah_item_model.dart';
-import 'surah_item_row_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/surah_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/quran/surah_item_row_widget.dart';
 
 class SurahListCardWidget extends StatelessWidget {
   final List<SurahItemModel> surahs;
@@ -45,20 +45,14 @@ class SurahListCardWidget extends StatelessWidget {
       sliver: SliverList.separated(
         itemCount: surahs.length,
         separatorBuilder: (context, index) => Container(
-          color: isDark
-              ? AppColors.darkCardUnselected
-              : AppColors.lightSurface,
+          color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Divider(
             height: 1,
             thickness: 1,
             color: isDark
-                ? AppColors.darkBorderUnselected.withValues(
-                    alpha: 0.5,
-                  )
-                : AppColors.lightBorderUnselected.withValues(
-                    alpha: 0.6,
-                  ),
+                ? AppColors.darkBorderUnselected.withValues(alpha: 0.5)
+                : AppColors.lightBorderUnselected.withValues(alpha: 0.6),
           ),
         ),
         itemBuilder: (context, index) {
@@ -77,14 +71,12 @@ class SurahListCardWidget extends StatelessWidget {
                   : AppColors.lightSurface,
               borderRadius: borderRadius,
               border: Border(
-                top: isFirst
-                    ? BorderSide(color: borderColor, width: 1.0)
-                    : BorderSide.none,
+                top: isFirst ? BorderSide(color: borderColor) : BorderSide.none,
                 bottom: isLast
-                    ? BorderSide(color: borderColor, width: 1.0)
+                    ? BorderSide(color: borderColor)
                     : BorderSide.none,
-                left: BorderSide(color: borderColor, width: 1.0),
-                right: BorderSide(color: borderColor, width: 1.0),
+                left: BorderSide(color: borderColor),
+                right: BorderSide(color: borderColor),
               ),
             ),
             child: ClipRRect(

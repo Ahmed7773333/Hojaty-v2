@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/local_notification_service.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/onboarding_mock_data.dart';
-import '../../data/models/onboarding_item_model.dart';
-import '../widgets/onboarding_actions_widget.dart';
-import '../widgets/onboarding_slide_widget.dart';
-import '../widgets/onboarding_top_bar_widget.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/onboarding_mock_data.dart';
+import 'package:hojaty/features/onboarding/data/models/onboarding_item_model.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_actions_widget.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_slide_widget.dart';
+import 'package:hojaty/features/onboarding/presentation/widgets/onboarding_top_bar_widget.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

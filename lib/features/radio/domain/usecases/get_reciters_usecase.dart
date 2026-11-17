@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/error/failures.dart';
-import '../../data/models/reciter_model.dart';
-import '../repositories/radio_repository.dart';
+import 'package:hojaty/core/error/failures.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/domain/repositories/radio_repository.dart';
 
 class GetRecitersUseCase {
   final RadioRepository repository;

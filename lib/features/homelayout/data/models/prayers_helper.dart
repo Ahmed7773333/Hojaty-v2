@@ -1,7 +1,8 @@
 import 'dart:math' as math;
+
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_imsakiya_day_model.dart';
 import 'package:intl/intl.dart';
-import 'prayer_time_model.dart';
-import 'ramadan_imsakiya_day_model.dart';
 
 /// Calculation method for Islamic prayer times.
 enum CalculationMethod {
@@ -95,8 +96,10 @@ class GeoCoordinates {
 class CalculationParameters {
   final double fajrAngle;
   final double ishaAngle;
-  final int ishaIntervalMinutes; // If > 0, Isha is calculated as Maghrib + minutes
-  final double maghribAngle; // If > 0, Maghrib is calculated by angle instead of sunset
+  final int
+  ishaIntervalMinutes; // If > 0, Isha is calculated as Maghrib + minutes
+  final double
+  maghribAngle; // If > 0, Maghrib is calculated by angle instead of sunset
   final int dhuhrMinutes; // Minutes added after solar zenith for Dhuhr
   final CalculationMethod method;
   final AsrMadhab madhab;
@@ -123,7 +126,6 @@ class CalculationParameters {
     return CalculationParameters(
       fajrAngle: 19.5,
       ishaAngle: 17.5,
-      method: CalculationMethod.egyptian,
       madhab: madhab,
       highLatitudeRule: highLatitudeRule,
       adjustments: adjustments,
@@ -450,7 +452,8 @@ class PrayersHelper {
 
     final cosH = (-_sinDeg(angle) - _sinDeg(lat) * _sinDeg(decl)) / denom;
     if (cosH < -1.0 || cosH > 1.0) {
-      return double.nan; // Sun does not reach this angle (High Latitude / Polar)
+      return double
+          .nan; // Sun does not reach this angle (High Latitude / Polar)
     }
 
     final hourAngle = _radToDeg(math.acos(cosH)) / 15.0;
@@ -653,9 +656,7 @@ class PrayersHelper {
       'fajr': _fixHour(fajr + clockShift + (adj.fajr / 60.0)),
       'sunrise': _fixHour(sunrise + clockShift + (adj.sunrise / 60.0)),
       'dhuhr': _fixHour(
-        dhuhr +
-            clockShift +
-            ((activeParams.dhuhrMinutes + adj.dhuhr) / 60.0),
+        dhuhr + clockShift + ((activeParams.dhuhrMinutes + adj.dhuhr) / 60.0),
       ),
       'asr': _fixHour(asr + clockShift + (adj.asr / 60.0)),
       'maghrib': _fixHour(maghrib + clockShift + (adj.maghrib / 60.0)),
@@ -803,8 +804,7 @@ class PrayersHelper {
     final startDst = DateTime(date.year, 4, 30 - daysBackToFriday);
 
     final octLastDay = DateTime(date.year, 10, 31);
-    final daysBackToThursday =
-        (octLastDay.weekday - DateTime.thursday + 7) % 7;
+    final daysBackToThursday = (octLastDay.weekday - DateTime.thursday + 7) % 7;
     final endDst = DateTime(date.year, 10, 31 - daysBackToThursday);
 
     final d = DateTime(date.year, date.month, date.day);
@@ -814,28 +814,20 @@ class PrayersHelper {
   static bool _isEuDst(DateTime date) {
     // Last Sunday of March to Last Sunday of October
     final marchLastDay = DateTime(date.year, 3, 31);
-    final startDst = DateTime(
-      date.year,
-      3,
-      31 - (marchLastDay.weekday % 7),
-    );
+    final startDst = DateTime(date.year, 3, 31 - (marchLastDay.weekday % 7));
     final octLastDay = DateTime(date.year, 10, 31);
-    final endDst = DateTime(
-      date.year,
-      10,
-      31 - (octLastDay.weekday % 7),
-    );
+    final endDst = DateTime(date.year, 10, 31 - (octLastDay.weekday % 7));
     final d = DateTime(date.year, date.month, date.day);
     return !d.isBefore(startDst) && d.isBefore(endDst);
   }
 
   static bool _isNorthAmericaDst(DateTime date) {
     // Second Sunday in March to First Sunday in November
-    final marchFirst = DateTime(date.year, 3, 1);
+    final marchFirst = DateTime(date.year, 3);
     final firstSundayMarch = 1 + ((7 - marchFirst.weekday) % 7);
     final secondSundayMarch = DateTime(date.year, 3, firstSundayMarch + 7);
 
-    final novFirst = DateTime(date.year, 11, 1);
+    final novFirst = DateTime(date.year, 11);
     final firstSundayNov = DateTime(
       date.year,
       11,
@@ -850,7 +842,7 @@ class PrayersHelper {
   static bool _isRamadanDate(DateTime date) {
     final jd = _julianDate(date.year, date.month, date.day).floor();
     final l = jd - 1948440 + 10632;
-    final n = ((l - 1) ~/ 10631);
+    final n = (l - 1) ~/ 10631;
     final l2 = l - 10631 * n + 354;
     final j =
         ((10985 - l2) ~/ 5316) * ((50 * l2) ~/ 17719) +
@@ -871,14 +863,7 @@ class PrayersHelper {
     final minutes = (totalSeconds % 3600) ~/ 60;
     final seconds = totalSeconds % 60;
 
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      hours,
-      minutes,
-      seconds,
-    );
+    return DateTime(date.year, date.month, date.day, hours, minutes, seconds);
   }
 
   // ---------------------------------------------------------------------------
@@ -908,12 +893,15 @@ class PrayersHelper {
 
   /// Finds the next prayer, previous prayer, and next prayer DateTime.
   ({
-    PrayerType nextType,
+    PrayerType? nextType,
     DateTime nextTime,
-    PrayerType previousType,
+    PrayerType? previousType,
     DateTime previousTime,
-  }) getNextPrayerInfo(DateTime now) {
+    bool isSunrise,
+  })
+  getNextPrayerInfo(DateTime now) {
     final todayPrayers = getPrayerDateTimes(now);
+    final sunrise = getSunriseDateTime(now);
 
     final fajr = todayPrayers[PrayerType.fajr]!;
     final dhuhr = todayPrayers[PrayerType.dhuhr]!;
@@ -930,13 +918,25 @@ class PrayersHelper {
         nextTime: fajr,
         previousType: PrayerType.isha,
         previousTime: yesterdayIsha,
+        isSunrise: false,
+      );
+    } else if (now.isBefore(sunrise)) {
+      // After Fajr and before Sunrise: countdown to Sunrise
+      return (
+        nextType: null,
+        nextTime: sunrise,
+        previousType: PrayerType.fajr,
+        previousTime: fajr,
+        isSunrise: true,
       );
     } else if (now.isBefore(dhuhr)) {
+      // After Sunrise and before Dhuhr: countdown to Dhuhr
       return (
         nextType: PrayerType.dhuhr,
         nextTime: dhuhr,
         previousType: PrayerType.fajr,
-        previousTime: fajr,
+        previousTime: sunrise,
+        isSunrise: false,
       );
     } else if (now.isBefore(asr)) {
       return (
@@ -944,6 +944,7 @@ class PrayersHelper {
         nextTime: asr,
         previousType: PrayerType.dhuhr,
         previousTime: dhuhr,
+        isSunrise: false,
       );
     } else if (now.isBefore(maghrib)) {
       return (
@@ -951,6 +952,7 @@ class PrayersHelper {
         nextTime: maghrib,
         previousType: PrayerType.asr,
         previousTime: asr,
+        isSunrise: false,
       );
     } else if (now.isBefore(isha)) {
       return (
@@ -958,6 +960,7 @@ class PrayersHelper {
         nextTime: isha,
         previousType: PrayerType.maghrib,
         previousTime: maghrib,
+        isSunrise: false,
       );
     } else {
       // After Isha: next is tomorrow's Fajr
@@ -968,6 +971,7 @@ class PrayersHelper {
         nextTime: tomorrowFajr,
         previousType: PrayerType.isha,
         previousTime: isha,
+        isSunrise: false,
       );
     }
   }
@@ -981,7 +985,8 @@ class PrayersHelper {
     DateTime windowEnd,
     bool isPreAdhan,
     bool isPostAdhan,
-  })? getActivePrayerWindow(DateTime now) {
+  })?
+  getActivePrayerWindow(DateTime now) {
     final todayPrayers = getPrayerDateTimes(now);
 
     final yesterday = now.subtract(const Duration(days: 1));
@@ -1050,7 +1055,9 @@ class PrayersHelper {
       final isNotif = notificationOverrides?[type] ?? true;
 
       // Dynamic 15-minute window before and after prayer time
-      final startWindowDt = prayerDateTime.subtract(const Duration(minutes: 15));
+      final startWindowDt = prayerDateTime.subtract(
+        const Duration(minutes: 15),
+      );
       final endWindowDt = prayerDateTime.add(const Duration(minutes: 15));
 
       final isNext =
@@ -1059,19 +1066,17 @@ class PrayersHelper {
           now.isBefore(prayerDateTime);
 
       final isCurrent =
-          isToday &&
-          !now.isBefore(prayerDateTime) &&
-          !now.isAfter(endWindowDt);
+          isToday && !now.isBefore(prayerDateTime) && !now.isAfter(endWindowDt);
 
       final startOverride = windowOverrides?[type]?.start;
       final endOverride = windowOverrides?[type]?.end;
 
       final startStr = (startOverride != null && startOverride.isNotEmpty)
           ? startOverride
-          : formatTimeTo12Hour(startWindowDt, language: 'ar');
+          : formatTimeTo12Hour(startWindowDt);
       final endStr = (endOverride != null && endOverride.isNotEmpty)
           ? endOverride
-          : formatTimeTo12Hour(endWindowDt, language: 'ar');
+          : formatTimeTo12Hour(endWindowDt);
 
       return PrayerTimeModel(
         type: type,

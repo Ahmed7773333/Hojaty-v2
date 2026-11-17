@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 
 class AdhanSettingModel extends Equatable {
   final bool isFullAdhan;

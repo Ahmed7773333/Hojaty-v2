@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hojaty/features/books/data/models/book_page_model.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../data/models/book_collection_model.dart';
-import '../../data/models/book_info_model.dart';
-import '../../data/models/book_reader_theme_model.dart';
-import '../../data/repositories/books_repository.dart';
-import '../../domain/utils/book_paginator.dart';
-import '../widgets/book_reader/book_page_leaf_widget.dart';
-import '../widgets/book_reader/book_reader_bottom_bar_widget.dart';
-import '../widgets/book_reader/book_reader_header_widget.dart';
-import '../widgets/book_reader/book_reader_jump_dialog.dart';
-import '../widgets/book_reader/book_reader_search_sheet.dart';
-import '../widgets/book_reader/book_reader_settings_sheet.dart';
-import '../widgets/book_reader/book_reader_share_sheet.dart';
-import '../widgets/book_reader/book_reader_toc_sheet.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/books/data/models/book_collection_model.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/models/book_reader_theme_model.dart';
+import 'package:hojaty/features/books/data/repositories/books_repository.dart';
+import 'package:hojaty/features/books/domain/utils/book_paginator.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_page_leaf_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_bottom_bar_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_header_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_jump_dialog.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_search_sheet.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_settings_sheet.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_share_sheet.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_reader_toc_sheet.dart';
 
 class BookReaderPage extends StatefulWidget {
   final BookInfoModel book;
@@ -57,7 +57,8 @@ class _BookReaderPageState extends State<BookReaderPage> {
     if (widget.initialHadithId != null) {
       startPage = _paginationResult.hadithPages[widget.initialHadithId] ?? 1;
     } else if (widget.initialChapterId != null) {
-      startPage = _paginationResult.chapterStartPages[widget.initialChapterId] ?? 1;
+      startPage =
+          _paginationResult.chapterStartPages[widget.initialChapterId] ?? 1;
     }
 
     if (_paginationResult.pages.isEmpty) {
@@ -133,8 +134,10 @@ class _BookReaderPageState extends State<BookReaderPage> {
         fontSize: _fontSize,
         currentThemeMode: _themeMode,
         showEnglish: _showEnglish,
-        onFontSizeChanged: (double newSize) => setState(() => _fontSize = newSize),
-        onThemeChanged: (BookReaderThemeMode newTheme) => setState(() => _themeMode = newTheme),
+        onFontSizeChanged: (double newSize) =>
+            setState(() => _fontSize = newSize),
+        onThemeChanged: (BookReaderThemeMode newTheme) =>
+            setState(() => _themeMode = newTheme),
         onToggleEnglish: (bool val) => setState(() => _showEnglish = val),
       ),
     );
@@ -175,16 +178,16 @@ class _BookReaderPageState extends State<BookReaderPage> {
       Navigator.of(context).pop();
 
       if (!success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfNotFound)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfNotFound)));
       }
     } catch (e) {
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfOpenError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfOpenError)));
       }
     }
   }
@@ -202,7 +205,10 @@ class _BookReaderPageState extends State<BookReaderPage> {
 
   BookPageModel? _getCurrentPageModel() {
     if (_paginationResult.pages.isEmpty) return null;
-    final index = (_currentPage - 1).clamp(0, _paginationResult.pages.length - 1);
+    final index = (_currentPage - 1).clamp(
+      0,
+      _paginationResult.pages.length - 1,
+    );
     return _paginationResult.pages[index];
   }
 
@@ -219,7 +225,9 @@ class _BookReaderPageState extends State<BookReaderPage> {
           ? Center(
               child: Text(
                 context.strings.noHadithsFound,
-                style: context.textTheme.bodyMedium?.copyWith(color: theme.primaryText),
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: theme.primaryText,
+                ),
               ),
             )
           : Stack(
@@ -285,4 +293,3 @@ class _BookReaderPageState extends State<BookReaderPage> {
     );
   }
 }
-

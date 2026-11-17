@@ -34,10 +34,12 @@ extension TimeOfDayMinutesX on TimeOfDay {
     final trimmed = raw.trim();
     if (trimmed.isEmpty) return const TimeOfDay(hour: 5, minute: 15);
 
-    final isPm = trimmed.contains('م') ||
+    final isPm =
+        trimmed.contains('م') ||
         trimmed.toLowerCase().contains('pm') ||
         trimmed.contains('مساء');
-    final isAm = trimmed.contains('ص') ||
+    final isAm =
+        trimmed.contains('ص') ||
         trimmed.toLowerCase().contains('am') ||
         trimmed.contains('صباح');
 

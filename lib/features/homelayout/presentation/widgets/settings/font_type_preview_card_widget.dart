@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class FontTypePreviewCardWidget extends StatelessWidget {
   final String selectedFontId;
 
-  const FontTypePreviewCardWidget({
-    super.key,
-    required this.selectedFontId,
-  });
+  const FontTypePreviewCardWidget({super.key, required this.selectedFontId});
 
   String _getFontDisplayName(BuildContext context) {
     switch (selectedFontId) {
@@ -37,7 +34,6 @@ class FontTypePreviewCardWidget extends StatelessWidget {
           color: isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Column(
@@ -62,7 +58,6 @@ class FontTypePreviewCardWidget extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected
                     : AppColors.lightBorderSelected,
-                width: 1.0,
               ),
             ),
             child: Row(

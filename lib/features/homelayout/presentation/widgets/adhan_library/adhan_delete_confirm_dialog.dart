@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import 'adhan_delete_confirm_dialog_actions_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/adhan_library/adhan_delete_confirm_dialog_actions_widget.dart';
 
 class AdhanDeleteConfirmDialog extends StatelessWidget {
   final String title;
@@ -79,13 +79,10 @@ class AdhanDeleteConfirmDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             20.ver,
-            AdhanDeleteConfirmDialogActionsWidget(
-              onConfirm: onConfirm,
-            ),
+            AdhanDeleteConfirmDialogActionsWidget(onConfirm: onConfirm),
           ],
         ),
       ),
     );
   }
 }
-

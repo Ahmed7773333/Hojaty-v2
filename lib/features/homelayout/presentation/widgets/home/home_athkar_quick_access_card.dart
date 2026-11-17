@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../data/mocks/athkar_mock_data.dart';
-import '../../../data/datasources/local/athkar_local_data_source.dart';
-import '../../../data/models/athkar_category_model.dart';
-import '../../../data/models/athkar_detail_args.dart';
-import '../../../data/models/prayer_time_model.dart';
-import '../../../data/models/thikr_item_model.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/athkar_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/datasources/local/athkar_local_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 
 class HomeAthkarQuickAccessCard extends StatelessWidget {
   const HomeAthkarQuickAccessCard({super.key});
@@ -84,7 +84,7 @@ class HomeAthkarQuickAccessCard extends StatelessWidget {
               break;
             case PrayerType.dhuhr:
             case PrayerType.asr:
-            athkarType = AthkarCategoryType.morning;
+              athkarType = AthkarCategoryType.morning;
               title = context.strings.morningAthkar;
               iconAsset = Assets.morningAzkharIcon;
               categoryId = 1;
@@ -129,13 +129,10 @@ class HomeAthkarQuickAccessCard extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected
                     : AppColors.lightBorderUnselected,
-                width: 1.0,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.black.withValues(
-                    alpha: isDark ? 0.2 : 0.04,
-                  ),
+                  color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),

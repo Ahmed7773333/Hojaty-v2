@@ -1,55 +1,55 @@
 import 'package:flutter/material.dart';
-import '../../core/local/user_hive_helper.dart';
-import '../../data/mocks/occasions_mock_data.dart';
-import '../../features/books/data/models/book_collection_model.dart';
-import '../../features/books/data/models/book_info_model.dart';
-import '../../features/books/data/models/hadith_item_model.dart';
-import '../../features/books/presentation/pages/book_chapters_page.dart';
-import '../../features/books/presentation/pages/book_hadiths_page.dart';
-import '../../features/books/presentation/pages/book_reader_page.dart';
-import '../../features/books/presentation/pages/books_page.dart';
-import '../../features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
-import '../../features/homelayout/data/models/athkar_category_model.dart';
-import '../../features/homelayout/data/models/athkar_detail_args.dart';
-import '../../features/homelayout/data/models/occasion_item_model.dart';
-import '../../features/homelayout/data/models/prayer_time_model.dart';
-import '../../features/homelayout/presentation/pages/adhan_sounds_library_page.dart';
-import '../../features/homelayout/presentation/pages/app_info_content_page.dart';
-import '../../features/homelayout/presentation/pages/asma_allah_page.dart';
-import '../../features/homelayout/presentation/pages/athkar_detail_page.dart';
-import '../../features/homelayout/presentation/pages/font_settings_page.dart';
-import '../../features/homelayout/presentation/pages/font_type_settings_page.dart';
-import '../../features/homelayout/presentation/pages/homelayout_page.dart';
-import '../../features/homelayout/presentation/pages/istikhara_page.dart';
-import '../../features/homelayout/presentation/pages/language_settings_page.dart';
-import '../../features/homelayout/presentation/pages/theme_settings_page.dart';
-import '../../features/homelayout/presentation/pages/location_settings_page.dart';
-import '../../features/homelayout/presentation/pages/notifications_page.dart';
-import '../../features/homelayout/presentation/pages/occasion_detail_page.dart';
-import '../../features/homelayout/presentation/pages/prayer_calculation_settings_page.dart';
-import '../../features/homelayout/presentation/pages/prayer_times_page.dart';
-import '../../features/homelayout/presentation/pages/salawat_settings_page.dart';
-import '../../features/homelayout/presentation/pages/sebha_page.dart';
-import '../../features/onboarding/presentation/pages/language_selection_page.dart';
-import '../../features/onboarding/presentation/pages/onboarding_page.dart';
-import '../../features/qibla/presentation/pages/qibla_page.dart';
-import '../../features/quran/data/models/page_data_model.dart';
-import '../../features/quran/data/models/surah_info_model.dart';
-import '../../features/quran/presentation/pages/quran_fehres_page.dart';
-import '../../features/quran/presentation/pages/quran_juzs_page.dart';
-import '../../features/quran/presentation/pages/quran_reader_page.dart';
-import '../../features/quran/presentation/pages/quran_search_page.dart';
-import '../../features/quran/presentation/pages/quran_tafseer_page.dart';
-import '../../features/radio/data/models/live_stream_args.dart';
-import '../../features/radio/data/models/playlist_model.dart';
-import '../../features/radio/data/models/reciter_model.dart';
-import '../../features/radio/data/models/surah_audio_args.dart';
-import '../../features/radio/presentation/pages/live_stream_page.dart';
-import '../../features/radio/presentation/pages/playlist_details_page.dart';
-import '../../features/radio/presentation/pages/playlists_page.dart';
-import '../../features/radio/presentation/pages/radio_page.dart';
-import '../../features/radio/presentation/pages/reader_surahs_page.dart';
-import '../../features/radio/presentation/pages/surah_audio_page.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/data/mocks/occasions_mock_data.dart';
+import 'package:hojaty/features/books/data/models/book_collection_model.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/models/hadith_item_model.dart';
+import 'package:hojaty/features/books/presentation/pages/book_chapters_page.dart';
+import 'package:hojaty/features/books/presentation/pages/book_hadiths_page.dart';
+import 'package:hojaty/features/books/presentation/pages/book_reader_page.dart';
+import 'package:hojaty/features/books/presentation/pages/books_page.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/adhan_sounds_library_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/app_info_content_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/asma_allah_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/athkar_detail_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/font_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/font_type_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/homelayout_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/istikhara_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/language_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/theme_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/location_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/notifications_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/occasion_detail_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/prayer_calculation_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/prayer_times_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/salawat_settings_page.dart';
+import 'package:hojaty/features/homelayout/presentation/pages/sebha_page.dart';
+import 'package:hojaty/features/onboarding/presentation/pages/language_selection_page.dart';
+import 'package:hojaty/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:hojaty/features/qibla/presentation/pages/qibla_page.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_fehres_page.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_juzs_page.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_reader_page.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_search_page.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_tafseer_page.dart';
+import 'package:hojaty/features/radio/data/models/live_stream_args.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:hojaty/features/radio/presentation/pages/live_stream_page.dart';
+import 'package:hojaty/features/radio/presentation/pages/playlist_details_page.dart';
+import 'package:hojaty/features/radio/presentation/pages/playlists_page.dart';
+import 'package:hojaty/features/radio/presentation/pages/radio_page.dart';
+import 'package:hojaty/features/radio/presentation/pages/reader_surahs_page.dart';
+import 'package:hojaty/features/radio/presentation/pages/surah_audio_page.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -64,7 +64,8 @@ class AppRoutes {
   static const String occasionDetail = '/occasion-detail';
   static const String themeSettings = '/theme-settings';
   static const String languageSettings = '/language-settings';
-  static const String prayerCalculationSettings = '/prayer-calculation-settings';
+  static const String prayerCalculationSettings =
+      '/prayer-calculation-settings';
   static const String locationSettings = '/location-settings';
   static const String fontSettings = '/font-settings';
   static const String fontTypeSettings = '/font-type-settings';
@@ -148,10 +149,8 @@ class AppRouter {
         } else if (settings.arguments is AthkarCategoryModel) {
           final category = settings.arguments as AthkarCategoryModel;
           return MaterialPageRoute(
-            builder: (_) => AthkarDetailPage(
-              title: '',
-              categoryModel: category,
-            ),
+            builder: (_) =>
+                AthkarDetailPage(title: '', categoryModel: category),
             settings: settings,
           );
         }
@@ -176,7 +175,8 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.occasionDetail:
-        final occasion = settings.arguments as OccasionItemModel? ??
+        final occasion =
+            settings.arguments as OccasionItemModel? ??
             OccasionsMockData.nextOccasion;
         return MaterialPageRoute(
           builder: (_) => OccasionDetailPage(occasion: occasion),
@@ -205,9 +205,8 @@ class AppRouter {
       case AppRoutes.adhanSoundsLibrary:
         final initialPrayer = settings.arguments as PrayerType?;
         return MaterialPageRoute(
-          builder: (_) => AdhanSoundsLibraryPage(
-            initialPrayerType: initialPrayer,
-          ),
+          builder: (_) =>
+              AdhanSoundsLibraryPage(initialPrayerType: initialPrayer),
           settings: settings,
         );
       case AppRoutes.locationSettings:
@@ -228,7 +227,8 @@ class AppRouter {
       case AppRoutes.appInfoContent:
         if (settings.arguments is Map) {
           final args = settings.arguments as Map;
-          final contentType = args['contentType'] as AppContentType? ?? AppContentType.custom;
+          final contentType =
+              args['contentType'] as AppContentType? ?? AppContentType.custom;
           final title = (args['title'] as String?) ?? '';
           final content = (args['content'] as String?) ?? '';
           return MaterialPageRoute(
@@ -241,10 +241,7 @@ class AppRouter {
           );
         }
         return MaterialPageRoute(
-          builder: (_) => const AppInfoContentPage(
-            title: '',
-            content: '',
-          ),
+          builder: (_) => const AppInfoContentPage(title: '', content: ''),
           settings: settings,
         );
       case AppRoutes.quranReader:
@@ -382,9 +379,7 @@ class AppRouter {
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
-            body: Center(
-              child: Text('No route defined for ${settings.name}'),
-            ),
+            body: Center(child: Text('No route defined for ${settings.name}')),
           ),
           settings: settings,
         );

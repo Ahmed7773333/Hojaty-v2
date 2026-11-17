@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/playlist_model.dart';
-import '../../data/models/reciter_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/data/models/reciter_model.dart';
 
 enum RadioStatus {
   initial,

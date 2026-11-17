@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_onboarding.dart';
-import 'onboarding_event.dart';
-import 'onboarding_state.dart';
+import 'package:hojaty/features/onboarding/domain/usecases/get_onboarding.dart';
+import 'package:hojaty/features/onboarding/presentation/bloc/onboarding_event.dart';
+import 'package:hojaty/features/onboarding/presentation/bloc/onboarding_state.dart';
 
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   final GetOnboardingUseCase getOnboarding;

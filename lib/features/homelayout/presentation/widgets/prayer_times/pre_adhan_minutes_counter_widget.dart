@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class PreAdhanMinutesCounterWidget extends StatefulWidget {
   final int minutes;
@@ -111,15 +111,12 @@ class _PreAdhanMinutesCounterWidgetState
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
           decoration: BoxDecoration(
-            color: isDark
-                ? AppColors.darkSurface
-                : AppColors.lightSurface,
+            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.lightBorderUnselected,
-              width: 1.0,
             ),
           ),
           child: Row(
@@ -136,11 +133,11 @@ class _PreAdhanMinutesCounterWidgetState
                     decoration: BoxDecoration(
                       color: canDecrement
                           ? (isDark
-                              ? AppColors.white.withValues(alpha: 0.08)
-                              : AppColors.primaryDark.withValues(alpha: 0.08))
+                                ? AppColors.white.withValues(alpha: 0.08)
+                                : AppColors.primaryDark.withValues(alpha: 0.08))
                           : (isDark
-                              ? AppColors.white.withValues(alpha: 0.02)
-                              : AppColors.black.withValues(alpha: 0.02)),
+                                ? AppColors.white.withValues(alpha: 0.02)
+                                : AppColors.black.withValues(alpha: 0.02)),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Icon(
@@ -148,11 +145,11 @@ class _PreAdhanMinutesCounterWidgetState
                       size: 20.r,
                       color: canDecrement
                           ? (isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.primaryDark)
+                                ? AppColors.darkTextPrimary
+                                : AppColors.primaryDark)
                           : (isDark
-                              ? AppColors.darkTextMuted
-                              : AppColors.lightTextMuted),
+                                ? AppColors.darkTextMuted
+                                : AppColors.lightTextMuted),
                     ),
                   ),
                 ),
@@ -229,11 +226,11 @@ class _PreAdhanMinutesCounterWidgetState
                     decoration: BoxDecoration(
                       color: canIncrement
                           ? (isDark
-                              ? AppColors.white.withValues(alpha: 0.08)
-                              : AppColors.primaryDark.withValues(alpha: 0.08))
+                                ? AppColors.white.withValues(alpha: 0.08)
+                                : AppColors.primaryDark.withValues(alpha: 0.08))
                           : (isDark
-                              ? AppColors.white.withValues(alpha: 0.02)
-                              : AppColors.black.withValues(alpha: 0.02)),
+                                ? AppColors.white.withValues(alpha: 0.02)
+                                : AppColors.black.withValues(alpha: 0.02)),
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Icon(
@@ -241,11 +238,11 @@ class _PreAdhanMinutesCounterWidgetState
                       size: 20.r,
                       color: canIncrement
                           ? (isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.primaryDark)
+                                ? AppColors.darkTextPrimary
+                                : AppColors.primaryDark)
                           : (isDark
-                              ? AppColors.darkTextMuted
-                              : AppColors.lightTextMuted),
+                                ? AppColors.darkTextMuted
+                                : AppColors.lightTextMuted),
                     ),
                   ),
                 ),
@@ -257,4 +254,3 @@ class _PreAdhanMinutesCounterWidgetState
     );
   }
 }
-

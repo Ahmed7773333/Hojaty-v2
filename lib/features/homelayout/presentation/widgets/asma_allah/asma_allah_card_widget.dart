@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/asma_allah_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/asma_allah_model.dart';
 
 class AsmaAllahCardWidget extends StatefulWidget {
   final AsmaAllahModel item;
 
-  const AsmaAllahCardWidget({
-    super.key,
-    required this.item,
-  });
+  const AsmaAllahCardWidget({super.key, required this.item});
 
   @override
   State<AsmaAllahCardWidget> createState() => _AsmaAllahCardWidgetState();
@@ -51,9 +48,8 @@ class _AsmaAllahCardWidgetState extends State<AsmaAllahCardWidget> {
               color: _isExpanded
                   ? AppColors.accentGold.withValues(alpha: 0.5)
                   : (isDark
-                      ? AppColors.darkBorderUnselected
-                      : AppColors.lightBorderUnselected),
-              width: 1.0,
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected),
             ),
             boxShadow: [
               BoxShadow(
@@ -79,7 +75,9 @@ class _AsmaAllahCardWidgetState extends State<AsmaAllahCardWidget> {
                     child: Text(
                       '${widget.item.number}',
                       style: context.textTheme.labelMedium?.copyWith(
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.accentGold
+                            : AppColors.primaryDark,
                         fontWeight: FontWeight.w800,
                         fontSize: 13.sp,
                       ),
@@ -110,7 +108,9 @@ class _AsmaAllahCardWidgetState extends State<AsmaAllahCardWidget> {
                                   vertical: 2.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.accentGold.withValues(alpha: 0.1),
+                                  color: AppColors.accentGold.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(6.r),
                                 ),
                                 child: Text(
@@ -202,4 +202,3 @@ class _AsmaAllahCardWidgetState extends State<AsmaAllahCardWidget> {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'thikr_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
 
 enum AthkarCategoryType {
   morning,

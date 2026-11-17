@@ -1,7 +1,7 @@
-import '../../features/homelayout/data/models/athkar_category_model.dart';
-import '../../features/homelayout/data/models/istikhara_step_model.dart';
-import '../../features/homelayout/data/models/thikr_item_model.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/istikhara_step_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
+import 'package:hojaty/l10n/app_localizations.dart';
 
 class AthkarMockData {
   static List<AthkarCategoryModel> get categories => [

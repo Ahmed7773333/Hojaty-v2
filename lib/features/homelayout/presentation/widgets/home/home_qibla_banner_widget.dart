@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../qibla/presentation/widgets/kaaba_icon_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/kaaba_icon_widget.dart';
 
 class HomeQiblaBannerWidget extends StatelessWidget {
   const HomeQiblaBannerWidget({super.key});
@@ -20,7 +20,6 @@ class HomeQiblaBannerWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: AppColors.accentGold.withValues(alpha: 0.35),
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
@@ -89,4 +88,3 @@ class HomeQiblaBannerWidget extends StatelessWidget {
     );
   }
 }
-

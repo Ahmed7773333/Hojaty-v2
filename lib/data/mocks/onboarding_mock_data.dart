@@ -1,5 +1,5 @@
-import '../../features/onboarding/data/models/onboarding_item_model.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:hojaty/features/onboarding/data/models/onboarding_item_model.dart';
+import 'package:hojaty/l10n/app_localizations.dart';
 
 class OnboardingMockData {
   static List<OnboardingItemModel> get items => const [

@@ -1,13 +1,14 @@
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import '../../config/routes/app_router.dart';
-import '../../main.dart';
-import '../utils/extensions/context_extensions.dart';
-import '../utils/flutter_secure_storage_helper.dart';
-import 'api_consumer.dart';
-import '../error/exceptions.dart';
-import '../constants/app_constants.dart';
-import '../local/user_hive_helper.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/constants/app_constants.dart';
+import 'package:hojaty/core/error/exceptions.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/network/api_consumer.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/flutter_secure_storage_helper.dart';
+import 'package:hojaty/hojaty_app.dart';
 
 class DioClient implements ApiConsumer {
   final Dio dio;
@@ -21,13 +22,14 @@ class DioClient implements ApiConsumer {
       ..headers = {
         'accept': 'application/json',
         'content-type': 'application/json',
-        'app-lang': UserHiveHelper.getUser()?.language ?? 'en',
       };
 
     // --- ADVANCED LOGGING & AUTH INTERCEPTOR ---
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          final lang = UserHiveHelper.getUser()?.language ?? 'en';
+          options.headers['app-lang'] = lang;
           final token = await FlutterSecureStorageHelper.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -67,7 +69,7 @@ class DioClient implements ApiConsumer {
           if (response.data is Map && response.data['message'] != null) {
             final message = response.data['message'];
             if (message is String && message.isNotEmpty) {
-              final context = AnaOsalyApp.navigatorKey.currentContext;
+              final context = HojatyApp.navigatorKey.currentContext;
               if (context != null && response.requestOptions.method != 'GET') {
                 // SnackbarHelper.showSuccess(context, message: message);
               }
@@ -85,7 +87,7 @@ class DioClient implements ApiConsumer {
             log('📥 ERROR DATA: ${e.response?.data}');
           }
 
-          final context = AnaOsalyApp.navigatorKey.currentContext;
+          final context = HojatyApp.navigatorKey.currentContext;
           if (context != null) {
             if (e.type == DioExceptionType.badResponse) {
               // SnackbarHelper.showError(context, message: errorMessage);
@@ -109,7 +111,7 @@ class DioClient implements ApiConsumer {
             log(
               '🚫 [AUTH] 401 Unauthorized - Consider triggering logout here.',
             );
-            final context = AnaOsalyApp.navigatorKey.currentContext;
+            final context = HojatyApp.navigatorKey.currentContext;
 
             if (context != null) {
               final String location = context.currentRouteName.toString();

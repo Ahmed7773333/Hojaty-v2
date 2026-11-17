@@ -1,20 +1,23 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/play_asset_delivery_service.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/play_asset_delivery_service.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class HomeHojatyAiQuickAccessCard extends StatefulWidget {
   const HomeHojatyAiQuickAccessCard({super.key});
 
   @override
-  State<HomeHojatyAiQuickAccessCard> createState() => _HomeHojatyAiQuickAccessCardState();
+  State<HomeHojatyAiQuickAccessCard> createState() =>
+      _HomeHojatyAiQuickAccessCardState();
 }
 
-class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCard> {
+class _HomeHojatyAiQuickAccessCardState
+    extends State<HomeHojatyAiQuickAccessCard> {
   bool _isDownloaded = true;
 
   @override
@@ -30,8 +33,12 @@ class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCar
     }
 
     try {
-      final packPath = await PlayAssetDeliveryService.getAssetPackPath('hojaty_rag');
-      if (packPath != null && packPath.isNotEmpty && File('$packPath/hojaty_rag.db').existsSync()) {
+      final packPath = await PlayAssetDeliveryService.getAssetPackPath(
+        'hojaty_rag',
+      );
+      if (packPath != null &&
+          packPath.isNotEmpty &&
+          File('$packPath/hojaty_rag.db').existsSync()) {
         if (mounted) setState(() => _isDownloaded = true);
         return;
       }
@@ -40,7 +47,9 @@ class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCar
         if (mounted) setState(() => _isDownloaded = true);
         return;
       }
-      final info = await PlayAssetDeliveryService.getAssetPackStatus('hojaty_rag');
+      final info = await PlayAssetDeliveryService.getAssetPackStatus(
+        'hojaty_rag',
+      );
       if (mounted) {
         setState(() => _isDownloaded = info.isDownloaded);
       }
@@ -66,13 +75,10 @@ class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCar
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(
-                alpha: isDark ? 0.2 : 0.04,
-              ),
+              color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -171,4 +177,3 @@ class _HomeHojatyAiQuickAccessCardState extends State<HomeHojatyAiQuickAccessCar
     );
   }
 }
-

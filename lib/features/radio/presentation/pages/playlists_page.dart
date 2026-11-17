@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/playlist_model.dart';
-import '../bloc/radio_bloc.dart';
-import '../bloc/radio_event.dart';
-import '../bloc/radio_state.dart';
-import '../widgets/playlists/create_playlist_dialog.dart';
-import '../widgets/playlists/playlist_card_widget.dart';
-import '../widgets/playlists/playlists_header_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_bloc.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_event.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_state.dart';
+import 'package:hojaty/features/radio/presentation/widgets/playlists/create_playlist_dialog.dart';
+import 'package:hojaty/features/radio/presentation/widgets/playlists/playlist_card_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/playlists/playlists_header_widget.dart';
 
 class PlaylistsPage extends StatefulWidget {
   const PlaylistsPage({super.key});
@@ -39,10 +39,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
   }
 
   void _onOpenPlaylist(PlaylistModel playlist) {
-    context.pushNamed(
-      AppRoutes.playlistDetails,
-      extra: playlist,
-    );
+    context.pushNamed(AppRoutes.playlistDetails, extra: playlist);
   }
 
   void _onDeletePlaylist(String playlistId) {
@@ -56,7 +53,9 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     return BlocProvider.value(
       value: _radioBloc,
       child: Scaffold(
-        backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: Column(
           children: [
             PlaylistsHeaderWidget(
@@ -72,14 +71,19 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
                       child: Text(
                         context.strings.noSurahsInPlaylist,
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                          color: isDark
+                              ? AppColors.darkTextMuted
+                              : AppColors.lightTextMuted,
                         ),
                       ),
                     );
                   }
 
                   return ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
                     itemCount: playlists.length,
                     separatorBuilder: (_, __) => 12.ver,
                     itemBuilder: (context, index) {
@@ -102,4 +106,3 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     );
   }
 }
-

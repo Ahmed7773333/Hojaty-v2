@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/page_data_model.dart';
-import '../../data/models/quran_search_result_model.dart';
-import '../../domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/quran/data/models/quran_search_result_model.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 enum QuranStatus { initial, loading, loaded, error }
 

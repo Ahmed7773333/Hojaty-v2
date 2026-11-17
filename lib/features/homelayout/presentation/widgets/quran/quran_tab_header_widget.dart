@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QuranTabHeaderWidget extends StatelessWidget {
   const QuranTabHeaderWidget({super.key});
@@ -18,7 +18,6 @@ class QuranTabHeaderWidget extends StatelessWidget {
         bottom: false,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Column(
@@ -69,4 +68,3 @@ class QuranTabHeaderWidget extends StatelessWidget {
     );
   }
 }
-

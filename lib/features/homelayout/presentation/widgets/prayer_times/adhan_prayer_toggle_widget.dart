@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayer_time_model.dart';
-import 'adhan_prayer_sound_pill_widget.dart';
-import 'prayer_type_icon_widget.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_prayer_sound_pill_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_type_icon_widget.dart';
 
 class AdhanPrayerToggleWidget extends StatelessWidget {
   final PrayerTimeModel prayer;
@@ -68,10 +68,7 @@ class AdhanPrayerToggleWidget extends StatelessWidget {
               ],
             ),
           ),
-          Switch(
-            value: prayer.isNotificationEnabled,
-            onChanged: onToggle,
-          ),
+          Switch(value: prayer.isNotificationEnabled, onChanged: onToggle),
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
 
 class PlaylistModel extends Equatable {
   final String id;

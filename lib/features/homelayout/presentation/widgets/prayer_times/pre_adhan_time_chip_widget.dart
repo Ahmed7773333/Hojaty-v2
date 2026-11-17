@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class PreAdhanTimeChipWidget extends StatelessWidget {
   final int minutes;
@@ -22,14 +22,14 @@ class PreAdhanTimeChipWidget extends StatelessWidget {
     final bgColor = isSelected
         ? AppColors.primaryDark
         : (isDark
-            ? AppColors.white.withValues(alpha: 0.05)
-            : AppColors.lightBackground);
+              ? AppColors.white.withValues(alpha: 0.05)
+              : AppColors.lightBackground);
 
     final borderColor = isSelected
         ? AppColors.primaryDark
         : (isDark
-            ? AppColors.darkBorderUnselected
-            : AppColors.lightBorderUnselected);
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected);
 
     final textColor = isSelected
         ? AppColors.white
@@ -44,7 +44,7 @@ class PreAdhanTimeChipWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: borderColor, width: 1.0),
+          border: Border.all(color: borderColor),
         ),
         child: Text(
           context.strings.preAdhanMinutesChoice(minutes),

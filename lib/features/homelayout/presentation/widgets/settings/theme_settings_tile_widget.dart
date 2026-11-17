@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../config/theme/app_theme.dart';
-import '../../../../../config/theme/app_theme_mode.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import 'settings_tile_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/app_theme.dart';
+import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tile_widget.dart';
 
 class ThemeSettingsTileWidget extends StatelessWidget {
   const ThemeSettingsTileWidget({super.key});
@@ -30,4 +30,3 @@ class ThemeSettingsTileWidget extends StatelessWidget {
     );
   }
 }
-

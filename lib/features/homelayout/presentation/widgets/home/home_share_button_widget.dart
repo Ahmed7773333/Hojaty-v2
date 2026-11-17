@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/app_share_helper.dart';
-import '../../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/app_share_helper.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class HomeShareButtonWidget extends StatelessWidget {
   const HomeShareButtonWidget({super.key});

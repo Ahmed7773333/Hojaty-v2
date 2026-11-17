@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/azan_audio_item_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/azan_audio_item_model.dart';
 
 class AdhanCardActionButtonsWidget extends StatelessWidget {
   final AzanAudioItemModel item;
@@ -64,11 +64,7 @@ class AdhanCardActionButtonsWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.check_rounded,
-                  size: 16.r,
-                  color: AppColors.white,
-                ),
+                Icon(Icons.check_rounded, size: 16.r, color: AppColors.white),
                 6.hor,
                 Text(
                   context.strings.setAdhanAction,
@@ -86,4 +82,3 @@ class AdhanCardActionButtonsWidget extends StatelessWidget {
     );
   }
 }
-

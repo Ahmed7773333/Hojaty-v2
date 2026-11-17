@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/calculation_method_model.dart';
-import 'calculation_method_row_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/calculation_method_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/calculation_method_row_widget.dart';
 
 class CalculationMethodCardWidget extends StatelessWidget {
   final List<CalculationMethodModel> methods;
@@ -45,7 +45,6 @@ class CalculationMethodCardWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.lightBorderUnselected,
-              width: 1.0,
             ),
           ),
           child: Column(

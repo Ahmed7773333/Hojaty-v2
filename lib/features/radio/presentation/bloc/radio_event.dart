@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
 
 abstract class RadioEvent extends Equatable {
   const RadioEvent();

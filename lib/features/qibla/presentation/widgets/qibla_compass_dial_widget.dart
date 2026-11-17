@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'kaaba_icon_widget.dart';
-import 'qibla_compass_painter.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/kaaba_icon_widget.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/qibla_compass_painter.dart';
 
 class QiblaCompassDialWidget extends StatelessWidget {
   final double heading;
@@ -97,12 +97,11 @@ class QiblaCompassDialWidget extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: isAligned ? AppColors.accentGold : AppColors.primaryDarkBackground,
+                color: isAligned
+                    ? AppColors.accentGold
+                    : AppColors.primaryDarkBackground,
                 borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                  color: AppColors.accentGold,
-                  width: 1.5,
-                ),
+                border: Border.all(color: AppColors.accentGold, width: 1.5),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.black.withValues(alpha: 0.2),
@@ -115,14 +114,18 @@ class QiblaCompassDialWidget extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.navigation_rounded,
-                    color: isAligned ? AppColors.white : AppColors.accentGoldLight,
+                    color: isAligned
+                        ? AppColors.white
+                        : AppColors.accentGoldLight,
                     size: 14.r,
                   ),
                   4.hor,
                   Text(
                     '${heading.round()}°',
                     style: context.textTheme.labelSmall?.copyWith(
-                      color: isAligned ? AppColors.white : AppColors.accentGoldLight,
+                      color: isAligned
+                          ? AppColors.white
+                          : AppColors.accentGoldLight,
                       fontWeight: FontWeight.w800,
                       fontSize: 11.sp,
                     ),
@@ -138,9 +141,13 @@ class QiblaCompassDialWidget extends StatelessWidget {
             height: 44.r,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isDark ? AppColors.primaryDarkBackground : AppColors.lightSurface,
+              color: isDark
+                  ? AppColors.primaryDarkBackground
+                  : AppColors.lightSurface,
               border: Border.all(
-                color: isAligned ? AppColors.accentGold : AppColors.primaryDarkBorder,
+                color: isAligned
+                    ? AppColors.accentGold
+                    : AppColors.primaryDarkBorder,
                 width: 2.0,
               ),
               boxShadow: [
@@ -153,7 +160,9 @@ class QiblaCompassDialWidget extends StatelessWidget {
             child: Center(
               child: Icon(
                 Icons.adjust_rounded,
-                color: isAligned ? AppColors.accentGold : AppColors.darkTextSecondary,
+                color: isAligned
+                    ? AppColors.accentGold
+                    : AppColors.darkTextSecondary,
                 size: 20.r,
               ),
             ),
@@ -163,4 +172,3 @@ class QiblaCompassDialWidget extends StatelessWidget {
     );
   }
 }
-

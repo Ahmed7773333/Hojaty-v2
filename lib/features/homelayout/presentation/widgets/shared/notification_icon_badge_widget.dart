@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/notification_item_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/notification_item_model.dart';
 
 class NotificationIconBadgeWidget extends StatelessWidget {
   final NotificationIconType type;
 
-  const NotificationIconBadgeWidget({
-    super.key,
-    required this.type,
-  });
+  const NotificationIconBadgeWidget({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {

@@ -45,7 +45,6 @@ class AzanAudioItemModel extends Equatable {
       sizeKb: (json['size_kb'] as num?)?.toInt() ?? 0,
       isDownloaded: isDownloaded,
       localPath: localPath,
-      isBuiltIn: false,
     );
   }
 

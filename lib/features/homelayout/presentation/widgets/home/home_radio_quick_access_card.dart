@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
 import 'package:just_audio/just_audio.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/di/injector.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../radio/services/radio_audio_player_service.dart';
 
 class HomeRadioQuickAccessCard extends StatelessWidget {
   const HomeRadioQuickAccessCard({super.key});
@@ -48,7 +48,6 @@ class HomeRadioQuickAccessCard extends StatelessWidget {
                 color: isDark
                     ? AppColors.darkBorderUnselected
                     : AppColors.lightBorderUnselected,
-                width: 1.0,
               ),
               boxShadow: [
                 BoxShadow(
@@ -107,7 +106,6 @@ class HomeRadioQuickAccessCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-              
               ],
             ),
           ),

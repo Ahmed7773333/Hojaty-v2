@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/features/quran/constants/quran_text_helper.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../bloc/quran_bloc.dart';
-import '../bloc/quran_event.dart';
-import '../bloc/quran_state.dart';
-import '../widgets/quran_asset_download_widget.dart';
-import '../widgets/quran_bottom_bar_widget.dart';
-import '../widgets/quran_reader_view_widget.dart';
-import '../widgets/quran_top_bar_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_asset_download_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_bottom_bar_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_reader_view_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_top_bar_widget.dart';
 
 class QuranReaderPage extends StatefulWidget {
   final int? initialPage;
@@ -133,18 +133,14 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                       Navigator.of(context).pop();
                     },
                     onListenTap: () {
-                      final surah = QuranTextHelper.getSurahByPage(state.currentPage);
+                      final surah = QuranTextHelper.getSurahByPage(
+                        state.currentPage,
+                      );
                       if (surah != null) {
-                        context.pushNamed(
-                          AppRoutes.radio,
-                          extra: surah,
-                        );
+                        context.pushNamed(AppRoutes.radio, extra: surah);
                       }
                     },
-                    onQiraatTap: () {
-                      
-                    },
-                  
+                    onQiraatTap: () {},
                   ),
                 ],
               );

@@ -2,14 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:hojaty/core/utils/play_asset_delivery_service.dart';
+import 'package:hojaty/features/books/data/models/book_collection_model.dart';
+import 'package:hojaty/features/books/data/models/book_download_state.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../../core/utils/play_asset_delivery_service.dart';
-import '../models/book_collection_model.dart';
-import '../models/book_download_state.dart';
-import '../models/book_info_model.dart';
 
 class BooksRepository {
   final Map<String, BookCollectionModel> _memoryCache = {};
@@ -37,7 +38,9 @@ class BooksRepository {
     }
 
     // 1. Check Play Asset Delivery path on Android
-    final packPath = await PlayAssetDeliveryService.getAssetPackPath(book.assetPackName);
+    final packPath = await PlayAssetDeliveryService.getAssetPackPath(
+      book.assetPackName,
+    );
     if (packPath != null && packPath.isNotEmpty) {
       final f = File('$packPath/${book.assetName}');
       if (await f.exists()) return f.path;
@@ -51,7 +54,8 @@ class BooksRepository {
     } catch (_) {}
 
     // 3. Check dev / source directory fallback if running locally
-    final devPath = 'android/${book.assetPackName}/src/main/assets/${book.assetName}';
+    final devPath =
+        'android/${book.assetPackName}/src/main/assets/${book.assetName}';
     final devFile = File(devPath);
     if (await devFile.exists()) return devFile.path;
 
@@ -79,7 +83,9 @@ class BooksRepository {
     }
 
     // 1. Check Play Asset Delivery path on Android
-    final packPath = await PlayAssetDeliveryService.getAssetPackPath(book.assetPackName);
+    final packPath = await PlayAssetDeliveryService.getAssetPackPath(
+      book.assetPackName,
+    );
     if (packPath != null && packPath.isNotEmpty) {
       final f = File('$packPath/$pdfName');
       if (await f.exists()) return f.path;
@@ -118,7 +124,10 @@ class BooksRepository {
         }
         final cachedFile = File('${cacheDir.path}/${book.pdfAssetName!}');
         await cachedFile.writeAsBytes(
-          byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+          byteData.buffer.asUint8List(
+            byteData.offsetInBytes,
+            byteData.lengthInBytes,
+          ),
         );
         return cachedFile;
       } catch (e) {
@@ -141,7 +150,9 @@ class BooksRepository {
       final opened = await PlayAssetDeliveryService.openPdf(file.path);
       if (opened) return true;
       try {
-        await Share.shareXFiles([XFile(file.path)], text: book.titleAr);
+        await SharePlus.instance.share(
+          ShareParams(files: [XFile(file.path)], text: book.titleAr),
+        );
         return true;
       } catch (_) {
         return false;
@@ -184,7 +195,9 @@ class BooksRepository {
       return status;
     }
 
-    final info = await PlayAssetDeliveryService.getAssetPackStatus(book.assetPackName);
+    final info = await PlayAssetDeliveryService.getAssetPackStatus(
+      book.assetPackName,
+    );
     if (info.isDownloaded && info.assetsPath != null) {
       final f = File('${info.assetsPath}/${book.assetName}');
       if (await f.exists()) {
@@ -199,11 +212,7 @@ class BooksRepository {
       }
     }
 
-    final status = BookDownloadProgress(
-      bookId: book.id,
-      status: BookDownloadStatus.notDownloaded,
-      progress: 0.0,
-    );
+    final status = BookDownloadProgress(bookId: book.id);
     _cachedStatuses[book.id] = status;
     return status;
   }
@@ -230,7 +239,6 @@ class BooksRepository {
     yield BookDownloadProgress(
       bookId: book.id,
       status: BookDownloadStatus.downloading,
-      progress: 0.0,
     );
 
     final controller = StreamController<BookDownloadProgress>();
@@ -289,7 +297,9 @@ class BooksRepository {
       },
     );
 
-    final started = await PlayAssetDeliveryService.startDownload(book.assetPackName);
+    final started = await PlayAssetDeliveryService.startDownload(
+      book.assetPackName,
+    );
     if (!started) {
       await sub.cancel();
       yield BookDownloadProgress(
@@ -306,10 +316,7 @@ class BooksRepository {
   Future<bool> deleteBook(BookInfoModel book) async {
     if (kDebugMode) return false;
     _memoryCache.remove(book.id);
-    _cachedStatuses[book.id] = BookDownloadProgress(
-      bookId: book.id,
-      status: BookDownloadStatus.notDownloaded,
-    );
+    _cachedStatuses[book.id] = BookDownloadProgress(bookId: book.id);
     try {
       // 1. Remove from Play Asset Delivery on Android
       await PlayAssetDeliveryService.removeAssetPack(book.assetPackName);
@@ -327,7 +334,9 @@ class BooksRepository {
             await localPdf.delete();
           }
           final tempDir = await getTemporaryDirectory();
-          final cachedPdf = File('${tempDir.path}/books_pdf/${book.pdfAssetName!}');
+          final cachedPdf = File(
+            '${tempDir.path}/books_pdf/${book.pdfAssetName!}',
+          );
           if (await cachedPdf.exists()) {
             await cachedPdf.delete();
           }
@@ -391,4 +400,3 @@ BookCollectionModel _parseBookCollectionJson(String jsonString) {
   }
   return BookCollectionModel.fromJson(decoded as Map<String, dynamic>);
 }
-

@@ -1,5 +1,5 @@
-import '../../data/models/occasion_item_model.dart';
-import '../../data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
 abstract class OccasionsLocalDataSource {
   Future<void> saveRamadanCheck(RamadanCheckData data, {required String language});

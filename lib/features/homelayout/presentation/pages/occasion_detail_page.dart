@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/occasion_item_model.dart';
-import '../widgets/occasions/occasion_detail_about_card_widget.dart';
-import '../widgets/occasions/occasion_detail_dates_card_widget.dart';
-import '../widgets/occasions/occasion_detail_header_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_detail_about_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_detail_dates_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasion_detail_header_widget.dart';
 
 class OccasionDetailPage extends StatelessWidget {
   final OccasionItemModel occasion;

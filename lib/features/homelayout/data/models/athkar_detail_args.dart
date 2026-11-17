@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'athkar_category_model.dart';
-import 'thikr_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
 
 class AthkarDetailArgs extends Equatable {
   final String title;

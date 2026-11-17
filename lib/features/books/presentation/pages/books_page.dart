@@ -1,23 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/book_download_state.dart';
-import '../../data/models/book_info_model.dart';
-import '../../data/repositories/books_repository.dart';
-import '../bloc/books_bloc.dart';
-import '../bloc/books_event.dart';
-import '../bloc/books_state.dart';
-import '../widgets/books/book_card_widget.dart';
-import '../widgets/books/book_delete_confirm_dialog.dart';
-import '../widgets/books/book_open_options_sheet.dart';
-import '../widgets/books/books_category_filter_widget.dart';
-import '../widgets/books/books_header_widget.dart';
-import '../widgets/books/books_search_bar_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/books/data/models/book_download_state.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/repositories/books_repository.dart';
+import 'package:hojaty/features/books/presentation/bloc/books_bloc.dart';
+import 'package:hojaty/features/books/presentation/bloc/books_event.dart';
+import 'package:hojaty/features/books/presentation/bloc/books_state.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/book_card_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/book_delete_confirm_dialog.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/book_open_options_sheet.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/books_category_filter_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/books_header_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/books/books_search_bar_widget.dart';
 
 class BooksPage extends StatefulWidget {
   const BooksPage({super.key});
@@ -56,17 +56,16 @@ class _BooksPageState extends State<BooksPage> {
       if (showChapters) {
         context.pushNamed(
           AppRoutes.bookChapters,
-          extra: {
-            'book': book,
-            'collection': collection,
-          },
+          extra: {'book': book, 'collection': collection},
         );
       } else {
         context.pushNamed(
           AppRoutes.bookHadiths,
           extra: {
             'bookTitle': book.getDisplayTitle(isAr),
-            'chapterTitle': collection.chapters.isNotEmpty ? collection.chapters.first.arabic : '',
+            'chapterTitle': collection.chapters.isNotEmpty
+                ? collection.chapters.first.arabic
+                : '',
             'hadiths': collection.hadiths,
             'book': book,
             'collection': collection,
@@ -76,9 +75,9 @@ class _BooksPageState extends State<BooksPage> {
     } catch (e) {
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
       }
     }
   }
@@ -120,16 +119,16 @@ class _BooksPageState extends State<BooksPage> {
       Navigator.of(context).pop(); // dismiss loading
 
       if (!success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfNotFound)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfNotFound)));
       }
     } catch (e) {
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.strings.pdfOpenError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.strings.pdfOpenError)));
       }
     }
   }
@@ -156,12 +155,12 @@ class _BooksPageState extends State<BooksPage> {
     return BlocProvider.value(
       value: _booksBloc,
       child: Scaffold(
-        backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: Column(
           children: [
-            BooksHeaderWidget(
-              onBack: () => context.pop(),
-            ),
+            BooksHeaderWidget(onBack: () => context.pop()),
             12.ver,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -171,13 +170,15 @@ class _BooksPageState extends State<BooksPage> {
             ),
             12.ver,
             BlocBuilder<BooksBloc, BooksState>(
-              buildWhen: (prev, curr) => prev.selectedCategory != curr.selectedCategory,
+              buildWhen: (prev, curr) =>
+                  prev.selectedCategory != curr.selectedCategory,
               builder: (context, state) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: BooksCategoryFilterWidget(
                     selectedCategory: state.selectedCategory,
-                    onCategorySelected: (cat) => _booksBloc.add(FilterBooksByCategoryEvent(cat)),
+                    onCategorySelected: (cat) =>
+                        _booksBloc.add(FilterBooksByCategoryEvent(cat)),
                   ),
                 );
               },
@@ -196,14 +197,19 @@ class _BooksPageState extends State<BooksPage> {
                       child: Text(
                         context.strings.noBooksFound,
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                          color: isDark
+                              ? AppColors.darkTextMuted
+                              : AppColors.lightTextMuted,
                         ),
                       ),
                     );
                   }
 
                   return GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     itemCount: books.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -218,7 +224,8 @@ class _BooksPageState extends State<BooksPage> {
                               bookId: book.id,
                               status: BookDownloadStatus.downloaded,
                               progress: 1.0,
-                              localFilePath: book.category == BookCategory.ibnBaz
+                              localFilePath:
+                                  book.category == BookCategory.ibnBaz
                                   ? 'assets/debug/elbaz/${book.assetName}'
                                   : 'assets/debug/${book.assetName}',
                             )
@@ -242,4 +249,3 @@ class _BooksPageState extends State<BooksPage> {
     );
   }
 }
-

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'kaaba_icon_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/qibla/presentation/widgets/kaaba_icon_widget.dart';
 
 class QiblaStatusBannerWidget extends StatelessWidget {
   final bool isAligned;
@@ -39,7 +39,9 @@ class QiblaStatusBannerWidget extends StatelessWidget {
           : context.strings.qiblaTurnLeft(degrees);
       leadingIcon = Icon(
         isRight ? Icons.rotate_right_rounded : Icons.rotate_left_rounded,
-        color: isClose ? AppColors.accentGoldLight : AppColors.darkTextSecondary,
+        color: isClose
+            ? AppColors.accentGoldLight
+            : AppColors.darkTextSecondary,
         size: 26.r,
       );
       backgroundColor = context.isDark
@@ -61,10 +63,7 @@ class QiblaStatusBannerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: borderColor,
-          width: isAligned ? 1.5 : 1.0,
-        ),
+        border: Border.all(color: borderColor, width: isAligned ? 1.5 : 1.0),
         boxShadow: isAligned
             ? [
                 BoxShadow(
@@ -111,4 +110,3 @@ class QiblaStatusBannerWidget extends StatelessWidget {
     );
   }
 }
-

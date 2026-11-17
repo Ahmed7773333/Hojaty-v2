@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/athkar/sebha_controls_widget.dart';
-import '../widgets/athkar/sebha_counter_button_widget.dart';
-import '../widgets/athkar/sebha_header_widget.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/sebha_controls_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/sebha_counter_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/sebha_header_widget.dart';
 
 class SebhaPage extends StatefulWidget {
   const SebhaPage({super.key});
@@ -55,14 +55,9 @@ class _SebhaPageState extends State<SebhaPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   60.ver,
-                  SebhaCounterButtonWidget(
-                    count: _count,
-                    onTap: _increment,
-                  ),
+                  SebhaCounterButtonWidget(count: _count, onTap: _increment),
                   40.ver,
-                  SebhaControlsWidget(
-                    onReset: _reset,
-                  ),
+                  SebhaControlsWidget(onReset: _reset),
                 ],
               ),
             ),
@@ -72,4 +67,3 @@ class _SebhaPageState extends State<SebhaPage> {
     );
   }
 }
-

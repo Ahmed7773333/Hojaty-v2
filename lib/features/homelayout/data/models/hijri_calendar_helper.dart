@@ -1,6 +1,6 @@
-import 'hijri_date_model.dart';
-import 'islamic_event_raw_model.dart';
-import 'occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_date_model.dart';
+import 'package:hojaty/features/homelayout/data/models/islamic_event_raw_model.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 
 class HijriCalendarHelper {
   static const List<String> hijriMonthsAr = [
@@ -227,7 +227,7 @@ class HijriCalendarHelper {
     required int month,
     required int activeDay,
   }) {
-    final firstDayOfMonth = DateTime(year, month, 1);
+    final firstDayOfMonth = DateTime(year, month);
     final daysInMonth = DateTime(year, month + 1, 0).day;
     final daysInPrevMonth = DateTime(year, month, 0).day;
 

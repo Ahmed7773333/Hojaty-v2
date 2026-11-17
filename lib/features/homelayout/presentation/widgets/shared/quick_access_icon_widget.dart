@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../core/utils/assets.dart';
-import '../../../data/models/quick_access_model.dart';
+import 'package:hojaty/core/utils/assets.dart';
+import 'package:hojaty/features/homelayout/data/models/quick_access_model.dart';
 
 class QuickAccessIconWidget extends StatelessWidget {
   final QuickAccessType type;
@@ -31,7 +31,7 @@ class QuickAccessIconWidget extends StatelessWidget {
           color: Color(0xFFD4AF37),
           size: 26,
         );
-        case QuickAccessType.sebha:
+      case QuickAccessType.sebha:
         return const Icon(
           Icons.fingerprint,
           color: Color(0xFFD4AF37),

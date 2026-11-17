@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/font_type_model.dart';
-import 'font_type_radio_row_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/font_type_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/font_type_radio_row_widget.dart';
 
 class FontTypeSelectionCardWidget extends StatelessWidget {
   final List<FontTypeModel> fontTypes;
@@ -45,37 +45,33 @@ class FontTypeSelectionCardWidget extends StatelessWidget {
               color: isDark
                   ? AppColors.darkBorderUnselected
                   : AppColors.lightBorderUnselected,
-              width: 1.0,
             ),
           ),
           child: Column(
-            children: List.generate(
-              fontTypes.length,
-              (index) {
-                final fontType = fontTypes[index];
-                return Column(
-                  children: [
-                    FontTypeRadioRowWidget(
-                      fontType: fontType,
-                      isSelected: selectedId == fontType.id,
-                      onTap: () => onSelect(fontType.id),
+            children: List.generate(fontTypes.length, (index) {
+              final fontType = fontTypes[index];
+              return Column(
+                children: [
+                  FontTypeRadioRowWidget(
+                    fontType: fontType,
+                    isSelected: selectedId == fontType.id,
+                    onTap: () => onSelect(fontType.id),
+                  ),
+                  if (index < fontTypes.length - 1)
+                    Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: isDark
+                          ? AppColors.darkBorderUnselected.withValues(
+                              alpha: 0.5,
+                            )
+                          : AppColors.lightBorderUnselected.withValues(
+                              alpha: 0.6,
+                            ),
                     ),
-                    if (index < fontTypes.length - 1)
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: isDark
-                            ? AppColors.darkBorderUnselected.withValues(
-                                alpha: 0.5,
-                              )
-                            : AppColors.lightBorderUnselected.withValues(
-                                alpha: 0.6,
-                              ),
-                      ),
-                  ],
-                );
-              },
-            ),
+                ],
+              );
+            }),
           ),
         ),
       ],

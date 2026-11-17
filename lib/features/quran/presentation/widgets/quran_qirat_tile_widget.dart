@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../domain/entities/qirat_type.dart';
-import '../bloc/quran_state.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
 
 class QuranQiratTileWidget extends StatelessWidget {
   final QiratType qirat;
@@ -51,7 +51,9 @@ class QuranQiratTileWidget extends StatelessWidget {
             LinearProgressIndicator(
               value: downloadProgress > 0 ? downloadProgress : null,
               color: AppColors.accentGold,
-              backgroundColor: isDark ? AppColors.darkCardUnselected : AppColors.lightCardSelected,
+              backgroundColor: isDark
+                  ? AppColors.darkCardUnselected
+                  : AppColors.lightCardSelected,
               borderRadius: BorderRadius.circular(4.r),
             ),
           ],
@@ -64,7 +66,9 @@ class QuranQiratTileWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.primaryDarkSurface : AppColors.lightCardSelected,
+              color: isDark
+                  ? AppColors.primaryDarkSurface
+                  : AppColors.lightCardSelected,
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Row(
@@ -79,7 +83,9 @@ class QuranQiratTileWidget extends StatelessWidget {
                 Text(
                   context.strings.offlineAvailable,
                   style: context.textTheme.labelSmall?.copyWith(
-                    color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.accentGold
+                        : AppColors.primaryDark,
                     fontWeight: FontWeight.bold,
                     fontSize: 10.sp,
                   ),
@@ -96,7 +102,9 @@ class QuranQiratTileWidget extends StatelessWidget {
               child: Icon(
                 Icons.delete_outline_rounded,
                 size: 18.sp,
-                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                color: isDark
+                    ? AppColors.darkTextMuted
+                    : AppColors.lightTextMuted,
               ),
             ),
           ),
@@ -109,10 +117,14 @@ class QuranQiratTileWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkCardSelected : AppColors.lightCardSelected,
+            color: isDark
+                ? AppColors.darkCardSelected
+                : AppColors.lightCardSelected,
             borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
-              color: isDark ? AppColors.darkBorderSelected : AppColors.primaryDark,
+              color: isDark
+                  ? AppColors.darkBorderSelected
+                  : AppColors.primaryDark,
               width: 1,
             ),
           ),
@@ -143,21 +155,29 @@ class QuranQiratTileWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 4.h),
       decoration: BoxDecoration(
         color: isSelected
-            ? (isDark ? AppColors.darkCardSelected : AppColors.lightCardSelected)
+            ? (isDark
+                  ? AppColors.darkCardSelected
+                  : AppColors.lightCardSelected)
             : (isDark ? AppColors.darkCardUnselected : AppColors.lightSurface),
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(
           color: isSelected
               ? (isDark ? AppColors.accentGold : AppColors.primaryDark)
-              : (isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected),
+              : (isDark
+                    ? AppColors.darkBorderUnselected
+                    : AppColors.lightBorderUnselected),
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
       child: ListTile(
         onTap: isDownloaded ? onTap : onDownload,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14.r),
+        ),
         leading: Icon(
-          isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_unchecked_rounded,
+          isSelected
+              ? Icons.radio_button_checked_rounded
+              : Icons.radio_button_unchecked_rounded,
           color: isSelected
               ? (isDark ? AppColors.accentGold : AppColors.primaryDark)
               : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted),
@@ -165,7 +185,9 @@ class QuranQiratTileWidget extends StatelessWidget {
         title: Text(
           qirat.label(context),
           style: context.textTheme.titleMedium?.copyWith(
-            color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+            color: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.lightTextPrimary,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             fontSize: 15.sp,
           ),

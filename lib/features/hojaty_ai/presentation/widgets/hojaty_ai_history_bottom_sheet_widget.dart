@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../bloc/hojaty_ai_cubit.dart';
-import '../bloc/hojaty_ai_state.dart';
-import 'hojaty_ai_history_item_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_history_item_widget.dart';
 
 class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
   const HojatyAiHistoryBottomSheetWidget({super.key});
@@ -61,7 +61,9 @@ class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.history_rounded,
-                      color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                      color: isDark
+                          ? AppColors.accentGold
+                          : AppColors.primaryDark,
                       size: 22.r,
                     ),
                     10.hor,
@@ -114,12 +116,16 @@ class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
                     icon: Icon(
                       Icons.add_comment_outlined,
                       size: 18.r,
-                      color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                      color: isDark
+                          ? AppColors.accentGold
+                          : AppColors.primaryDark,
                     ),
                     label: Text(
                       context.strings.hojatyAiNewChat,
                       style: context.textTheme.titleSmall?.copyWith(
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.accentGold
+                            : AppColors.primaryDark,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -188,11 +194,15 @@ class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
                           session: session,
                           isSelected: isSelected,
                           onTap: () {
-                            context.read<HojatyAiCubit>().selectSession(session.id);
+                            context.read<HojatyAiCubit>().selectSession(
+                              session.id,
+                            );
                             Navigator.of(context).pop();
                           },
                           onDelete: () {
-                            context.read<HojatyAiCubit>().deleteSession(session.id);
+                            context.read<HojatyAiCubit>().deleteSession(
+                              session.id,
+                            );
                           },
                         );
                       },
@@ -239,4 +249,3 @@ class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
     );
   }
 }
-

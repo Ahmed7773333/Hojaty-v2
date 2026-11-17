@@ -3,8 +3,8 @@ import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/books/data/models/book_page_model.dart';
 import 'package:hojaty/features/books/data/models/book_reader_theme_model.dart';
-import 'book_page_chapter_header_widget.dart';
-import 'book_page_hadith_item_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_page_chapter_header_widget.dart';
+import 'package:hojaty/features/books/presentation/widgets/book_reader/book_page_hadith_item_widget.dart';
 
 class BookPageLeafWidget extends StatelessWidget {
   final BookPageModel page;
@@ -48,7 +48,10 @@ class BookPageLeafWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(color: theme.border.withValues(alpha: 0.8), width: 0.8),
+                    bottom: BorderSide(
+                      color: theme.border.withValues(alpha: 0.8),
+                      width: 0.8,
+                    ),
                   ),
                 ),
                 child: Row(
@@ -87,7 +90,10 @@ class BookPageLeafWidget extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 12.h,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -116,7 +122,10 @@ class BookPageLeafWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 decoration: BoxDecoration(
                   border: Border(
-                    top: BorderSide(color: theme.border.withValues(alpha: 0.8), width: 0.8),
+                    top: BorderSide(
+                      color: theme.border.withValues(alpha: 0.8),
+                      width: 0.8,
+                    ),
                   ),
                 ),
                 alignment: Alignment.center,
@@ -136,4 +145,3 @@ class BookPageLeafWidget extends StatelessWidget {
     );
   }
 }
-

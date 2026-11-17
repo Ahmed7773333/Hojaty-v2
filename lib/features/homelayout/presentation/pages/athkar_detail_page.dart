@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../data/mocks/athkar_mock_data.dart';
-import '../../data/models/athkar_category_model.dart';
-import '../../data/models/thikr_item_model.dart';
-import '../widgets/athkar/athkar_completed_card_widget.dart';
-import '../widgets/athkar/athkar_detail_header_widget.dart';
-import '../widgets/athkar/athkar_segmented_progress_widget.dart';
-import '../widgets/athkar/thikr_page_content_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/athkar_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_completed_card_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_detail_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_segmented_progress_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/thikr_page_content_widget.dart';
 
 class AthkarDetailPage extends StatefulWidget {
   final String title;
@@ -204,10 +204,12 @@ class _AthkarDetailPageState extends State<AthkarDetailPage> {
       );
     }
 
-    final displayIndex =
-        _currentIndex < _items.length ? _currentIndex + 1 : _items.length;
-    final segmentIndex =
-        _currentIndex < _items.length ? _currentIndex : _items.length - 1;
+    final displayIndex = _currentIndex < _items.length
+        ? _currentIndex + 1
+        : _items.length;
+    final segmentIndex = _currentIndex < _items.length
+        ? _currentIndex
+        : _items.length - 1;
 
     return Scaffold(
       backgroundColor: isDark

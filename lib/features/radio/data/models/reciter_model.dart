@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'moshaf_model.dart';
+import 'package:hojaty/features/radio/data/models/moshaf_model.dart';
 
 class ReciterModel extends Equatable {
   final int? id;

@@ -1,5 +1,5 @@
-import '../entities/qirat_type.dart';
-import '../repositories/quran_repository.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/domain/repositories/quran_repository.dart';
 
 class GetLastReadPageUseCase {
   final QuranRepository repository;

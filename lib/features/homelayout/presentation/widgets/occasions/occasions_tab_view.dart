@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_event.dart';
-import 'calendar_subtab_view.dart';
-import 'occasions_header_widget.dart';
-import 'occasions_list_subtab_view.dart';
-import 'occasions_tab_bar_widget.dart';
-import 'ramadan_subtab_view.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/calendar_subtab_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_list_subtab_view.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_tab_bar_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_subtab_view.dart';
 
 class OccasionsTabView extends StatefulWidget {
   const OccasionsTabView({super.key});
@@ -41,8 +41,9 @@ class _OccasionsTabViewState extends State<OccasionsTabView> {
     ];
 
     return Scaffold(
-      backgroundColor:
-          isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           const OccasionsHeaderWidget(),
@@ -55,10 +56,7 @@ class _OccasionsTabViewState extends State<OccasionsTabView> {
             },
           ),
           Expanded(
-            child: IndexedStack(
-              index: _selectedTabIndex,
-              children: subtabs,
-            ),
+            child: IndexedStack(index: _selectedTabIndex, children: subtabs),
           ),
         ],
       ),

@@ -1,5 +1,5 @@
-import '../../features/homelayout/data/models/surah_item_model.dart';
-import '../../features/quran/constants/quran_constants.dart';
+import 'package:hojaty/features/homelayout/data/models/surah_item_model.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
 
 class QuranMockData {
   static const String lastReadSurahName = 'سورة البقرة';

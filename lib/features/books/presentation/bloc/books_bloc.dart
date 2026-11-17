@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/models/book_download_state.dart';
-import '../../data/models/book_info_model.dart';
-import '../../data/repositories/books_repository.dart';
-import 'books_event.dart';
-import 'books_state.dart';
+import 'package:hojaty/features/books/data/models/book_download_state.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
+import 'package:hojaty/features/books/data/repositories/books_repository.dart';
+import 'package:hojaty/features/books/presentation/bloc/books_event.dart';
+import 'package:hojaty/features/books/presentation/bloc/books_state.dart';
 
 class BooksBloc extends Bloc<BooksEvent, BooksState> {
   final BooksRepository repository;
@@ -23,7 +23,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     LoadBooksEvent event,
     Emitter<BooksState> emit,
   ) async {
-    final all = BookInfoModel.allBooks;
+    const all = BookInfoModel.allBooks;
 
     // 1. If we already have cached statuses or state, emit immediately (0ms latency)
     final existingStatuses = repository.cachedStatuses;
@@ -111,7 +111,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     updatedStatuses[book.id] = BookDownloadProgress(
       bookId: book.id,
       status: BookDownloadStatus.downloading,
-      progress: 0.0,
     );
 
     emit(state.copyWith(downloadStatuses: updatedStatuses));
@@ -154,8 +153,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     final updatedStatuses = Map<String, BookDownloadProgress>.from(state.downloadStatuses);
     updatedStatuses[book.id] = BookDownloadProgress(
       bookId: book.id,
-      status: BookDownloadStatus.notDownloaded,
-      progress: 0.0,
     );
 
     emit(state.copyWith(downloadStatuses: updatedStatuses));

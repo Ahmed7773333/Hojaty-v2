@@ -136,7 +136,6 @@ class PlayAssetDeliveryService {
         packName: packName,
         status: AssetPackStateStatus.completed,
         isDownloaded: true,
-        assetsPath: null,
       );
     }
 

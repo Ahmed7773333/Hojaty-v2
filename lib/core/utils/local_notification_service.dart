@@ -1,19 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
-import '../../config/routes/app_router.dart';
-import '../../features/homelayout/data/models/occasion_item_model.dart';
-import '../../features/homelayout/data/models/prayer_time_model.dart';
-import '../../features/homelayout/data/models/prayers_helper.dart';
-import '../../features/homelayout/data/services/azan_audio_service.dart';
-import '../../main.dart';
-import '../di/injector.dart';
-import '../local/user_hive_helper.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/services/azan_audio_service.dart';
+import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
+import 'package:hojaty/hojaty_app.dart';
 
 @pragma('vm:entry-point')
 class LocalNotificationService {
@@ -22,8 +24,9 @@ class LocalNotificationService {
       !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
 
   // MethodChannel for native device flip detection (flip face-down to stop Azan)
-  static const MethodChannel _flipMethodChannel =
-      MethodChannel('com.wolfdev.hojaty/azan_flip');
+  static const MethodChannel _flipMethodChannel = MethodChannel(
+    'com.wolfdev.hojaty/azan_flip',
+  );
 
   // Channel Keys (v2 to guarantee no vibration across all device states & clear cached OS settings)
   static const String prayersChannelKey = 'prayers_channel_makkah_v2';
@@ -47,38 +50,54 @@ class LocalNotificationService {
   static const String defaultNotificationIcon =
       'resource://drawable/res_app_icon';
 
-  static AudioPlayer? _notificationPlayer;
+  static String? _currentPlayingSound;
+  static bool _isLoadingAudio = false;
 
   static Future<void> _playCustomAdhan(String filePath) async {
     try {
-      _stopCustomAdhan();
       final file = File(filePath);
       if (!await file.exists()) return;
-      _notificationPlayer = AudioPlayer();
-      final source = AudioSource.file(
-        filePath,
-        tag: MediaItem(
-          id: filePath,
-          title: 'الأذان',
-          artist: 'مواقيت الصلاة',
-          album: 'أصوات الأذان',
-          artUri: Uri.parse('asset:///assets/icons/logo.png'),
-        ),
+
+      if (_currentPlayingSound == filePath &&
+          (RadioAudioPlayerService().isPlaying || _isLoadingAudio)) {
+        return;
+      }
+
+      _currentPlayingSound = filePath;
+      _isLoadingAudio = true;
+
+      await _stopCustomAdhan();
+      _currentPlayingSound = filePath;
+
+      await RadioAudioPlayerService().playFilePath(
+        filePath: filePath,
+        surahName: 'الأذان',
+        reciterName: 'مواقيت الصلاة',
+        album: 'أصوات الأذان',
+        isAlert: true,
       );
-      await _notificationPlayer?.setAudioSource(source);
-      await _notificationPlayer?.play();
       log('Playing custom adhan notification sound: $filePath');
     } catch (e) {
-      log('Error playing custom adhan: $e');
+      if (e is! PlatformException || e.code != 'abort') {
+        log('Error playing custom adhan: $e');
+      }
+    } finally {
+      _isLoadingAudio = false;
     }
   }
 
-  static void _stopCustomAdhan() {
+  static Future<void> _stopCustomAdhan() async {
+    _currentPlayingSound = null;
+    _isLoadingAudio = false;
     try {
-      _notificationPlayer?.stop();
-      _notificationPlayer?.dispose();
-      _notificationPlayer = null;
-    } catch (_) {}
+      if (RadioAudioPlayerService().isPlaying) {
+        await RadioAudioPlayerService().stop();
+      }
+    } catch (e) {
+      if (e is! PlatformException || e.code != 'abort') {
+        log('Error stopping custom adhan: $e');
+      }
+    }
   }
 
   static bool _isNativeSalawatSoundAvailable = false;
@@ -86,43 +105,59 @@ class LocalNotificationService {
 
   static Future<void> _playSalawatAudio() async {
     try {
-      _stopCustomAdhan();
-      _notificationPlayer = AudioPlayer();
-      await _notificationPlayer?.setAudioSource(
-        AudioSource.asset(
-          'assets/audio/salli_ala_muhammad.wav',
-          tag: const MediaItem(
-            id: 'salawat_audio',
-            title: 'الصلاة على النبي ﷺ',
-            artist: 'تطبيق أنا أصلي',
-          ),
-        ),
+      const soundId = 'assets/audio/salli_ala_muhammad.wav';
+      if (_currentPlayingSound == soundId &&
+          (RadioAudioPlayerService().isPlaying || _isLoadingAudio)) {
+        return;
+      }
+
+      _currentPlayingSound = soundId;
+      _isLoadingAudio = true;
+
+      await _stopCustomAdhan();
+      _currentPlayingSound = soundId;
+
+      await RadioAudioPlayerService().playAsset(
+        assetPath: soundId,
+        title: 'الصلاة على النبي ﷺ',
+        artist: 'تطبيق أنا أصلي',
       );
-      await _notificationPlayer?.play();
       log('Playing Salawat audio via just_audio from asset');
     } catch (e) {
-      log('Error playing Salawat asset audio: $e');
+      if (e is! PlatformException || e.code != 'abort') {
+        log('Error playing Salawat asset audio: $e');
+      }
+    } finally {
+      _isLoadingAudio = false;
     }
   }
 
   static Future<void> _playPrePrayerAudio() async {
     try {
-      _stopCustomAdhan();
-      _notificationPlayer = AudioPlayer();
-      await _notificationPlayer?.setAudioSource(
-        AudioSource.asset(
-          'assets/audio/prayer_time_is_close.wav',
-          tag: const MediaItem(
-            id: 'pre_prayer_audio',
-            title: 'اقترب موعد الصلاة',
-            artist: 'تطبيق أنا أصلي',
-          ),
-        ),
+      const soundId = 'assets/audio/prayer_time_is_close.wav';
+      if (_currentPlayingSound == soundId &&
+          (RadioAudioPlayerService().isPlaying || _isLoadingAudio)) {
+        return;
+      }
+
+      _currentPlayingSound = soundId;
+      _isLoadingAudio = true;
+
+      await _stopCustomAdhan();
+      _currentPlayingSound = soundId;
+
+      await RadioAudioPlayerService().playAsset(
+        assetPath: soundId,
+        title: 'اقترب موعد الصلاة',
+        artist: 'تطبيق أنا أصلي',
       );
-      await _notificationPlayer?.play();
       log('Playing pre-prayer audio via just_audio from asset');
     } catch (e) {
-      log('Error playing pre-prayer asset audio: $e');
+      if (e is! PlatformException || e.code != 'abort') {
+        log('Error playing pre-prayer asset audio: $e');
+      }
+    } finally {
+      _isLoadingAudio = false;
     }
   }
 
@@ -137,7 +172,7 @@ class LocalNotificationService {
   }
 
   static Future<void> _stopFlipDetector() async {
-    _stopCustomAdhan();
+    await _stopCustomAdhan();
     if (!Platform.isAndroid) return;
     try {
       await _flipMethodChannel.invokeMethod('stopFlipDetector');
@@ -179,7 +214,6 @@ class LocalNotificationService {
       await AwesomeNotifications().initialize(
         defaultNotificationIcon,
         _buildChannels(includeCustomRawSounds: true),
-        debug: false,
       );
       _isNativeSalawatSoundAvailable = true;
       _isNativePrayerCloseSoundAvailable = true;
@@ -193,7 +227,6 @@ class LocalNotificationService {
         await AwesomeNotifications().initialize(
           defaultNotificationIcon,
           _buildChannels(includeCustomRawSounds: false),
-          debug: false,
         );
         _setListeners();
         log('LocalNotificationService initialized with fallback channels.');
@@ -229,8 +262,7 @@ class LocalNotificationService {
       NotificationChannel(
         channelKey: prayersChannelMadinahKey,
         channelName: 'أذان المدينة المنورة',
-        channelDescription:
-            'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
+        channelDescription: 'تنبيهات مواقيت الصلاة بصوت أذان المدينة المنورة',
         defaultColor: const Color(0xFF1E3A34),
         ledColor: const Color(0xFFD4AF37),
         icon: defaultNotificationIcon,
@@ -299,8 +331,7 @@ class LocalNotificationService {
       NotificationChannel(
         channelKey: anaOsalyChannelKey,
         channelName: 'وضع حچتي',
-        channelDescription:
-            'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
+        channelDescription: 'تنبيهات بدء وانتهاء نافذة الصلاة والرد التلقائي',
         defaultColor: const Color(0xFF1E3A34),
         ledColor: const Color(0xFFD4AF37),
         icon: defaultNotificationIcon,
@@ -362,8 +393,8 @@ class LocalNotificationService {
         criticalAlerts: true,
         soundSource: includeCustomRawSounds
             ? (Platform.isAndroid
-                ? 'resource://raw/salli_ala_muhammad'
-                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                  ? 'resource://raw/salli_ala_muhammad'
+                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
             : null,
         enableVibration: false,
         vibrationPattern: Int64List.fromList([0]),
@@ -371,24 +402,25 @@ class LocalNotificationService {
       ),
     ];
   }
-  
 
   /// Check and request notification permissions automatically (no vibration permission requested)
   static Future<bool> requestPermission() async {
     if (!isSupportedPlatform) return false;
     try {
-      final bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      final bool isAllowed = await AwesomeNotifications()
+          .isNotificationAllowed();
       if (!isAllowed) {
-        final bool userChoice = await AwesomeNotifications().requestPermissionToSendNotifications(
-          permissions: const [
-            NotificationPermission.Alert,
-            NotificationPermission.Sound,
-            NotificationPermission.Badge,
-            NotificationPermission.Light,
-            NotificationPermission.FullScreenIntent,
-            NotificationPermission.PreciseAlarms,
-          ],
-        );
+        final bool userChoice = await AwesomeNotifications()
+            .requestPermissionToSendNotifications(
+              permissions: const [
+                NotificationPermission.Alert,
+                NotificationPermission.Sound,
+                NotificationPermission.Badge,
+                NotificationPermission.Light,
+                NotificationPermission.FullScreenIntent,
+                NotificationPermission.PreciseAlarms,
+              ],
+            );
         if (!userChoice) {
           log('User denied basic notification permissions.');
           return false;
@@ -429,7 +461,10 @@ class LocalNotificationService {
       _flipMethodChannel.setMethodCallHandler((call) async {
         if (call.method == 'onAzanStoppedByFlip') {
           final notifId = call.arguments?['notificationId'];
-          log('Azan notification $notifId was successfully stopped by flipping device face down.');
+          log(
+            'Azan notification $notifId was successfully stopped by flipping device face down.',
+          );
+          await _stopCustomAdhan();
         }
       });
     } catch (e) {
@@ -467,10 +502,10 @@ class LocalNotificationService {
         id == 999 ||
         id == 996 ||
         type == 'prayer') {
-      _startFlipDetector(id);
+      await _startFlipDetector(id);
       final soundPath = receivedNotification.payload?['soundPath'];
       if (soundPath != null && soundPath.isNotEmpty) {
-        _playCustomAdhan(soundPath);
+        await _playCustomAdhan(soundPath);
       }
     }
   }
@@ -480,8 +515,8 @@ class LocalNotificationService {
     ReceivedAction receivedAction,
   ) async {
     log('Notification dismissed: ${receivedAction.id}');
-    _stopCustomAdhan();
-    _stopFlipDetector();
+    await _stopCustomAdhan();
+    await _stopFlipDetector();
   }
 
   /// Action listener: handles notification clicks and navigates via AnaOsalyApp.navigatorKey
@@ -493,13 +528,13 @@ class LocalNotificationService {
       'Notification action clicked: ${receivedAction.id}, payload: ${receivedAction.payload}',
     );
 
-    _stopCustomAdhan();
-    _stopFlipDetector();
+    await _stopCustomAdhan();
+    await _stopFlipDetector();
 
     final payload = receivedAction.payload ?? {};
     final type = payload['type'];
 
-    final navContext = AnaOsalyApp.navigatorKey.currentContext;
+    final navContext = HojatyApp.navigatorKey.currentContext;
     if (navContext == null) return;
 
     if (type == 'prayer' || type == 'pre_prayer') {
@@ -565,7 +600,9 @@ class LocalNotificationService {
       if (!isAllowed) {
         final granted = await requestPermission();
         if (!granted) {
-          log('Notification permissions not granted, aborting prayer scheduling.');
+          log(
+            'Notification permissions not granted, aborting prayer scheduling.',
+          );
           return;
         }
       }
@@ -590,7 +627,7 @@ class LocalNotificationService {
           final prayerModel = prayers.where((p) => p.type == type).firstOrNull;
           final isEnabled =
               prayerModel?.isNotificationEnabled ??
-              UserHiveHelper.getPrayerNotification(type.name, defaultValue: true);
+              UserHiveHelper.getPrayerNotification(type.name);
           if (!isEnabled) continue;
 
           // Use today's prayer time if upcoming; otherwise roll over to tomorrow
@@ -616,7 +653,8 @@ class LocalNotificationService {
             type.name,
             defaultValue: soundId ?? 'makkah',
           );
-          final isBuiltIn = prayerSoundId == 'makkah' ||
+          final isBuiltIn =
+              prayerSoundId == 'makkah' ||
               prayerSoundId == 'madinah' ||
               prayerSoundId == 'azan';
           String? localSoundPath;
@@ -640,7 +678,6 @@ class LocalNotificationService {
             customSound: (isFullAdhan && Platform.isAndroid && isBuiltIn)
                 ? soundResource
                 : null,
-            notificationLayout: NotificationLayout.Default,
             category: NotificationCategory.Reminder,
             wakeUpScreen: true,
             fullScreenIntent: true,
@@ -648,7 +685,9 @@ class LocalNotificationService {
               'type': 'prayer',
               'prayer': type.name,
               'soundId': prayerSoundId,
-              'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+              'soundPath': (isFullAdhan && localSoundPath != null)
+                  ? localSoundPath
+                  : '',
             },
           );
 
@@ -677,9 +716,7 @@ class LocalNotificationService {
                 hour: targetTime.hour,
                 minute: targetTime.minute,
                 second: targetTime.second,
-                repeats: false,
                 allowWhileIdle: true,
-                preciseAlarm: true,
                 timeZone: localTz,
               ),
             );
@@ -697,7 +734,6 @@ class LocalNotificationService {
                 hour: targetTime.hour,
                 minute: targetTime.minute,
                 second: targetTime.second,
-                repeats: false,
                 allowWhileIdle: true,
                 preciseAlarm: false,
                 timeZone: localTz,
@@ -710,14 +746,16 @@ class LocalNotificationService {
           );
 
           // Schedule Pre-Prayer Reminder (e.g. 5 minutes before)
-          final specificPreMinutes = prayerPreReminderMinutes?[type.name] ??
+          final specificPreMinutes =
+              prayerPreReminderMinutes?[type.name] ??
               UserHiveHelper.getPrayerPreAdhanReminderMinutes(
                 type.name,
                 defaultValue: preReminderMinutes,
               );
           if (isPreReminderEnabled && specificPreMinutes > 0) {
-            final preTime =
-                targetTime.subtract(Duration(minutes: specificPreMinutes));
+            final preTime = targetTime.subtract(
+              Duration(minutes: specificPreMinutes),
+            );
             if (preTime.isAfter(now)) {
               final preId = 150 + type.index;
               final preTitle = language == 'ar'
@@ -733,7 +771,6 @@ class LocalNotificationService {
                 title: preTitle,
                 body: preBody,
                 icon: defaultNotificationIcon,
-                notificationLayout: NotificationLayout.Default,
                 category: NotificationCategory.Reminder,
                 wakeUpScreen: true,
                 customSound: _isNativePrayerCloseSoundAvailable
@@ -769,9 +806,7 @@ class LocalNotificationService {
                     hour: preTime.hour,
                     minute: preTime.minute,
                     second: preTime.second,
-                    repeats: false,
                     allowWhileIdle: true,
-                    preciseAlarm: true,
                     timeZone: localTz,
                   ),
                 );
@@ -786,7 +821,6 @@ class LocalNotificationService {
                     hour: preTime.hour,
                     minute: preTime.minute,
                     second: preTime.second,
-                    repeats: false,
                     allowWhileIdle: true,
                     preciseAlarm: false,
                     timeZone: localTz,
@@ -800,7 +834,9 @@ class LocalNotificationService {
             }
           }
         } catch (itemErr, itemSt) {
-          log('Error scheduling single prayer notification for $type: $itemErr\n$itemSt');
+          log(
+            'Error scheduling single prayer notification for $type: $itemErr\n$itemSt',
+          );
         }
       }
     } catch (e, st) {
@@ -819,7 +855,9 @@ class LocalNotificationService {
       if (!isAllowed) {
         final granted = await requestPermission();
         if (!granted) {
-          log('Notification permissions not granted, aborting occasion scheduling.');
+          log(
+            'Notification permissions not granted, aborting occasion scheduling.',
+          );
           return;
         }
       }
@@ -842,7 +880,6 @@ class LocalNotificationService {
             dayBefore.month,
             dayBefore.day,
             9,
-            0,
           );
 
           if (dayBeforeTime.isAfter(now)) {
@@ -878,7 +915,6 @@ class LocalNotificationService {
                 schedule: NotificationCalendar.fromDate(
                   date: dayBeforeTime,
                   allowWhileIdle: true,
-                  preciseAlarm: false,
                 ),
               );
             }
@@ -890,7 +926,6 @@ class LocalNotificationService {
             targetDate.month,
             targetDate.day,
             8,
-            0,
           );
 
           if (morningTime.isAfter(now)) {
@@ -926,7 +961,6 @@ class LocalNotificationService {
                 schedule: NotificationCalendar.fromDate(
                   date: morningTime,
                   allowWhileIdle: true,
-                  preciseAlarm: false,
                 ),
               );
             }
@@ -961,8 +995,10 @@ class LocalNotificationService {
           ? 'حان الآن وقت صلاة الظهر - حي على الصلاة'
           : 'It is now time for Dhuhr prayer - Come to prayer';
 
-      final effectiveSoundId = soundId ?? UserHiveHelper.getSelectedAdhanSound();
-      final isBuiltIn = effectiveSoundId == 'makkah' ||
+      final effectiveSoundId =
+          soundId ?? UserHiveHelper.getSelectedAdhanSound();
+      final isBuiltIn =
+          effectiveSoundId == 'makkah' ||
           effectiveSoundId == 'madinah' ||
           effectiveSoundId == 'azan';
       String? localSoundPath;
@@ -999,7 +1035,9 @@ class LocalNotificationService {
             'type': 'prayer',
             'prayer': 'dhuhr',
             'soundId': effectiveSoundId,
-            'soundPath': (isFullAdhan && localSoundPath != null) ? localSoundPath : '',
+            'soundPath': (isFullAdhan && localSoundPath != null)
+                ? localSoundPath
+                : '',
           },
         ),
         actionButtons: [
@@ -1016,11 +1054,6 @@ class LocalNotificationService {
         ],
       );
 
-      if (localSoundPath != null && isFullAdhan) {
-        await _playCustomAdhan(localSoundPath);
-      }
-
-      _startFlipDetector(activeId);
       log(
         'Instant test notification sent successfully with sound: $effectiveSoundId',
       );
@@ -1066,7 +1099,6 @@ class LocalNotificationService {
           title: title,
           body: body,
           icon: defaultNotificationIcon,
-          notificationLayout: NotificationLayout.Default,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
           customSound: _isNativePrayerCloseSoundAvailable
@@ -1086,9 +1118,6 @@ class LocalNotificationService {
           ),
         ],
       );
-      if (!_isNativePrayerCloseSoundAvailable) {
-        await _playPrePrayerAudio();
-      }
       log('Test pre-adhan notification sent successfully');
     } catch (e, st) {
       log('Error sending test pre-adhan notification: $e\n$st');
@@ -1118,13 +1147,12 @@ class LocalNotificationService {
         title: title,
         body: body,
         icon: defaultNotificationIcon,
-        notificationLayout: NotificationLayout.Default,
         category: NotificationCategory.Reminder,
         wakeUpScreen: true,
         customSound: _isNativeSalawatSoundAvailable
             ? (Platform.isAndroid
-                ? 'resource://raw/salli_ala_muhammad'
-                : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                  ? 'resource://raw/salli_ala_muhammad'
+                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
             : null,
         payload: {'type': 'salawat'},
       );
@@ -1149,11 +1177,12 @@ class LocalNotificationService {
             interval: const Duration(hours: 1),
             repeats: true,
             allowWhileIdle: true,
-            preciseAlarm: true,
           ),
         );
       } catch (preciseErr) {
-        log('Precise alarm failed for salawat reminder, falling back: $preciseErr');
+        log(
+          'Precise alarm failed for salawat reminder, falling back: $preciseErr',
+        );
         await AwesomeNotifications().createNotification(
           content: content,
           actionButtons: actionButtons,
@@ -1174,6 +1203,7 @@ class LocalNotificationService {
   /// Cancels the hourly Salawat notification
   static Future<void> cancelSalawatNotification() async {
     if (!isSupportedPlatform) return;
+    await _stopCustomAdhan();
     try {
       await AwesomeNotifications().cancel(salawatNotificationId);
       await AwesomeNotifications().cancelSchedule(salawatNotificationId);
@@ -1218,13 +1248,12 @@ class LocalNotificationService {
           title: title,
           body: body,
           icon: defaultNotificationIcon,
-          notificationLayout: NotificationLayout.Default,
           category: NotificationCategory.Reminder,
           wakeUpScreen: true,
           customSound: _isNativeSalawatSoundAvailable
               ? (Platform.isAndroid
-                  ? 'resource://raw/salli_ala_muhammad'
-                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
+                    ? 'resource://raw/salli_ala_muhammad'
+                    : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
               : null,
           payload: {'type': 'salawat_test'},
         ),
@@ -1240,9 +1269,6 @@ class LocalNotificationService {
           ),
         ],
       );
-      if (!_isNativeSalawatSoundAvailable) {
-        await _playSalawatAudio();
-      }
       log('Test salawat notification sent successfully with ID $activeTestId.');
     } catch (e, st) {
       log('Error sending test salawat notification: $e\n$st');
@@ -1252,8 +1278,8 @@ class LocalNotificationService {
   /// Cancels all prayer notifications (IDs 100 to 199)
   static Future<void> cancelPrayerNotifications() async {
     if (!isSupportedPlatform) return;
-    _stopCustomAdhan();
-    _stopFlipDetector();
+    await _stopCustomAdhan();
+    await _stopFlipDetector();
     for (int id = 100; id <= 199; id++) {
       try {
         await AwesomeNotifications().cancel(id);
@@ -1275,8 +1301,8 @@ class LocalNotificationService {
   /// Cancels all scheduled notifications
   static Future<void> cancelAll() async {
     if (!isSupportedPlatform) return;
-    _stopCustomAdhan();
-    _stopFlipDetector();
+    await _stopCustomAdhan();
+    await _stopFlipDetector();
     try {
       await AwesomeNotifications().cancelAll();
     } catch (_) {}

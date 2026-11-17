@@ -4,7 +4,7 @@ import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'radio_speed_picker_dialog.dart';
+import 'package:hojaty/features/radio/presentation/widgets/audio_player/radio_speed_picker_dialog.dart';
 
 class RadioAudioControlsWidget extends StatelessWidget {
   final RadioAudioPlayerService playerService;
@@ -29,7 +29,7 @@ class RadioAudioControlsWidget extends StatelessWidget {
               iconSize: 30.r,
             ),
             IconButton(
-              onPressed: () => playerService.seekBackward(10),
+              onPressed: () => playerService.seekBackward(),
               icon: const Icon(Icons.replay_10_rounded),
               color: isDark
                   ? AppColors.darkTextPrimary
@@ -67,7 +67,7 @@ class RadioAudioControlsWidget extends StatelessWidget {
               },
             ),
             IconButton(
-              onPressed: () => playerService.seekForward(10),
+              onPressed: () => playerService.seekForward(),
               icon: const Icon(Icons.forward_10_rounded),
               color: isDark
                   ? AppColors.darkTextPrimary

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/quick_access_model.dart';
-import '../shared/quick_access_icon_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/quick_access_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/quick_access_icon_widget.dart';
 
 class HomeQuickAccessCardWidget extends StatelessWidget {
   final QuickAccessModel item;
@@ -39,7 +39,6 @@ class HomeQuickAccessCardWidget extends StatelessWidget {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
         ),
         child: Column(

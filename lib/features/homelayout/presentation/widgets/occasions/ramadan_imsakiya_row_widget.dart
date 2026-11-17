@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayers_helper.dart';
-import '../../../data/models/ramadan_imsakiya_day_model.dart';
-import 'ramadan_imsakiya_cell_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_imsakiya_day_model.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_imsakiya_cell_widget.dart';
 
 class RamadanImsakiyaRowWidget extends StatelessWidget {
   final RamadanImsakiyaDayModel day;
@@ -29,7 +29,7 @@ class RamadanImsakiyaRowWidget extends StatelessWidget {
             : AppColors.accentGoldExtraLight)
         : Colors.transparent;
 
-    return Container(
+    return ColoredBox(
       color: rowBg,
       child: Column(
         children: [

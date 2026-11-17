@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QiblaGuidanceCardWidget extends StatelessWidget {
   final int accuracy;
@@ -43,22 +43,19 @@ class QiblaGuidanceCardWidget extends StatelessWidget {
           color: isDark
               ? AppColors.primaryDarkBorder.withValues(alpha: 0.5)
               : AppColors.lightBorderUnselected,
-          width: 1.0,
         ),
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 20.r,
-            color: AppColors.accentGold,
-          ),
+          Icon(icon, size: 20.r, color: AppColors.accentGold),
           10.hor,
           Expanded(
             child: Text(
               hintText,
               style: context.textTheme.bodySmall?.copyWith(
-                color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.lightTextSecondary,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -69,4 +66,3 @@ class QiblaGuidanceCardWidget extends StatelessWidget {
     );
   }
 }
-

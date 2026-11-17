@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../../domain/datasources/occasions_local_data_source.dart';
-import '../../models/occasion_item_model.dart';
-import '../../models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/occasions_local_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
 class OccasionsLocalDataSourceImpl implements OccasionsLocalDataSource {
   static const String boxName = 'occasionsBox';

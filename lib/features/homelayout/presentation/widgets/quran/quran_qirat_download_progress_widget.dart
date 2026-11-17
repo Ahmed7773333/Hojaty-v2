@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QuranQiratDownloadProgressWidget extends StatelessWidget {
   final double progress;
@@ -29,7 +29,9 @@ class QuranQiratDownloadProgressWidget extends StatelessWidget {
             Text(
               context.strings.downloading,
               style: context.textTheme.labelSmall?.copyWith(
-                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextSecondary,
+                color: isDark
+                    ? AppColors.darkTextMuted
+                    : AppColors.lightTextSecondary,
                 fontSize: 10.sp,
               ),
             ),
@@ -60,4 +62,3 @@ class QuranQiratDownloadProgressWidget extends StatelessWidget {
     );
   }
 }
-

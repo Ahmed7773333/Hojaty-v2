@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../config/theme/app_theme.dart';
+import 'package:hojaty/config/theme/app_theme.dart';
 
 class AppColors {
   // Brand Dark Greens

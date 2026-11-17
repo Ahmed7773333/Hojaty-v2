@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/book_info_model.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/books/data/models/book_info_model.dart';
 
 class BookOpenOptionsSheet extends StatelessWidget {
   final BookInfoModel book;
@@ -33,8 +33,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
         border: Border(
           top: BorderSide(
-            color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
-            width: 1.0,
+            color: isDark
+                ? AppColors.darkBorderUnselected
+                : AppColors.lightBorderUnselected,
           ),
         ),
       ),
@@ -47,7 +48,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                color: isDark
+                    ? AppColors.darkBorderUnselected
+                    : AppColors.lightBorderUnselected,
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
@@ -67,13 +70,17 @@ class BookOpenOptionsSheet extends StatelessWidget {
             book.getDisplayAuthor(isAr),
             textAlign: TextAlign.center,
             style: context.textTheme.bodySmall?.copyWith(
-              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              color: isDark
+                  ? AppColors.darkTextMuted
+                  : AppColors.lightTextMuted,
               fontSize: 12.sp,
             ),
           ),
           20.ver,
           Material(
-            color: isDark ? AppColors.darkCardUnselected : AppColors.lightCardSelected,
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightCardSelected,
             borderRadius: BorderRadius.circular(14.r),
             child: InkWell(
               onTap: onReadText,
@@ -94,7 +101,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
                       width: 40.r,
                       height: 40.r,
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurface : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.darkSurface
+                            : AppColors.primaryDark,
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Icon(
@@ -113,14 +122,18 @@ class BookOpenOptionsSheet extends StatelessWidget {
                             style: context.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.sp,
-                              color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                              color: isDark
+                                  ? AppColors.accentGoldLight
+                                  : AppColors.primaryDark,
                             ),
                           ),
                           2.ver,
                           Text(
                             '${book.hadithCount} ${context.strings.hadithWord}',
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                              color: isDark
+                                  ? AppColors.darkTextMuted
+                                  : AppColors.lightTextMuted,
                               fontSize: 11.sp,
                             ),
                           ),
@@ -130,7 +143,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
                     Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 14.sp,
-                      color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                      color: isDark
+                          ? AppColors.accentGold
+                          : AppColors.primaryDark,
                     ),
                   ],
                 ),
@@ -139,7 +154,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
           ),
           12.ver,
           Material(
-            color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightSurface,
             borderRadius: BorderRadius.circular(14.r),
             child: InkWell(
               onTap: onOpenPdf,
@@ -149,7 +166,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14.r),
                   border: Border.all(
-                    color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                    color: isDark
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected,
                   ),
                 ),
                 child: Row(
@@ -165,7 +184,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.picture_as_pdf_rounded,
-                        color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                        color: isDark
+                            ? AppColors.accentGold
+                            : AppColors.primaryDark,
                         size: 22.sp,
                       ),
                     ),
@@ -179,14 +200,18 @@ class BookOpenOptionsSheet extends StatelessWidget {
                             style: context.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.sp,
-                              color: isDark ? Colors.white : AppColors.primaryDark,
+                              color: isDark
+                                  ? Colors.white
+                                  : AppColors.primaryDark,
                             ),
                           ),
                           2.ver,
                           Text(
                             '${book.sizeMb} MB • ${context.strings.hasPdfBadge}',
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                              color: isDark
+                                  ? AppColors.darkTextMuted
+                                  : AppColors.lightTextMuted,
                               fontSize: 11.sp,
                             ),
                           ),
@@ -196,7 +221,9 @@ class BookOpenOptionsSheet extends StatelessWidget {
                     Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 14.sp,
-                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
                     ),
                   ],
                 ),

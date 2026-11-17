@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/local/user_hive_helper.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayers_helper.dart';
-import '../../../data/models/ramadan_imsakiya_day_model.dart';
-import '../../bloc/homelayout_bloc.dart';
-import '../../bloc/homelayout_state.dart';
-import 'ramadan_imsakiya_cell_widget.dart';
-import 'ramadan_imsakiya_row_widget.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_imsakiya_day_model.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_imsakiya_cell_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/occasions/ramadan_imsakiya_row_widget.dart';
 
 class RamadanImsakiyaTableWidget extends StatefulWidget {
   const RamadanImsakiyaTableWidget({super.key});
@@ -100,7 +100,6 @@ class _RamadanImsakiyaTableWidgetState
                     color: isDark
                         ? AppColors.darkBorderUnselected
                         : AppColors.lightBorderUnselected,
-                    width: 1.0,
                   ),
                 ),
                 clipBehavior: Clip.antiAlias,

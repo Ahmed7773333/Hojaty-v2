@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:isolate';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../domain/entities/qirat_type.dart';
-import '../models/page_data_model.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 class QuranLocalDataSource {
   static const String _pagesBoxName = 'quran_pages_box';
@@ -46,14 +48,17 @@ class QuranLocalDataSource {
     if (box.isEmpty) {
       try {
         final jsonString = await rootBundle.loadString(_quranJsonAssetPath);
-        final Map<String, dynamic> jsonMap = json.decode(jsonString);
+        final Map<String, dynamic> jsonMap = await Isolate.run(
+          () => json.decode(jsonString) as Map<String, dynamic>,
+        );
 
         final List<PageDataModel> pages = [];
-        final sortedKeys = jsonMap.keys
-            .map((e) => int.tryParse(e) ?? 0)
-            .where((e) => e > 0)
-            .toList()
-          ..sort();
+        final sortedKeys =
+            jsonMap.keys
+                .map((e) => int.tryParse(e) ?? 0)
+                .where((e) => e > 0)
+                .toList()
+              ..sort();
 
         for (final key in sortedKeys) {
           final pageJson = jsonMap[key.toString()];
@@ -109,7 +114,10 @@ class QuranLocalDataSource {
 
   Future<QiratType> getSelectedQirat() async {
     final box = Hive.box(_settingsBoxName);
-    final index = box.get(_selectedQiratKey, defaultValue: QiratType.hafs.index);
+    final index = box.get(
+      _selectedQiratKey,
+      defaultValue: QiratType.hafs.index,
+    );
     if (index is int && index >= 0 && index < QiratType.values.length) {
       return QiratType.values[index];
     }

@@ -21,7 +21,6 @@ class AppRefreshIndicator extends StatelessWidget {
       onRefresh: onRefresh,
       color: color ?? context.colors.primary,
       backgroundColor: backgroundColor ?? Colors.white,
-      strokeWidth: 2.5,
       child: child,
     );
   }

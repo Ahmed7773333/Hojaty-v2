@@ -15,7 +15,7 @@ class _FakeHomelayoutWidgetState extends State<FakeHomelayoutWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Fake Homelayout Widget: counter = \$counter'),
+        const Text('Fake Homelayout Widget: counter = \$counter'),
         const SizedBox(height: 8),
         ElevatedButton(
           onPressed: () => setState(() => counter++),

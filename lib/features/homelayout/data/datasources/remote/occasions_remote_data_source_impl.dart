@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../../domain/datasources/occasions_remote_data_source.dart';
-import '../../models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/datasources/occasions_remote_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
 
 class OccasionsRemoteDataSourceImpl implements OccasionsRemoteDataSource {
   final Dio dio;

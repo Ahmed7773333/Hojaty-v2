@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class PrayerPreAlertBadgeWidget extends StatelessWidget {
   final int minutes;
@@ -20,8 +20,8 @@ class PrayerPreAlertBadgeWidget extends StatelessWidget {
     final badgeBg = isHighlighted
         ? AppColors.white.withValues(alpha: 0.15)
         : (isDark
-            ? AppColors.white.withValues(alpha: 0.08)
-            : AppColors.primaryDark.withValues(alpha: 0.07));
+              ? AppColors.white.withValues(alpha: 0.08)
+              : AppColors.primaryDark.withValues(alpha: 0.07));
 
     final textColor = isHighlighted
         ? AppColors.white.withValues(alpha: 0.9)
@@ -36,11 +36,7 @@ class PrayerPreAlertBadgeWidget extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.timer_outlined,
-            size: 11.r,
-            color: textColor,
-          ),
+          Icon(Icons.timer_outlined, size: 11.r, color: textColor),
           4.hor,
           Text(
             context.strings.preAdhanBadgeText(minutes),

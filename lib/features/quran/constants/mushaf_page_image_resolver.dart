@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import '../domain/entities/qirat_type.dart';
+import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 
 /// Resolves the image provider for a Mushaf page across debug and release asset packs.
 class MushafPageImageResolver {

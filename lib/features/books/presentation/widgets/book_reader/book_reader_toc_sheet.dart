@@ -3,6 +3,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/books/data/models/book_chapter_model.dart';
+
 class BookReaderTocSheet extends StatefulWidget {
   final List<BookChapterModel> chapters;
   final Map<int, int> chapterStartPages;
@@ -69,7 +70,9 @@ class _BookReaderTocSheetState extends State<BookReaderTocSheet> {
             height: 4.h,
             margin: EdgeInsets.only(bottom: 12.h),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+              color: isDark
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -97,8 +100,13 @@ class _BookReaderTocSheetState extends State<BookReaderTocSheet> {
               hintText: context.strings.searchChaptersHint,
               prefixIcon: const Icon(Icons.search_rounded),
               filled: true,
-              fillColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
-              contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+              fillColor: isDark
+                  ? AppColors.darkBackground
+                  : AppColors.lightBackground,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 14.w,
+                vertical: 10.h,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
@@ -112,7 +120,9 @@ class _BookReaderTocSheetState extends State<BookReaderTocSheet> {
                     child: Text(
                       context.strings.noChaptersFound,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                        color: isDark
+                            ? AppColors.darkTextMuted
+                            : AppColors.lightTextMuted,
                       ),
                     ),
                   )
@@ -122,42 +132,54 @@ class _BookReaderTocSheetState extends State<BookReaderTocSheet> {
                     itemBuilder: (context, index) {
                       final chapter = _filteredChapters[index];
                       final isSelected = chapter.id == widget.currentChapterId;
-                      final startPage = widget.chapterStartPages[chapter.id] ?? 1;
+                      final startPage =
+                          widget.chapterStartPages[chapter.id] ?? 1;
 
                       return ListTile(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.r),
                           side: BorderSide(
                             color: isSelected
-                                ? (isDark ? AppColors.darkBorderSelected : AppColors.primaryDark)
+                                ? (isDark
+                                      ? AppColors.darkBorderSelected
+                                      : AppColors.primaryDark)
                                 : Colors.transparent,
                           ),
                         ),
                         tileColor: isSelected
                             ? (isDark
-                                ? AppColors.primaryDarkSurface
-                                : AppColors.lightCardSelected)
+                                  ? AppColors.primaryDarkSurface
+                                  : AppColors.lightCardSelected)
                             : (isDark
-                                ? AppColors.darkCardUnselected
-                                : AppColors.lightBackground),
+                                  ? AppColors.darkCardUnselected
+                                  : AppColors.lightBackground),
                         dense: true,
                         title: Text(
                           chapter.arabic,
                           style: context.textTheme.bodyMedium?.copyWith(
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                             fontSize: 13.sp,
                           ),
                         ),
                         trailing: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : AppColors.lightSurface,
                             borderRadius: BorderRadius.circular(6.r),
                           ),
                           child: Text(
                             '${context.strings.pageWord} $startPage',
                             style: context.textTheme.labelSmall?.copyWith(
-                              color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                              color: isDark
+                                  ? AppColors.accentGold
+                                  : AppColors.primaryDark,
                               fontSize: 10.sp,
                             ),
                           ),
@@ -175,4 +197,3 @@ class _BookReaderTocSheetState extends State<BookReaderTocSheet> {
     );
   }
 }
-

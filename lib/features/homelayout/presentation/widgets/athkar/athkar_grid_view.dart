@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../../../data/mocks/athkar_mock_data.dart';
-import '../../../data/datasources/local/athkar_local_data_source.dart';
-import '../../../data/models/athkar_category_model.dart';
-import '../../../data/models/athkar_detail_args.dart';
-import 'athkar_header_widget.dart';
-import 'athkar_main_content_widget.dart';
-import 'athkar_search_bar_widget.dart';
-import 'athkar_search_results_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/data/mocks/athkar_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/datasources/local/athkar_local_data_source.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_header_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_main_content_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_search_bar_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_search_results_widget.dart';
 
 class AthkarGridView extends StatefulWidget {
   const AthkarGridView({super.key});

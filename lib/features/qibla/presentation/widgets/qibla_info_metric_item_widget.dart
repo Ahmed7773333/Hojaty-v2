@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class QiblaInfoMetricItemWidget extends StatelessWidget {
   final String title;
@@ -20,22 +20,19 @@ class QiblaInfoMetricItemWidget extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
-          size: 14.r,
-          color: AppColors.accentGold,
-        ),
+        Icon(icon, size: 14.r, color: AppColors.accentGold),
         6.hor,
         Text(
           title,
           style: context.textTheme.bodySmall?.copyWith(
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
-            color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.lightTextSecondary,
           ),
         ),
       ],
     );
   }
 }
-

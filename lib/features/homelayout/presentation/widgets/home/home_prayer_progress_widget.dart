@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../../data/models/prayers_helper.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 
 class HomePrayerProgressWidget extends StatefulWidget {
   final DateTime previousTime;
@@ -40,7 +41,7 @@ class _HomePrayerProgressWidgetState extends State<HomePrayerProgressWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final isTickerActive = TickerMode.of(context);
+    final isTickerActive = TickerMode.valuesOf(context).enabled;
     if (!isTickerActive) {
       _timer?.cancel();
       _timer = null;
@@ -51,7 +52,7 @@ class _HomePrayerProgressWidgetState extends State<HomePrayerProgressWidget> {
 
   void _startTimer() {
     _timer?.cancel();
-    if (!mounted || !TickerMode.of(context)) return;
+    if (!mounted || !TickerMode.valuesOf(context).enabled) return;
 
     _timer = Timer.periodic(const Duration(seconds: 15), (_) {
       if (!mounted) return;
@@ -95,4 +96,3 @@ class _HomePrayerProgressWidgetState extends State<HomePrayerProgressWidget> {
     );
   }
 }
-

@@ -2,20 +2,20 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import '../../../../core/local/user_hive_helper.dart';
-import '../../../../core/utils/local_notification_service.dart';
-import '../../../../core/utils/location_service.dart';
-import '../../../../data/mocks/home_mock_data.dart';
-import '../../data/models/hijri_calendar_helper.dart';
-import '../../data/models/occasion_item_model.dart';
-import '../../data/models/prayer_time_model.dart';
-import '../../data/models/prayers_helper.dart';
-import '../../data/models/ramadan_check_response_model.dart';
-import '../../domain/usecases/get_banners_use_case.dart';
-import '../../domain/usecases/get_homelayout.dart';
-import '../../domain/usecases/occasions_use_cases.dart';
-import 'homelayout_event.dart';
-import 'homelayout_state.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/local_notification_service.dart';
+import 'package:hojaty/core/utils/location_service.dart';
+import 'package:hojaty/data/mocks/home_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/get_banners_use_case.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/get_homelayout.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/occasions_use_cases.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 
 class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
   static Future<String> getPrayerCityName(
@@ -100,10 +100,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
   }) : super(
          HomelayoutState(
            status: HomelayoutStatus.success,
-           prayerTimes: const [],
            notifications: HomeMockData.notifications,
            banners: HomeMockData.banners,
-           adhanSettings: HomeMockData.defaultAdhanSettings,
            ramadanCheckData: RamadanCheckData.fallback(language: 'ar'),
            occasionsList: HijriCalendarHelper.calculateOccasions(
              RamadanCheckData.fallback(language: 'ar').hijriDate,
@@ -113,8 +111,6 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
              RamadanCheckData.fallback(language: 'ar').hijriDate,
              language: 'ar',
            ).firstOrNull,
-           activeHijriMonth: 3,
-           activeHijriYear: 1448,
            activeGregorianMonth: DateTime.now().month,
            activeGregorianYear: DateTime.now().year,
          ),
@@ -161,9 +157,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
 
   ({
     List<PrayerTimeModel> prayerTimes,
+    DateTime sunriseTime,
     DateTime selectedDate,
     DateTime nextTime,
-    PrayerType nextType,
+    PrayerType? nextType,
     String nextName,
     DateTime previousTime,
     double progress,
@@ -177,6 +174,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     final helper = PrayersHelper(coordinates: coords);
     final now = DateTime.now();
     final targetDate = now.add(Duration(days: dayOffset));
+    final sunriseTime = helper.getSunriseDateTime(targetDate);
 
     final notifOverrides = <PrayerType, bool>{};
     final windowOverrides = <PrayerType, ({String? start, String? end})>{};
@@ -184,7 +182,6 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     for (final type in PrayerType.values) {
       notifOverrides[type] = UserHiveHelper.getPrayerNotification(
         type.name,
-        defaultValue: true,
       );
       final win = UserHiveHelper.getPrayerWindow(type.name);
       if (win != null) {
@@ -200,10 +197,14 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     );
 
     final nextInfo = helper.getNextPrayerInfo(now);
-    final nextName = PrayersHelper.getPrayerName(
-      nextInfo.nextType,
-      language: language,
-    );
+    final nextName = nextInfo.isSunrise
+        ? (language == 'ar' ? 'الشروق' : 'Sunrise')
+        : (nextInfo.nextType != null
+            ? PrayersHelper.getPrayerName(
+                nextInfo.nextType!,
+                language: language,
+              )
+            : '');
     final progress = PrayersHelper.calculatePrayerProgress(
       now: now,
       previousTime: nextInfo.previousTime,
@@ -212,6 +213,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
 
     return (
       prayerTimes: prayersList,
+      sunriseTime: sunriseTime,
       selectedDate: targetDate,
       nextTime: nextInfo.nextTime,
       nextType: nextInfo.nextType,
@@ -244,6 +246,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           status: HomelayoutStatus.success,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDayOffset: 0,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -294,6 +297,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           status: HomelayoutStatus.success,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDayOffset: 0,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -419,6 +423,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       emit(
         state.copyWith(
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           prayerCityName: cityName.isNotEmpty ? cityName : state.prayerCityName,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
@@ -457,6 +462,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       state.copyWith(
         prayerCityName: event.cityName,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         selectedPrayerDate: prayerData.selectedDate,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
@@ -494,7 +500,6 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     if (isSalawatEnabled) {
       LocalNotificationService.scheduleSalawatNotification(
         language: language,
-        enabled: true,
       );
     }
   }
@@ -521,6 +526,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           currentLanguage: lang,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
@@ -542,6 +548,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         state.copyWith(
           currentLanguage: lang,
           prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
@@ -673,6 +680,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         selectedPrayerDayOffset: newOffset,
         selectedPrayerDate: prayerData.selectedDate,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
         nextPrayerName: prayerData.nextName,
@@ -696,6 +704,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         selectedPrayerDayOffset: 0,
         selectedPrayerDate: prayerData.selectedDate,
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
         nextPrayerName: prayerData.nextName,
@@ -717,6 +726,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     emit(
       state.copyWith(
         prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
         selectedPrayerDate: prayerData.selectedDate,
         nextPrayerTime: prayerData.nextTime,
         nextPrayerType: prayerData.nextType,
@@ -1096,7 +1106,6 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     if (event.enabled) {
       LocalNotificationService.scheduleSalawatNotification(
         language: lang,
-        enabled: true,
       );
     } else {
       LocalNotificationService.cancelSalawatNotification();

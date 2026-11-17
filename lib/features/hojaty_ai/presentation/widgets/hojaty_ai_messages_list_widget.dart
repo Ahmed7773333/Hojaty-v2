@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/chat_message_model.dart';
-import '../../data/models/rag_chunk_model.dart';
-import 'hojaty_ai_bot_bubble_widget.dart';
-import 'hojaty_ai_streaming_bubble_widget.dart';
-import 'hojaty_ai_user_bubble_widget.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_bot_bubble_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_streaming_bubble_widget.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_user_bubble_widget.dart';
 
 class HojatyAiMessagesListWidget extends StatefulWidget {
   final List<ChatMessageModel> messages;
@@ -21,10 +21,12 @@ class HojatyAiMessagesListWidget extends StatefulWidget {
   });
 
   @override
-  State<HojatyAiMessagesListWidget> createState() => _HojatyAiMessagesListWidgetState();
+  State<HojatyAiMessagesListWidget> createState() =>
+      _HojatyAiMessagesListWidgetState();
 }
 
-class _HojatyAiMessagesListWidgetState extends State<HojatyAiMessagesListWidget> {
+class _HojatyAiMessagesListWidgetState
+    extends State<HojatyAiMessagesListWidget> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -80,4 +82,3 @@ class _HojatyAiMessagesListWidgetState extends State<HojatyAiMessagesListWidget>
     );
   }
 }
-

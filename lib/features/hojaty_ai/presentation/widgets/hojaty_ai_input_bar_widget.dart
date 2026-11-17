@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import 'hojaty_ai_voice_button_widget.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_voice_button_widget.dart';
 
 class HojatyAiInputBarWidget extends StatefulWidget {
   final bool isStreaming;
@@ -48,7 +48,6 @@ class _HojatyAiInputBarWidgetState extends State<HojatyAiInputBarWidget> {
             color: isDark
                 ? AppColors.darkBorderUnselected
                 : AppColors.lightBorderUnselected,
-            width: 1.0,
           ),
         ),
       ),
@@ -119,7 +118,6 @@ class _HojatyAiInputBarWidgetState extends State<HojatyAiInputBarWidget> {
                           color: isDark
                               ? AppColors.darkBorderUnselected
                               : AppColors.lightBorderUnselected,
-                          width: 1.0,
                         ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 16.w),

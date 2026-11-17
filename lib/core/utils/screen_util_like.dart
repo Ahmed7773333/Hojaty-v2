@@ -1,9 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:math' as math;
-import 'package:flutter/widgets.dart';
 
-import '../../main.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hojaty/hojaty_app.dart';
 
 class ScreenUtil {
   ScreenUtil._();
@@ -25,7 +25,7 @@ class ScreenUtil {
     double designW = 375,
     double designH = 812,
   }) {
-    final ctx = context ?? AnaOsalyApp.navigatorKey.currentContext;
+    final ctx = context ?? HojatyApp.navigatorKey.currentContext;
     if (ctx == null) {
       // If no context available, do nothing now — will auto-init later on demand
       designWidth = designW;
@@ -49,7 +49,7 @@ class ScreenUtil {
   // ensure initialized; try to init from navigatorKey if not done.
   static void _ensureInit() {
     if (_inited) return;
-    final ctx = AnaOsalyApp.navigatorKey.currentContext;
+    final ctx = HojatyApp.navigatorKey.currentContext;
     if (ctx != null) {
       init(context: ctx, designW: designWidth, designH: designHeight);
     } else {

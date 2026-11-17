@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
 
 class AdhanTestButtonWidget extends StatelessWidget {
   final VoidCallback onTap;
 
-  const AdhanTestButtonWidget({
-    super.key,
-    required this.onTap,
-  });
+  const AdhanTestButtonWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,6 @@ class AdhanTestButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
             color: AppColors.accentGold.withValues(alpha: 0.4),
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(

@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../data/models/playlist_item_model.dart';
-import '../../data/models/playlist_model.dart';
-import '../../data/models/surah_audio_args.dart';
-import '../../services/radio_download_service.dart';
-import '../bloc/radio_bloc.dart';
-import '../bloc/radio_event.dart';
-import '../bloc/radio_state.dart';
-import '../widgets/playlist_details/playlist_details_header_widget.dart';
-import '../widgets/playlist_details/playlist_surah_tile_widget.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/radio/data/models/playlist_item_model.dart';
+import 'package:hojaty/features/radio/data/models/playlist_model.dart';
+import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
+import 'package:hojaty/features/radio/services/radio_download_service.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_bloc.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_event.dart';
+import 'package:hojaty/features/radio/presentation/bloc/radio_state.dart';
+import 'package:hojaty/features/radio/presentation/widgets/playlist_details/playlist_details_header_widget.dart';
+import 'package:hojaty/features/radio/presentation/widgets/playlist_details/playlist_surah_tile_widget.dart';
 
 class PlaylistDetailsPage extends StatefulWidget {
   final PlaylistModel playlist;
 
-  const PlaylistDetailsPage({
-    super.key,
-    required this.playlist,
-  });
+  const PlaylistDetailsPage({super.key, required this.playlist});
 
   @override
   State<PlaylistDetailsPage> createState() => _PlaylistDetailsPageState();
@@ -90,7 +87,9 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     return BlocProvider.value(
       value: _radioBloc,
       child: Scaffold(
-        backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         body: BlocBuilder<RadioBloc, RadioState>(
           builder: (context, state) {
             final currentPlaylist = state.playlists.firstWhere(
@@ -119,7 +118,10 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                           ),
                         )
                       : ListView.separated(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
+                          ),
                           itemCount: items.length,
                           separatorBuilder: (_, __) => 8.ver,
                           itemBuilder: (context, index) {
@@ -140,4 +142,3 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     );
   }
 }
-

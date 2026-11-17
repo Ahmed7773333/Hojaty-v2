@@ -56,7 +56,7 @@ class HadithCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox.shrink(),
+              const SizedBox.shrink(),
               IconButton(
                 icon: Icon(
                   Icons.copy_rounded,
