@@ -16,6 +16,8 @@ void main() async {
       androidNotificationIcon: 'drawable/res_app_icon',
       notificationColor: const Color(0xFF1E3A34),
       androidStopForegroundOnPause: false,
+      artDownscaleWidth: 300,
+      artDownscaleHeight: 300,
     ),
     UserHiveHelper.init(),
   ]);

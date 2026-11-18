@@ -2,7 +2,7 @@ name: hojaty
 description: "A new Flutter project."
 
 publish_to: 'none'
-version: 1.5.1+61
+version: 1.5.2+62
 
 environment:
   sdk: ^3.12.2
@@ -41,6 +41,7 @@ dependencies:
   pdf: ^3.13.1
   qr_flutter: ^4.1.0
   material_ui: ^1.11.1
+  cupertino_ui: ^1.1.7
   
 dev_dependencies:
   flutter_test:

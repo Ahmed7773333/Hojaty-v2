@@ -1,3 +1,5 @@
+import 'package:flutter_localizations/flutter_localizations.dart'
+    as legacy;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/routes/app_router.dart';
@@ -54,8 +56,14 @@ class HojatyApp extends StatelessWidget {
                   themeMode: currentMode == AppThemeMode.light
                       ? ThemeMode.light
                       : ThemeMode.dark,
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    ...GlobalMaterialLocalizations.delegates,
+                    // ignore: deprecated_member_use
+                    legacy.GlobalMaterialLocalizations.delegate,
+                    // ignore: deprecated_member_use
+                    legacy.GlobalCupertinoLocalizations.delegate,
+                  ],
                   supportedLocales: AppLocalizations.supportedLocales,
                   initialRoute: AppRoutes.splash,
                   locale: Locale(locale),

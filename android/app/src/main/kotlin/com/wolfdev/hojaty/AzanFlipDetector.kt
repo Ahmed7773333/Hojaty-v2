@@ -107,6 +107,7 @@ object AzanFlipDetector : SensorEventListener {
         }
 
         releaseWakeLock()
+        AzanNativePlayer.stop()
 
         isListening = false
         wasFaceUpOrNeutral = false

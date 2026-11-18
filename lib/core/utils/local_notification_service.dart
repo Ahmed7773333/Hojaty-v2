@@ -28,17 +28,17 @@ class LocalNotificationService {
     'com.wolfdev.hojaty/azan_flip',
   );
 
-  // Channel Keys (v2 to guarantee no vibration across all device states & clear cached OS settings)
-  static const String prayersChannelKey = 'prayers_channel_makkah_v2';
-  static const String prayersChannelMakkahKey = 'prayers_channel_makkah_v2';
-  static const String prayersChannelMadinahKey = 'prayers_channel_madinah_v2';
-  static const String prayersChannelAzanKey = 'prayers_channel_azan_v2';
-  static const String prayersChannelCustomKey = 'prayers_channel_custom_v2';
-  static const String prePrayerChannelKey = 'pre_prayer_channel_v3';
-  static const String occasionsChannelKey = 'occasions_channel_v2';
-  static const String anaOsalyChannelKey = 'hojaty_channel_v2';
-  static const String generalChannelKey = 'general_channel_v2';
-  static const String salawatChannelKey = 'salawat_channel_v3';
+  // Channel Keys (v5 to force Android to recreate channels with correct sound settings)
+  static const String prayersChannelKey = 'prayers_channel_makkah_v5';
+  static const String prayersChannelMakkahKey = 'prayers_channel_makkah_v5';
+  static const String prayersChannelMadinahKey = 'prayers_channel_madinah_v5';
+  static const String prayersChannelAzanKey = 'prayers_channel_azan_v5';
+  static const String prayersChannelCustomKey = 'prayers_channel_custom_v5';
+  static const String prePrayerChannelKey = 'pre_prayer_channel_v5';
+  static const String occasionsChannelKey = 'occasions_channel_v5';
+  static const String anaOsalyChannelKey = 'hojaty_channel_v5';
+  static const String generalChannelKey = 'general_channel_v5';
+  static const String salawatChannelKey = 'salawat_channel_v5';
 
   static const int salawatNotificationId = 777;
   static const int salawatTestNotificationId = 776;
@@ -53,7 +53,7 @@ class LocalNotificationService {
   static String? _currentPlayingSound;
   static bool _isLoadingAudio = false;
 
-  static Future<void> _playCustomAdhan(String filePath) async {
+  static Future<void> _playCustomAdhan(String filePath, [String? soundId]) async {
     try {
       final file = File(filePath);
       if (!await file.exists()) return;
@@ -69,6 +69,17 @@ class LocalNotificationService {
       await _stopCustomAdhan();
       _currentPlayingSound = filePath;
 
+      // 1. Play natively via Android MediaPlayer (instant, wake-lock safe, works when locked)
+      if (Platform.isAndroid) {
+        try {
+          await _flipMethodChannel.invokeMethod('playAzanNative', {
+            'soundPath': filePath,
+            'soundId': soundId,
+          });
+        } catch (_) {}
+      }
+
+      // 2. Also start in RadioAudioPlayerService as backup
       await RadioAudioPlayerService().playFilePath(
         filePath: filePath,
         surahName: 'الأذان',
@@ -89,6 +100,11 @@ class LocalNotificationService {
   static Future<void> _stopCustomAdhan() async {
     _currentPlayingSound = null;
     _isLoadingAudio = false;
+    if (Platform.isAndroid) {
+      try {
+        await _flipMethodChannel.invokeMethod('stopAzanNative');
+      } catch (_) {}
+    }
     try {
       if (RadioAudioPlayerService().isPlaying) {
         await RadioAudioPlayerService().stop();
@@ -189,7 +205,10 @@ class LocalNotificationService {
     }
     log('Initializing LocalNotificationService...');
 
-    // Delete legacy channels from system settings to eliminate cached vibration settings
+    // Delete legacy channels from system settings to eliminate cached
+    // vibration/sound settings. Android caches channel config at creation —
+    // the only way to change sound is to delete the old channel and create a
+    // new one with a different channelKey.
     if (Platform.isAndroid) {
       final legacyKeys = [
         'prayers_channel_makkah',
@@ -200,8 +219,33 @@ class LocalNotificationService {
         'general_channel',
         'pre_prayer_channel',
         'pre_prayer_channel_v2',
+        'pre_prayer_channel_v3',
+        'pre_prayer_channel_v4',
         'prayers_channel',
         'salawat_channel_v2',
+        'salawat_channel_v3',
+        'salawat_channel_v4',
+        'prayers_channel_makkah_v2',
+        'prayers_channel_madinah_v2',
+        'prayers_channel_azan_v2',
+        'prayers_channel_custom_v2',
+        'occasions_channel_v2',
+        'hojaty_channel_v2',
+        'general_channel_v2',
+        'prayers_channel_makkah_v3',
+        'prayers_channel_madinah_v3',
+        'prayers_channel_azan_v3',
+        'prayers_channel_custom_v3',
+        'occasions_channel_v3',
+        'hojaty_channel_v3',
+        'general_channel_v3',
+        'prayers_channel_makkah_v4',
+        'prayers_channel_madinah_v4',
+        'prayers_channel_azan_v4',
+        'prayers_channel_custom_v4',
+        'occasions_channel_v4',
+        'hojaty_channel_v4',
+        'general_channel_v4',
       ];
       for (final legacyKey in legacyKeys) {
         try {
@@ -210,37 +254,29 @@ class LocalNotificationService {
       }
     }
 
+    // Always initialize with custom raw sounds. Never fall back to silent
+    // channels — once Android caches a silent channel, it stays silent
+    // permanently until the channel key is changed.
     try {
       await AwesomeNotifications().initialize(
         defaultNotificationIcon,
-        _buildChannels(includeCustomRawSounds: true),
+        _buildChannels(),
       );
       _isNativeSalawatSoundAvailable = true;
       _isNativePrayerCloseSoundAvailable = true;
       _setListeners();
       log('LocalNotificationService initialized with custom native sounds.');
-    } catch (e) {
-      log('LocalNotificationService custom sound validation: $e');
-      _isNativeSalawatSoundAvailable = false;
-      _isNativePrayerCloseSoundAvailable = false;
-      try {
-        await AwesomeNotifications().initialize(
-          defaultNotificationIcon,
-          _buildChannels(includeCustomRawSounds: false),
-        );
-        _setListeners();
-        log('LocalNotificationService initialized with fallback channels.');
-      } catch (fallbackErr, st) {
-        log('Fallback initialization error: $fallbackErr\n$st');
-      }
+    } catch (e, st) {
+      log('LocalNotificationService initialization error: $e\n$st');
+      _isNativeSalawatSoundAvailable = true;
+      _isNativePrayerCloseSoundAvailable = true;
+      _setListeners();
     }
   }
 
-  static List<NotificationChannel> _buildChannels({
-    required bool includeCustomRawSounds,
-  }) {
+  static List<NotificationChannel> _buildChannels() {
     return [
-      // 1. Makkah Prayer Channel (Vibration completely disabled)
+      // 1. Makkah Prayer Channel
       NotificationChannel(
         channelKey: prayersChannelMakkahKey,
         channelName: 'أذان مكة المكرمة',
@@ -251,14 +287,12 @@ class LocalNotificationService {
         importance: NotificationImportance.Max,
         channelShowBadge: true,
         playSound: true,
-        criticalAlerts: true,
         soundSource: Platform.isAndroid ? 'resource://raw/makka_azan' : null,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 2. Madinah Prayer Channel (Vibration completely disabled)
+      // 2. Madinah Prayer Channel
       NotificationChannel(
         channelKey: prayersChannelMadinahKey,
         channelName: 'أذان المدينة المنورة',
@@ -269,14 +303,12 @@ class LocalNotificationService {
         importance: NotificationImportance.Max,
         channelShowBadge: true,
         playSound: true,
-        criticalAlerts: true,
         soundSource: Platform.isAndroid ? 'resource://raw/madina_azan' : null,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 3. Traditional Azan Prayer Channel (Vibration completely disabled)
+      // 3. Traditional Azan Prayer Channel
       NotificationChannel(
         channelKey: prayersChannelAzanKey,
         channelName: 'الأذان التقليدي',
@@ -287,10 +319,8 @@ class LocalNotificationService {
         importance: NotificationImportance.Max,
         channelShowBadge: true,
         playSound: true,
-        criticalAlerts: true,
         soundSource: Platform.isAndroid ? 'resource://raw/azan' : null,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
@@ -305,13 +335,11 @@ class LocalNotificationService {
         importance: NotificationImportance.Max,
         channelShowBadge: true,
         playSound: false,
-        criticalAlerts: true,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 4. Occasions Channel (Vibration completely disabled)
+      // 4. Occasions Channel
       NotificationChannel(
         channelKey: occasionsChannelKey,
         channelName: 'المناسبات الإسلامية',
@@ -323,11 +351,10 @@ class LocalNotificationService {
         channelShowBadge: true,
         playSound: true,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 5. Hojaty Channel (Vibration completely disabled)
+      // 5. Hojaty Channel
       NotificationChannel(
         channelKey: anaOsalyChannelKey,
         channelName: 'وضع حچتي',
@@ -339,11 +366,10 @@ class LocalNotificationService {
         channelShowBadge: true,
         playSound: true,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 6. General Notifications (Vibration completely disabled)
+      // 6. General Notifications
       NotificationChannel(
         channelKey: generalChannelKey,
         channelName: 'تنبيهات عامة',
@@ -354,11 +380,10 @@ class LocalNotificationService {
         channelShowBadge: true,
         playSound: true,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
-      // 7. Pre-Prayer Reminder Channel (Vibration completely disabled)
+      // 7. Pre-Prayer Reminder Channel
       NotificationChannel(
         channelKey: prePrayerChannelKey,
         channelName: 'التنبيه المسبق للأذان',
@@ -370,11 +395,10 @@ class LocalNotificationService {
         importance: NotificationImportance.High,
         channelShowBadge: true,
         playSound: true,
-        soundSource: includeCustomRawSounds && Platform.isAndroid
+        soundSource: Platform.isAndroid
             ? 'resource://raw/prayer_time_is_close'
             : null,
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
 
@@ -389,15 +413,11 @@ class LocalNotificationService {
         icon: defaultNotificationIcon,
         importance: NotificationImportance.High,
         channelShowBadge: true,
-        playSound: includeCustomRawSounds,
-        criticalAlerts: true,
-        soundSource: includeCustomRawSounds
-            ? (Platform.isAndroid
-                  ? 'resource://raw/salli_ala_muhammad'
-                  : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null))
-            : null,
+        playSound: true,
+        soundSource: Platform.isAndroid
+            ? 'resource://raw/salli_ala_muhammad'
+            : (Platform.isIOS ? 'salli_ala_muhammad.aiff' : null),
         enableVibration: false,
-        vibrationPattern: Int64List.fromList([0]),
         onlyAlertOnce: false,
       ),
     ];
@@ -504,8 +524,9 @@ class LocalNotificationService {
         type == 'prayer') {
       await _startFlipDetector(id);
       final soundPath = receivedNotification.payload?['soundPath'];
+      final soundId = receivedNotification.payload?['soundId'];
       if (soundPath != null && soundPath.isNotEmpty) {
-        await _playCustomAdhan(soundPath);
+        await _playCustomAdhan(soundPath, soundId);
       }
     }
   }

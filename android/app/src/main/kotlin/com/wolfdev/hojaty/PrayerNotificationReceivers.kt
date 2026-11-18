@@ -35,6 +35,16 @@ class PrayerScheduledReceiver : DartScheduledNotificationReceiver() {
                 if (channelKey.contains("prayers_channel") || (id in 100..105)) {
                     Log.i(TAG, "Prayer alarm fired (ID: $id, channel: $channelKey). Starting AzanFlipDetector.")
                     AzanFlipDetector.start(context.applicationContext, id)
+
+                    // Check if a custom downloaded sound path was provided
+                    val payload = content?.optJSONObject("payload")
+                    val soundPath = payload?.optString("soundPath", "") ?: ""
+                    val soundId = payload?.optString("soundId", "") ?: ""
+
+                    if (soundPath.isNotEmpty()) {
+                        Log.i(TAG, "Playing custom downloaded Adhan natively: $soundPath")
+                        AzanNativePlayer.play(context.applicationContext, soundPath, soundId)
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -53,6 +63,7 @@ class PrayerDismissedReceiver : DartDismissedNotificationReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+        AzanNativePlayer.stop()
         AzanFlipDetector.stop()
     }
 }
@@ -67,6 +78,7 @@ class PrayerActionReceiver : DartNotificationActionReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+        AzanNativePlayer.stop()
         AzanFlipDetector.stop()
     }
 }

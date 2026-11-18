@@ -304,7 +304,21 @@ class MainActivity : AudioServiceActivity() {
                     }
                     "stopFlipDetector" -> {
                         AzanFlipDetector.stop()
+                        AzanNativePlayer.stop()
                         result.success(true)
+                    }
+                    "playAzanNative" -> {
+                        val soundPath = call.argument<String>("soundPath")
+                        val soundId = call.argument<String>("soundId")
+                        AzanNativePlayer.play(applicationContext, soundPath, soundId)
+                        result.success(true)
+                    }
+                    "stopAzanNative" -> {
+                        AzanNativePlayer.stop()
+                        result.success(true)
+                    }
+                    "isAzanNativePlaying" -> {
+                        result.success(AzanNativePlayer.isPlaying)
                     }
                     else -> result.notImplemented()
                 }
@@ -321,6 +335,7 @@ class MainActivity : AudioServiceActivity() {
     override fun onDestroy() {
         AzanFlipDetector.onAzanStoppedCallback = null
         AzanFlipDetector.stop()
+        AzanNativePlayer.stop()
         flipMethodChannel?.setMethodCallHandler(null)
         flipMethodChannel = null
 
