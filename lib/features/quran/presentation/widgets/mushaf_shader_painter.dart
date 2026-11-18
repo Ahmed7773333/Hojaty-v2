@@ -1,5 +1,5 @@
 import 'dart:ui' as ui;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Paints a scanned Mushaf page through the three-layer night-mode fragment shader.
 class MushafShaderPainter extends CustomPainter {

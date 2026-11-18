@@ -2,7 +2,7 @@ import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RadioPlaylistBannerWidget extends StatelessWidget {
   const RadioPlaylistBannerWidget({super.key});

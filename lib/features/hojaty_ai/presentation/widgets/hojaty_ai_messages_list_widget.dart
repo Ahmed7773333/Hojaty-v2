@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';

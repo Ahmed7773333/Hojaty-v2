@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -43,8 +43,8 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
           color: isPlaying
               ? AppColors.primaryDarkBackground
               : (isDark
-                  ? AppColors.darkBorderUnselected
-                  : AppColors.lightBorderUnselected),
+                    ? AppColors.darkBorderUnselected
+                    : AppColors.lightBorderUnselected),
           width: isPlaying ? 1.5 : 1.0,
         ),
       ),
@@ -65,8 +65,10 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
                     color: isPlaying
                         ? AppColors.primaryDarkBackground
                         : (isDark
-                            ? AppColors.darkSurface
-                            : AppColors.lightBorderUnselected.withValues(alpha: 0.4)),
+                              ? AppColors.darkSurface
+                              : AppColors.lightBorderUnselected.withValues(
+                                  alpha: 0.4,
+                                )),
                   ),
                   child: Center(
                     child: isLoadingAudio
@@ -79,8 +81,8 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
                                 isPlaying
                                     ? AppColors.white
                                     : (isDark
-                                        ? AppColors.accentGoldLight
-                                        : AppColors.primaryDark),
+                                          ? AppColors.accentGoldLight
+                                          : AppColors.primaryDark),
                               ),
                             ),
                           )
@@ -92,8 +94,8 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
                             color: isPlaying
                                 ? AppColors.white
                                 : (isDark
-                                    ? AppColors.white
-                                    : AppColors.primaryDark),
+                                      ? AppColors.white
+                                      : AppColors.primaryDark),
                           ),
                   ),
                 ),
@@ -153,7 +155,9 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
                               vertical: 2.h,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.accentGoldDark.withValues(alpha: 0.15),
+                              color: AppColors.accentGoldDark.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Text(
@@ -175,7 +179,9 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
                               vertical: 2.h,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryDarkBackground.withValues(alpha: 0.15),
+                              color: AppColors.primaryDarkBackground.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Text(
@@ -204,10 +210,7 @@ class AdhanLibraryItemCardWidget extends StatelessWidget {
               runSpacing: 4.h,
               children: assignedPrayerNames.map((prayer) {
                 return Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8.w,
-                    vertical: 3.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                   decoration: BoxDecoration(
                     color: AppColors.primaryDarkBackground.withValues(
                       alpha: isDark ? 0.3 : 0.1,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/athkar/athkar_category_card_widget.dart';
@@ -36,4 +36,3 @@ class AthkarDailyGridWidget extends StatelessWidget {
     );
   }
 }
-

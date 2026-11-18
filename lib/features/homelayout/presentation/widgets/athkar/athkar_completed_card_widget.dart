@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -24,7 +24,9 @@ class AthkarCompletedCardWidget extends StatelessWidget {
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+          color: isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected,
         ),
       ),
       child: Column(
@@ -59,7 +61,9 @@ class AthkarCompletedCardWidget extends StatelessWidget {
             'أتممت جميع الأذكار بنجاح',
             textAlign: TextAlign.center,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
               fontSize: 14.sp,
             ),
           ),
@@ -72,7 +76,9 @@ class AthkarCompletedCardWidget extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     side: BorderSide(
-                      color: isDark ? AppColors.darkBorderUnselected : AppColors.lightBorderUnselected,
+                      color: isDark
+                          ? AppColors.darkBorderUnselected
+                          : AppColors.lightBorderUnselected,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),

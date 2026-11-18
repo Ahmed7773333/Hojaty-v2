@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -66,8 +66,8 @@ class IstikharaStepCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14.r),
                 border: Border.all(
                   color: isDark
-                    ? AppColors.darkBorderUnselected
-                    : AppColors.lightBorderUnselected,
+                      ? AppColors.darkBorderUnselected
+                      : AppColors.lightBorderUnselected,
                 ),
               ),
               child: Text(
@@ -91,13 +91,13 @@ class IstikharaStepCardWidget extends StatelessWidget {
 // ==========================================
 // class IstikharaStepCardWidget extends StatelessWidget {
 //   final IstikharaStepModel step;
-// 
+//
 //   const IstikharaStepCardWidget({super.key, required this.step});
-// 
+//
 //   @override
 //   Widget build(BuildContext context) {
 //     final isDark = context.isDark;
-// 
+//
 //     return Container(
 //       margin: EdgeInsets.only(bottom: 10.h),
 //       child: Row(
@@ -162,4 +162,3 @@ class IstikharaStepCardWidget extends StatelessWidget {
 //     );
 //   }
 // }
-

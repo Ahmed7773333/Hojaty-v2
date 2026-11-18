@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -6,10 +6,7 @@ import 'package:hojaty/core/utils/screen_util_like.dart';
 class BookReadModeBannerWidget extends StatelessWidget {
   final VoidCallback onTap;
 
-  const BookReadModeBannerWidget({
-    super.key,
-    required this.onTap,
-  });
+  const BookReadModeBannerWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,9 @@ class BookReadModeBannerWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14.r),
               border: Border.all(
-                color: isDark ? AppColors.accentGold.withValues(alpha: 0.5) : AppColors.primaryDark.withValues(alpha: 0.3),
+                color: isDark
+                    ? AppColors.accentGold.withValues(alpha: 0.5)
+                    : AppColors.primaryDark.withValues(alpha: 0.3),
                 width: 1.2,
               ),
               gradient: LinearGradient(
@@ -37,10 +36,7 @@ class BookReadModeBannerWidget extends StatelessWidget {
                         AppColors.primaryDarkSurface,
                         AppColors.darkCardUnselected,
                       ]
-                    : [
-                        AppColors.lightCardSelected,
-                        AppColors.lightSurface,
-                      ],
+                    : [AppColors.lightCardSelected, AppColors.lightSurface],
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
               ),
@@ -51,7 +47,9 @@ class BookReadModeBannerWidget extends StatelessWidget {
                   width: 38.r,
                   height: 38.r,
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurface : AppColors.primaryDark,
+                    color: isDark
+                        ? AppColors.darkSurface
+                        : AppColors.primaryDark,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Icon(
@@ -70,7 +68,9 @@ class BookReadModeBannerWidget extends StatelessWidget {
                         context.strings.readFullBook,
                         style: context.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.accentGoldLight : AppColors.primaryDark,
+                          color: isDark
+                              ? AppColors.accentGoldLight
+                              : AppColors.primaryDark,
                           fontSize: 13.sp,
                         ),
                       ),
@@ -78,7 +78,9 @@ class BookReadModeBannerWidget extends StatelessWidget {
                       Text(
                         'تصفح صفحات الكتاب بالكامل مع البحث وتصدير PDF',
                         style: context.textTheme.bodySmall?.copyWith(
-                          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                          color: isDark
+                              ? AppColors.darkTextMuted
+                              : AppColors.lightTextMuted,
                           fontSize: 11.sp,
                         ),
                         maxLines: 1,
@@ -100,4 +102,3 @@ class BookReadModeBannerWidget extends StatelessWidget {
     );
   }
 }
-

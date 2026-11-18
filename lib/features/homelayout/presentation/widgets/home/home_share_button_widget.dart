@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/app_share_helper.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -15,11 +15,7 @@ class HomeShareButtonWidget extends StatelessWidget {
         padding: EdgeInsets.all(10.r),
         shape: const CircleBorder(),
       ),
-      icon: Icon(
-        Icons.share_rounded,
-        size: 18.r,
-        color: AppColors.white,
-      ),
+      icon: Icon(Icons.share_rounded, size: 18.r, color: AppColors.white),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart' show Rect;
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -17,15 +16,16 @@ class BookPdfExporter {
   }) async {
     final pdf = pw.Document();
 
-    final regularFontData = await rootBundle.load('assets/fonts/NotoKufiArabic-Regular.ttf');
-    final boldFontData = await rootBundle.load('assets/fonts/NotoKufiArabic-Bold.ttf');
+    final regularFontData = await rootBundle.load(
+      'assets/fonts/NotoKufiArabic-Regular.ttf',
+    );
+    final boldFontData = await rootBundle.load(
+      'assets/fonts/NotoKufiArabic-Bold.ttf',
+    );
     final ttfRegular = pw.Font.ttf(regularFontData);
     final ttfBold = pw.Font.ttf(boldFontData);
 
-    final theme = pw.ThemeData.withFont(
-      base: ttfRegular,
-      bold: ttfBold,
-    );
+    final theme = pw.ThemeData.withFont(base: ttfRegular, bold: ttfBold);
 
     final goldColor = PdfColor.fromHex('#C5A059');
     final darkPrimaryColor = PdfColor.fromHex('#1B3B2B');
@@ -76,7 +76,10 @@ class BookPdfExporter {
             padding: const pw.EdgeInsets.only(top: 6),
             decoration: pw.BoxDecoration(
               border: pw.Border(
-                top: pw.BorderSide(color: PdfColor.fromHex('#E8E4D8'), width: 0.6),
+                top: pw.BorderSide(
+                  color: PdfColor.fromHex('#E8E4D8'),
+                  width: 0.6,
+                ),
               ),
             ),
             alignment: pw.Alignment.center,
@@ -122,7 +125,10 @@ class BookPdfExporter {
                   if (chapterTitle.isNotEmpty) ...[
                     pw.SizedBox(height: 8),
                     pw.Container(
-                      padding: const pw.EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                      padding: const pw.EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 5,
+                      ),
                       decoration: pw.BoxDecoration(
                         color: PdfColor.fromHex('#F5F3E9'),
                         borderRadius: pw.BorderRadius.circular(6),
@@ -154,7 +160,10 @@ class BookPdfExporter {
                 margin: const pw.EdgeInsets.only(top: 8, bottom: 4),
                 alignment: pw.Alignment.centerRight,
                 child: pw.Container(
-                  padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const pw.EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
                   decoration: pw.BoxDecoration(
                     color: darkPrimaryColor,
                     borderRadius: pw.BorderRadius.circular(4),
@@ -201,7 +210,10 @@ class BookPdfExporter {
               content.add(
                 pw.Container(
                   margin: const pw.EdgeInsets.symmetric(vertical: 8),
-                  child: pw.Divider(color: PdfColor.fromHex('#E0DCCF'), thickness: 0.5),
+                  child: pw.Divider(
+                    color: PdfColor.fromHex('#E0DCCF'),
+                    thickness: 0.5,
+                  ),
                 ),
               );
             }
@@ -214,11 +226,13 @@ class BookPdfExporter {
 
     final bytes = await pdf.save();
     final tempDir = await getTemporaryDirectory();
-    final safeFileName = '${book.id}_chapter_${DateTime.now().millisecondsSinceEpoch}.pdf';
+    final safeFileName =
+        '${book.id}_chapter_${DateTime.now().millisecondsSinceEpoch}.pdf';
     final file = File('${tempDir.path}/$safeFileName');
     await file.writeAsBytes(bytes);
 
-    final shareText = '${book.titleAr} - ${chapterTitle.isNotEmpty ? chapterTitle : book.authorAr}';
+    final shareText =
+        '${book.titleAr} - ${chapterTitle.isNotEmpty ? chapterTitle : book.authorAr}';
 
     await SharePlus.instance.share(
       ShareParams(

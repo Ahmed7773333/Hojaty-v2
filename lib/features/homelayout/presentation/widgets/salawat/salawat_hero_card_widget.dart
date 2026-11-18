@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -14,9 +14,7 @@ class SalawatHeroCardWidget extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.darkCardUnselected
-            : AppColors.lightSurface,
+        color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: isDark
@@ -29,11 +27,7 @@ class SalawatHeroCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.auto_awesome,
-                size: 16.r,
-                color: AppColors.accentGold,
-              ),
+              Icon(Icons.auto_awesome, size: 16.r, color: AppColors.accentGold),
               8.hor,
               Text(
                 context.strings.salawatHadithSource,
@@ -44,11 +38,7 @@ class SalawatHeroCardWidget extends StatelessWidget {
                 ),
               ),
               8.hor,
-              Icon(
-                Icons.auto_awesome,
-                size: 16.r,
-                color: AppColors.accentGold,
-              ),
+              Icon(Icons.auto_awesome, size: 16.r, color: AppColors.accentGold),
             ],
           ),
           10.ver,
@@ -69,4 +59,3 @@ class SalawatHeroCardWidget extends StatelessWidget {
     );
   }
 }
-

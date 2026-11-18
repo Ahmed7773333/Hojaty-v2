@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -94,16 +94,17 @@ class _AsmaAllahPageState extends State<AsmaAllahPage> {
             child: _isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      color: isDark ? AppColors.accentGold : AppColors.primaryDark,
+                      color: isDark
+                          ? AppColors.accentGold
+                          : AppColors.primaryDark,
                     ),
                   )
                 : (_filteredNames.isEmpty
-                    ? AsmaAllahEmptyWidget(onClear: _onClearSearch)
-                    : AsmaAllahListWidget(items: _filteredNames)),
+                      ? AsmaAllahEmptyWidget(onClear: _onClearSearch)
+                      : AsmaAllahListWidget(items: _filteredNames)),
           ),
         ],
       ),
     );
   }
 }
-

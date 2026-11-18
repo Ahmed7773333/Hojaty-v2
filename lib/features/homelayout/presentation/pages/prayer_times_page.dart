@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/adhan_settings_tab_view.dart';
@@ -9,10 +9,7 @@ import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/pra
 class PrayerTimesPage extends StatefulWidget {
   final int initialTabIndex;
 
-  const PrayerTimesPage({
-    super.key,
-    this.initialTabIndex = 0,
-  });
+  const PrayerTimesPage({super.key, this.initialTabIndex = 0});
 
   @override
   State<PrayerTimesPage> createState() => _PrayerTimesPageState();
@@ -31,13 +28,12 @@ class _PrayerTimesPageState extends State<PrayerTimesPage> {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    final tabViews = [
-      const PrayerTimesTabView(),
-      const AdhanSettingsTabView(),
-    ];
+    final tabViews = [const PrayerTimesTabView(), const AdhanSettingsTabView()];
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           const PrayerTimesHeaderWidget(),
@@ -50,10 +46,7 @@ class _PrayerTimesPageState extends State<PrayerTimesPage> {
             },
           ),
           Expanded(
-            child: IndexedStack(
-              index: _selectedTab,
-              children: tabViews,
-            ),
+            child: IndexedStack(index: _selectedTab, children: tabViews),
           ),
         ],
       ),

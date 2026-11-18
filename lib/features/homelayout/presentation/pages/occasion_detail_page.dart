@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -10,17 +10,16 @@ import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasi
 class OccasionDetailPage extends StatelessWidget {
   final OccasionItemModel occasion;
 
-  const OccasionDetailPage({
-    super.key,
-    required this.occasion,
-  });
+  const OccasionDetailPage({super.key, required this.occasion});
 
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
       body: Column(
         children: [
           OccasionDetailHeaderWidget(occasion: occasion),

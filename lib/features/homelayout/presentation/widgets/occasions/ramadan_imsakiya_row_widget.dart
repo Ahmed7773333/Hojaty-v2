@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -24,9 +24,7 @@ class RamadanImsakiyaRowWidget extends StatelessWidget {
     final isHighlighted = day.isCurrentDay;
 
     final rowBg = isHighlighted
-        ? (isDark
-            ? AppColors.darkCardSelected
-            : AppColors.accentGoldExtraLight)
+        ? (isDark ? AppColors.darkCardSelected : AppColors.accentGoldExtraLight)
         : Colors.transparent;
 
     return ColoredBox(
@@ -34,10 +32,7 @@ class RamadanImsakiyaRowWidget extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 10.w,
-              vertical: 10.h,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: Row(
               children: [
                 RamadanImsakiyaCellWidget(
@@ -101,4 +96,3 @@ class RamadanImsakiyaRowWidget extends StatelessWidget {
     );
   }
 }
-

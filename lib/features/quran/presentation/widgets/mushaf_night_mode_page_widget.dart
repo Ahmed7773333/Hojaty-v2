@@ -1,5 +1,5 @@
 import 'dart:ui' as ui;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/features/quran/presentation/utils/mushaf_shader_program_loader.dart';

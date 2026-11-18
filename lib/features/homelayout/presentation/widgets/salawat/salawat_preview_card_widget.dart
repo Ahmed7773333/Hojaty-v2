@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -14,9 +14,7 @@ class SalawatPreviewCardWidget extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.darkCardUnselected
-            : AppColors.lightSurface,
+        color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: isDark
@@ -62,9 +60,7 @@ class SalawatPreviewCardWidget extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightBackground,
+              color: isDark ? AppColors.darkSurface : AppColors.lightBackground,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
                 color: isDark
@@ -189,4 +185,3 @@ class SalawatPreviewCardWidget extends StatelessWidget {
     );
   }
 }
-

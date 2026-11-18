@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
@@ -16,14 +16,10 @@ class SalawatTestButtonWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           final lang = Localizations.localeOf(context).languageCode;
-          LocalNotificationService.showTestSalawatNotification(
-            language: lang,
-          );
+          LocalNotificationService.showTestSalawatNotification(language: lang);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                context.strings.salawatTestNotificationSent,
-              ),
+              content: Text(context.strings.salawatTestNotificationSent),
               duration: const Duration(seconds: 2),
               behavior: SnackBarBehavior.floating,
             ),
@@ -68,4 +64,3 @@ class SalawatTestButtonWidget extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/config/theme/app_theme.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';

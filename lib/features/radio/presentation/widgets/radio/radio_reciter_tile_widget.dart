@@ -5,7 +5,7 @@ import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
 import 'package:hojaty/features/radio/data/models/reciter_model.dart';
 import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RadioReciterTileWidget extends StatelessWidget {
   final ReciterModel reciter;

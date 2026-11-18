@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/features/homelayout/data/models/live_time_helper.dart';
 
 /// LiveTimerDisplay shows elapsed since start or a countdown to end when start is missing.
