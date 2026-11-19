@@ -15,14 +15,22 @@ import 'package:hojaty/features/quran/presentation/widgets/quran_top_bar_widget.
 
 class QuranReaderPage extends StatefulWidget {
   final int? initialPage;
+  final int? highlightVerseIndex;
 
-  const QuranReaderPage({super.key, this.initialPage});
+  const QuranReaderPage({
+    super.key,
+    this.initialPage,
+    this.highlightVerseIndex,
+  });
 
   @override
   State<QuranReaderPage> createState() => _QuranReaderPageState();
 }
 
 class _QuranReaderPageState extends State<QuranReaderPage> {
+  int? _highlightPage;
+  int? _highlightVerseIndex;
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +44,8 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
         widget.initialPage! >= 1 &&
         widget.initialPage! <= 604) {
       bloc.add(JumpToPageEvent(widget.initialPage!));
+      _highlightPage = widget.initialPage;
+      _highlightVerseIndex = widget.highlightVerseIndex;
     }
   }
 
@@ -82,7 +92,15 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                     basePath: state.assetsPath,
                     qirat: state.selectedQirat,
                     quranPages: state.quranPages,
+                    highlightPage: _highlightPage,
+                    highlightVerseIndex: _highlightVerseIndex,
                     onPageChanged: (page) {
+                      if (_highlightPage != page) {
+                        setState(() {
+                          _highlightPage = null;
+                          _highlightVerseIndex = null;
+                        });
+                      }
                       context.read<QuranBloc>().add(PageChangedEvent(page));
                     },
                     onToggleOverlay: () {
@@ -132,6 +150,25 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                     currentPage: state.currentPage,
                     onHomeTap: () {
                       Navigator.of(context).pop();
+                    },
+                    onCheckpointsTap: () async {
+                      final result = await context
+                          .pushNamed<Map<String, dynamic>>(
+                            AppRoutes.quranCheckpoints,
+                          );
+                      if (result != null && context.mounted) {
+                        final pageNum = result['pageNum'] as int?;
+                        final verseIndex = result['verseIndex'] as int?;
+                        if (pageNum != null) {
+                          setState(() {
+                            _highlightPage = pageNum;
+                            _highlightVerseIndex = verseIndex;
+                          });
+                          context
+                              .read<QuranBloc>()
+                              .add(JumpToPageEvent(pageNum));
+                        }
+                      }
                     },
                     onListenTap: () {
                       final surah = QuranTextHelper.getSurahByPage(

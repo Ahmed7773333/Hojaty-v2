@@ -8,6 +8,7 @@ import 'package:hojaty/core/utils/local_notification_service.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
 import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 import 'package:hojaty/core/local/user_data.dart';
+import 'package:hojaty/features/quran/data/models/quran_checkpoint_model.dart';
 
 class UserHiveHelper {
   // Box names
@@ -29,6 +30,9 @@ class UserHiveHelper {
 
     try {
       Hive.registerAdapter(UserDataAdapter());
+      if (!Hive.isAdapterRegistered(6)) {
+        Hive.registerAdapter(QuranCheckpointModelAdapter());
+      }
     } catch (e, st) {
       log('Error registering Hive adapters: $e\n$st');
     }
@@ -37,6 +41,7 @@ class UserHiveHelper {
       await Hive.openBox<UserData>(_userBoxName);
       await Hive.openBox('occasionsBox');
       await Hive.openBox('prayersBox');
+      await Hive.openBox<QuranCheckpointModel>('quran_checkpoints_box');
     } catch (e, st) {
       log('Error opening Hive box: $e\n$st');
     }

@@ -14,6 +14,8 @@ class QuranReaderViewWidget extends StatefulWidget {
   final String? basePath;
   final QiratType qirat;
   final Map<int, PageDataModel>? quranPages;
+  final int? highlightPage;
+  final int? highlightVerseIndex;
 
   const QuranReaderViewWidget({
     super.key,
@@ -24,6 +26,8 @@ class QuranReaderViewWidget extends StatefulWidget {
     this.basePath,
     this.qirat = QiratType.hafs,
     this.quranPages,
+    this.highlightPage,
+    this.highlightVerseIndex,
   });
 
   @override
@@ -165,6 +169,10 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
                         basePath: widget.basePath,
                         qirat: widget.qirat,
                         onToggleOverlay: widget.onToggleOverlay,
+                        initialHighlightVerseIndex:
+                            (rightPageNum == widget.highlightPage)
+                                ? widget.highlightVerseIndex
+                                : null,
                       ),
                     ),
                     if (leftPageNum <= _totalPages)
@@ -175,6 +183,10 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
                           basePath: widget.basePath,
                           qirat: widget.qirat,
                           onToggleOverlay: widget.onToggleOverlay,
+                          initialHighlightVerseIndex:
+                              (leftPageNum == widget.highlightPage)
+                                  ? widget.highlightVerseIndex
+                                  : null,
                         ),
                       )
                     else
@@ -182,12 +194,16 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
                   ],
                 );
               }
+              final pageNum = index + 1;
               return QuranPageImageWidget(
-                pageNumber: index + 1,
-                pageData: widget.quranPages?[index + 1],
+                pageNumber: pageNum,
+                pageData: widget.quranPages?[pageNum],
                 basePath: widget.basePath,
                 qirat: widget.qirat,
                 onToggleOverlay: widget.onToggleOverlay,
+                initialHighlightVerseIndex: (pageNum == widget.highlightPage)
+                    ? widget.highlightVerseIndex
+                    : null,
               );
             },
           ),

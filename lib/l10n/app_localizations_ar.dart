@@ -1602,4 +1602,35 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get appQrCodeSubtitle =>
       'امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي';
+
+  @override
+  String get shareVerse => 'مشاركة الآية';
+
+  @override
+  String get shareVerseOnly => 'مشاركة الآية فقط';
+
+  @override
+  String get shareVerseWithTafseer => 'مشاركة الآية مع التفسير';
+
+  @override
+  String get saveBookmark => 'حفظ علامة';
+
+  @override
+  String get removeBookmark => 'إزالة العلامة';
+
+  @override
+  String get bookmarkSaved => 'تم حفظ العلامة المرجعية بنجاح';
+
+  @override
+  String get bookmarkRemoved => 'تمت إزالة العلامة المرجعية';
+
+  @override
+  String get quranCheckpoints => 'العلامات المرجعية';
+
+  @override
+  String get noQuranCheckpoints => 'لا توجد علامات مرجعية محفوظة';
+
+  @override
+  String get noQuranCheckpointsDesc =>
+      'يمكنك حفظ أي آية كعلامة مرجعية بالضغط مطولاً عليها في المصحف';
 }

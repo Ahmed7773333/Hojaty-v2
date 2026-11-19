@@ -580,5 +580,15 @@
   "salawatNotificationDismiss": "OK",
   "salawatNotificationOpen": "Open App",
   "appQrCodeTitle": "Scan App QR Code",
-  "appQrCodeSubtitle": "Scan via phone camera to open app directly on Google Play"
+  "appQrCodeSubtitle": "Scan via phone camera to open app directly on Google Play",
+  "shareVerse": "Share Ayah",
+  "shareVerseOnly": "Share Ayah Only",
+  "shareVerseWithTafseer": "Share Ayah with Tafseer",
+  "saveBookmark": "Bookmark Ayah",
+  "removeBookmark": "Remove Bookmark",
+  "bookmarkSaved": "Bookmark saved successfully",
+  "bookmarkRemoved": "Bookmark removed",
+  "quranCheckpoints": "Bookmarks",
+  "noQuranCheckpoints": "No bookmarks saved",
+  "noQuranCheckpointsDesc": "You can bookmark any ayah by long pressing it in the Quran"
 }

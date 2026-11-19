@@ -1,5 +1,5 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/features/quran/constants/mushaf_page_image_resolver.dart';
@@ -17,6 +17,7 @@ class QuranPageImageWidget extends StatefulWidget {
   final String? basePath;
   final QiratType qirat;
   final VoidCallback? onToggleOverlay;
+  final int? initialHighlightVerseIndex;
 
   const QuranPageImageWidget({
     super.key,
@@ -25,21 +26,97 @@ class QuranPageImageWidget extends StatefulWidget {
     this.basePath,
     this.qirat = QiratType.hafs,
     this.onToggleOverlay,
+    this.initialHighlightVerseIndex,
   });
 
   @override
   State<QuranPageImageWidget> createState() => _QuranPageImageWidgetState();
 }
 
-class _QuranPageImageWidgetState extends State<QuranPageImageWidget> {
+class _QuranPageImageWidgetState extends State<QuranPageImageWidget>
+    with SingleTickerProviderStateMixin {
   int? _selectedVerseIndex;
+  late AnimationController _highlightAnimController;
+  late Animation<double> _highlightOpacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _highlightAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2600),
+    );
+
+    _highlightOpacityAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: 0.45)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.45, end: 0.20)
+            .chain(CurveTween(curve: Curves.easeInOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.20, end: 0.45)
+            .chain(CurveTween(curve: Curves.easeInOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.45, end: 0.0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 40,
+      ),
+    ]).animate(_highlightAnimController);
+
+    _highlightAnimController.addStatusListener((status) {
+      if (status == AnimationStatus.completed && mounted) {
+        setState(() {
+          _selectedVerseIndex = null;
+        });
+      }
+    });
+
+    if (widget.initialHighlightVerseIndex != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _triggerLightShow(widget.initialHighlightVerseIndex!);
+        }
+      });
+    }
+  }
 
   @override
   void didUpdateWidget(covariant QuranPageImageWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.pageNumber != widget.pageNumber) {
+      _highlightAnimController.stop();
       _selectedVerseIndex = null;
     }
+
+    if (widget.initialHighlightVerseIndex != null &&
+        widget.initialHighlightVerseIndex !=
+            oldWidget.initialHighlightVerseIndex) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _triggerLightShow(widget.initialHighlightVerseIndex!);
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _highlightAnimController.dispose();
+    super.dispose();
+  }
+
+  void _triggerLightShow(int verseIndex) {
+    setState(() {
+      _selectedVerseIndex = verseIndex;
+    });
+    _highlightAnimController.forward(from: 0.0);
   }
 
   PageDataModel? _resolvePageData() {
@@ -52,6 +129,9 @@ class _QuranPageImageWidgetState extends State<QuranPageImageWidget> {
   }
 
   void _onTap() {
+    if (_highlightAnimController.isAnimating) {
+      _highlightAnimController.stop();
+    }
     if (_selectedVerseIndex != null) {
       setState(() {
         _selectedVerseIndex = null;
@@ -98,6 +178,9 @@ class _QuranPageImageWidgetState extends State<QuranPageImageWidget> {
     int index,
     PageDataModel pageData,
   ) async {
+    if (_highlightAnimController.isAnimating) {
+      _highlightAnimController.stop();
+    }
     setState(() {
       _selectedVerseIndex = index;
     });
@@ -173,16 +256,29 @@ class _QuranPageImageWidgetState extends State<QuranPageImageWidget> {
               children: [
                 pageContent,
                 if (bounds != null && bounds.isNotEmpty)
-                  IgnorePointer(
-                    child: CustomPaint(
-                      size: renderSize,
-                      painter: QuranVerseHighlightPainter(
-                        rects: bounds,
-                        highlightColor: AppColors.accentGold.withValues(
-                          alpha: 0.32,
+                  AnimatedBuilder(
+                    animation: _highlightOpacityAnimation,
+                    builder: (context, child) {
+                      final currentAlpha = _highlightAnimController.isAnimating
+                          ? _highlightOpacityAnimation.value
+                          : 0.32;
+                      if (currentAlpha <= 0.0) {
+                        return const SizedBox.shrink();
+                      }
+                      return IgnorePointer(
+                        child: RepaintBoundary(
+                          child: CustomPaint(
+                            size: renderSize,
+                            painter: QuranVerseHighlightPainter(
+                              rects: bounds,
+                              highlightColor: AppColors.accentGold.withValues(
+                                alpha: currentAlpha,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
               ],
             ),

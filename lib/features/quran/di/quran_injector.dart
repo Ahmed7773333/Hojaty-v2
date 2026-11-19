@@ -1,4 +1,5 @@
 import 'package:hojaty/core/di/injector.dart';
+import 'package:hojaty/features/quran/data/datasources/quran_checkpoint_local_data_source.dart';
 import 'package:hojaty/features/quran/data/datasources/quran_local_data_source.dart';
 import 'package:hojaty/features/quran/data/repositories/quran_repository_impl.dart';
 import 'package:hojaty/features/quran/domain/repositories/quran_repository.dart';
@@ -14,6 +15,9 @@ Future<void> initQuranInjector() async {
   // Data Source
   injector.registerLazySingleton<QuranLocalDataSource>(
     () => const QuranLocalDataSource(),
+  );
+  injector.registerLazySingleton<QuranCheckpointLocalDataSource>(
+    () => const QuranCheckpointLocalDataSource(),
   );
 
   // Repository

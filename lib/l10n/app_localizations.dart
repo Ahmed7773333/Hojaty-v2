@@ -3073,6 +3073,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scan via phone camera to open app directly on Google Play'**
   String get appQrCodeSubtitle;
+
+  /// No description provided for @shareVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Ayah'**
+  String get shareVerse;
+
+  /// No description provided for @shareVerseOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Ayah Only'**
+  String get shareVerseOnly;
+
+  /// No description provided for @shareVerseWithTafseer.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Ayah with Tafseer'**
+  String get shareVerseWithTafseer;
+
+  /// No description provided for @saveBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark Ayah'**
+  String get saveBookmark;
+
+  /// No description provided for @removeBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Bookmark'**
+  String get removeBookmark;
+
+  /// No description provided for @bookmarkSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark saved successfully'**
+  String get bookmarkSaved;
+
+  /// No description provided for @bookmarkRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark removed'**
+  String get bookmarkRemoved;
+
+  /// No description provided for @quranCheckpoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get quranCheckpoints;
+
+  /// No description provided for @noQuranCheckpoints.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarks saved'**
+  String get noQuranCheckpoints;
+
+  /// No description provided for @noQuranCheckpointsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You can bookmark any ayah by long pressing it in the Quran'**
+  String get noQuranCheckpointsDesc;
 }
 
 class _AppLocalizationsDelegate

@@ -580,5 +580,15 @@
   "salawatNotificationDismiss": "حسناً",
   "salawatNotificationOpen": "فتح التطبيق",
   "appQrCodeTitle": "رمز الاستجابة السريعة (QR Code)",
-  "appQrCodeSubtitle": "امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي"
+  "appQrCodeSubtitle": "امسح الرمز بكاميرا الهاتف لفتح التطبيق مباشرة على جوجل بلاي",
+  "shareVerse": "مشاركة الآية",
+  "shareVerseOnly": "مشاركة الآية فقط",
+  "shareVerseWithTafseer": "مشاركة الآية مع التفسير",
+  "saveBookmark": "حفظ علامة",
+  "removeBookmark": "إزالة العلامة",
+  "bookmarkSaved": "تم حفظ العلامة المرجعية بنجاح",
+  "bookmarkRemoved": "تمت إزالة العلامة المرجعية",
+  "quranCheckpoints": "العلامات المرجعية",
+  "noQuranCheckpoints": "لا توجد علامات مرجعية محفوظة",
+  "noQuranCheckpointsDesc": "يمكنك حفظ أي آية كعلامة مرجعية بالضغط مطولاً عليها في المصحف"
 }

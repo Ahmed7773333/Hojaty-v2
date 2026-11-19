@@ -35,6 +35,7 @@ import 'package:hojaty/features/onboarding/presentation/pages/onboarding_page.da
 import 'package:hojaty/features/qibla/presentation/pages/qibla_page.dart';
 import 'package:hojaty/features/quran/data/models/page_data_model.dart';
 import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
+import 'package:hojaty/features/quran/presentation/pages/quran_checkpoints_page.dart';
 import 'package:hojaty/features/quran/presentation/pages/quran_fehres_page.dart';
 import 'package:hojaty/features/quran/presentation/pages/quran_juzs_page.dart';
 import 'package:hojaty/features/quran/presentation/pages/quran_reader_page.dart';
@@ -72,6 +73,7 @@ class AppRoutes {
   static const String appInfoContent = '/app-info-content';
   static const String login = '/login';
   static const String quranReader = '/quran-reader';
+  static const String quranCheckpoints = '/quran-checkpoints';
   static const String quranFehres = '/quran-fehres';
   static const String quranJuzs = '/quran-juzs';
   static const String quranSearch = '/quran-search';
@@ -245,9 +247,26 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.quranReader:
-        final initialPage = settings.arguments as int?;
+        int? initialPage;
+        int? highlightVerseIndex;
+        if (settings.arguments is int) {
+          initialPage = settings.arguments as int;
+        } else if (settings.arguments is Map) {
+          final map = settings.arguments as Map;
+          initialPage = map['initialPage'] as int? ?? map['pageNum'] as int?;
+          highlightVerseIndex =
+              map['highlightVerseIndex'] as int? ?? map['verseIndex'] as int?;
+        }
         return MaterialPageRoute(
-          builder: (_) => QuranReaderPage(initialPage: initialPage),
+          builder: (_) => QuranReaderPage(
+            initialPage: initialPage,
+            highlightVerseIndex: highlightVerseIndex,
+          ),
+          settings: settings,
+        );
+      case AppRoutes.quranCheckpoints:
+        return MaterialPageRoute<Map<String, dynamic>>(
+          builder: (_) => const QuranCheckpointsPage(),
           settings: settings,
         );
       case AppRoutes.quranFehres:

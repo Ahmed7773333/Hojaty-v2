@@ -28,7 +28,7 @@ platform :android do
       package_name: "com.wolfdev.hojaty",
       track: target_track,
       release_status: release_status,
-      changes_not_sent_for_review: false,
+      changes_not_sent_for_review: true,
       aab: aab_path,
     )
 

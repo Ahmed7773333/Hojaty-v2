@@ -1620,4 +1620,35 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get appQrCodeSubtitle =>
       'Scan via phone camera to open app directly on Google Play';
+
+  @override
+  String get shareVerse => 'Share Ayah';
+
+  @override
+  String get shareVerseOnly => 'Share Ayah Only';
+
+  @override
+  String get shareVerseWithTafseer => 'Share Ayah with Tafseer';
+
+  @override
+  String get saveBookmark => 'Bookmark Ayah';
+
+  @override
+  String get removeBookmark => 'Remove Bookmark';
+
+  @override
+  String get bookmarkSaved => 'Bookmark saved successfully';
+
+  @override
+  String get bookmarkRemoved => 'Bookmark removed';
+
+  @override
+  String get quranCheckpoints => 'Bookmarks';
+
+  @override
+  String get noQuranCheckpoints => 'No bookmarks saved';
+
+  @override
+  String get noQuranCheckpointsDesc =>
+      'You can bookmark any ayah by long pressing it in the Quran';
 }

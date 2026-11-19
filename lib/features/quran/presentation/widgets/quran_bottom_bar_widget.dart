@@ -9,6 +9,7 @@ class QuranBottomBarWidget extends StatelessWidget {
   final VoidCallback onHomeTap;
   final VoidCallback onListenTap;
   final VoidCallback onQiraatTap;
+  final VoidCallback onCheckpointsTap;
   final int currentPage;
 
   const QuranBottomBarWidget({
@@ -17,6 +18,7 @@ class QuranBottomBarWidget extends StatelessWidget {
     required this.onHomeTap,
     required this.onListenTap,
     required this.onQiraatTap,
+    required this.onCheckpointsTap,
     required this.currentPage,
   });
 
@@ -57,23 +59,25 @@ class QuranBottomBarWidget extends StatelessWidget {
             ),
           ),
         ),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              QuranBarItemWidget(
-                label: context.strings.navHome,
-                icon: Icons.home_rounded,
-                onTap: onHomeTap,
-              ),
-              QuranBarItemWidget(
-                label: context.strings.listenToSurah,
-                icon: Icons.radio,
-                onTap: onListenTap,
-              ),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            QuranBarItemWidget(
+              label: context.strings.navHome,
+              icon: Icons.home_rounded,
+              onTap: onHomeTap,
+            ),
+            QuranBarItemWidget(
+              label: context.strings.quranCheckpoints,
+              icon: Icons.bookmark_rounded,
+              onTap: onCheckpointsTap,
+            ),
+            QuranBarItemWidget(
+              label: context.strings.listenToSurah,
+              icon: Icons.radio,
+              onTap: onListenTap,
+            ),
+          ],
         ),
       ),
     );
