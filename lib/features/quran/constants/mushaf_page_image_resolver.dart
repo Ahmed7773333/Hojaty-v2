@@ -13,9 +13,9 @@ class MushafPageImageResolver {
     QiratType qirat = QiratType.hafs,
   }) {
     if (kDebugMode) {
-      final safePageNum = pageNumber > 0 ? pageNumber : 1;
-      final debugImageNum = ((safePageNum - 1) % 3) + 1;
-      return AssetImage('assets/debug/$debugImageNum.png');
+      final safePageNum =
+          (pageNumber >= 1 && pageNumber <= 604) ? pageNumber : 1;
+      return AssetImage('assets/debug/$safePageNum.png');
     }
 
     if (basePath != null && basePath.isNotEmpty) {

@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/features/quran/constants/mushaf_page_image_resolver.dart';
+import 'package:hojaty/features/quran/data/models/page_data_model.dart';
 import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 import 'package:hojaty/features/quran/presentation/utils/mushaf_shader_program_loader.dart';
 import 'package:hojaty/features/quran/presentation/widgets/quran_page_image_widget.dart';
@@ -12,6 +13,7 @@ class QuranReaderViewWidget extends StatefulWidget {
   final VoidCallback onToggleOverlay;
   final String? basePath;
   final QiratType qirat;
+  final Map<int, PageDataModel>? quranPages;
 
   const QuranReaderViewWidget({
     super.key,
@@ -21,6 +23,7 @@ class QuranReaderViewWidget extends StatefulWidget {
     required this.onToggleOverlay,
     this.basePath,
     this.qirat = QiratType.hafs,
+    this.quranPages,
   });
 
   @override
@@ -158,16 +161,20 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
                     Expanded(
                       child: QuranPageImageWidget(
                         pageNumber: rightPageNum,
+                        pageData: widget.quranPages?[rightPageNum],
                         basePath: widget.basePath,
                         qirat: widget.qirat,
+                        onToggleOverlay: widget.onToggleOverlay,
                       ),
                     ),
                     if (leftPageNum <= _totalPages)
                       Expanded(
                         child: QuranPageImageWidget(
                           pageNumber: leftPageNum,
+                          pageData: widget.quranPages?[leftPageNum],
                           basePath: widget.basePath,
                           qirat: widget.qirat,
+                          onToggleOverlay: widget.onToggleOverlay,
                         ),
                       )
                     else
@@ -177,8 +184,10 @@ class _QuranReaderViewWidgetState extends State<QuranReaderViewWidget> {
               }
               return QuranPageImageWidget(
                 pageNumber: index + 1,
+                pageData: widget.quranPages?[index + 1],
                 basePath: widget.basePath,
                 qirat: widget.qirat,
+                onToggleOverlay: widget.onToggleOverlay,
               );
             },
           ),

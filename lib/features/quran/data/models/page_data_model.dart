@@ -21,6 +21,7 @@ class PageDataModel {
   final List<String>? tafseer;
   final List<int>? lineEnds;
   final List<int>? lineStarts;
+  final List<List<List<double>>>? versesBounds;
 
   const PageDataModel({
     this.hasBesmALLAH,
@@ -43,6 +44,7 @@ class PageDataModel {
     this.tafseer,
     this.lineEnds,
     this.lineStarts,
+    this.versesBounds,
   });
 
   factory PageDataModel.fromJson(Map<dynamic, dynamic> json) {
@@ -81,6 +83,17 @@ class PageDataModel {
       lineStarts: (json['lineStarts'] as List?)
           ?.map((e) => int.tryParse(e.toString()) ?? 0)
           .toList(),
+      versesBounds: (json['versesBounds'] as List?)
+          ?.map(
+            (verse) => (verse as List)
+                .map(
+                  (rect) => (rect as List)
+                      .map((v) => (v as num).toDouble())
+                      .toList(),
+                )
+                .toList(),
+          )
+          .toList(),
     );
   }
 }
@@ -116,13 +129,16 @@ class PageDataModelAdapter extends TypeAdapter<PageDataModel> {
       tafseer: (fields[17] as List?)?.cast<String>(),
       lineEnds: (fields[18] as List?)?.cast<int>(),
       lineStarts: (fields[19] as List?)?.cast<int>(),
+      versesBounds: (fields[20] as List?)
+          ?.map((e) => (e as List).map((r) => (r as List).cast<double>()).toList())
+          .toList(),
     );
   }
 
   @override
   void write(BinaryWriter writer, PageDataModel obj) {
     writer
-      ..writeByte(20)
+      ..writeByte(21)
       ..writeByte(0)
       ..write(obj.hasBesmALLAH)
       ..writeByte(1)
@@ -162,6 +178,8 @@ class PageDataModelAdapter extends TypeAdapter<PageDataModel> {
       ..writeByte(18)
       ..write(obj.lineEnds)
       ..writeByte(19)
-      ..write(obj.lineStarts);
+      ..write(obj.lineStarts)
+      ..writeByte(20)
+      ..write(obj.versesBounds);
   }
 }

@@ -81,6 +81,7 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                     isTwoPageMode: isTwoPageMode,
                     basePath: state.assetsPath,
                     qirat: state.selectedQirat,
+                    quranPages: state.quranPages,
                     onPageChanged: (page) {
                       context.read<QuranBloc>().add(PageChangedEvent(page));
                     },

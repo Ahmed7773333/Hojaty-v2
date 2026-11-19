@@ -13,6 +13,10 @@ class QuranLocalDataSource {
   static const String _lastPageKey = 'last_page';
   static const String _selectedQiratKey = 'selected_qirat';
   static const String _quranJsonAssetPath = 'assets/data/quran_pages.json';
+  // ponytail: bump this whenever quran_pages.json schema changes —
+  // triggers a one-time cache rebuild on next launch
+  static const int _pagesDataVersion = 2;
+  static const String _pagesDataVersionKey = 'quran_pages_data_version';
 
   const QuranLocalDataSource();
 
@@ -44,8 +48,11 @@ class QuranLocalDataSource {
 
   Future<List<PageDataModel>> getPages() async {
     final box = Hive.box<PageDataModel>(_pagesBoxName);
+    final settingsBox = Hive.box(_settingsBoxName);
+    final cachedVersion =
+        settingsBox.get(_pagesDataVersionKey, defaultValue: 1) as int;
 
-    if (box.isEmpty) {
+    if (box.isEmpty || cachedVersion < _pagesDataVersion) {
       try {
         final jsonString = await rootBundle.loadString(_quranJsonAssetPath);
         final Map<String, dynamic> jsonMap = await Isolate.run(
@@ -67,10 +74,14 @@ class QuranLocalDataSource {
           }
         }
 
+        await box.clear();
         await box.addAll(pages);
+        await settingsBox.put(_pagesDataVersionKey, _pagesDataVersion);
         return pages;
       } catch (e) {
         debugPrint('Error loading Quran pages from assets/data: $e');
+        // Fall back to stale cache if available
+        if (box.isNotEmpty) return box.values.toList();
         return [];
       }
     }
