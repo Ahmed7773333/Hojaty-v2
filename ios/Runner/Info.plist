@@ -7,7 +7,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Hojaty</string>
+		<string>حچتي</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -47,8 +47,35 @@
 				</array>
 			</dict>
 		</dict>
+
+		<!-- Permissions & Usage Descriptions -->
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>نحتاج إذن تحديد الموقع لحساب مواقيت الصلاة بدقة بناءً على موقعك الحالي</string>
+		<string>نحتاج إذن تحديد الموقع لحساب مواقيت الصلاة بدقة وتحديد اتجاه القبلة بناءً على موقعك الحالي</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>نحتاج إذن تحديد الموقع لتحديث مواقيت الصلاة بدقة وإرسال التنبيهات في مواعيدها</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>نحتاج إذن تحديد الموقع لتحديث مواقيت الصلاة بدقة وإرسال التنبيهات في مواعيدها</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>نحتاج إذن الميكروفون لاستخدام ميزة البحث والتفاعل الصوتي</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>نحتاج إذن التعرف على الصوت للبحث الصوتي داخل التطبيق</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>نحتاج إذن الوصول إلى الصور لمشاركة الآيات والبطاقات</string>
+
+		<!-- Background Modes for Audio and Notifications -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>audio</string>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+
+		<!-- File Sharing & Document Interaction -->
+		<key>UIFileSharingEnabled</key>
+		<true/>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>

@@ -125,7 +125,7 @@ android {
 dependencies {
     implementation("com.google.android.play:asset-delivery:2.2.2")
     implementation("com.google.android.play:asset-delivery-ktx:2.2.2")
-    implementation("me.carda:AndroidAwnCore:0.12.1")
+    implementation("androidx.core:core-ktx:1.13.1")
 }
 
 kotlin {

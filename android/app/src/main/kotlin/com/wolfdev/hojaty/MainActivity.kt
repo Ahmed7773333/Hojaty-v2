@@ -16,20 +16,20 @@ import com.google.android.play.core.assetpacks.AssetPackManagerFactory
 import com.google.android.play.core.assetpacks.AssetPackState
 import com.google.android.play.core.assetpacks.AssetPackStateUpdateListener
 import com.google.android.play.core.assetpacks.model.AssetPackStatus
-import me.carda.awesome_notifications.AwesomeNotificationsFlutterExtension
-import me.carda.awesome_notifications.core.AwesomeNotifications
 
 class MainActivity : AudioServiceActivity() {
     companion object {
         private const val ASSET_CHANNEL = "com.wolfdev.hojaty/asset_delivery"
         private const val COMPASS_CHANNEL = "com.wolfdev.hojaty/compass"
         private const val FLIP_CHANNEL = "com.wolfdev.hojaty/azan_flip"
+        private const val NOTIFICATION_CHANNEL = "com.wolfdev.hojaty/notifications"
     }
 
     private var assetPackListener: AssetPackStateUpdateListener? = null
     private var assetMethodChannel: MethodChannel? = null
     private var compassEventChannel: EventChannel? = null
     private var flipMethodChannel: MethodChannel? = null
+    private var notificationMethodChannel: MethodChannel? = null
     private var sensorManager: SensorManager? = null
     private var compassListener: SensorEventListener? = null
 
@@ -286,13 +286,129 @@ class MainActivity : AudioServiceActivity() {
             })
         }
 
-        // Configure custom AwesomeNotifications receivers with flip-to-stop support
-        try {
-            AwesomeNotificationsFlutterExtension.initialize()
-            AwesomeNotifications.scheduleReceiverClass = PrayerScheduledReceiver::class.java
-            AwesomeNotifications.dismissReceiverClass = PrayerDismissedReceiver::class.java
-            AwesomeNotifications.actionReceiverClass = PrayerActionReceiver::class.java
-        } catch (_: Exception) {}
+        // Configure Native Notifications & Alarms Channel
+        notificationMethodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, NOTIFICATION_CHANNEL).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "init" -> {
+                        HojatyNotificationHelper.createNotificationChannels(applicationContext)
+                        result.success(true)
+                    }
+                    "requestPermission" -> {
+                        val areNotificationsEnabled = androidx.core.app.NotificationManagerCompat.from(this@MainActivity).areNotificationsEnabled()
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU && !areNotificationsEnabled) {
+                            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+                        }
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                            val alarmManager = getSystemService(Context.ALARM_SERVICE) as? android.app.AlarmManager
+                            if (alarmManager?.canScheduleExactAlarms() == false) {
+                                try {
+                                    val intent = android.content.Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                                        data = android.net.Uri.parse("package:$packageName")
+                                        flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+                                    }
+                                    startActivity(intent)
+                                } catch (_: Exception) {}
+                            }
+                        }
+                        result.success(androidx.core.app.NotificationManagerCompat.from(this@MainActivity).areNotificationsEnabled())
+                    }
+                    "schedulePrayer" -> {
+                        val id = call.argument<Int>("id") ?: 100
+                        val triggerTimeMillis = (call.argument<Number>("triggerTimeMillis"))?.toLong() ?: 0L
+                        val title = call.argument<String>("title") ?: ""
+                        val body = call.argument<String>("body") ?: ""
+                        val soundId = call.argument<String>("soundId")
+                        val soundPath = call.argument<String>("soundPath")
+                        HojatyAlarmScheduler.schedulePrayer(
+                            applicationContext, id, triggerTimeMillis, title, body, soundId, soundPath
+                        )
+                        result.success(true)
+                    }
+                    "cancelAllPrayers" -> {
+                        HojatyAlarmScheduler.cancelAllPrayers(applicationContext)
+                        result.success(true)
+                    }
+                    "schedulePrePrayer" -> {
+                        val id = call.argument<Int>("id") ?: 150
+                        val triggerTimeMillis = (call.argument<Number>("triggerTimeMillis"))?.toLong() ?: 0L
+                        val title = call.argument<String>("title") ?: ""
+                        val body = call.argument<String>("body") ?: ""
+                        HojatyAlarmScheduler.schedulePrePrayer(
+                            applicationContext, id, triggerTimeMillis, title, body
+                        )
+                        result.success(true)
+                    }
+                    "cancelAllPrePrayers" -> {
+                        HojatyAlarmScheduler.cancelAllPrePrayers(applicationContext)
+                        result.success(true)
+                    }
+                    "scheduleSalawat" -> {
+                        val enabled = call.argument<Boolean>("enabled") ?: true
+                        HojatyAlarmScheduler.setSalawatEnabled(applicationContext, enabled)
+                        result.success(true)
+                    }
+                    "scheduleOccasion" -> {
+                        val id = call.argument<Int>("id") ?: 200
+                        val triggerTimeMillis = (call.argument<Number>("triggerTimeMillis"))?.toLong() ?: 0L
+                        val title = call.argument<String>("title") ?: ""
+                        val body = call.argument<String>("body") ?: ""
+                        HojatyAlarmScheduler.scheduleOccasion(
+                            applicationContext, id, triggerTimeMillis, title, body
+                        )
+                        result.success(true)
+                    }
+                    "cancelAllOccasions" -> {
+                        HojatyAlarmScheduler.cancelAllOccasions(applicationContext)
+                        result.success(true)
+                    }
+                    "showTestNotification" -> {
+                        val soundId = call.argument<String>("soundId")
+                        val soundPath = call.argument<String>("soundPath")
+                        val title = call.argument<String>("title") ?: "اختبار تنبيه الصلاة والأذان"
+                        val body = call.argument<String>("body") ?: "حان الآن وقت صلاة الظهر - حي على الصلاة"
+                        HojatyNotificationHelper.showPrayerNotification(
+                            context = applicationContext,
+                            id = 999,
+                            title = title,
+                            body = body,
+                            soundId = soundId,
+                            soundPath = soundPath,
+                            isTest = true
+                        )
+                        result.success(true)
+                    }
+                    "showTestPreAdhanNotification" -> {
+                        val title = call.argument<String>("title") ?: "اقترب موعد صلاة الظهر"
+                        val body = call.argument<String>("body") ?: "فاضل 5 دقائق على صلاة الظهر، استعد للصلاة"
+                        HojatyNotificationHelper.showPrePrayerNotification(
+                            context = applicationContext,
+                            id = 998,
+                            title = title,
+                            body = body
+                        )
+                        result.success(true)
+                    }
+                    "showTestSalawatNotification" -> {
+                        val title = call.argument<String>("title") ?: "الصلاة على النبي ﷺ"
+                        val body = call.argument<String>("body") ?: "اللهم صلِّ وسلِّم وبارك على سيدنا محمد وعلى آله وصحبه أجمعين"
+                        HojatyNotificationHelper.showSalawatNotification(
+                            context = applicationContext,
+                            id = HojatyAlarmScheduler.SALAWAT_ALARM_ID,
+                            title = title,
+                            body = body
+                        )
+                        result.success(true)
+                    }
+                    "stopAllAudio" -> {
+                        AzanNativePlayer.stop()
+                        AzanFlipDetector.stop()
+                        result.success(true)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
 
         flipMethodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, FLIP_CHANNEL).apply {
             setMethodCallHandler { call, result ->
@@ -338,6 +454,8 @@ class MainActivity : AudioServiceActivity() {
         AzanNativePlayer.stop()
         flipMethodChannel?.setMethodCallHandler(null)
         flipMethodChannel = null
+        notificationMethodChannel?.setMethodCallHandler(null)
+        notificationMethodChannel = null
 
         compassListener?.let { listener ->
             try {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hojaty/core/utils/app_audio_art_helper.dart';
 import 'package:hojaty/features/quran/constants/quran_constants.dart';
@@ -25,6 +26,7 @@ class RadioAudioPlayerService {
   bool _isAdhanOrAlert = false;
 
   RadioAudioPlayerService._internal() {
+    _initAudioSession();
     _player.processingStateStream.listen((state) {
       if (state == ProcessingState.completed) {
         _player.seek(Duration.zero);
@@ -54,6 +56,15 @@ class RadioAudioPlayerService {
         }
       }
     });
+  }
+
+  Future<void> _initAudioSession() async {
+    try {
+      final session = await AudioSession.instance;
+      await session.configure(const AudioSessionConfiguration.music());
+    } catch (e) {
+      debugPrint('Error configuring AudioSession: $e');
+    }
   }
 
   // Streams

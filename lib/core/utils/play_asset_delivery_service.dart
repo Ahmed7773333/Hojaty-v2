@@ -130,8 +130,8 @@ class PlayAssetDeliveryService {
   static Future<AssetPackInfo> getAssetPackStatus(String packName) async {
     _initHandler();
 
-    if (!Platform.isAndroid) {
-      // On non-Android platforms (e.g. desktop/iOS), consider ready if dev assets or fallback exist
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      // On non-supported platforms (e.g. desktop), consider ready if dev assets or fallback exist
       return AssetPackInfo(
         packName: packName,
         status: AssetPackStateStatus.completed,
@@ -159,10 +159,10 @@ class PlayAssetDeliveryService {
     );
   }
 
-  /// Initiates fetching/downloading an on-demand asset pack from Google Play.
+  /// Initiates fetching/downloading an on-demand asset pack from Google Play or Apple ODR.
   static Future<bool> startDownload(String packName) async {
     _initHandler();
-    if (!Platform.isAndroid) return true;
+    if (!Platform.isAndroid && !Platform.isIOS) return true;
 
     try {
       final bool? success = await _channel.invokeMethod<bool>('startDownload', {
@@ -178,7 +178,7 @@ class PlayAssetDeliveryService {
   /// Cancels an active asset pack download.
   static Future<bool> cancelDownload(String packName) async {
     _initHandler();
-    if (!Platform.isAndroid) return true;
+    if (!Platform.isAndroid && !Platform.isIOS) return true;
 
     try {
       final bool? success = await _channel.invokeMethod<bool>(
@@ -195,7 +195,7 @@ class PlayAssetDeliveryService {
   /// Removes/deletes an installed asset pack to free up storage space.
   static Future<bool> removeAssetPack(String packName) async {
     _initHandler();
-    if (!Platform.isAndroid) return true;
+    if (!Platform.isAndroid && !Platform.isIOS) return true;
 
     try {
       final bool? success = await _channel.invokeMethod<bool>('removeAssetPack', {
@@ -210,7 +210,7 @@ class PlayAssetDeliveryService {
 
   /// Returns the absolute directory path where the asset pack is installed, or null.
   static Future<String?> getAssetPackPath(String packName) async {
-    if (!Platform.isAndroid) return null;
+    if (!Platform.isAndroid && !Platform.isIOS) return null;
     try {
       return await _channel.invokeMethod<String>('getAssetPackPath', {
         'packName': packName,
@@ -221,9 +221,9 @@ class PlayAssetDeliveryService {
     }
   }
 
-  /// Opens a local PDF file using Android's native Intent.ACTION_VIEW via FileProvider.
+  /// Opens a local PDF file using native viewer (Android Intent.ACTION_VIEW or iOS UIDocumentInteractionController).
   static Future<bool> openPdf(String filePath) async {
-    if (!Platform.isAndroid) return false;
+    if (!Platform.isAndroid && !Platform.isIOS) return false;
     try {
       final bool? success = await _channel.invokeMethod<bool>('openPdf', {
         'filePath': filePath,

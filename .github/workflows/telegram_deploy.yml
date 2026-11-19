@@ -2,7 +2,7 @@ name: Android Google Play Deployment
 
 on:
   push:
-    branches: [ dev, main ]
+    branches: [ dev, main, fixing-azans ]
   workflow_dispatch:
     inputs:
       track:
