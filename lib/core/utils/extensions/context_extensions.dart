@@ -1,19 +1,35 @@
-import 'package:flutter/material.dart';
+import 'package:hojaty/l10n/app_localizations.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/app_theme.dart';
+import 'package:hojaty/config/theme/app_theme_mode.dart';
+
 // import 'package:timegates/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
-  // AppLocalizations get strings => AppLocalizations.of(this)!;
+  AppLocalizations get strings => AppLocalizations.of(this)!;
   ColorScheme get colors => Theme.of(this).colorScheme;
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
+  bool get isAmoled => AppTheme.isAmoled;
+  AppThemeMode get appThemeMode => AppTheme.currentTheme;
 }
 
 /// 🌍 A complete BuildContext extension to handle all navigation types
 /// like GoRouter but using Flutter's native Navigator system.
 extension RoutingExtension on BuildContext {
   /// 🔹 Push a route by name with optional arguments
-  Future<T?> pushNamed<T extends Object?>(String routeName, {Object? extra}) {
-    return Navigator.of(this).pushNamed<T>(routeName, arguments: extra);
+  Future<T?> pushNamed<T extends Object?>(
+    String routeName, {
+    Object? extra,
+  }) async {
+    final result = await Navigator.of(
+      this,
+    ).pushNamed(routeName, arguments: extra);
+    if (result is T) {
+      return result;
+    }
+    return null;
   }
 
   /// 🔹 Replace the current route with a new one
@@ -21,10 +37,14 @@ extension RoutingExtension on BuildContext {
     String routeName, {
     TO? result,
     Object? extra,
-  }) {
-    return Navigator.of(
+  }) async {
+    final navResult = await Navigator.of(
       this,
-    ).pushReplacementNamed<T, TO>(routeName, result: result, arguments: extra);
+    ).pushReplacementNamed(routeName, result: result, arguments: extra);
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   /// 🔹 Push a route and remove all previous routes until [predicate]
@@ -32,12 +52,16 @@ extension RoutingExtension on BuildContext {
     String routeName, {
     bool Function(Route<dynamic>)? predicate,
     Object? extra,
-  }) {
-    return Navigator.of(this).pushNamedAndRemoveUntil<T>(
+  }) async {
+    final navResult = await Navigator.of(this).pushNamedAndRemoveUntil(
       routeName,
       predicate ?? (Route<dynamic> route) => false,
       arguments: extra,
     );
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   Future<void> popNamedUntil<T extends Object?>(
@@ -45,7 +69,7 @@ extension RoutingExtension on BuildContext {
     Object? extra,
   }) async {
     // Pop until route with name == routeName
-    Navigator.of(this).popUntil((ModalRoute.withName(routeName)));
+    Navigator.of(this).popUntil(ModalRoute.withName(routeName));
 
     // Then optionally pop one more with a result
     // return Navigator.of(this).maybePop<T>(extra as T?);
@@ -105,10 +129,14 @@ extension RoutingExtension on BuildContext {
   }
 
   /// 🔹 Push and clear the entire navigation stack
-  Future<T?> go<T extends Object?>(String routeName, {Object? extra}) {
-    return Navigator.of(
+  Future<T?> go<T extends Object?>(String routeName, {Object? extra}) async {
+    final navResult = await Navigator.of(
       this,
-    ).pushNamedAndRemoveUntil<T>(routeName, (route) => false, arguments: extra);
+    ).pushNamedAndRemoveUntil(routeName, (route) => false, arguments: extra);
+    if (navResult is T) {
+      return navResult;
+    }
+    return null;
   }
 
   /// 🔹 Pop the current screen

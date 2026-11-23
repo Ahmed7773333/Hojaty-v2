@@ -1,0 +1,96 @@
+name: Android Google Play Deployment
+
+on:
+  push:
+    branches: [ dev, main, fixing-azans ]
+  workflow_dispatch:
+    inputs:
+      track:
+        description: 'Target Google Play Track'
+        required: false
+        default: 'testers'
+        type: choice
+        options:
+          - testers
+          - production
+      release_status:
+        description: 'Release status in Google Play'
+        required: false
+        default: 'completed'
+        type: choice
+        options:
+          - completed
+          - draft
+
+jobs:
+  build_and_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Normalize All Asset Pack Timestamps
+        run: |
+          export TZ=UTC0
+          for dir in android/*/; do
+            if [ -d "${dir}src/main/assets" ]; then
+              echo "Normalizing timestamps for asset pack: $dir"
+              find "${dir}src/main/assets" -type f -exec touch -t 202601010000.00 {} +
+            fi
+          done
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Generate api_keys.json from GitHub Secrets
+        env:
+          GEMINI_KEYS: ${{ secrets.GEMINI_KEYS }}
+        run: |
+          CLEAN_KEYS=$(printf '%s' "$GEMINI_KEYS" | tr '\r\n' ',' | tr -d '[:space:]' | tr -s ',' | sed 's/^,//; s/,$//')
+          if [ -z "$CLEAN_KEYS" ]; then
+            echo "🚨 Error: GEMINI_KEYS secret is empty or not set in GitHub Secrets!"
+            exit 1
+          fi
+          jq -n --arg keys "$CLEAN_KEYS" '{"GEMINI_KEYS": $keys}' > api_keys.json
+
+      - name: Decode Keystore & Play Store Key
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-release-key.jks
+          echo "${{ secrets.PLAY_STORE_JSON }}" | base64 --decode > android/play_store_key.json
+
+      - name: Create key.properties
+        run: |
+          cat <<EOF > android/key.properties
+          storePassword=${{ secrets.KEY_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=my-release-key.jks
+          EOF
+
+      - name: Run Fastlane
+        env:
+          PLAY_STORE_JSON: "play_store_key.json"
+          PACKAGE_NAME: "com.wolfdev.hojaty"
+          RELEASE_STATUS: ${{ github.event.inputs.release_status || 'completed' }}
+          PLAY_TRACK: ${{ github.event.inputs.track || (github.ref_name == 'main' && 'production' || 'testers') }}
+        run: |
+          echo "🚀 Deploying to track: $PLAY_TRACK (Branch: ${{ github.ref_name }})"
+          cd android
+          bundle install || (bundle init && bundle add fastlane && bundle install)
+          bundle exec fastlane android deploy

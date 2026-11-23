@@ -1,0 +1,168 @@
+import 'dart:async';
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
+import 'package:hojaty/features/quran/presentation/bloc/quran_state.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_search_input_widget.dart';
+import 'package:hojaty/features/quran/presentation/widgets/quran_search_result_card_widget.dart';
+
+class QuranSearchPage extends StatefulWidget {
+  const QuranSearchPage({super.key});
+
+  @override
+  State<QuranSearchPage> createState() => _QuranSearchPageState();
+}
+
+class _QuranSearchPageState extends State<QuranSearchPage> {
+  final TextEditingController _searchController = TextEditingController();
+  Timer? _debounceTimer;
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String val) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        context.read<QuranBloc>().add(SearchQuranEvent(val));
+      }
+    });
+  }
+
+  void _onSearchClear() {
+    _debounceTimer?.cancel();
+    _searchController.clear();
+    context.read<QuranBloc>().add(const SearchQuranEvent(''));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.isDark;
+
+    return Scaffold(
+      backgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.lightBackground,
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: Padding(
+          padding: EdgeInsets.only(left: 16.w, right: 8.w),
+          child: QuranSearchInputWidget(
+            controller: _searchController,
+            onChanged: _onSearchChanged,
+            onClear: _onSearchClear,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.lightTextPrimary,
+            size: 20.sp,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: SafeArea(
+        child: BlocBuilder<QuranBloc, QuranState>(
+          buildWhen: (prev, curr) => prev.searchResults != curr.searchResults,
+          builder: (context, state) {
+            final results = state.searchResults;
+            final query = _searchController.text.trim();
+
+            if (query.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.search_rounded,
+                      size: 48.sp,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
+                    ),
+                    12.ver,
+                    Text(
+                      context.strings.quranSearchHint,
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: isDark
+                            ? AppColors.darkTextMuted
+                            : AppColors.lightTextSecondary,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            if (results.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.find_in_page_outlined,
+                      size: 48.sp,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
+                    ),
+                    12.ver,
+                    Text(
+                      context.strings.quranNoResults,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return ListView.builder(
+              scrollCacheExtent: const ScrollCacheExtent.pixels(500),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              itemCount: results.length,
+              itemBuilder: (context, index) {
+                final result = results[index];
+                return QuranSearchResultCardWidget(
+                  result: result,
+                  onTap: (pageNum) {
+                    Navigator.of(context).pop(pageNum);
+                  },
+                  onTafseerTap: (hit) {
+                    final pageData = state.quranPages[hit.pageNum];
+                    context.pushNamed(
+                      AppRoutes.quranTafseer,
+                      extra: {
+                        'pageData': pageData,
+                        'pageNum': hit.pageNum,
+                        'highlightVerse': hit.verseNum,
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

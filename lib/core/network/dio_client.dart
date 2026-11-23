@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'api_consumer.dart';
-import '../error/exceptions.dart';
-import '../constants/app_constants.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/constants/app_constants.dart';
+import 'package:hojaty/core/error/exceptions.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/network/api_consumer.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/flutter_secure_storage_helper.dart';
+import 'package:hojaty/hojaty_app.dart';
 
 class DioClient implements ApiConsumer {
   final Dio dio;
@@ -11,19 +18,122 @@ class DioClient implements ApiConsumer {
       ..baseUrl = AppConstants.baseUrl
       ..responseType = ResponseType.json
       ..connectTimeout = const Duration(seconds: 30)
-      ..receiveTimeout = const Duration(seconds: 30);
-    
-    // Add interceptors for logging, auth, etc.
-    dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestBody: true,
-      responseBody: true,
-      error: true,
-    ));
+      ..receiveTimeout = const Duration(seconds: 30)
+      ..headers = {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+      };
+
+    // --- ADVANCED LOGGING & AUTH INTERCEPTOR ---
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final lang = UserHiveHelper.getUser()?.language ?? 'en';
+          options.headers['app-lang'] = lang;
+          final token = await FlutterSecureStorageHelper.getToken();
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+            log('🚀 [AUTH] Bearer $token');
+          }
+
+          log('🚀 [REQUEST] [${options.method}] URL: ${options.uri}');
+          if (options.data != null) {
+            if (options.data is Future<FormData> || options.data is FormData) {
+              final formData = await options.data as FormData;
+              final fields = formData.fields
+                  .map((e) => '${e.key}: ${e.value}')
+                  .toList();
+              final files = formData.files
+                  .map((e) => '${e.key}: ${e.value.filename}')
+                  .toList();
+
+              log('📦 [FORM DATA FIELDS]: $fields');
+              log('📂 [FORM DATA FILES]: $files');
+            } else {
+              log('📦 [BODY]: ${options.data}');
+            }
+          }
+          if (options.queryParameters.isNotEmpty) {
+            log('❓ [QUERY PARAMS]: ${options.queryParameters}');
+          }
+
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          log(
+            '✅ [RESPONSE] [${response.statusCode}] FROM: ${response.requestOptions.path}',
+          );
+          log('📄 [DATA]: ${response.data}');
+
+          // Show global success snackbar if a valid string 'message' is present
+          if (response.data is Map && response.data['message'] != null) {
+            final message = response.data['message'];
+            if (message is String && message.isNotEmpty) {
+              final context = HojatyApp.navigatorKey.currentContext;
+              if (context != null && response.requestOptions.method != 'GET') {
+                // SnackbarHelper.showSuccess(context, message: message);
+              }
+            }
+          }
+
+          return handler.next(response);
+        },
+        onError: (DioException e, handler) {
+          log('❌ [ERROR] [${e.response?.statusCode ?? 'NO STATUS'}]');
+          log('🔗 PATH: ${e.requestOptions.path}');
+          log('⚠️ TYPE: ${e.type}');
+          log('💬 MESSAGE: ${e.message}');
+          if (e.response?.data != null) {
+            log('📥 ERROR DATA: ${e.response?.data}');
+          }
+
+          final context = HojatyApp.navigatorKey.currentContext;
+          if (context != null) {
+            if (e.type == DioExceptionType.badResponse) {
+              // SnackbarHelper.showError(context, message: errorMessage);
+            } else if (e.type == DioExceptionType.connectionTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.connectionError) {
+              // SnackbarHelper.showError(
+              //   context,
+              //   message: 'Network error, please check your connection.',
+              // );
+            } else {
+              // SnackbarHelper.showError(
+              //   context,
+              //   message: e.message ?? 'An unknown error occurred.',
+              // );
+            }
+          }
+
+          if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
+            log(
+              '🚫 [AUTH] 401 Unauthorized - Consider triggering logout here.',
+            );
+            final context = HojatyApp.navigatorKey.currentContext;
+
+            if (context != null) {
+              final String location = context.currentRouteName.toString();
+
+              if (location != AppRoutes.login) {
+                log('🚀 Redirecting to Login from $location');
+                context.go(AppRoutes.login);
+              }
+            }
+          }
+
+          return handler.next(e);
+        },
+      ),
+    );
   }
 
   @override
-  Future<dynamic> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final response = await dio.get(path, queryParameters: queryParameters);
       return response.data;
@@ -33,9 +143,17 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> post(String path, {Map<String, dynamic>? data}) async {
+  Future<dynamic> post(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.post(path, data: data);
+      final response = await dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -43,7 +161,11 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> put(String path, {Map<String, dynamic>? data}) async {
+  Future<dynamic> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final response = await dio.put(path, data: data);
       return response.data;
@@ -53,9 +175,35 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> delete(String path, {Map<String, dynamic>? data}) async {
+  Future<dynamic> delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.delete(path, data: data);
+      final response = await dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
+  }
+
+  @override
+  Future<dynamic> patch(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -67,14 +215,22 @@ class DioClient implements ApiConsumer {
         e.type == DioExceptionType.receiveTimeout ||
         e.type == DioExceptionType.sendTimeout ||
         e.type == DioExceptionType.connectionError) {
-      throw NetworkException(message: 'Network error, please check your connection.');
+      throw NetworkException(
+        message: 'Network error, please check your connection.',
+      );
     }
 
     if (e.type == DioExceptionType.badResponse) {
-      final message = e.response?.data?['message'] ?? 'Server error';
-      throw ServerException(message: message);
+      final statusCode = e.response?.statusCode;
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] ?? 'Server error')
+          : 'Server error';
+      throw ServerException(message: message, statusCode: statusCode ?? 0);
     }
 
-    throw ServerException(message: e.message ?? 'An unknown error occurred.');
+    throw ServerException(
+      message: e.message ?? 'An unknown error occurred.',
+      statusCode: 0,
+    );
   }
 }

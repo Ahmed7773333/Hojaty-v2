@@ -1,0 +1,19 @@
+current directory: /Users/a1/Projects/ana_osaly/vendor/bundle/ruby/3.4.0/gems/debug-1.11.1/ext/debug
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/a1/Projects/ana_osaly/vendor/bundle/ruby/3.4.0/gems/debug-1.11.1/ext/debug
+make -j9 DESTDIR\= sitearchdir\=./.gem.20261104-51796-cmggha sitelibdir\=./.gem.20261104-51796-cmggha clean
+
+current directory: /Users/a1/Projects/ana_osaly/vendor/bundle/ruby/3.4.0/gems/debug-1.11.1/ext/debug
+make -j9 DESTDIR\= sitearchdir\=./.gem.20261104-51796-cmggha sitelibdir\=./.gem.20261104-51796-cmggha
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/a1/Projects/ana_osaly/vendor/bundle/ruby/3.4.0/gems/debug-1.11.1/ext/debug
+make -j9 DESTDIR\= sitearchdir\=./.gem.20261104-51796-cmggha sitelibdir\=./.gem.20261104-51796-cmggha install
+/usr/bin/install -c -m 0755 debug.bundle ./.gem.20261104-51796-cmggha/debug
+
+current directory: /Users/a1/Projects/ana_osaly/vendor/bundle/ruby/3.4.0/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20261104-51796-cmggha sitelibdir\=./.gem.20261104-51796-cmggha clean

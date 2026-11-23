@@ -1,0 +1,208 @@
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/core/utils/app_colors.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_alert_settings_bottom_sheet_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_pre_alert_badge_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/prayer_times/prayer_type_icon_widget.dart';
+
+class PrayerCardWidget extends StatelessWidget {
+  final PrayerTimeModel prayer;
+  final VoidCallback onToggleNotification;
+
+  const PrayerCardWidget({
+    super.key,
+    required this.prayer,
+    required this.onToggleNotification,
+  });
+
+  String _getPrayerName(BuildContext context, PrayerType type) {
+    switch (type) {
+      case PrayerType.fajr:
+        return context.strings.fajr;
+      case PrayerType.dhuhr:
+        return context.strings.dhuhr;
+      case PrayerType.asr:
+        return context.strings.asr;
+      case PrayerType.maghrib:
+        return context.strings.maghrib;
+      case PrayerType.isha:
+        return context.strings.isha;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.isDark;
+    final isHighlighted = prayer.isNext;
+
+    final cardBg = isHighlighted
+        ? AppColors.primaryDark
+        : (isDark ? AppColors.darkCardUnselected : AppColors.lightSurface);
+
+    final borderColor = isHighlighted
+        ? AppColors.primaryDark
+        : (isDark
+              ? AppColors.darkBorderUnselected
+              : AppColors.lightBorderUnselected);
+
+    final titleColor = isHighlighted
+        ? AppColors.white
+        : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary);
+
+    final iconBgColor = isHighlighted
+        ? AppColors.accentGold
+        : (isDark
+              ? AppColors.white.withValues(alpha: 0.08)
+              : AppColors.lightBackground);
+
+    final bellColor = isHighlighted
+        ? AppColors.primaryDark
+        : (prayer.isNotificationEnabled
+              ? (isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.lightTextSecondary)
+              : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted));
+
+    final isPreReminderEnabled = context.select<HomelayoutBloc, bool>(
+      (b) => b.state.adhanSettings.isPreAdhanReminderEnabled,
+    );
+    final preMinutes = context.select<HomelayoutBloc, int>(
+      (b) => b.state.adhanSettings.getPreAdhanReminderMinutesForPrayer(
+        prayer.type,
+      ),
+    );
+    final hasNextBadge = isHighlighted;
+    final hasPreAlertBadge =
+        prayer.isNotificationEnabled && isPreReminderEnabled;
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            PrayerAlertSettingsBottomSheetWidget.show(context, prayer: prayer);
+          },
+          borderRadius: BorderRadius.circular(16.r),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PrayerTypeIconWidget(
+                      type: prayer.type,
+                      size: 24.r,
+                      color: isHighlighted ? null : null,
+                    ),
+                    12.hor,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _getPrayerName(context, prayer.type),
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: titleColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        if (hasNextBadge || hasPreAlertBadge) ...[
+                          4.ver,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (hasNextBadge)
+                                Text(
+                                  context.strings.nextPrayerBadge,
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                    color: AppColors.accentGoldLight,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 11.sp,
+                                  ),
+                                ),
+                              if (hasNextBadge && hasPreAlertBadge) 6.hor,
+                              if (hasPreAlertBadge)
+                                PrayerPreAlertBadgeWidget(
+                                  minutes: preMinutes,
+                                  isHighlighted: isHighlighted,
+                                ),
+                            ],
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      prayer.dateTime != null
+                          ? PrayersHelper.formatTimeTo12Hour(
+                              prayer.dateTime!,
+                              language: Localizations.localeOf(
+                                context,
+                              ).languageCode,
+                            )
+                          : prayer.time,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: titleColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    14.hor,
+                    InkWell(
+                      onTap: onToggleNotification,
+                      onLongPress: () {
+                        PrayerAlertSettingsBottomSheetWidget.show(
+                          context,
+                          prayer: prayer,
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: Container(
+                        padding: EdgeInsets.all(8.r),
+                        decoration: BoxDecoration(
+                          color: iconBgColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          prayer.isNotificationEnabled
+                              ? Icons.notifications_none_rounded
+                              : Icons.notifications_off_outlined,
+                          size: 18.r,
+                          color: bellColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

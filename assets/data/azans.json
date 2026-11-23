@@ -1,0 +1,671 @@
+{
+  "version": 1,
+  "base_url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3",
+  "count": 83,
+  "items": [
+    {
+      "id": "azan_01",
+      "title": "01   أذان الحرم المكي   1&nbsp;",
+      "file": "01 - أذان الحرم المكي - 1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/01%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A%20-%201%26nbsp%3B.mp3",
+      "duration_sec": 204,
+      "size_kb": 462
+    },
+    {
+      "id": "azan_02",
+      "title": "02   أذان الحرم المكي   2&nbsp;",
+      "file": "02 - أذان الحرم المكي - 2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/02%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A%20-%202%26nbsp%3B.mp3",
+      "duration_sec": 215,
+      "size_kb": 482
+    },
+    {
+      "id": "azan_03",
+      "title": "03   أذان الحرم المكي   محمد رمل&nbsp;",
+      "file": "03 - أذان الحرم المكي - محمد رمل&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/03%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A%20-%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B1%D9%85%D9%84%26nbsp%3B.mp3",
+      "duration_sec": 192,
+      "size_kb": 437
+    },
+    {
+      "id": "azan_04",
+      "title": "04   أذان الحرم المكي 4&nbsp;",
+      "file": "04 - أذان الحرم المكي 4&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/04%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A%204%26nbsp%3B.mp3",
+      "duration_sec": 211,
+      "size_kb": 473
+    },
+    {
+      "id": "azan_05",
+      "title": "05   أذان الحرم المكي5&nbsp;",
+      "file": "05 - أذان الحرم المكي5&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/05%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A5%26nbsp%3B.mp3",
+      "duration_sec": 159,
+      "size_kb": 372
+    },
+    {
+      "id": "azan_06",
+      "title": "06   أذان الحرم المكي6&nbsp;",
+      "file": "06 - أذان الحرم المكي6&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/06%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A6%26nbsp%3B.mp3",
+      "duration_sec": 280,
+      "size_kb": 608
+    },
+    {
+      "id": "azan_07",
+      "title": "07   أذان القاهرة   عبدالباسط عبدالصمد&nbsp;",
+      "file": "07 - أذان القاهرة - عبدالباسط عبدالصمد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/07%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B5%D9%85%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 201,
+      "size_kb": 454
+    },
+    {
+      "id": "azan_08",
+      "title": "08   أذان القاهرة   محمد رفعت&nbsp;",
+      "file": "08 - أذان القاهرة - محمد رفعت&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/08%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B1%D9%81%D8%B9%D8%AA%26nbsp%3B.mp3",
+      "duration_sec": 204,
+      "size_kb": 460
+    },
+    {
+      "id": "azan_09",
+      "title": "09   أذان القاهرة   محمد علي البنا&nbsp;",
+      "file": "09 - أذان القاهرة - محمد علي البنا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/09%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B9%D9%84%D9%8A%20%D8%A7%D9%84%D8%A8%D9%86%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 153,
+      "size_kb": 361
+    },
+    {
+      "id": "azan_10",
+      "title": "10   أذان القاهرة   محمود خليل الحصري&nbsp;",
+      "file": "10 - أذان القاهرة - محمود خليل الحصري&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/10%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D9%85%D8%AD%D9%85%D9%88%D8%AF%20%D8%AE%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 127,
+      "size_kb": 311
+    },
+    {
+      "id": "azan_11",
+      "title": "11   أذان   الكــويت&nbsp;",
+      "file": "11 - أذان - الكــويت&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/11%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%84%D9%83%D9%80%D9%80%D9%88%D9%8A%D8%AA%26nbsp%3B.mp3",
+      "duration_sec": 142,
+      "size_kb": 340
+    },
+    {
+      "id": "azan_12",
+      "title": "12   أذان   بروني   دار السلام   1&nbsp;",
+      "file": "12 - أذان - بروني - دار السلام - 1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/12%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A8%D8%B1%D9%88%D9%86%D9%8A%20-%20%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20-%201%26nbsp%3B.mp3",
+      "duration_sec": 206,
+      "size_kb": 464
+    },
+    {
+      "id": "azan_13",
+      "title": "13   أذان   بروني   دار السلام   2&nbsp;",
+      "file": "13 - أذان - بروني - دار السلام - 2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/13%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A8%D8%B1%D9%88%D9%86%D9%8A%20-%20%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20-%202%26nbsp%3B.mp3",
+      "duration_sec": 188,
+      "size_kb": 430
+    },
+    {
+      "id": "azan_14",
+      "title": "14   أذان   حسين ايرك&nbsp;",
+      "file": "14 - أذان - حسين ايرك&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/14%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AD%D8%B3%D9%8A%D9%86%20%D8%A7%D9%8A%D8%B1%D9%83%26nbsp%3B.mp3",
+      "duration_sec": 111,
+      "size_kb": 279
+    },
+    {
+      "id": "azan_15",
+      "title": "15   أذان   القـــــدس&nbsp;",
+      "file": "15 - أذان - القـــــدس&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/15%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%84%D9%82%D9%80%D9%80%D9%80%D9%80%D9%80%D8%AF%D8%B3%26nbsp%3B.mp3",
+      "duration_sec": 182,
+      "size_kb": 418
+    },
+    {
+      "id": "azan_16",
+      "title": "16   أذان   الهنـــد&nbsp;",
+      "file": "16 - أذان - الهنـــد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/16%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%84%D9%87%D9%86%D9%80%D9%80%D9%80%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 108,
+      "size_kb": 274
+    },
+    {
+      "id": "azan_17",
+      "title": "17   أذان   اندونيسيا&nbsp;",
+      "file": "17 - أذان - اندونيسيا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/17%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%86%D8%AF%D9%88%D9%86%D9%8A%D8%B3%D9%8A%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 198,
+      "size_kb": 448
+    },
+    {
+      "id": "azan_18",
+      "title": "18   أذان   باكستان&nbsp;",
+      "file": "18 - أذان - باكستان&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/18%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 183,
+      "size_kb": 419
+    },
+    {
+      "id": "azan_19",
+      "title": "19   أذان   تركيا  1&nbsp;",
+      "file": "19 - أذان - تركيا -1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/19%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AA%D8%B1%D9%83%D9%8A%D8%A7%20-1%26nbsp%3B.mp3",
+      "duration_sec": 178,
+      "size_kb": 410
+    },
+    {
+      "id": "azan_20",
+      "title": "20   أذان   تركيا  2&nbsp;",
+      "file": "20 - أذان - تركيا -2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/20%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AA%D8%B1%D9%83%D9%8A%D8%A7%20-2%26nbsp%3B.mp3",
+      "duration_sec": 47,
+      "size_kb": 155
+    },
+    {
+      "id": "azan_21",
+      "title": "21   أذان   جـــــورجيــــأ&nbsp;",
+      "file": "21 - أذان - جـــــورجيــــأ&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/21%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AC%D9%80%D9%80%D9%80%D9%80%D9%80%D9%88%D8%B1%D8%AC%D9%8A%D9%80%D9%80%D9%80%D9%80%D8%A3%26nbsp%3B.mp3",
+      "duration_sec": 315,
+      "size_kb": 4984
+    },
+    {
+      "id": "azan_22",
+      "title": "22   أذان زهير محمد طارش&nbsp;",
+      "file": "22 - أذان زهير محمد طارش&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/22%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%B2%D9%87%D9%8A%D8%B1%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B7%D8%A7%D8%B1%D8%B4%26nbsp%3B.mp3",
+      "duration_sec": 185,
+      "size_kb": 423
+    },
+    {
+      "id": "azan_23",
+      "title": "23   أذان   عجمـــــان   الأمارات&nbsp;",
+      "file": "23 - أذان - عجمـــــان - الأمارات&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/23%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%B9%D8%AC%D9%85%D9%80%D9%80%D9%80%D9%80%D9%80%D8%A7%D9%86%20-%20%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B1%D8%A7%D8%AA%26nbsp%3B.mp3",
+      "duration_sec": 140,
+      "size_kb": 335
+    },
+    {
+      "id": "azan_24",
+      "title": "24   أذان   مكه المكرمة  2&nbsp;",
+      "file": "24 - أذان - مكه المكرمة -2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/24%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D9%85%D9%83%D9%87%20%D8%A7%D9%84%D9%85%D9%83%D8%B1%D9%85%D8%A9%20-2%26nbsp%3B.mp3",
+      "duration_sec": 202,
+      "size_kb": 458
+    },
+    {
+      "id": "azan_25",
+      "title": "25   أذان  الشيخ عبدالباسط عبدالصمـد&nbsp;",
+      "file": "25 - أذان _الشيخ-عبدالباسط عبدالصمـد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/25%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE-%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B5%D9%85%D9%80%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 189,
+      "size_kb": 4492
+    },
+    {
+      "id": "azan_26",
+      "title": "26   أذان الشيخ البهلول أبوعرقوب1&nbsp;",
+      "file": "26 - أذان_الشيخ البهلول أبوعرقوب1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/26%20-%20%D8%A3%D8%B0%D8%A7%D9%86_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D8%A8%D9%87%D9%84%D9%88%D9%84%20%D8%A3%D8%A8%D9%88%D8%B9%D8%B1%D9%82%D9%88%D8%A81%26nbsp%3B.mp3",
+      "duration_sec": 209,
+      "size_kb": 1691
+    },
+    {
+      "id": "azan_27",
+      "title": "27   أذان الشيخ البهلول أبوعرقوب2&nbsp;",
+      "file": "27 - أذان_الشيخ البهلول أبوعرقوب2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/27%20-%20%D8%A3%D8%B0%D8%A7%D9%86_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D8%A8%D9%87%D9%84%D9%88%D9%84%20%D8%A3%D8%A8%D9%88%D8%B9%D8%B1%D9%82%D9%88%D8%A82%26nbsp%3B.mp3",
+      "duration_sec": 225,
+      "size_kb": 1817
+    },
+    {
+      "id": "azan_28",
+      "title": "28   أذان العشاء الشيخ عبدالباسط عبدالصمـد&nbsp;",
+      "file": "28 - أذان العشاء_الشيخ-عبدالباسط عبدالصمـد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/28%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D8%B9%D8%B4%D8%A7%D8%A1_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE-%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B5%D9%85%D9%80%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 187,
+      "size_kb": 4449
+    },
+    {
+      "id": "azan_29",
+      "title": "29   أذان الفجــر   الكويت   1&nbsp;",
+      "file": "29 - أذان الفجــر - الكويت - 1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/29%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D9%80%D9%80%D8%B1%20-%20%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA%20-%201%26nbsp%3B.mp3",
+      "duration_sec": 210,
+      "size_kb": 472
+    },
+    {
+      "id": "azan_30",
+      "title": "30   أذان الفجــر   الكويت   2&nbsp;",
+      "file": "30 - أذان الفجــر - الكويت - 2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/30%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D9%80%D9%80%D8%B1%20-%20%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA%20-%202%26nbsp%3B.mp3",
+      "duration_sec": 188,
+      "size_kb": 429
+    },
+    {
+      "id": "azan_31",
+      "title": "31   أذان الفجر   بروني   دار السلام&nbsp;",
+      "file": "31 - أذان الفجر - بروني - دار السلام&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/31%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D8%A8%D8%B1%D9%88%D9%86%D9%8A%20-%20%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%26nbsp%3B.mp3",
+      "duration_sec": 209,
+      "size_kb": 470
+    },
+    {
+      "id": "azan_32",
+      "title": "32   أذان الفجــر   جـــزائـر&nbsp;",
+      "file": "32 - أذان الفجــر - جـــزائـر&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/32%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D9%80%D9%80%D8%B1%20-%20%D8%AC%D9%80%D9%80%D9%80%D8%B2%D8%A7%D8%A6%D9%80%D8%B1%26nbsp%3B.mp3",
+      "duration_sec": 177,
+      "size_kb": 408
+    },
+    {
+      "id": "azan_33",
+      "title": "33   أذان الفجر   ماليزيا&nbsp;",
+      "file": "33 - أذان الفجر - ماليزيا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/33%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D9%85%D8%A7%D9%84%D9%8A%D8%B2%D9%8A%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 198,
+      "size_kb": 449
+    },
+    {
+      "id": "azan_34",
+      "title": "34   أذان الفجر   مكه المكرمة&nbsp;",
+      "file": "34 - أذان الفجر - مكه المكرمة&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/34%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D9%85%D9%83%D9%87%20%D8%A7%D9%84%D9%85%D9%83%D8%B1%D9%85%D8%A9%26nbsp%3B.mp3",
+      "duration_sec": 223,
+      "size_kb": 498
+    },
+    {
+      "id": "azan_35",
+      "title": "35   أذان الفجر   المدينة المنورة&nbsp;",
+      "file": "35 - أذان الفجر - المدينة المنورة&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/35%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%86%D8%A9%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D8%B1%D8%A9%26nbsp%3B.mp3",
+      "duration_sec": 279,
+      "size_kb": 607
+    },
+    {
+      "id": "azan_36",
+      "title": "36   أذان الفجر بصوت أحمد نعينع&nbsp;",
+      "file": "36 - أذان الفجر بصوت أحمد نعينع&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/36%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A3%D8%AD%D9%85%D8%AF%20%D9%86%D8%B9%D9%8A%D9%86%D8%B9%26nbsp%3B.mp3",
+      "duration_sec": 205,
+      "size_kb": 462
+    },
+    {
+      "id": "azan_37",
+      "title": "37   أذان الفجر   مصــــر&nbsp;",
+      "file": "37 - أذان الفجر - مصــــر&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/37%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D9%85%D8%B5%D9%80%D9%80%D9%80%D9%80%D8%B1%26nbsp%3B.mp3",
+      "duration_sec": 246,
+      "size_kb": 542
+    },
+    {
+      "id": "azan_38",
+      "title": "38   أذان الفجر&#1548; بصوت الأخ أحمد نواف المجلاد&nbsp;",
+      "file": "38 - أذان الفجر&#1548; بصوت الأخ أحمد نواف المجلاد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/38%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%26%231548%3B%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%A3%D8%AE%20%D8%A3%D8%AD%D9%85%D8%AF%20%D9%86%D9%88%D8%A7%D9%81%20%D8%A7%D9%84%D9%85%D8%AC%D9%84%D8%A7%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 222,
+      "size_kb": 1579
+    },
+    {
+      "id": "azan_39",
+      "title": "41   أذان القاهرة   أحمد نعينع&nbsp;",
+      "file": "41 - أذان القاهرة - أحمد نعينع&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/41%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D8%A3%D8%AD%D9%85%D8%AF%20%D9%86%D8%B9%D9%8A%D9%86%D8%B9%26nbsp%3B.mp3",
+      "duration_sec": 210,
+      "size_kb": 472
+    },
+    {
+      "id": "azan_40",
+      "title": "42   أذان المسجد الأقصى   ناجي قزاز&nbsp;",
+      "file": "42 - أذان المسجد الأقصى - ناجي قزاز&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/42%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF%20%D8%A7%D9%84%D8%A3%D9%82%D8%B5%D9%89%20-%20%D9%86%D8%A7%D8%AC%D9%8A%20%D9%82%D8%B2%D8%A7%D8%B2%26nbsp%3B.mp3",
+      "duration_sec": 185,
+      "size_kb": 424
+    },
+    {
+      "id": "azan_41",
+      "title": "43   أذان المسجد الأقصى  ناجي قزا&nbsp;",
+      "file": "43 - أذان المسجد الأقصى- ناجي قزا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/43%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF%20%D8%A7%D9%84%D8%A3%D9%82%D8%B5%D9%89-%20%D9%86%D8%A7%D8%AC%D9%8A%20%D9%82%D8%B2%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 226,
+      "size_kb": 504
+    },
+    {
+      "id": "azan_42",
+      "title": "44   أذان المــلا   مكه المكرمة&nbsp;",
+      "file": "44 - أذان المــلا - مكه المكرمة&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/44%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D9%80%D9%80%D9%84%D8%A7%20-%20%D9%85%D9%83%D9%87%20%D8%A7%D9%84%D9%85%D9%83%D8%B1%D9%85%D8%A9%26nbsp%3B.mp3",
+      "duration_sec": 175,
+      "size_kb": 405
+    },
+    {
+      "id": "azan_43",
+      "title": "45   أذان بصوت الشيخ المنشاوي&nbsp;",
+      "file": "45 - أذان بصوت الشيخ المنشاوي&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/45%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 247,
+      "size_kb": 545
+    },
+    {
+      "id": "azan_44",
+      "title": "46   أذان بصوت الشيخ عبدالباسط&nbsp;",
+      "file": "46 - أذان بصوت الشيخ عبدالباسط&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/46%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%26nbsp%3B.mp3",
+      "duration_sec": 247,
+      "size_kb": 545
+    },
+    {
+      "id": "azan_45",
+      "title": "47   ذان بصوت الشيخ المنشاوي&nbsp;",
+      "file": "47 - ذان بصوت الشيخ المنشاوي&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/47%20-%20%D8%B0%D8%A7%D9%86%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 252,
+      "size_kb": 553
+    },
+    {
+      "id": "azan_46",
+      "title": "48   أذان  بصوت حاج سليمان مختار  الجزائر&nbsp;",
+      "file": "48 - أذان_ بصوت حاج سليمان مختار -الجزائر&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/48%20-%20%D8%A3%D8%B0%D8%A7%D9%86_%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%AD%D8%A7%D8%AC%20%D8%B3%D9%84%D9%8A%D9%85%D8%A7%D9%86%20%D9%85%D8%AE%D8%AA%D8%A7%D8%B1%20-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1%26nbsp%3B.mp3",
+      "duration_sec": 195,
+      "size_kb": 1400
+    },
+    {
+      "id": "azan_47",
+      "title": "49   أذان بصوت عبدالباسط عبد الصمد&nbsp;",
+      "file": "49 - أذان بصوت عبدالباسط عبد الصمد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/49%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%B9%D8%A8%D8%AF%20%D8%A7%D9%84%D8%B5%D9%85%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 245,
+      "size_kb": 540
+    },
+    {
+      "id": "azan_48",
+      "title": "50   أذان  عبدالكريم جباري&nbsp;",
+      "file": "50 - أذان _عبدالكريم جباري&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/50%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20_%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85%20%D8%AC%D8%A8%D8%A7%D8%B1%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 166,
+      "size_kb": 1655
+    },
+    {
+      "id": "azan_49",
+      "title": "51   أذان من فلسطين بصوت صهيب هاني&nbsp;",
+      "file": "51 - أذان من فلسطين-بصوت صهيب هاني&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/51%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D9%85%D9%86%20%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%A8%D8%B5%D9%88%D8%AA%20%D8%B5%D9%87%D9%8A%D8%A8%20%D9%87%D8%A7%D9%86%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 183,
+      "size_kb": 777
+    },
+    {
+      "id": "azan_50",
+      "title": "52   أذان من مسجد الملك فهد بنجران  بصوت حمـــدان   المالكي&nbsp;",
+      "file": "52 - أذان من مسجد الملك فهد بنجران_ بصوت حمـــدان   المالكي&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/52%20-%20%D8%A3%D8%B0%D8%A7%D9%86%20%D9%85%D9%86%20%D9%85%D8%B3%D8%AC%D8%AF%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%81%D9%87%D8%AF%20%D8%A8%D9%86%D8%AC%D8%B1%D8%A7%D9%86_%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%AD%D9%85%D9%80%D9%80%D9%80%D8%AF%D8%A7%D9%86%20%20%20%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%83%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 267,
+      "size_kb": 4230
+    },
+    {
+      "id": "azan_51",
+      "title": "53   أذن الحرم المكي   3&nbsp;",
+      "file": "53 - أذن الحرم المكي - 3&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/53%20-%20%D8%A3%D8%B0%D9%86%20%D8%A7%D9%84%D8%AD%D8%B1%D9%85%20%D8%A7%D9%84%D9%85%D9%83%D9%8A%20-%203%26nbsp%3B.mp3",
+      "duration_sec": 246,
+      "size_kb": 543
+    },
+    {
+      "id": "azan_52",
+      "title": "54   الأذان   جزر المالديف&nbsp;",
+      "file": "54 - الأذان - جزر المالديف&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/54%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AC%D8%B2%D8%B1%20%D8%A7%D9%84%D9%85%D8%A7%D9%84%D8%AF%D9%8A%D9%81%26nbsp%3B.mp3",
+      "duration_sec": 186,
+      "size_kb": 425
+    },
+    {
+      "id": "azan_53",
+      "title": "55   الأذان   دبــي   الأمارات&nbsp;",
+      "file": "55 - الأذان - دبــي - الأمارات&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/55%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AF%D8%A8%D9%80%D9%80%D9%8A%20-%20%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B1%D8%A7%D8%AA%26nbsp%3B.mp3",
+      "duration_sec": 236,
+      "size_kb": 522
+    },
+    {
+      "id": "azan_54",
+      "title": "56   الأذان   ماليزيا&nbsp;",
+      "file": "56 - الأذان - ماليزيا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/56%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D9%85%D8%A7%D9%84%D9%8A%D8%B2%D9%8A%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 199,
+      "size_kb": 450
+    },
+    {
+      "id": "azan_55",
+      "title": "57   الأذان   مسقط عمان&nbsp;",
+      "file": "57 - الأذان - مسقط عمان&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/57%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D9%85%D8%B3%D9%82%D8%B7%20%D8%B9%D9%85%D8%A7%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 152,
+      "size_kb": 358
+    },
+    {
+      "id": "azan_56",
+      "title": "58   الأذان   السيد متولي العال   لبنان&nbsp;",
+      "file": "58 - الأذان - السيد متولي العال - لبنان&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/58%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%84%D8%B3%D9%8A%D8%AF%20%D9%85%D8%AA%D9%88%D9%84%D9%8A%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%20-%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 169,
+      "size_kb": 393
+    },
+    {
+      "id": "azan_57",
+      "title": "59   الأذان   المدينة المنورة&nbsp;",
+      "file": "59 - الأذان - المدينة المنورة&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/59%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%86%D8%A9%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D8%B1%D8%A9%26nbsp%3B.mp3",
+      "duration_sec": 236,
+      "size_kb": 523
+    },
+    {
+      "id": "azan_58",
+      "title": "60   الأذان   تونــس&nbsp;",
+      "file": "60 - الأذان - تونــس&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/60%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AA%D9%88%D9%86%D9%80%D9%80%D8%B3%26nbsp%3B.mp3",
+      "duration_sec": 144,
+      "size_kb": 343
+    },
+    {
+      "id": "azan_59",
+      "title": "61   الأذان   جــزائــر&nbsp;",
+      "file": "61 - الأذان - جــزائــر&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/61%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%AC%D9%80%D9%80%D8%B2%D8%A7%D8%A6%D9%80%D9%80%D8%B1%26nbsp%3B.mp3",
+      "duration_sec": 163,
+      "size_kb": 380
+    },
+    {
+      "id": "azan_60",
+      "title": "62   الأذان   سوريا&nbsp;",
+      "file": "62 - الأذان - سوريا&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/62%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%B3%D9%88%D8%B1%D9%8A%D8%A7%26nbsp%3B.mp3",
+      "duration_sec": 221,
+      "size_kb": 494
+    },
+    {
+      "id": "azan_61",
+      "title": "63   الأذان   عبدالرزاق صالح   لبنان&nbsp;",
+      "file": "63 - الأذان - عبدالرزاق صالح - لبنان&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/63%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B1%D8%B2%D8%A7%D9%82%20%D8%B5%D8%A7%D9%84%D8%AD%20-%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 249,
+      "size_kb": 548
+    },
+    {
+      "id": "azan_62",
+      "title": "64   الأذان   مهدي البيشي&nbsp;",
+      "file": "64 - الأذان - مهدي البيشي&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/64%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20-%20%D9%85%D9%87%D8%AF%D9%8A%20%D8%A7%D9%84%D8%A8%D9%8A%D8%B4%D9%8A%26nbsp%3B.mp3",
+      "duration_sec": 221,
+      "size_kb": 494
+    },
+    {
+      "id": "azan_63",
+      "title": "65   الأذان الشيخ مصطفى إسماعيل&nbsp;",
+      "file": "65 - الأذان_الشيخ مصطفى إسماعيل&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/65%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%85%D8%B5%D8%B7%D9%81%D9%89%20%D8%A5%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84%26nbsp%3B.mp3",
+      "duration_sec": 184,
+      "size_kb": 781
+    },
+    {
+      "id": "azan_64",
+      "title": "66   الأذان الفجر   القــدس&nbsp;",
+      "file": "66 - الأذان الفجر - القــدس&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/66%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D8%A7%D9%84%D9%82%D9%80%D9%80%D8%AF%D8%B3%26nbsp%3B.mp3",
+      "duration_sec": 152,
+      "size_kb": 358
+    },
+    {
+      "id": "azan_65",
+      "title": "67   الأذان الفجر   أم القــوين&nbsp;",
+      "file": "67 - الأذان الفجر - أم القــوين&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/67%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%81%D8%AC%D8%B1%20-%20%D8%A3%D9%85%20%D8%A7%D9%84%D9%82%D9%80%D9%80%D9%88%D9%8A%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 190,
+      "size_kb": 434
+    },
+    {
+      "id": "azan_66",
+      "title": "68   الأذان القاهرة   أبو العنين شعيشع&nbsp;",
+      "file": "68 - الأذان القاهرة - أبو العنين شعيشع&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/68%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20-%20%D8%A3%D8%A8%D9%88%20%D8%A7%D9%84%D8%B9%D9%86%D9%8A%D9%86%20%D8%B4%D8%B9%D9%8A%D8%B4%D8%B9%26nbsp%3B.mp3",
+      "duration_sec": 236,
+      "size_kb": 524
+    },
+    {
+      "id": "azan_67",
+      "title": "69   الأذان بصوت الأخ أحمد نواف المجلاد&nbsp;",
+      "file": "69 - الأذان بصوت الأخ أحمد نواف المجلاد&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/69%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%A3%D8%AE%20%D8%A3%D8%AD%D9%85%D8%AF%20%D9%86%D9%88%D8%A7%D9%81%20%D8%A7%D9%84%D9%85%D8%AC%D9%84%D8%A7%D8%AF%26nbsp%3B.mp3",
+      "duration_sec": 196,
+      "size_kb": 1405
+    },
+    {
+      "id": "azan_68",
+      "title": "72   مؤذن جامع الراجحي بالرياض (1)&nbsp;",
+      "file": "72 - مؤذن جامع الراجحي بالرياض (1)&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/72%20-%20%D9%85%D8%A4%D8%B0%D9%86%20%D8%AC%D8%A7%D9%85%D8%B9%20%D8%A7%D9%84%D8%B1%D8%A7%D8%AC%D8%AD%D9%8A%20%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%20%281%29%26nbsp%3B.mp3",
+      "duration_sec": 145,
+      "size_kb": 345
+    },
+    {
+      "id": "azan_69",
+      "title": "73   مؤذن جامع الراجحي بالرياض (2)&nbsp;",
+      "file": "73 - مؤذن جامع الراجحي بالرياض (2)&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/73%20-%20%D9%85%D8%A4%D8%B0%D9%86%20%D8%AC%D8%A7%D9%85%D8%B9%20%D8%A7%D9%84%D8%B1%D8%A7%D8%AC%D8%AD%D9%8A%20%D8%A8%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%20%282%29%26nbsp%3B.mp3",
+      "duration_sec": 149,
+      "size_kb": 353
+    },
+    {
+      "id": "azan_70",
+      "title": "74   الأذان الشيخ حمزة الحلبية&nbsp;",
+      "file": "74 - الأذان_الشيخ حمزة الحلبية&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/74%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86_%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D9%84%D8%AD%D9%84%D8%A8%D9%8A%D8%A9%26nbsp%3B.mp3",
+      "duration_sec": 241,
+      "size_kb": 1005
+    },
+    {
+      "id": "azan_71",
+      "title": "75   أحمد العمادي   قطر&nbsp;",
+      "file": "75 - أحمد العمادي - قطر&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/75%20-%20%D8%A3%D8%AD%D9%85%D8%AF%20%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D8%AF%D9%8A%20-%20%D9%82%D8%B7%D8%B1%26nbsp%3B.mp3",
+      "duration_sec": 190,
+      "size_kb": 434
+    },
+    {
+      "id": "azan_72",
+      "title": "76   الأذان&nbsp;",
+      "file": "76 - الأذان&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/76%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%86%26nbsp%3B.mp3",
+      "duration_sec": 120,
+      "size_kb": 297
+    },
+    {
+      "id": "azan_73",
+      "title": "77   الأذان1&nbsp;",
+      "file": "77 - الأذان1&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/77%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%861%26nbsp%3B.mp3",
+      "duration_sec": 129,
+      "size_kb": 313
+    },
+    {
+      "id": "azan_74",
+      "title": "78   الأذان2&nbsp;",
+      "file": "78 - الأذان2&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/78%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%862%26nbsp%3B.mp3",
+      "duration_sec": 181,
+      "size_kb": 416
+    },
+    {
+      "id": "azan_75",
+      "title": "79   الأذان3&nbsp;",
+      "file": "79 - الأذان3&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/79%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%863%26nbsp%3B.mp3",
+      "duration_sec": 173,
+      "size_kb": 399
+    },
+    {
+      "id": "azan_76",
+      "title": "80   الأذان4&nbsp;",
+      "file": "80 - الأذان4&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/80%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%864%26nbsp%3B.mp3",
+      "duration_sec": 172,
+      "size_kb": 398
+    },
+    {
+      "id": "azan_77",
+      "title": "81   الأذان5&nbsp;",
+      "file": "81 - الأذان5&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/81%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%865%26nbsp%3B.mp3",
+      "duration_sec": 133,
+      "size_kb": 322
+    },
+    {
+      "id": "azan_78",
+      "title": "82   الأذان6&nbsp;",
+      "file": "82 - الأذان6&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/82%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%866%26nbsp%3B.mp3",
+      "duration_sec": 150,
+      "size_kb": 356
+    },
+    {
+      "id": "azan_79",
+      "title": "83   الأذان7&nbsp;",
+      "file": "83 - الأذان7&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/83%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%867%26nbsp%3B.mp3",
+      "duration_sec": 108,
+      "size_kb": 274
+    },
+    {
+      "id": "azan_80",
+      "title": "84   الأذان8&nbsp;",
+      "file": "84 - الأذان8&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/84%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%868%26nbsp%3B.mp3",
+      "duration_sec": 170,
+      "size_kb": 394
+    },
+    {
+      "id": "azan_81",
+      "title": "85   الأذان9&nbsp;",
+      "file": "85 - الأذان9&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/85%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%869%26nbsp%3B.mp3",
+      "duration_sec": 180,
+      "size_kb": 413
+    },
+    {
+      "id": "azan_82",
+      "title": "86   الأذان10&nbsp;",
+      "file": "86 - الأذان10&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/86%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%8610%26nbsp%3B.mp3",
+      "duration_sec": 207,
+      "size_kb": 466
+    },
+    {
+      "id": "azan_83",
+      "title": "87   الأذان11&nbsp;",
+      "file": "87 - الأذان11&nbsp;.mp3",
+      "url": "https://cdn.jsdelivr.net/gh/Ahmed7773333/azans@v1.0.0/Azan_MP3/87%20-%20%D8%A7%D9%84%D8%A3%D8%B0%D8%A7%D9%8611%26nbsp%3B.mp3",
+      "duration_sec": 196,
+      "size_kb": 445
+    }
+  ]
+}
