@@ -5,8 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/gemini_key_pool.dart';
+import 'package:hojaty/features/hojaty_ai/data/datasources/hojaty_tool_registry.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/rag_database_service.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/ai_tool_call_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/hojaty_ai_stream_chunk.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
+import 'package:hojaty/features/quran/constants/quran_constants.dart';
 
 class HojatyAiRepository {
   final Dio _dio;
@@ -191,7 +195,7 @@ $userMessage
   /// Step C: Empathetic & Strictly Grounded Answer Generation
   /// Tries Generation Tier 1 (WebSocket Live API), falls back to Tier 2 (Dio REST),
   /// and ultimately Tier 3 (Offline structured local response).
-  Stream<String> generateAnswerStream({
+  Stream<HojatyAiStreamChunk> generateAnswerStream({
     required String userMessage,
     required List<RagChunkModel> sources,
     CancelToken? cancelToken,
@@ -237,11 +241,11 @@ $userMessage
 
     // Tier 3: Ultimate Offline / Zero-Quota Fallback
     debugPrint('HojatyAi: Falling back to Tier 3 (Offline)');
-    yield* _generateTier3Offline(sources);
+    yield* _generateTier3Offline(userMessage, sources);
   }
 
   /// Tier 1: Unlimited Live API via WebSocket
-  Stream<String> _tryGenerateTier1WebSocket(String combinedPrompt) async* {
+  Stream<HojatyAiStreamChunk> _tryGenerateTier1WebSocket(String combinedPrompt) async* {
     final activeKey = _keyPool.getNextKey();
     if (activeKey == null || activeKey.isEmpty) return;
 
@@ -250,7 +254,7 @@ $userMessage
     );
 
     WebSocketChannel? channel;
-    final controller = StreamController<String>();
+    final controller = StreamController<HojatyAiStreamChunk>();
 
     try {
       channel = WebSocketChannel.connect(uri);
@@ -263,7 +267,7 @@ $userMessage
         },
       );
 
-      // Send initial setup frame
+      // Send initial setup frame with tools
       final setupFrame = {
         'setup': {
           'model': 'models/gemini-3.5-flash',
@@ -274,7 +278,8 @@ $userMessage
             'parts': [
               {'text': _systemInstruction}
             ]
-          }
+          },
+          'tools': HojatyToolRegistry.getGeminiToolsDeclaration(),
         }
       };
 
@@ -329,7 +334,28 @@ $userMessage
                   if (text != null && text.isNotEmpty) {
                     receivedAnyText = true;
                     if (!controller.isClosed) {
-                      controller.add(text);
+                      controller.add(HojatyAiStreamChunk(text: text));
+                    }
+                  }
+
+                  final functionCall = part['functionCall'] as Map?;
+                  if (functionCall != null) {
+                    final name = functionCall['name'] as String? ?? '';
+                    final args = (functionCall['args'] as Map?)?.map(
+                          (k, v) => MapEntry(k.toString(), v),
+                        ) ??
+                        const <String, dynamic>{};
+                    receivedAnyText = true;
+                    if (!controller.isClosed) {
+                      controller.add(
+                        HojatyAiStreamChunk(
+                          toolCall: AiToolCallModel(
+                            id: DateTime.now().millisecondsSinceEpoch.toString(),
+                            name: name,
+                            arguments: args,
+                          ),
+                        ),
+                      );
                     }
                   }
                 }
@@ -374,7 +400,7 @@ $userMessage
   }
 
   /// Tier 2: Secondary - High-Quota REST / SSE Streaming via Dio (Optimized for Free Tier)
-  Stream<String> _tryGenerateTier2Rest({
+  Stream<HojatyAiStreamChunk> _tryGenerateTier2Rest({
     required String combinedPrompt,
     CancelToken? cancelToken,
   }) async* {
@@ -404,6 +430,7 @@ $userMessage
               ]
             }
           ],
+          'tools': HojatyToolRegistry.getGeminiToolsDeclaration(),
           'generationConfig': {
             'temperature': 0.4,
           }
@@ -450,7 +477,24 @@ $userMessage
                             final text = part['text'] as String?;
                             if (text != null && text.isNotEmpty) {
                               sseProducedAny = true;
-                              yield text;
+                              yield HojatyAiStreamChunk(text: text);
+                            }
+
+                            final functionCall = part['functionCall'] as Map?;
+                            if (functionCall != null) {
+                              final name = functionCall['name'] as String? ?? '';
+                              final args = (functionCall['args'] as Map?)?.map(
+                                    (k, v) => MapEntry(k.toString(), v),
+                                  ) ??
+                                  const <String, dynamic>{};
+                              sseProducedAny = true;
+                              yield HojatyAiStreamChunk(
+                                toolCall: AiToolCallModel(
+                                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                                  name: name,
+                                  arguments: args,
+                                ),
+                              );
                             }
                           }
                         }
@@ -460,11 +504,11 @@ $userMessage
                 }
               }
             }
-          }
 
-          if (sseProducedAny) {
-            debugPrint('HojatyAi: Tier 2 SSE ($model) completed successfully');
-            return;
+            if (sseProducedAny) {
+              debugPrint('HojatyAi: Tier 2 SSE ($model) completed successfully');
+              return;
+            }
           }
         } on DioException catch (e) {
           final code = e.response?.statusCode;
@@ -506,12 +550,30 @@ $userMessage
               final content = candidates[0]['content'];
               final parts = content?['parts'] as List?;
               if (parts != null && parts.isNotEmpty) {
-                final text = parts[0]['text'] as String?;
-                if (text != null && text.isNotEmpty) {
-                  debugPrint('HojatyAi: Tier 2 standard $model succeeded (${text.length} chars)');
-                  yield text;
-                  return;
+                for (final part in parts) {
+                  final text = part['text'] as String?;
+                  if (text != null && text.isNotEmpty) {
+                    debugPrint('HojatyAi: Tier 2 standard $model succeeded (${text.length} chars)');
+                    yield HojatyAiStreamChunk(text: text);
+                  }
+
+                  final functionCall = part['functionCall'] as Map?;
+                  if (functionCall != null) {
+                    final name = functionCall['name'] as String? ?? '';
+                    final args = (functionCall['args'] as Map?)?.map(
+                          (k, v) => MapEntry(k.toString(), v),
+                        ) ??
+                        const <String, dynamic>{};
+                    yield HojatyAiStreamChunk(
+                      toolCall: AiToolCallModel(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: name,
+                        arguments: args,
+                      ),
+                    );
+                  }
                 }
+                return;
               }
             }
           }
@@ -538,7 +600,144 @@ $userMessage
   }
 
   /// Tier 3: Ultimate Offline / Zero-Quota Fallback
-  Stream<String> _generateTier3Offline(List<RagChunkModel> sources) async* {
-    yield formatOfflineResponse(sources);
+  Stream<HojatyAiStreamChunk> _generateTier3Offline(
+    String userMessage,
+    List<RagChunkModel> sources,
+  ) async* {
+    final offlineTool = matchOfflineToolIntent(userMessage);
+    if (offlineTool != null) {
+      yield HojatyAiStreamChunk(toolCall: offlineTool);
+    }
+    yield HojatyAiStreamChunk(text: formatOfflineResponse(sources));
+  }
+
+  /// Fast offline intent matcher when disconnected
+  AiToolCallModel? matchOfflineToolIntent(String userMessage) {
+    final query = userMessage.trim().toLowerCase();
+
+    // 1. Play Quran Audio or Live Radio
+    if (query.contains('شغل') ||
+        query.contains('تشغيل') ||
+        query.contains('استمع') ||
+        query.contains('راديو') ||
+        query.contains('إذاعة')) {
+      if (query.contains('إذاعة') || query.contains('راديو')) {
+        String streamType = 'cairo';
+        if (query.contains('مكة')) streamType = 'makkah';
+        if (query.contains('المدينة')) streamType = 'madinah';
+        return AiToolCallModel(
+          id: 'offline_radio',
+          name: HojatyToolRegistry.toolPlayQuranAudio,
+          arguments: {
+            'isLiveStream': true,
+            'streamType': streamType,
+          },
+        );
+      }
+
+      int surahNumber = 1;
+      for (final s in QuranConstants.surahMap.values) {
+        if (query.contains(s.name)) {
+          surahNumber = s.number;
+          break;
+        }
+      }
+
+      String reciter = 'عبد الباسط عبد الصمد';
+      if (query.contains('الحصري')) {
+        reciter = 'محمود خليل الحصري';
+      } else if (query.contains('المنشاوي')) {
+        reciter = 'محمد صديق المنشاوي';
+      } else if (query.contains('العفاسي')) {
+        reciter = 'مشاري راشد العفاسي';
+      }
+
+      return AiToolCallModel(
+        id: 'offline_audio',
+        name: HojatyToolRegistry.toolPlayQuranAudio,
+        arguments: {
+          'surahNumber': surahNumber,
+          'reciterName': reciter,
+        },
+      );
+    }
+
+    // 2. Prayer Times
+    if (query.contains('مواقيت') ||
+        query.contains('ميعاد الصلاة') ||
+        query.contains('وقت الصلاة') ||
+        query.contains('كم باقي على صلاة') ||
+        query.contains('أذان')) {
+      return const AiToolCallModel(
+        id: 'offline_prayers',
+        name: HojatyToolRegistry.toolGetPrayerTimes,
+        arguments: {},
+      );
+    }
+
+    // 3. Athkar
+    if (query.contains('أذكار الصباح')) {
+      return const AiToolCallModel(
+        id: 'offline_athkar_morning',
+        name: HojatyToolRegistry.toolOpenAthkarCategory,
+        arguments: {'categoryType': 'morning', 'categoryTitle': 'أذكار الصباح'},
+      );
+    } else if (query.contains('أذكار المساء')) {
+      return const AiToolCallModel(
+        id: 'offline_athkar_evening',
+        name: HojatyToolRegistry.toolOpenAthkarCategory,
+        arguments: {'categoryType': 'evening', 'categoryTitle': 'أذكار المساء'},
+      );
+    } else if (query.contains('أذكار النوم')) {
+      return const AiToolCallModel(
+        id: 'offline_athkar_sleep',
+        name: HojatyToolRegistry.toolOpenAthkarCategory,
+        arguments: {'categoryType': 'sleep', 'categoryTitle': 'أذكار النوم'},
+      );
+    } else if (query.contains('استخارة')) {
+      return const AiToolCallModel(
+        id: 'offline_istikhara',
+        name: HojatyToolRegistry.toolOpenAthkarCategory,
+        arguments: {'categoryType': 'istikhara', 'categoryTitle': 'دعاء الاستخارة'},
+      );
+    }
+
+    // 4. Sebha
+    if (query.contains('سبحة') || query.contains('تسبيح') || query.contains('تصفير')) {
+      String action = 'get';
+      if (query.contains('صفر') || query.contains('مسح') || query.contains('إعادة')) {
+        action = 'reset';
+      } else if (query.contains('افتح')) {
+        action = 'open_screen';
+      }
+      return AiToolCallModel(
+        id: 'offline_sebha',
+        name: HojatyToolRegistry.toolControlSebhaCounter,
+        arguments: {'action': action},
+      );
+    }
+
+    // 5. Qibla
+    if (query.contains('قبلة') || query.contains('القبلة')) {
+      return const AiToolCallModel(
+        id: 'offline_qibla',
+        name: HojatyToolRegistry.toolOpenQiblaCompass,
+        arguments: {'openScreen': true},
+      );
+    }
+
+    // 6. Quran Reader
+    if (query.contains('اقرأ') || query.contains('افتح المصحف') || query.contains('صفحة')) {
+      final reg = RegExp(r'\d+');
+      final match = reg.firstMatch(query);
+      final page = match != null ? int.tryParse(match.group(0)!) ?? 1 : 1;
+      return AiToolCallModel(
+        id: 'offline_quran',
+        name: HojatyToolRegistry.toolOpenQuranReader,
+        arguments: {'pageNumber': page},
+      );
+    }
+
+    return null;
   }
 }

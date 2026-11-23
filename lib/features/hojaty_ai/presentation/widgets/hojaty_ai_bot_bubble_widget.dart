@@ -3,6 +3,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_action_cards_container_widget.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_sources_section_widget.dart';
 
 class HojatyAiBotBubbleWidget extends StatelessWidget {
@@ -109,6 +110,12 @@ class HojatyAiBotBubbleWidget extends StatelessWidget {
                 height: 1.7,
               ),
             ),
+            if (message.actionResults.isNotEmpty) ...[
+              8.ver,
+              HojatyAiActionCardsContainerWidget(
+                actionResults: message.actionResults,
+              ),
+            ],
             if (message.sources.isNotEmpty) ...[
               12.ver,
               const Divider(height: 1),

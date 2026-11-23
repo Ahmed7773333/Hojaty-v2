@@ -4,22 +4,32 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/utils/play_asset_delivery_service.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/hojaty_chat_history_local_data_source.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/ai_tool_call_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_session_model.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/hojaty_ai_stream_chunk.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/repositories/hojaty_ai_repository.dart';
+import 'package:hojaty/features/hojaty_ai/domain/services/app_action_dispatcher.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 
 class HojatyAiCubit extends Cubit<HojatyAiState> {
   final HojatyAiRepository _repository;
   final HojatyChatHistoryLocalDataSource _historyDataSource;
-  StreamSubscription<String>? _generationSubscription;
+  final AppActionDispatcher _actionDispatcher;
+  StreamSubscription<HojatyAiStreamChunk>? _generationSubscription;
   StreamSubscription<AssetPackInfo>? _downloadSubscription;
 
   HojatyAiCubit(
     this._repository,
-    this._historyDataSource,
-  ) : super(const HojatyAiState());
+    this._historyDataSource, {
+    AppActionDispatcher? actionDispatcher,
+  })  : _actionDispatcher = actionDispatcher ?? AppActionDispatcher(),
+        super(const HojatyAiState());
+
+  AppActionDispatcher get actionDispatcher => _actionDispatcher;
+  Stream<AppActionNavigationEvent> get navigationEvents =>
+      _actionDispatcher.navigationEvents;
 
   Future<void> init() async {
     await checkAssetStatus();
@@ -216,12 +226,21 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       if (!canUseOnline) {
         // Fast Offline Path: Immediately generate grounded offline response
         final offlineResponse = _repository.formatOfflineResponse(localSources);
+        final offlineTool = _repository.matchOfflineToolIntent(trimmed);
+        final List<AiToolActionResultModel> executedActions = [];
+
+        if (offlineTool != null) {
+          final res = await _actionDispatcher.dispatch(offlineTool);
+          executedActions.add(res);
+        }
+
         if (isClosed) return;
 
         _finalizeBotMessage(
           text: offlineResponse,
           sources: localSources,
           isOffline: true,
+          actionResults: executedActions,
         );
         return;
       }
@@ -248,6 +267,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
 
       // Stream Grounded Answer Generation
       final textBuffer = StringBuffer();
+      final List<AiToolActionResultModel> executedActions = [];
       await _generationSubscription?.cancel();
 
       final completer = Completer<void>();
@@ -255,12 +275,27 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       _generationSubscription = _repository
           .generateAnswerStream(userMessage: trimmed, sources: effectiveSources)
           .listen(
-        (chunk) {
+        (chunk) async {
           if (isClosed) return;
-          textBuffer.write(chunk);
-          emit(state.copyWith(
-            currentStreamingText: textBuffer.toString(),
-          ));
+          if (chunk.hasText) {
+            textBuffer.write(chunk.text!);
+            emit(state.copyWith(
+              currentStreamingText: textBuffer.toString(),
+            ));
+          }
+
+          if (chunk.hasToolCall) {
+            debugPrint('HojatyAiCubit: executing tool ${chunk.toolCall!.name}');
+            final result = await _actionDispatcher.dispatch(chunk.toolCall!);
+            executedActions.add(result);
+
+            if (result.displayText != null && textBuffer.isEmpty) {
+              textBuffer.write(result.displayText);
+              emit(state.copyWith(
+                currentStreamingText: textBuffer.toString(),
+              ));
+            }
+          }
         },
         onError: (err) {
           debugPrint('HojatyAiCubit: Generation stream error: $err');
@@ -271,6 +306,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
                   : _repository.formatOfflineResponse(effectiveSources),
               sources: effectiveSources,
               isOffline: true,
+              actionResults: executedActions,
             );
           }
           if (!completer.isCompleted) completer.complete();
@@ -288,6 +324,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
                   : _repository.formatOfflineResponse(effectiveSources),
               sources: effectiveSources,
               isOffline: isOfflineResponse,
+              actionResults: executedActions,
             );
           }
           if (!completer.isCompleted) completer.complete();
@@ -317,6 +354,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     required String text,
     required List<RagChunkModel> sources,
     required bool isOffline,
+    List<AiToolActionResultModel> actionResults = const [],
   }) {
     final botMessage = ChatMessageModel(
       id: '${DateTime.now().microsecondsSinceEpoch}_bot',
@@ -324,6 +362,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       sender: MessageSender.ai,
       timestamp: DateTime.now(),
       sources: sources,
+      actionResults: actionResults,
       isOffline: isOffline,
     );
 

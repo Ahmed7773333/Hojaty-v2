@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/features/hojaty_ai/domain/services/app_action_dispatcher.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_asset_download_widget.dart';
@@ -40,8 +42,34 @@ class _HojatyAiRoot extends StatelessWidget {
   }
 }
 
-class _HojatyAiBody extends StatelessWidget {
+class _HojatyAiBody extends StatefulWidget {
   const _HojatyAiBody();
+
+  @override
+  State<_HojatyAiBody> createState() => _HojatyAiBodyState();
+}
+
+class _HojatyAiBodyState extends State<_HojatyAiBody> {
+  StreamSubscription<AppActionNavigationEvent>? _navSub;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<HojatyAiCubit>();
+      _navSub = cubit.navigationEvents.listen((event) {
+        if (!mounted) return;
+        context.pushNamed(event.routeName, extra: event.arguments);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _navSub?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

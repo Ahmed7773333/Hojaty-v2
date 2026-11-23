@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/ai_tool_call_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 
 enum MessageSender { user, ai }
@@ -9,6 +10,7 @@ class ChatMessageModel extends Equatable {
   final MessageSender sender;
   final DateTime timestamp;
   final List<RagChunkModel> sources;
+  final List<AiToolActionResultModel> actionResults;
   final bool isStreaming;
   final bool isOffline;
 
@@ -18,6 +20,7 @@ class ChatMessageModel extends Equatable {
     required this.sender,
     required this.timestamp,
     this.sources = const [],
+    this.actionResults = const [],
     this.isStreaming = false,
     this.isOffline = false,
   });
@@ -28,6 +31,7 @@ class ChatMessageModel extends Equatable {
     MessageSender? sender,
     DateTime? timestamp,
     List<RagChunkModel>? sources,
+    List<AiToolActionResultModel>? actionResults,
     bool? isStreaming,
     bool? isOffline,
   }) {
@@ -37,6 +41,7 @@ class ChatMessageModel extends Equatable {
       sender: sender ?? this.sender,
       timestamp: timestamp ?? this.timestamp,
       sources: sources ?? this.sources,
+      actionResults: actionResults ?? this.actionResults,
       isStreaming: isStreaming ?? this.isStreaming,
       isOffline: isOffline ?? this.isOffline,
     );
@@ -49,6 +54,7 @@ class ChatMessageModel extends Equatable {
       'sender': sender.name,
       'timestamp': timestamp.toIso8601String(),
       'sources': sources.map((s) => s.toMap()).toList(),
+      'actionResults': actionResults.map((a) => a.toJson()).toList(),
       'isOffline': isOffline,
     };
   }
@@ -61,6 +67,12 @@ class ChatMessageModel extends Equatable {
         .map((m) => RagChunkModel.fromMap(Map<String, dynamic>.from(m)))
         .toList();
 
+    final rawActions = json['actionResults'] as List<dynamic>? ?? const [];
+    final parsedActions = rawActions
+        .whereType<Map>()
+        .map((a) => AiToolActionResultModel.fromJson(Map<String, dynamic>.from(a)))
+        .toList();
+
     return ChatMessageModel(
       id: json['id'] as String? ?? '',
       text: json['text'] as String? ?? '',
@@ -70,6 +82,7 @@ class ChatMessageModel extends Equatable {
       timestamp: DateTime.tryParse(json['timestamp'] as String? ?? '') ??
           DateTime.now(),
       sources: parsedSources,
+      actionResults: parsedActions,
       isOffline: json['isOffline'] as bool? ?? false,
     );
   }
@@ -81,6 +94,7 @@ class ChatMessageModel extends Equatable {
         sender,
         timestamp,
         sources,
+        actionResults,
         isStreaming,
         isOffline,
       ];
