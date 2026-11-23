@@ -224,21 +224,26 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       debugPrint('HojatyAiCubit: canUseOnline=$canUseOnline');
 
       if (!canUseOnline) {
-        // Fast Offline Path: Immediately generate grounded offline response
-        final offlineResponse = _repository.formatOfflineResponse(localSources);
+        // Fast Offline Path: Check for offline tool action or provide grounded local response
         final offlineTool = _repository.matchOfflineToolIntent(trimmed);
         final List<AiToolActionResultModel> executedActions = [];
+        String offlineResponse;
+        List<RagChunkModel> responseSources = localSources;
 
         if (offlineTool != null) {
           final res = await _actionDispatcher.dispatch(offlineTool);
           executedActions.add(res);
+          offlineResponse = 'تم تنفيذ طلبك بنجاح:\n${res.displayText}';
+          responseSources = const [];
+        } else {
+          offlineResponse = _repository.formatOfflineResponse(localSources);
         }
 
         if (isClosed) return;
 
         _finalizeBotMessage(
           text: offlineResponse,
-          sources: localSources,
+          sources: responseSources,
           isOffline: true,
           actionResults: executedActions,
         );

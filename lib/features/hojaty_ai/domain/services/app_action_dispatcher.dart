@@ -128,7 +128,6 @@ class AppActionDispatcher {
         arguments: args,
         result: {'type': 'live_stream', 'title': title, 'streamUrl': streamUrl},
         displayText: 'تم تشغيل $title الآن في الخلفية.',
-        isSuccess: true,
       );
     }
 
@@ -186,7 +185,6 @@ class AppActionDispatcher {
       },
       displayText:
           'تم تشغيل سورة ${surahInfo.name} بصوت الشيخ $reciterName الآن في الخلفية.',
-      isSuccess: true,
     );
   }
 
@@ -199,7 +197,7 @@ class AppActionDispatcher {
     final targetDate = DateTime.now().add(Duration(days: dateOffset));
 
     GeoCoordinates coords = UserHiveHelper.getCachedCoordinates();
-    String resolvedCity = cityName.isNotEmpty
+    final String resolvedCity = cityName.isNotEmpty
         ? cityName
         : UserHiveHelper.getCachedPrayerCityName(defaultValue: 'القاهرة');
 
@@ -259,7 +257,6 @@ class AppActionDispatcher {
       },
       displayText:
           'مواقيت الصلاة في $resolvedCity اليوم: الفجر ${formattedTimes['الفجر']}، الظهر ${formattedTimes['الظهر']}، العصر ${formattedTimes['العصر']}، المغرب ${formattedTimes['المغرب']}، العشاء ${formattedTimes['العشاء']}. المتبقي على صلاة $nextPrayerArabicName هو $remainingText.',
-      isSuccess: true,
     );
   }
 
@@ -301,7 +298,6 @@ class AppActionDispatcher {
         'highlightVerseIndex': verseIndex,
       },
       displayText: 'تم فتح المصحف الشريف عند صفحة $pageNumber.',
-      isSuccess: true,
     );
   }
 
@@ -345,7 +341,6 @@ class AppActionDispatcher {
       },
       displayText:
           'تم تحديث إعدادات تنبيهات $arabicPrayer بنجاح (التنبيه: ${enabled ? 'مفعل' : 'معطل'}${preMinutes != null ? '، قبل الأذان بـ $preMinutes دقائق' : ''}).',
-      isSuccess: true,
     );
   }
 
@@ -388,7 +383,6 @@ class AppActionDispatcher {
       arguments: args,
       result: {'category': arabicTitle, 'type': catType.name},
       displayText: 'تم فتح $arabicTitle.',
-      isSuccess: true,
     );
   }
 
@@ -407,9 +401,8 @@ class AppActionDispatcher {
       return AiToolActionResultModel(
         toolName: HojatyToolRegistry.toolControlSebhaCounter,
         arguments: args,
-        result: {'action': 'opened'},
+        result: const {'action': 'opened'},
         displayText: 'تم فتح السبحة الإلكترونية.',
-        isSuccess: true,
       );
     }
 
@@ -418,9 +411,8 @@ class AppActionDispatcher {
       return AiToolActionResultModel(
         toolName: HojatyToolRegistry.toolControlSebhaCounter,
         arguments: args,
-        result: {'counter': 0},
+        result: const {'counter': 0},
         displayText: 'تم تصفير عداد السبحة الإلكترونية بنجاح (العدد الحالي: 0).',
-        isSuccess: true,
       );
     }
 
@@ -431,7 +423,6 @@ class AppActionDispatcher {
         arguments: args,
         result: {'counter': count},
         displayText: 'تم تسجيل $count تسبيحة في السبحة الإلكترونية لـ ($dhikr).',
-        isSuccess: true,
       );
     }
 
@@ -441,7 +432,6 @@ class AppActionDispatcher {
       arguments: args,
       result: {'counter': currentCount},
       displayText: 'العدد المسجل حالياً في السبحة هو: $currentCount تسبيحة.',
-      isSuccess: true,
     );
   }
 
@@ -465,15 +455,12 @@ class AppActionDispatcher {
           },
           displayText:
               'آخر موضع حفظ كان في سورة ${latest.surahName} (صفحة ${latest.pageNumber}، آية ${latest.verseIndex}).',
-          isSuccess: true,
         );
       }
       return AiToolActionResultModel(
         toolName: HojatyToolRegistry.toolManageQuranBookmark,
         arguments: args,
-        result: const {},
         displayText: 'لا توجد علامات حفظ مسجلة حالياً في المصحف.',
-        isSuccess: true,
       );
     }
 
@@ -504,7 +491,6 @@ class AppActionDispatcher {
       },
       displayText:
           'تم حفظ علامة الوقف عند صفحة $pageNumber (آية $verseIndex من $surahName) بنجاح.',
-      isSuccess: true,
     );
   }
 
@@ -523,7 +509,6 @@ class AppActionDispatcher {
       arguments: args,
       result: {'bookId': bookId},
       displayText: 'تم فتح قسم المكتبة والكتب الإسلامية لعرض $bookId.',
-      isSuccess: true,
     );
   }
 
@@ -538,13 +523,12 @@ class AppActionDispatcher {
     return AiToolActionResultModel(
       toolName: HojatyToolRegistry.toolOpenQiblaCompass,
       arguments: args,
-      result: {
+      result: const {
         'bearing': 136.0,
         'direction': 'جنوب شرق',
       },
       displayText:
           'تم فتح بوصلة القبلة. اتجاه القبلة من مصر نحو مكة المكرمة هو تقريباً 136° جنوب شرق.',
-      isSuccess: true,
     );
   }
 
@@ -582,7 +566,6 @@ class AppActionDispatcher {
       arguments: args,
       result: {'updated': updates},
       displayText: 'تم $summary بنجاح.',
-      isSuccess: true,
     );
   }
 

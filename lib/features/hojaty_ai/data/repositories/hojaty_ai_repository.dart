@@ -45,14 +45,16 @@ class HojatyAiRepository {
   Future<bool> isOnline() async {
     try {
       final result = await InternetAddress.lookup('generativelanguage.googleapis.com')
-          .timeout(const Duration(milliseconds: 1500));
+          .timeout(const Duration(milliseconds: 3500));
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (_) {
-      return false;
-    } on TimeoutException catch (_) {
-      return false;
     } catch (_) {
-      return false;
+      try {
+        final result = await InternetAddress.lookup('google.com')
+            .timeout(const Duration(milliseconds: 2500));
+        return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+      } catch (_) {
+        return false;
+      }
     }
   }
 
@@ -611,20 +613,37 @@ $userMessage
     yield HojatyAiStreamChunk(text: formatOfflineResponse(sources));
   }
 
+  /// Normalizes Arabic text for flexible keyword & intent matching.
+  static String _normalizeArabic(String text) {
+    return text
+        .replaceAll(RegExp(r'[\u064B-\u065F\u0670]'), '')
+        .replaceAll('إ', 'ا')
+        .replaceAll('أ', 'ا')
+        .replaceAll('آ', 'ا')
+        .replaceAll('ة', 'ه')
+        .replaceAll('ى', 'ي')
+        .toLowerCase()
+        .trim();
+  }
+
   /// Fast offline intent matcher when disconnected
   AiToolCallModel? matchOfflineToolIntent(String userMessage) {
-    final query = userMessage.trim().toLowerCase();
+    final normQuery = _normalizeArabic(userMessage);
 
     // 1. Play Quran Audio or Live Radio
-    if (query.contains('شغل') ||
-        query.contains('تشغيل') ||
-        query.contains('استمع') ||
-        query.contains('راديو') ||
-        query.contains('إذاعة')) {
-      if (query.contains('إذاعة') || query.contains('راديو')) {
+    final isAudioIntent = normQuery.contains('شغل') ||
+        normQuery.contains('تشغيل') ||
+        normQuery.contains('استمع') ||
+        normQuery.contains('اسمع') ||
+        normQuery.contains('صوت') ||
+        normQuery.contains('راديو') ||
+        normQuery.contains('اذاعه');
+
+    if (isAudioIntent) {
+      if (normQuery.contains('اذاعه') || normQuery.contains('راديو')) {
         String streamType = 'cairo';
-        if (query.contains('مكة')) streamType = 'makkah';
-        if (query.contains('المدينة')) streamType = 'madinah';
+        if (normQuery.contains('مكه')) streamType = 'makkah';
+        if (normQuery.contains('المدينه')) streamType = 'madinah';
         return AiToolCallModel(
           id: 'offline_radio',
           name: HojatyToolRegistry.toolPlayQuranAudio,
@@ -637,18 +656,18 @@ $userMessage
 
       int surahNumber = 1;
       for (final s in QuranConstants.surahMap.values) {
-        if (query.contains(s.name)) {
+        if (normQuery.contains(_normalizeArabic(s.name))) {
           surahNumber = s.number;
           break;
         }
       }
 
       String reciter = 'عبد الباسط عبد الصمد';
-      if (query.contains('الحصري')) {
+      if (normQuery.contains('الحصري')) {
         reciter = 'محمود خليل الحصري';
-      } else if (query.contains('المنشاوي')) {
+      } else if (normQuery.contains('المنشاوي')) {
         reciter = 'محمد صديق المنشاوي';
-      } else if (query.contains('العفاسي')) {
+      } else if (normQuery.contains('العفاسي')) {
         reciter = 'مشاري راشد العفاسي';
       }
 
@@ -663,11 +682,12 @@ $userMessage
     }
 
     // 2. Prayer Times
-    if (query.contains('مواقيت') ||
-        query.contains('ميعاد الصلاة') ||
-        query.contains('وقت الصلاة') ||
-        query.contains('كم باقي على صلاة') ||
-        query.contains('أذان')) {
+    if (normQuery.contains('مواقيت') ||
+        normQuery.contains('ميعاد الصلاه') ||
+        normQuery.contains('وقت الصلاه') ||
+        normQuery.contains('كم باقي علي صلاه') ||
+        normQuery.contains('كم باقي على صلاه') ||
+        normQuery.contains('اذان')) {
       return const AiToolCallModel(
         id: 'offline_prayers',
         name: HojatyToolRegistry.toolGetPrayerTimes,
@@ -676,25 +696,25 @@ $userMessage
     }
 
     // 3. Athkar
-    if (query.contains('أذكار الصباح')) {
+    if (normQuery.contains('اذكار الصباح')) {
       return const AiToolCallModel(
         id: 'offline_athkar_morning',
         name: HojatyToolRegistry.toolOpenAthkarCategory,
         arguments: {'categoryType': 'morning', 'categoryTitle': 'أذكار الصباح'},
       );
-    } else if (query.contains('أذكار المساء')) {
+    } else if (normQuery.contains('اذكار المساء')) {
       return const AiToolCallModel(
         id: 'offline_athkar_evening',
         name: HojatyToolRegistry.toolOpenAthkarCategory,
         arguments: {'categoryType': 'evening', 'categoryTitle': 'أذكار المساء'},
       );
-    } else if (query.contains('أذكار النوم')) {
+    } else if (normQuery.contains('اذكار النوم')) {
       return const AiToolCallModel(
         id: 'offline_athkar_sleep',
         name: HojatyToolRegistry.toolOpenAthkarCategory,
         arguments: {'categoryType': 'sleep', 'categoryTitle': 'أذكار النوم'},
       );
-    } else if (query.contains('استخارة')) {
+    } else if (normQuery.contains('استخاره')) {
       return const AiToolCallModel(
         id: 'offline_istikhara',
         name: HojatyToolRegistry.toolOpenAthkarCategory,
@@ -703,11 +723,15 @@ $userMessage
     }
 
     // 4. Sebha
-    if (query.contains('سبحة') || query.contains('تسبيح') || query.contains('تصفير')) {
+    if (normQuery.contains('سبحه') ||
+        normQuery.contains('تسبيح') ||
+        normQuery.contains('تصفير')) {
       String action = 'get';
-      if (query.contains('صفر') || query.contains('مسح') || query.contains('إعادة')) {
+      if (normQuery.contains('صفر') ||
+          normQuery.contains('مسح') ||
+          normQuery.contains('اعاده')) {
         action = 'reset';
-      } else if (query.contains('افتح')) {
+      } else if (normQuery.contains('افتح')) {
         action = 'open_screen';
       }
       return AiToolCallModel(
@@ -718,7 +742,7 @@ $userMessage
     }
 
     // 5. Qibla
-    if (query.contains('قبلة') || query.contains('القبلة')) {
+    if (normQuery.contains('قبله')) {
       return const AiToolCallModel(
         id: 'offline_qibla',
         name: HojatyToolRegistry.toolOpenQiblaCompass,
@@ -727,14 +751,31 @@ $userMessage
     }
 
     // 6. Quran Reader
-    if (query.contains('اقرأ') || query.contains('افتح المصحف') || query.contains('صفحة')) {
-      final reg = RegExp(r'\d+');
-      final match = reg.firstMatch(query);
-      final page = match != null ? int.tryParse(match.group(0)!) ?? 1 : 1;
+    final isQuranReaderIntent = normQuery.contains('اقرا') ||
+        normQuery.contains('افتح المصحف') ||
+        normQuery.contains('صفحه') ||
+        normQuery.contains('سوره') ||
+        normQuery.contains('المصحف');
+
+    if (isQuranReaderIntent) {
+      int? targetPage;
+      for (final s in QuranConstants.surahMap.values) {
+        if (normQuery.contains(_normalizeArabic(s.name))) {
+          targetPage = s.pageNumber;
+          break;
+        }
+      }
+
+      if (targetPage == null) {
+        final reg = RegExp(r'\d+');
+        final match = reg.firstMatch(normQuery);
+        targetPage = match != null ? int.tryParse(match.group(0)!) ?? 1 : 1;
+      }
+
       return AiToolCallModel(
         id: 'offline_quran',
         name: HojatyToolRegistry.toolOpenQuranReader,
-        arguments: {'pageNumber': page},
+        arguments: {'pageNumber': targetPage},
       );
     }
 

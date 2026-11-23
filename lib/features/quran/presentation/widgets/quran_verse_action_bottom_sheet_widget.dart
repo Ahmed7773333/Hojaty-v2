@@ -10,7 +10,6 @@ import 'package:hojaty/core/utils/snackbar_helper.dart';
 import 'package:hojaty/features/quran/data/datasources/quran_checkpoint_local_data_source.dart';
 import 'package:hojaty/features/quran/data/models/page_data_model.dart';
 import 'package:hojaty/features/quran/data/models/quran_checkpoint_model.dart';
-import 'package:hojaty/features/quran/presentation/widgets/quran_verse_action_bottom_sheet_widget.dart';
 import 'package:hojaty/features/quran/presentation/widgets/quran_verse_share_options_sheet_widget.dart';
 import 'package:hojaty/features/quran/presentation/widgets/quran_verse_sheet_actions_widget.dart';
 import 'package:hojaty/features/quran/presentation/widgets/quran_verse_sheet_ayah_card_widget.dart';
