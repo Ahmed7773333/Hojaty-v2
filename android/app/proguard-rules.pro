@@ -34,4 +34,25 @@
 # App receivers and services
 -keep class com.wolfdev.hojaty.** { *; }
 
+# WorkManager & Room Database (required for home_widget / glance in release builds)
+-keep class * extends androidx.room.RoomDatabase {
+    <init>();
+}
+-keep class androidx.room.RoomDatabase$Builder { *; }
+-keep class androidx.room.RoomDatabase { *; }
+-keep class androidx.work.** { *; }
+-keep class androidx.work.impl.** { *; }
+-dontwarn androidx.work.**
+-dontwarn androidx.room.**
+
+# Jetpack Glance & Home Widget
+-keep class es.antonborri.home_widget.** { *; }
+-keepclassmembers class * extends androidx.glance.appwidget.protobuf.GeneratedMessageLite {
+    <fields>;
+}
+-keep public class * extends androidx.glance.appwidget.action.ActionCallback {
+    public <init>();
+}
+
+
 
