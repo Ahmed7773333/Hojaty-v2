@@ -1,9 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_download_confirm_dialog.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_action_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_header_widget.dart';
@@ -58,8 +60,16 @@ class QuranQiratCardWidget extends StatelessWidget {
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(20.r),
+      customTintColor: Color.alphaBlend(
+        color.withValues(alpha: isSelected ? 0.16 : 0.06),
+        context.liquidGlassStyle(LiquidGlassSurfaceVariant.card).tintColor,
+      ),
+      customBorderColor: isSelected ? color : null,
+      customBorderWidth: isSelected ? 1.8 : null,
+      fallbackDecoration: BoxDecoration(
         color: isDark
             ? Color.alphaBlend(
                 color.withValues(alpha: isSelected ? 0.12 : 0.05),
@@ -89,10 +99,10 @@ class QuranQiratCardWidget extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: isDownloaded ? onOpen : onDownload,
-          borderRadius: BorderRadius.circular(18.r),
+          borderRadius: BorderRadius.circular(20.r),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             child: Row(

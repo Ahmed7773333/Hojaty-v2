@@ -280,3 +280,33 @@ class ToggleSalawatReminderEvent extends HomelayoutEvent {
   @override
   List<Object?> get props => [enabled];
 }
+
+class RefreshActiveAdhkarEvent extends HomelayoutEvent {
+  const RefreshActiveAdhkarEvent();
+}
+
+class ChangeAsrMadhabEvent extends HomelayoutEvent {
+  final AsrMadhab madhab;
+
+  const ChangeAsrMadhabEvent(this.madhab);
+
+  @override
+  List<Object?> get props => [madhab];
+}
+
+class ChangePrayerTimeOffsetEvent extends HomelayoutEvent {
+  final PrayerType prayerType;
+  final int offsetMinutes;
+
+  const ChangePrayerTimeOffsetEvent({
+    required this.prayerType,
+    required this.offsetMinutes,
+  });
+
+  @override
+  List<Object?> get props => [prayerType, offsetMinutes];
+}
+
+class ResetPrayerTimeOffsetsEvent extends HomelayoutEvent {
+  const ResetPrayerTimeOffsetsEvent();
+}

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -544,6 +545,36 @@ class UserHiveHelper {
     setThemeMode(isDark ? AppThemeMode.dark : AppThemeMode.light);
   }
 
+  // --------------------- Liquid Glass ---------------------
+  static const String _liquidGlassEnabledKey = 'liquid_glass_enabled';
+
+  static bool resolveDefaultLiquidGlassEnabled({
+    required bool isIOS,
+    bool isWeb = false,
+  }) => !isWeb && isIOS;
+
+  static bool getLiquidGlassEnabled() {
+    final platformDefault = resolveDefaultLiquidGlassEnabled(
+      isIOS: !kIsWeb && Platform.isIOS,
+      isWeb: kIsWeb,
+    );
+    try {
+      final saved = prayersBox.get(_liquidGlassEnabledKey);
+      if (saved is bool) {
+        return saved;
+      }
+      return platformDefault;
+    } catch (_) {
+      return platformDefault;
+    }
+  }
+
+  static void setLiquidGlassEnabled(bool enabled) {
+    try {
+      prayersBox.put(_liquidGlassEnabledKey, enabled);
+    } catch (_) {}
+  }
+
   // --------------------- App Rating ---------------------
   static bool getHasRatedApp({bool defaultValue = false}) {
     try {
@@ -571,6 +602,104 @@ class UserHiveHelper {
   static void setLastRatePromptDate(String dateKey) {
     try {
       prayersBox.put('last_rate_prompt_date', dateKey);
+    } catch (_) {}
+  }
+
+  // --------------------- Asr Madhab & Time Offsets ---------------------
+  static AsrMadhab getAsrMadhab() {
+    try {
+      final saved = prayersBox.get('asr_madhab') as String?;
+      if (saved == AsrMadhab.hanafi.name) return AsrMadhab.hanafi;
+      return AsrMadhab.shafi;
+    } catch (_) {
+      return AsrMadhab.shafi;
+    }
+  }
+
+  static void setAsrMadhab(AsrMadhab madhab) {
+    try {
+      prayersBox.put('asr_madhab', madhab.name);
+    } catch (_) {}
+  }
+
+  static int getPrayerTimeOffset(String prayerName) {
+    try {
+      return (prayersBox.get('prayer_offset_$prayerName', defaultValue: 0)
+              as int?) ??
+          0;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  static void setPrayerTimeOffset(String prayerName, int minutes) {
+    try {
+      prayersBox.put('prayer_offset_$prayerName', minutes.clamp(-30, 30));
+    } catch (_) {}
+  }
+
+  static Map<String, int> getAllPrayerTimeOffsets() {
+    const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    return {for (final p in prayerNames) p: getPrayerTimeOffset(p)};
+  }
+
+  static void resetAllPrayerTimeOffsets() {
+    const prayerNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    try {
+      for (final p in prayerNames) {
+        prayersBox.put('prayer_offset_$p', 0);
+      }
+    } catch (_) {}
+  }
+
+  static CalculationParameters getPrayerCalculationParameters(
+    GeoCoordinates coords,
+  ) {
+    final offsets = getAllPrayerTimeOffsets();
+    return CalculationParameters.forCoordinates(
+      coords,
+      madhab: getAsrMadhab(),
+      adjustments: PrayerAdjustments(
+        fajr: offsets['fajr'] ?? 0,
+        dhuhr: offsets['dhuhr'] ?? 0,
+        asr: offsets['asr'] ?? 0,
+        maghrib: offsets['maghrib'] ?? 0,
+        isha: offsets['isha'] ?? 0,
+      ),
+    );
+  }
+
+  // --------------------- Home Widget Showcase ---------------------
+  static bool hasSeenHomeWidgetShowcase() {
+    try {
+      return prayersBox.get('has_seen_home_widget_showcase', defaultValue: false)
+          as bool;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static void setHasSeenHomeWidgetShowcase(bool seen) {
+    try {
+      prayersBox.put('has_seen_home_widget_showcase', seen);
+    } catch (_) {}
+  }
+
+  static bool hasSeenAzanSettingsShowcase() {
+    try {
+      return prayersBox.get(
+            'has_seen_azan_settings_showcase',
+            defaultValue: false,
+          )
+          as bool;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static void setHasSeenAzanSettingsShowcase(bool seen) {
+    try {
+      prayersBox.put('has_seen_azan_settings_showcase', seen);
     } catch (_) {}
   }
 }

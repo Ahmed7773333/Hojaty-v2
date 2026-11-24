@@ -19,7 +19,7 @@ class HojatyToolRegistry {
           {
             'name': toolPlayQuranAudio,
             'description':
-                'Plays a specific Quran surah recitation (surahNumber 1-114) or live Quran radio stream in the background',
+                'Plays a specific Quran surah recitation (surahNumber 1-114) in the background',
             'parameters': {
               'type': 'OBJECT',
               'properties': {
@@ -34,14 +34,6 @@ class HojatyToolRegistry {
                 'reciterName': {
                   'type': 'STRING',
                   'description': 'Name of the reciter (e.g. عبد الباسط، الحصري، المنشاوي، مشاري العفاسي)',
-                },
-                'isLiveStream': {
-                  'type': 'BOOLEAN',
-                  'description': 'Set true if user asked for live radio stream',
-                },
-                'streamType': {
-                  'type': 'STRING',
-                  'description': 'cairo, makkah, or madinah for live streams',
                 },
               },
             },

@@ -30,6 +30,7 @@ class HojatyAlarmReceiver : BroadcastReceiver() {
                     soundId = soundId,
                     soundPath = soundPath
                 )
+                PrayerWidgetProvider.refreshAllWidgets(context)
             }
             "pre_prayer" -> {
                 HojatyNotificationHelper.showPrePrayerNotification(

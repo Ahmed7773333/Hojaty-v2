@@ -25,7 +25,12 @@ class AthkarSearchResultsWidget extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        12.h,
+        16.w,
+        12.h + MediaQuery.paddingOf(context).bottom,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

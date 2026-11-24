@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class LanguageRadioCardWidget extends StatelessWidget {
   final String title;
@@ -20,27 +22,37 @@ class LanguageRadioCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final activeAccent = isDark ? AppColors.accentGold : AppColors.primaryDark;
 
     final bgColor = isSelected
-        ? (isDark ? AppColors.darkCardSelected : const Color(0xFFEBF3F0))
+        ? (isDark ? AppColors.darkCardSelected : AppColors.lightCardSelected)
         : (isDark ? AppColors.darkCardUnselected : AppColors.lightSurface);
 
     final borderColor = isSelected
-        ? (isDark ? AppColors.primaryDark : AppColors.primaryDarkBackground)
+        ? activeAccent
         : (isDark
               ? AppColors.darkBorderUnselected
               : AppColors.lightBorderUnselected);
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(20.r),
       margin: EdgeInsets.only(bottom: 14.h),
-      decoration: BoxDecoration(
+      customTintColor: isSelected
+          ? activeAccent.withValues(alpha: isDark ? 0.16 : 0.12)
+          : null,
+      customBorderColor: isSelected ? activeAccent : null,
+      customBorderWidth: isSelected ? 1.8 : null,
+      fallbackDecoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: borderColor, width: isSelected ? 1.8 : 1.0),
       ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18.r),
+      child: Material(
+        color: AppColors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20.r),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 22.h),
           child: Row(
@@ -73,26 +85,28 @@ class LanguageRadioCardWidget extends StatelessWidget {
                 height: 22.r,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected
-                      ? (isDark
-                            ? AppColors.primaryDark
-                            : AppColors.primaryDarkBackground)
-                      : Colors.transparent,
+                  color: isSelected ? activeAccent : AppColors.transparent,
                   border: Border.all(
                     color: isSelected
-                        ? (isDark
-                              ? AppColors.primaryDark
-                              : AppColors.primaryDarkBackground)
+                        ? activeAccent
                         : (isDark
                               ? AppColors.darkBorderUnselected
                               : AppColors.lightBorderUnselected),
                     width: 2.0,
                   ),
                 ),
+                child: isSelected
+                    ? Icon(
+                        Icons.check,
+                        size: 14.r,
+                        color: isDark ? AppColors.black : AppColors.white,
+                      )
+                    : null,
               ),
             ],
           ),
         ),
+      ),
       ),
     );
   }

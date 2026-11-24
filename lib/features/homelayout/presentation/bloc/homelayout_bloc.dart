@@ -6,14 +6,20 @@ import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
 import 'package:hojaty/core/utils/location_service.dart';
 import 'package:hojaty/data/mocks/home_mock_data.dart';
+import 'package:hojaty/features/homelayout/data/datasources/local/occasions_local_data_source_impl.dart';
+import 'package:hojaty/features/homelayout/data/models/adhan_setting_model.dart';
 import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dart';
+import 'package:hojaty/features/homelayout/data/models/hijri_date_model.dart';
 import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/entities/active_adhkar_window.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_banners_use_case.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_homelayout.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/occasions_use_cases.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/resolve_active_adhkar_usecase.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/sync_prayer_widget_use_case.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 
@@ -90,6 +96,10 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
   final GetOccasionsListUseCase? getOccasionsList;
   final SyncOccasionsDataUseCase? syncOccasionsData;
   final GetBannersUseCase? getBanners;
+  final ResolveActiveAdhkarUseCase resolveActiveAdhkar;
+  final SyncPrayerWidgetUseCase? syncPrayerWidget;
+
+  Timer? _adhkarBoundaryTimer;
 
   HomelayoutBloc({
     this.getHomelayout,
@@ -97,18 +107,34 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     this.getOccasionsList,
     this.syncOccasionsData,
     this.getBanners,
-  }) : super(
+    ResolveActiveAdhkarUseCase? resolveActiveAdhkar,
+    this.syncPrayerWidget,
+  }) : resolveActiveAdhkar =
+           resolveActiveAdhkar ?? const ResolveActiveAdhkarUseCase(),
+       super(
          HomelayoutState(
            status: HomelayoutStatus.success,
            notifications: HomeMockData.notifications,
            banners: HomeMockData.banners,
-           ramadanCheckData: RamadanCheckData.fallback(language: 'ar'),
+           ramadanCheckData:
+               OccasionsLocalDataSourceImpl.getCachedRamadanCheckSync(
+                 language: 'ar',
+               ) ??
+               RamadanCheckData.fallback(language: 'ar'),
            occasionsList: HijriCalendarHelper.calculateOccasions(
-             RamadanCheckData.fallback(language: 'ar').hijriDate,
+             (OccasionsLocalDataSourceImpl.getCachedRamadanCheckSync(
+                       language: 'ar',
+                     ) ??
+                     RamadanCheckData.fallback(language: 'ar'))
+                 .hijriDate,
              language: 'ar',
            ),
            nextOccasion: HijriCalendarHelper.calculateOccasions(
-             RamadanCheckData.fallback(language: 'ar').hijriDate,
+             (OccasionsLocalDataSourceImpl.getCachedRamadanCheckSync(
+                       language: 'ar',
+                     ) ??
+                     RamadanCheckData.fallback(language: 'ar'))
+                 .hijriDate,
              language: 'ar',
            ).firstOrNull,
            activeGregorianMonth: DateTime.now().month,
@@ -149,6 +175,46 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     on<CheckLocationUpdateEvent>(_onCheckLocationUpdate);
     on<SelectPrayerCityEvent>(_onSelectPrayerCity);
     on<ToggleSalawatReminderEvent>(_onToggleSalawatReminder);
+    on<RefreshActiveAdhkarEvent>(_onRefreshActiveAdhkar);
+    on<ChangeAsrMadhabEvent>(_onChangeAsrMadhab);
+    on<ChangePrayerTimeOffsetEvent>(_onChangePrayerTimeOffset);
+    on<ResetPrayerTimeOffsetsEvent>(_onResetPrayerTimeOffsets);
+  }
+
+  @override
+  Future<void> close() {
+    _adhkarBoundaryTimer?.cancel();
+    _adhkarBoundaryTimer = null;
+    return super.close();
+  }
+
+  ActiveAdhkarWindow _resolveAndScheduleActiveAdhkar({
+    GeoCoordinates? coordinates,
+  }) {
+    final now = DateTime.now();
+    final coords = coordinates ?? UserHiveHelper.getCachedCoordinates();
+    final params = UserHiveHelper.getPrayerCalculationParameters(coords);
+    final window = resolveActiveAdhkar(
+      now: now,
+      coordinates: coords,
+      parameters: params,
+    );
+
+    _adhkarBoundaryTimer?.cancel();
+    if (!isClosed) {
+      final rawDelay =
+          window.nextBoundary.difference(now) + const Duration(seconds: 1);
+      final delay = rawDelay < const Duration(seconds: 1)
+          ? const Duration(seconds: 1)
+          : rawDelay;
+      _adhkarBoundaryTimer = Timer(delay, () {
+        if (!isClosed) {
+          add(const RefreshActiveAdhkarEvent());
+        }
+      });
+    }
+
+    return window;
   }
 
   // ---------------------------------------------------------------------------
@@ -171,7 +237,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     GeoCoordinates? coordinates,
   }) {
     final coords = coordinates ?? UserHiveHelper.getCachedCoordinates();
-    final helper = PrayersHelper(coordinates: coords);
+    final params = UserHiveHelper.getPrayerCalculationParameters(coords);
+    final helper = PrayersHelper(coordinates: coords, parameters: params);
     final now = DateTime.now();
     final targetDate = now.add(Duration(days: dayOffset));
     final sunriseTime = helper.getSunriseDateTime(targetDate);
@@ -236,6 +303,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
 
     // 1. Compute prayer times instantly and emit without waiting for network
     final prayerData = _computePrayerState(dayOffset: 0, language: lang);
+    final activeAdhkar = _resolveAndScheduleActiveAdhkar();
     final initialCityName = UserHiveHelper.getCachedPrayerCityName();
 
     if (getRamadanCheck != null && getOccasionsList != null) {
@@ -281,6 +349,8 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
             isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
+            asrMadhab: UserHiveHelper.getAsrMadhab(),
+            prayerTimeOffsets: UserHiveHelper.getAllPrayerTimeOffsets(),
           ),
           currentLanguage: lang,
           ramadanCheckData: ramadan,
@@ -288,10 +358,16 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           nextOccasion: occasions.isNotEmpty ? occasions.first : null,
           activeHijriMonth: ramadan.hijriDate.monthNumber,
           activeHijriYear: ramadan.hijriDate.yearNumber,
+          activeAdhkar: activeAdhkar,
         ),
       );
 
       _scheduleNotifications(prayerData.prayerTimes, occasions, lang);
+      _syncHomeWidget(
+        language: lang,
+        locationName: initialCityName,
+        hijriDate: ramadan.hijriDate,
+      );
     } else {
       emit(
         state.copyWith(
@@ -332,10 +408,14 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
                   HomeMockData.defaultAdhanSettings.preAdhanReminderMinutes,
             ),
             isSalawatReminderEnabled: UserHiveHelper.getSalawatReminderEnabled(),
+            asrMadhab: UserHiveHelper.getAsrMadhab(),
+            prayerTimeOffsets: UserHiveHelper.getAllPrayerTimeOffsets(),
           ),
+          activeAdhkar: activeAdhkar,
         ),
       );
       _scheduleNotifications(prayerData.prayerTimes, state.occasionsList, lang);
+      _syncHomeWidget(language: lang, locationName: initialCityName);
     }
 
     // 2. Trigger smart background location update check
@@ -385,8 +465,30 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
           ),
         );
         _scheduleNotifications(state.prayerTimes, updatedOccasions, lang);
+        _syncHomeWidget(
+          language: lang,
+          hijriDate: updatedRamadan.hijriDate,
+        );
       }
     }
+  }
+
+  void _syncHomeWidget({
+    String? language,
+    String? locationName,
+    HijriDateModel? hijriDate,
+    GeoCoordinates? coordinates,
+  }) {
+    final useCase = syncPrayerWidget;
+    if (useCase == null) return;
+    unawaited(
+      useCase(
+        language: language ?? state.currentLanguage,
+        locationName: locationName ?? state.prayerCityName,
+        hijriDate: hijriDate ?? state.ramadanCheckData?.hijriDate,
+        coordinates: coordinates,
+      ),
+    );
   }
 
   void _onUpdatePrayerCityName(
@@ -394,6 +496,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     Emitter<HomelayoutState> emit,
   ) {
     emit(state.copyWith(prayerCityName: event.cityName));
+    _syncHomeWidget(locationName: event.cityName);
   }
 
   Future<void> _onCheckLocationUpdate(
@@ -405,6 +508,9 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       final prayerData = _computePrayerState(
         dayOffset: state.selectedPrayerDayOffset,
         language: state.currentLanguage,
+        coordinates: newCoords,
+      );
+      final activeAdhkar = _resolveAndScheduleActiveAdhkar(
         coordinates: newCoords,
       );
 
@@ -420,19 +526,22 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         longitude: newCoords.longitude,
       );
 
+      final resolvedCity = cityName.isNotEmpty ? cityName : state.prayerCityName;
       emit(
         state.copyWith(
           prayerTimes: prayerData.prayerTimes,
           sunriseTime: prayerData.sunriseTime,
-          prayerCityName: cityName.isNotEmpty ? cityName : state.prayerCityName,
+          prayerCityName: resolvedCity,
           selectedPrayerDate: prayerData.selectedDate,
           nextPrayerTime: prayerData.nextTime,
           nextPrayerType: prayerData.nextType,
           nextPrayerName: prayerData.nextName,
           previousPrayerTime: prayerData.previousTime,
           prayerProgress: prayerData.progress,
+          activeAdhkar: activeAdhkar,
         ),
       );
+      _syncHomeWidget(locationName: resolvedCity, coordinates: newCoords);
     }
   }
 
@@ -449,6 +558,9 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
     final prayerData = _computePrayerState(
       dayOffset: state.selectedPrayerDayOffset,
       language: state.currentLanguage,
+      coordinates: event.coordinates,
+    );
+    final activeAdhkar = _resolveAndScheduleActiveAdhkar(
       coordinates: event.coordinates,
     );
 
@@ -469,7 +581,12 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         nextPrayerName: prayerData.nextName,
         previousPrayerTime: prayerData.previousTime,
         prayerProgress: prayerData.progress,
+        activeAdhkar: activeAdhkar,
       ),
+    );
+    _syncHomeWidget(
+      locationName: event.cityName,
+      coordinates: event.coordinates,
     );
   }
 
@@ -543,6 +660,13 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         ),
       );
       _scheduleNotifications(prayerData.prayerTimes, occasions, lang);
+      _syncHomeWidget(
+        language: lang,
+        locationName: cachedCityName.isNotEmpty
+            ? cachedCityName
+            : state.prayerCityName,
+        hijriDate: ramadan.hijriDate,
+      );
     } else {
       emit(
         state.copyWith(
@@ -560,6 +684,12 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         ),
       );
       _scheduleNotifications(prayerData.prayerTimes, state.occasionsList, lang);
+      _syncHomeWidget(
+        language: lang,
+        locationName: cachedCityName.isNotEmpty
+            ? cachedCityName
+            : state.prayerCityName,
+      );
     }
 
     unawaited(
@@ -596,6 +726,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         ),
       );
       _scheduleNotifications(state.prayerTimes, occasions, lang);
+      _syncHomeWidget(language: lang, hijriDate: ramadan.hijriDate);
     }
   }
 
@@ -722,6 +853,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       dayOffset: state.selectedPrayerDayOffset,
       language: state.currentLanguage,
     );
+    final activeAdhkar = _resolveAndScheduleActiveAdhkar();
 
     emit(
       state.copyWith(
@@ -733,8 +865,113 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
         nextPrayerName: prayerData.nextName,
         previousPrayerTime: prayerData.previousTime,
         prayerProgress: prayerData.progress,
+        activeAdhkar: activeAdhkar,
       ),
     );
+    _syncHomeWidget();
+  }
+
+  void _onRefreshActiveAdhkar(
+    RefreshActiveAdhkarEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    final activeAdhkar = _resolveAndScheduleActiveAdhkar();
+    if (state.selectedPrayerDayOffset == 0) {
+      final prayerData = _computePrayerState(
+        dayOffset: 0,
+        language: state.currentLanguage,
+      );
+      emit(
+        state.copyWith(
+          prayerTimes: prayerData.prayerTimes,
+          sunriseTime: prayerData.sunriseTime,
+          selectedPrayerDate: prayerData.selectedDate,
+          nextPrayerTime: prayerData.nextTime,
+          nextPrayerType: prayerData.nextType,
+          nextPrayerName: prayerData.nextName,
+          previousPrayerTime: prayerData.previousTime,
+          prayerProgress: prayerData.progress,
+          activeAdhkar: activeAdhkar,
+        ),
+      );
+    } else {
+      emit(state.copyWith(activeAdhkar: activeAdhkar));
+    }
+  }
+
+  void _onChangeAsrMadhab(
+    ChangeAsrMadhabEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    UserHiveHelper.setAsrMadhab(event.madhab);
+    _recomputePrayersAfterSettingChange(
+      emit,
+      updatedAdhanSettings: state.adhanSettings.copyWith(asrMadhab: event.madhab),
+    );
+  }
+
+  void _onChangePrayerTimeOffset(
+    ChangePrayerTimeOffsetEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    final clamped = event.offsetMinutes.clamp(-30, 30);
+    UserHiveHelper.setPrayerTimeOffset(event.prayerType.name, clamped);
+    final updatedOffsets = Map<String, int>.from(
+      state.adhanSettings.prayerTimeOffsets,
+    )..[event.prayerType.name] = clamped;
+
+    _recomputePrayersAfterSettingChange(
+      emit,
+      updatedAdhanSettings: state.adhanSettings.copyWith(
+        prayerTimeOffsets: updatedOffsets,
+      ),
+    );
+  }
+
+  void _onResetPrayerTimeOffsets(
+    ResetPrayerTimeOffsetsEvent event,
+    Emitter<HomelayoutState> emit,
+  ) {
+    UserHiveHelper.resetAllPrayerTimeOffsets();
+    _recomputePrayersAfterSettingChange(
+      emit,
+      updatedAdhanSettings: state.adhanSettings.copyWith(
+        prayerTimeOffsets: UserHiveHelper.getAllPrayerTimeOffsets(),
+      ),
+    );
+  }
+
+  void _recomputePrayersAfterSettingChange(
+    Emitter<HomelayoutState> emit, {
+    required AdhanSettingModel updatedAdhanSettings,
+  }) {
+    final prayerData = _computePrayerState(
+      dayOffset: state.selectedPrayerDayOffset,
+      language: state.currentLanguage,
+    );
+    final activeAdhkar = _resolveAndScheduleActiveAdhkar();
+
+    emit(
+      state.copyWith(
+        adhanSettings: updatedAdhanSettings,
+        prayerTimes: prayerData.prayerTimes,
+        sunriseTime: prayerData.sunriseTime,
+        selectedPrayerDate: prayerData.selectedDate,
+        nextPrayerTime: prayerData.nextTime,
+        nextPrayerType: prayerData.nextType,
+        nextPrayerName: prayerData.nextName,
+        previousPrayerTime: prayerData.previousTime,
+        prayerProgress: prayerData.progress,
+        activeAdhkar: activeAdhkar,
+      ),
+    );
+
+    _scheduleNotifications(
+      prayerData.prayerTimes,
+      state.occasionsList,
+      state.currentLanguage,
+    );
+    _syncHomeWidget();
   }
 
   void _onChangeTab(
@@ -940,6 +1177,7 @@ class HomelayoutBloc extends Bloc<HomelayoutEvent, HomelayoutState> {
       return item;
     }).toList();
     emit(state.copyWith(prayerTimes: updatedList));
+    _syncHomeWidget();
   }
 
   void _onSendTestNotification(

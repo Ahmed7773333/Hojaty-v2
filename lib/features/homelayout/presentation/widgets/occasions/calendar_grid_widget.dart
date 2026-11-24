@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/hijri_calendar_helper.dart';
 
 class CalendarGridWidget extends StatelessWidget {
@@ -31,9 +33,11 @@ class CalendarGridWidget extends StatelessWidget {
         ? ['جمعة', 'سبت', 'أحد', 'اثنين', 'ثلاثاء', 'اربعاء', 'خميس']
         : ['Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(22.r),
       padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(
@@ -190,8 +194,8 @@ class CalendarGridWidget extends StatelessWidget {
                         : (isCurrent
                               ? (isDark
                                     ? AppColors.white.withValues(alpha: 0.08)
-                                    : const Color(0xFFEFF6F4))
-                              : Colors.transparent),
+                                    : AppColors.lightCardSelected)
+                              : AppColors.transparent),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(

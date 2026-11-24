@@ -52,7 +52,7 @@ class HojatyAiPrayerActionCardWidget extends StatelessWidget {
               8.hor,
               Expanded(
                 child: Text(
-                  'مواقيت الصلاة - $city',
+                  '${context.strings.hojatyAiPrayerTimesTitle} - $city',
                   style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: isDark
@@ -64,7 +64,10 @@ class HojatyAiPrayerActionCardWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () => context.pushNamed(AppRoutes.prayerTimes),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 8.w,
+                    vertical: 4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.accentGold.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8.r),
@@ -73,7 +76,7 @@ class HojatyAiPrayerActionCardWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'عرض الكل',
+                        context.strings.hojatyAiActionViewAll,
                         style: context.textTheme.labelSmall?.copyWith(
                           color: isDark
                               ? AppColors.accentGoldLight
@@ -116,7 +119,10 @@ class HojatyAiPrayerActionCardWidget extends StatelessWidget {
                   ),
                   6.hor,
                   Text(
-                    'المتبقي على صلاة $nextPrayer: $remaining',
+                    context.strings.hojatyAiRemainingForPrayer(
+                      nextPrayer,
+                      remaining,
+                    ),
                     style: context.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: isDark

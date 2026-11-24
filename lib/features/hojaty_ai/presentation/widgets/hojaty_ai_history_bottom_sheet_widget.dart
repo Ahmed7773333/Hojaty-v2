@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_history_item_widget.dart';
@@ -32,8 +35,11 @@ class HojatyAiHistoryBottomSheetWidget extends StatelessWidget {
       minChildSize: 0.45,
       maxChildSize: 0.9,
       builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.surface,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+          blurSigma: LiquidGlassStyle.maxBlurSigma,
+          fallbackDecoration: BoxDecoration(
             color: isDark ? AppColors.darkSurface : AppColors.lightBackground,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
             border: Border.all(

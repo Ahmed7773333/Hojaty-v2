@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prayer_widget_label">Hojaty - Next Prayer</string>
+    <string name="prayer_widget_description">Live countdown to the next prayer time</string>
+</resources>

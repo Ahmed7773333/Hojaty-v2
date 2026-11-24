@@ -1,16 +1,22 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class OccasionsHeaderWidget extends StatelessWidget {
   const OccasionsHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return LiquidGlassContainer(
       width: double.infinity,
-      color: AppColors.primaryDarkBackground,
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderEdges: LiquidGlassBorderEdges.bottomOnly,
+      showShadow: false,
+      fallbackColor: AppColors.primaryDarkBackground,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       child: SafeArea(
         bottom: false,

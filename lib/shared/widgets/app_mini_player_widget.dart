@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
 import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
 
@@ -52,9 +54,12 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
                 _playerService.currentSurahName ?? context.strings.quranFehres;
             final reciterName = _playerService.currentReciterName ?? '';
 
-            return Container(
-              margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 8.h),
-              decoration: BoxDecoration(
+            return LiquidGlassContainer(
+              variant: LiquidGlassSurfaceVariant.surface,
+              borderRadius: BorderRadius.circular(22.r),
+              blurSigma: 20.0,
+              margin: EdgeInsets.only(left: 14.w, right: 14.w, bottom: 8.h),
+              fallbackDecoration: BoxDecoration(
                 color: isDark ? AppColors.darkSurface : AppColors.white,
                 borderRadius: BorderRadius.circular(16.r),
                 border: Border.all(
@@ -71,10 +76,10 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
                 ],
               ),
               child: Material(
-                color: Colors.transparent,
+                color: AppColors.transparent,
                 child: InkWell(
                   onTap: _onTapMiniPlayer,
-                  borderRadius: BorderRadius.circular(16.r),
+                  borderRadius: BorderRadius.circular(22.r),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,

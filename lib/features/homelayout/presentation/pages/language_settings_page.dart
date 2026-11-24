@@ -4,6 +4,7 @@ import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/language_radio_card_widget.dart';
@@ -43,8 +44,9 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           SettingsPageHeaderWidget(
             title: context.strings.languageSettingsTitle,
             subtitle: context.strings.languageSettingsSubtitle,
@@ -69,8 +71,9 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
                 ],
               ),
             ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

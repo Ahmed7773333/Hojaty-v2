@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/calendar_subtab_view.dart';
@@ -44,8 +45,9 @@ class _OccasionsTabViewState extends State<OccasionsTabView> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           const OccasionsHeaderWidget(),
           OccasionsTabBarWidget(
             selectedIndex: _selectedTabIndex,
@@ -57,8 +59,9 @@ class _OccasionsTabViewState extends State<OccasionsTabView> {
           ),
           Expanded(
             child: IndexedStack(index: _selectedTabIndex, children: subtabs),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

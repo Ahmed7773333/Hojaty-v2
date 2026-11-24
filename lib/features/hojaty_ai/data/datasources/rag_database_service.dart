@@ -191,7 +191,6 @@ class RagDatabaseService {
   /// Each record: 4-byte uint32 ID + 2048-byte Float32List (2052 bytes total).
   Future<void> _ensureEmbeddingsBinaryIndex(String binPath) async {
     final binFile = File(binPath);
-    // If the binary index file exists and is larger than 10MB, it is already built
     if (await binFile.exists() && await binFile.length() > 10 * 1024 * 1024) {
       debugPrint('RagDatabaseService: Using existing binary index (${(await binFile.length() / (1024 * 1024)).toStringAsFixed(1)} MB)');
       return;
@@ -203,7 +202,6 @@ class RagDatabaseService {
     final sink = tempFile.openWrite(mode: FileMode.writeOnly);
 
     try {
-      // 2000 rows = ~4MB across MethodChannel, completely safe for Android JVM
       const int batchSize = 2000;
       int offset = 0;
       int totalProcessed = 0;
@@ -254,8 +252,8 @@ class RagDatabaseService {
   /// avoiding MethodChannel overhead and keeping UI at 60/120 FPS.
   Future<List<RagChunkModel>> searchTopK(
     List<double> queryVector, {
-    int topK = 6,
-    double minSimilarity = 0.40,
+    int topK = 3,
+    double minSimilarity = 0.50,
   }) async {
     await init();
     final db = _database;
@@ -363,50 +361,36 @@ class RagDatabaseService {
     return candidates;
   }
 
-  /// Fallback search by keywords directly in SQLite when offline or embedding API is unreachable.
+  /// Strict fallback search by keywords directly in SQLite when offline or embedding API is unreachable.
+  /// Never returns arbitrary database rows when no meaningful tokens match.
   Future<List<RagChunkModel>> searchByKeywords(
     String query, {
-    int limit = 6,
+    int limit = 3,
   }) async {
     await init();
     final db = _database;
     if (db == null) return const [];
 
-    final stopWords = {
-      'من',
-      'إلى',
-      'عن',
-      'على',
-      'في',
-      'مع',
-      'هذا',
-      'هذه',
-      'تم',
-      'كان',
-      'أو',
-      'ثم',
-      'ما',
-      'هو',
-      'هي',
-      'أن',
-      'إن',
-      'هل',
-      'لا',
-      'لم',
-      'لن',
-      'كيف',
-      'ماذا',
-      'اريد',
-      'أريد',
-      'عايز',
-      'بدي',
-      'ممكن',
-      'لو',
-      'سمحت',
+    const stopWords = {
+      'من', 'الي', 'إلى', 'عن', 'علي', 'على', 'في', 'مع', 'هذا', 'هذه',
+      'تم', 'كان', 'او', 'أو', 'ثم', 'ما', 'هو', 'هي', 'ان', 'أن', 'إن',
+      'هل', 'لا', 'لم', 'لن', 'كيف', 'ماذا', 'لماذا', 'متي', 'اين',
+      'اريد', 'أريد', 'عايز', 'عاوز', 'بدي', 'ممكن', 'لو', 'سمحت',
+      'قولي', 'هات', 'اعطني', 'ابعت', 'عندي', 'يعني', 'بس', 'كده',
+      'جدا', 'عشان', 'علشان', 'ازيك', 'عامل', 'ايه', 'فيه', 'عليك',
+      'السلام', 'عليكم', 'اهلا', 'مرحبا', 'شكرا',
     };
 
-    final rawTokens = query
-        .replaceAll(RegExp(r'[^\u0621-\u064A0-9a-zA-Z\s]'), ' ')
+    final normalized = query
+        .replaceAll(RegExp(r'[\u064B-\u065F\u0670\u0640]'), '')
+        .replaceAll('إ', 'ا')
+        .replaceAll('أ', 'ا')
+        .replaceAll('آ', 'ا')
+        .replaceAll('ة', 'ه')
+        .replaceAll('ى', 'ي')
+        .replaceAll(RegExp(r'[^\u0621-\u064A0-9a-zA-Z\s]'), ' ');
+
+    final rawTokens = normalized
         .split(RegExp(r'\s+'))
         .where((t) => t.length >= 3 && !stopWords.contains(t))
         .take(5)
@@ -415,32 +399,65 @@ class RagDatabaseService {
     final tokens = <String>{};
     for (final t in rawTokens) {
       tokens.add(t);
-      if (t.startsWith('ال') && t.length >= 4) {
+      if (t.startsWith('ال') && t.length >= 5) {
         tokens.add(t.substring(2));
       }
     }
 
+    // Strict guard: never return random DB rows when there are no meaningful keywords
     if (tokens.isEmpty) {
-      final rows = await db.rawQuery(
-        'SELECT id, category, source_title, reference, content FROM chunks LIMIT ?',
-        [limit],
-      );
-      return rows
-          .map((r) => RagChunkModel.fromMap(r, similarity: 0.50))
-          .toList();
+      return const [];
     }
 
     final tokenList = tokens.take(6).toList();
-    final whereClauses = tokenList.map((_) => 'content LIKE ?').join(' OR ');
-    final args = tokenList.map((t) => '%$t%').toList();
-    args.add('$limit');
+    final whereClauses = tokenList
+        .map((_) => '(content LIKE ? OR source_title LIKE ?)')
+        .join(' OR ');
+
+    final candidateFetchLimit = math.max(limit * 5, 15);
+    final args = <Object?>[];
+    for (final t in tokenList) {
+      args.add('%$t%');
+      args.add('%$t%');
+    }
+    args.add(candidateFetchLimit);
 
     final rows = await db.rawQuery(
       'SELECT id, category, source_title, reference, content FROM chunks WHERE $whereClauses LIMIT ?',
       args,
     );
 
-    return rows.map((r) => RagChunkModel.fromMap(r, similarity: 0.50)).toList();
+    if (rows.isEmpty) return const [];
+
+    // Rank candidates by how many distinct query tokens match
+    final scored = <RagChunkModel>[];
+    for (final row in rows) {
+      final contentText = row['content'] as String? ?? '';
+      final titleText = row['source_title'] as String? ?? '';
+      final combined = '$titleText $contentText';
+
+      int matchedCount = 0;
+      for (final t in rawTokens) {
+        final stem = (t.startsWith('ال') && t.length >= 5) ? t.substring(2) : t;
+        if (combined.contains(t) || combined.contains(stem)) {
+          matchedCount++;
+        }
+      }
+
+      if (matchedCount == 0) continue;
+
+      final ratio = matchedCount / rawTokens.length;
+      if (rawTokens.length >= 3 && ratio < 0.5) continue;
+
+      final score = 0.50 + (ratio * 0.35);
+      scored.add(RagChunkModel.fromMap(row, similarity: score));
+    }
+
+    scored.sort((a, b) => b.similarity.compareTo(a.similarity));
+    if (scored.length > limit) {
+      return scored.sublist(0, limit);
+    }
+    return scored;
   }
 
   Future<void> dispose() async {

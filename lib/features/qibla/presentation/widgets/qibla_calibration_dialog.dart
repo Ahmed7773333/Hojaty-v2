@@ -1,7 +1,10 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/qibla/presentation/widgets/qibla_calibration_tip_row.dart';
 
 class QiblaCalibrationDialog extends StatelessWidget {
@@ -11,8 +14,12 @@ class QiblaCalibrationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Container(
-      decoration: BoxDecoration(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.surface,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+      blurSigma: LiquidGlassStyle.maxBlurSigma,
+      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 24.h),
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.darkBackground : AppColors.lightSurface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
         border: Border(
@@ -22,7 +29,6 @@ class QiblaCalibrationDialog extends StatelessWidget {
           ),
         ),
       ),
-      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 24.h),
       child: SafeArea(
         top: false,
         child: Column(

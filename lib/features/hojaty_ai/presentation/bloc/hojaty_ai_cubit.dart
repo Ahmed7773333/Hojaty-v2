@@ -11,12 +11,14 @@ import 'package:hojaty/features/hojaty_ai/data/models/hojaty_ai_stream_chunk.dar
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/repositories/hojaty_ai_repository.dart';
 import 'package:hojaty/features/hojaty_ai/domain/services/app_action_dispatcher.dart';
+import 'package:hojaty/features/hojaty_ai/domain/services/hojaty_query_router.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 
 class HojatyAiCubit extends Cubit<HojatyAiState> {
   final HojatyAiRepository _repository;
   final HojatyChatHistoryLocalDataSource _historyDataSource;
   final AppActionDispatcher _actionDispatcher;
+  final HojatyQueryRouter _router;
   StreamSubscription<HojatyAiStreamChunk>? _generationSubscription;
   StreamSubscription<AssetPackInfo>? _downloadSubscription;
 
@@ -24,7 +26,9 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     this._repository,
     this._historyDataSource, {
     AppActionDispatcher? actionDispatcher,
+    HojatyQueryRouter? router,
   })  : _actionDispatcher = actionDispatcher ?? AppActionDispatcher(),
+        _router = router ?? const HojatyQueryRouter(),
         super(const HojatyAiState());
 
   AppActionDispatcher get actionDispatcher => _actionDispatcher;
@@ -184,7 +188,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     );
   }
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, {String localeCode = 'ar'}) async {
     final trimmed = text.trim();
     if (trimmed.isEmpty || state.isStreaming) return;
 
@@ -195,12 +199,45 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       timestamp: DateTime.now(),
     );
 
+    // 0. Pre-execution 3-way intent gate (synchronous, zero API cost)
+    final routeResult = _router.classify(trimmed, localeCode: localeCode);
+    debugPrint(
+      'HojatyAiCubit: Intent=${routeResult.intent}, Route=${routeResult.route}',
+    );
+
+    // Route A: NO_OP (Gibberish / Chitchat / Off-topic) -> Instant reply with zero loader delay
+    if (routeResult.intent == HojatyIntent.noOp) {
+      final botMessage = ChatMessageModel(
+        id: '${DateTime.now().microsecondsSinceEpoch}_bot',
+        text: (routeResult.instantReply ?? 'كيف يمكنني مساعدتك اليوم؟').trim(),
+        sender: MessageSender.ai,
+        timestamp: DateTime.now(),
+      );
+      final updatedMessages = [...state.messages, userMessage, botMessage];
+      emit(state.copyWith(
+        status: HojatyAiStatus.success,
+        messages: updatedMessages,
+        clearErrorMessage: true,
+        isStreaming: false,
+        processingStage: HojatyAiProcessingStage.idle,
+        currentStreamingText: '',
+        currentSources: const [],
+      ));
+      await _persistMessages(updatedMessages);
+      return;
+    }
+
+    final initialStage = routeResult.intent == HojatyIntent.actionTool
+        ? HojatyAiProcessingStage.executingTool
+        : HojatyAiProcessingStage.searchingSources;
+
     final updatedMessages = [...state.messages, userMessage];
     emit(state.copyWith(
       status: HojatyAiStatus.loading,
       messages: updatedMessages,
       clearErrorMessage: true,
       isStreaming: true,
+      processingStage: initialStage,
       currentStreamingText: '',
       currentSources: const [],
     ));
@@ -210,136 +247,128 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
     List<RagChunkModel> currentWorkingSources = const [];
 
     try {
-      // 1. Immediately retrieve local grounded sources using fast keyword matching
-      debugPrint('HojatyAiCubit: Retrieving initial local sources...');
-      final localSources = await _repository.retrieveSources(trimmed);
-      currentWorkingSources = localSources;
-
-      if (isClosed) return;
-
-      emit(state.copyWith(currentSources: localSources));
-
-      // 2. Check if we can use online AI (connectivity check + API keys check)
-      final canUseOnline = await _repository.canUseOnlineAi();
-      debugPrint('HojatyAiCubit: canUseOnline=$canUseOnline');
-
-      if (!canUseOnline) {
-        // Fast Offline Path: Check for offline tool action or provide grounded local response
-        final offlineTool = _repository.matchOfflineToolIntent(trimmed);
-        final List<AiToolActionResultModel> executedActions = [];
-        String offlineResponse;
-        List<RagChunkModel> responseSources = localSources;
-
-        if (offlineTool != null) {
-          final res = await _actionDispatcher.dispatch(offlineTool);
-          executedActions.add(res);
-          offlineResponse = 'تم تنفيذ طلبك بنجاح:\n${res.displayText}';
-          responseSources = const [];
-        } else {
-          offlineResponse = _repository.formatOfflineResponse(localSources);
+      // Route B: ACTION_TOOL -> Execute Tool ONLY (0 RAG, 0 Embeddings)
+      if (routeResult.intent == HojatyIntent.actionTool) {
+        if (routeResult.route == HojatyQueryRoute.directToolCommand &&
+            routeResult.directToolCall != null) {
+          final actionResult = await _actionDispatcher.dispatch(
+            routeResult.directToolCall!,
+          );
+          if (isClosed) return;
+          final replyText = (actionResult.displayText != null &&
+                  actionResult.displayText!.trim().isNotEmpty)
+              ? actionResult.displayText!
+              : 'تم تنفيذ طلبك بنجاح.';
+          _finalizeBotMessage(
+            text: replyText,
+            sources: const [],
+            isOffline: false,
+            actionResults: [actionResult],
+          );
+          return;
         }
 
-        if (isClosed) return;
+        final canUseOnline = await _repository.canUseOnlineAi();
+        if (!canUseOnline) {
+          if (isClosed) return;
+          _finalizeBotMessage(
+            text:
+                'هذا الأمر المتقدم يحتاج إلى اتصال بالإنترنت لتنفيذه. يمكنك تنفيذ الأوامر السريعة مثل مواقيت الصلاة أو تشغيل السور أو الأذكار مباشرة.',
+            sources: const [],
+            isOffline: true,
+          );
+          return;
+        }
 
-        _finalizeBotMessage(
-          text: offlineResponse,
-          sources: responseSources,
-          isOffline: true,
-          actionResults: executedActions,
+        await _runAiStream(
+          query: routeResult.cleanedQuery,
+          sources: const [],
+          mode: HojatyAiGenerationMode.toolOnly,
         );
         return;
       }
 
-      // Online Path: Refine sources with embedding vector if possible
-      debugPrint('HojatyAiCubit: Getting embedding...');
-      final queryVector = await _repository.getEmbedding(trimmed);
-      List<RagChunkModel> effectiveSources = localSources;
+      // Route C: KNOWLEDGE_RAG -> RAG retrieval ONLY (0 Tool Calling)
+      final canUseOnline = await _repository.canUseOnlineAi();
+      debugPrint('HojatyAiCubit: canUseOnline=$canUseOnline');
+
+      final isSingleSource =
+          routeResult.route == HojatyQueryRoute.ragSingleSource;
+      final maxSources = isSingleSource ? 1 : 3;
+      final ragQuery = routeResult.cleanedQuery;
+
+      if (!canUseOnline) {
+        final localSources = await _repository.retrieveSources(
+          ragQuery,
+          maxSources: maxSources,
+          singleSource: isSingleSource,
+        );
+        if (isClosed) return;
+
+        if (localSources.isEmpty) {
+          _finalizeBotMessage(
+            text: _repository.formatNoMatchResponse(),
+            sources: const [],
+            isOffline: true,
+          );
+          return;
+        }
+
+        _finalizeBotMessage(
+          text: _repository.formatOfflineResponse(localSources),
+          sources: localSources,
+          isOffline: true,
+        );
+        return;
+      }
+
+      // Online RAG Path: Semantic embedding first -> strict relevance gate
+      debugPrint('HojatyAiCubit: Getting embedding (singleSource=$isSingleSource)...');
+      final queryVector = await _repository.getEmbedding(ragQuery);
+      List<RagChunkModel> effectiveSources;
 
       if (queryVector != null && queryVector.length == 512) {
-        final refinedSources = await _repository.retrieveSources(
-          trimmed,
+        effectiveSources = await _repository.retrieveSources(
+          ragQuery,
           queryVector: queryVector,
+          maxSources: maxSources,
+          singleSource: isSingleSource,
+          allowKeywordFallback: false,
         );
-        if (refinedSources.isNotEmpty) {
-          effectiveSources = refinedSources;
-          currentWorkingSources = effectiveSources;
-          if (isClosed) return;
-          emit(state.copyWith(currentSources: effectiveSources));
-        }
+      } else {
+        effectiveSources = await _repository.retrieveSources(
+          ragQuery,
+          maxSources: maxSources,
+          singleSource: isSingleSource,
+        );
       }
 
       if (isClosed) return;
 
-      // Stream Grounded Answer Generation
-      final textBuffer = StringBuffer();
-      final List<AiToolActionResultModel> executedActions = [];
-      await _generationSubscription?.cancel();
+      // Relevance Gate: if no source met the threshold, skip LLM call and reply concisely
+      if (effectiveSources.isEmpty) {
+        debugPrint('HojatyAiCubit: No relevant sources passed threshold -> skipping LLM');
+        _finalizeBotMessage(
+          text: _repository.formatNoMatchResponse(),
+          sources: const [],
+          isOffline: false,
+        );
+        return;
+      }
 
-      final completer = Completer<void>();
+      currentWorkingSources = effectiveSources;
+      emit(state.copyWith(
+        currentSources: effectiveSources,
+        processingStage: HojatyAiProcessingStage.generating,
+      ));
 
-      _generationSubscription = _repository
-          .generateAnswerStream(userMessage: trimmed, sources: effectiveSources)
-          .listen(
-        (chunk) async {
-          if (isClosed) return;
-          if (chunk.hasText) {
-            textBuffer.write(chunk.text!);
-            emit(state.copyWith(
-              currentStreamingText: textBuffer.toString(),
-            ));
-          }
-
-          if (chunk.hasToolCall) {
-            debugPrint('HojatyAiCubit: executing tool ${chunk.toolCall!.name}');
-            final result = await _actionDispatcher.dispatch(chunk.toolCall!);
-            executedActions.add(result);
-
-            if (result.displayText != null && textBuffer.isEmpty) {
-              textBuffer.write(result.displayText);
-              emit(state.copyWith(
-                currentStreamingText: textBuffer.toString(),
-              ));
-            }
-          }
-        },
-        onError: (err) {
-          debugPrint('HojatyAiCubit: Generation stream error: $err');
-          if (!isClosed) {
-            _finalizeBotMessage(
-              text: textBuffer.isNotEmpty
-                  ? textBuffer.toString()
-                  : _repository.formatOfflineResponse(effectiveSources),
-              sources: effectiveSources,
-              isOffline: true,
-              actionResults: executedActions,
-            );
-          }
-          if (!completer.isCompleted) completer.complete();
-        },
-        onDone: () {
-          debugPrint('HojatyAiCubit: Generation stream done (buffer length=${textBuffer.length})');
-          if (!isClosed) {
-            final fullText = textBuffer.toString().trim();
-            final isOfflineResponse = fullText.isEmpty ||
-                fullText.startsWith('أهلاً بك. تعذر الاتصال بالخادم');
-
-            _finalizeBotMessage(
-              text: fullText.isNotEmpty
-                  ? fullText
-                  : _repository.formatOfflineResponse(effectiveSources),
-              sources: effectiveSources,
-              isOffline: isOfflineResponse,
-              actionResults: executedActions,
-            );
-          }
-          if (!completer.isCompleted) completer.complete();
-        },
-        cancelOnError: false,
+      await _runAiStream(
+        query: ragQuery,
+        sources: effectiveSources,
+        mode: isSingleSource
+            ? HojatyAiGenerationMode.ragSingleSource
+            : HojatyAiGenerationMode.ragMultiSource,
       );
-
-      // Wait for stream to finish so that any exception after listen setup
-      // doesn't leave isStreaming=true forever
-      await completer.future;
     } catch (e, st) {
       debugPrint('HojatyAiCubit: sendMessage error: $e\n$st');
       if (!isClosed) {
@@ -347,12 +376,110 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
             ? state.currentSources
             : currentWorkingSources;
         _finalizeBotMessage(
-          text: _repository.formatOfflineResponse(fallbackSources),
+          text: fallbackSources.isEmpty
+              ? _repository.formatNoMatchResponse()
+              : _repository.formatOfflineResponse(fallbackSources),
           sources: fallbackSources,
           isOffline: true,
         );
       }
     }
+  }
+
+  Future<void> _runAiStream({
+    required String query,
+    required List<RagChunkModel> sources,
+    required HojatyAiGenerationMode mode,
+  }) async {
+    final textBuffer = StringBuffer();
+    final List<AiToolActionResultModel> executedActions = [];
+    final List<Future<void>> pendingToolFutures = [];
+    await _generationSubscription?.cancel();
+
+    final completer = Completer<void>();
+
+    _generationSubscription = _repository
+        .generateAnswerStream(
+          userMessage: query,
+          sources: sources,
+          mode: mode,
+        )
+        .listen(
+      (chunk) {
+        if (isClosed) return;
+        if (chunk.hasText) {
+          textBuffer.write(chunk.text!);
+          emit(state.copyWith(
+            currentStreamingText: textBuffer.toString(),
+          ));
+        }
+
+        if (chunk.hasToolCall && mode == HojatyAiGenerationMode.toolOnly) {
+          debugPrint('HojatyAiCubit: executing tool ${chunk.toolCall!.name}');
+          final future = _actionDispatcher.dispatch(chunk.toolCall!).then((result) {
+            if (isClosed) return;
+            executedActions.add(result);
+            if (result.displayText != null && textBuffer.isEmpty) {
+              textBuffer.write(result.displayText);
+              emit(state.copyWith(
+                currentStreamingText: textBuffer.toString(),
+              ));
+            }
+          });
+          pendingToolFutures.add(future);
+        }
+      },
+      onError: (err) async {
+        debugPrint('HojatyAiCubit: Generation stream error: $err');
+        if (pendingToolFutures.isNotEmpty) {
+          await Future.wait(pendingToolFutures);
+        }
+        if (!isClosed) {
+          final finalSources =
+              executedActions.isNotEmpty ? const <RagChunkModel>[] : sources;
+          _finalizeBotMessage(
+            text: textBuffer.isNotEmpty
+                ? textBuffer.toString()
+                : _repository.formatOfflineResponse(finalSources),
+            sources: finalSources,
+            isOffline: true,
+            actionResults: executedActions,
+          );
+        }
+        if (!completer.isCompleted) completer.complete();
+      },
+      onDone: () async {
+        if (pendingToolFutures.isNotEmpty) {
+          await Future.wait(pendingToolFutures);
+        }
+        debugPrint(
+          'HojatyAiCubit: Generation stream done (buffer length=${textBuffer.length})',
+        );
+        if (!isClosed) {
+          final fullText = textBuffer.toString().trim();
+          final finalSources =
+              executedActions.isNotEmpty ? const <RagChunkModel>[] : sources;
+          final isOfflineResponse = fullText.isEmpty ||
+              fullText.startsWith('تعذر الاتصال بالخادم') ||
+              fullText.startsWith('أقرب النصوص الموثقة');
+
+          _finalizeBotMessage(
+            text: fullText.isNotEmpty
+                ? fullText
+                : (executedActions.isNotEmpty
+                    ? 'تم تنفيذ طلبك بنجاح.'
+                    : _repository.formatOfflineResponse(finalSources)),
+            sources: finalSources,
+            isOffline: isOfflineResponse,
+            actionResults: executedActions,
+          );
+        }
+        if (!completer.isCompleted) completer.complete();
+      },
+      cancelOnError: false,
+    );
+
+    await completer.future;
   }
 
   void _finalizeBotMessage({
@@ -376,6 +503,7 @@ class HojatyAiCubit extends Cubit<HojatyAiState> {
       status: HojatyAiStatus.success,
       messages: updatedMessages,
       isStreaming: false,
+      processingStage: HojatyAiProcessingStage.idle,
       currentStreamingText: '',
       currentSources: const [],
     ));

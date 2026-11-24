@@ -1,8 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_preview_badge_widget.dart';
 
 class ThemeRadioCardWidget extends StatelessWidget {
@@ -39,16 +41,25 @@ class ThemeRadioCardWidget extends StatelessWidget {
         ? AppColors.accentGold
         : AppColors.primaryDark;
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(20.r),
       margin: EdgeInsets.only(bottom: 14.h),
-      decoration: BoxDecoration(
+      customTintColor: isSelected
+          ? activeIndicatorColor.withValues(alpha: isDark ? 0.16 : 0.12)
+          : null,
+      customBorderColor: isSelected ? activeIndicatorColor : null,
+      customBorderWidth: isSelected ? 1.8 : null,
+      fallbackDecoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: borderColor, width: isSelected ? 1.8 : 1.0),
       ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18.r),
+      child: Material(
+        color: AppColors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20.r),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
           child: Row(
@@ -104,6 +115,7 @@ class ThemeRadioCardWidget extends StatelessWidget {
                     : null,
               ),
             ],
+          ),
           ),
         ),
       ),

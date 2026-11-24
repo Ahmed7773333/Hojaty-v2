@@ -5,6 +5,7 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/app_version_helper.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/homelayout/data/models/app_content_model.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_privacy_policy_use_case.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_terms_and_conditions_use_case.dart';
@@ -123,8 +124,9 @@ class _AppInfoContentPageState extends State<AppInfoContentPage> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           SettingsPageHeaderWidget(title: _displayTitle),
           Expanded(
             child: _isLoading
@@ -150,12 +152,13 @@ class _AppInfoContentPageState extends State<AppInfoContentPage> {
                       ],
                     ),
                   ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
   }
-}
 
 // =========================================================================
 // ARCHIVED ORIGINAL APP INFO CONTENT PAGE

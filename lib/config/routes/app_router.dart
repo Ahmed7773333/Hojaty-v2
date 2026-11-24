@@ -8,11 +8,13 @@ import 'package:hojaty/features/books/presentation/pages/book_chapters_page.dart
 import 'package:hojaty/features/books/presentation/pages/book_hadiths_page.dart';
 import 'package:hojaty/features/books/presentation/pages/book_reader_page.dart';
 import 'package:hojaty/features/books/presentation/pages/books_page.dart';
+import 'package:hojaty/features/daily_story/presentation/pages/daily_story_preview_page.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
 import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_times_route_args.dart';
 import 'package:hojaty/features/homelayout/presentation/pages/adhan_sounds_library_page.dart';
 import 'package:hojaty/features/homelayout/presentation/pages/app_info_content_page.dart';
 import 'package:hojaty/features/homelayout/presentation/pages/asma_allah_page.dart';
@@ -93,6 +95,7 @@ class AppRoutes {
   static const String qibla = '/qibla';
   static const String adhanSoundsLibrary = '/adhan-sounds-library';
   static const String salawatSettings = '/salawat-settings';
+  static const String dailyStory = '/daily-story';
 }
 
 class AppRouter {
@@ -127,9 +130,17 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.prayerTimes:
-        final initialTab = settings.arguments as int? ?? 0;
+        final args = settings.arguments;
+        final initialTab = args is PrayerTimesRouteArgs
+            ? args.initialTabIndex
+            : (args as int? ?? 0);
+        final highlightKey =
+            args is PrayerTimesRouteArgs ? args.highlightSectionKey : null;
         return MaterialPageRoute(
-          builder: (_) => PrayerTimesPage(initialTabIndex: initialTab),
+          builder: (_) => PrayerTimesPage(
+            initialTabIndex: initialTab,
+            highlightSectionKey: highlightKey,
+          ),
           settings: settings,
         );
       case AppRoutes.notifications:
@@ -393,6 +404,11 @@ class AppRouter {
       case AppRoutes.qibla:
         return MaterialPageRoute(
           builder: (_) => const QiblaPage(),
+          settings: settings,
+        );
+      case AppRoutes.dailyStory:
+        return MaterialPageRoute(
+          builder: (_) => const DailyStoryPreviewPage(),
           settings: settings,
         );
       default:

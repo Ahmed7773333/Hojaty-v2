@@ -1,15 +1,19 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_times_route_args.dart';
 import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_azan_settings_button.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_row_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_sunrise_row_widget.dart';
 
@@ -37,6 +41,8 @@ class HomePrayerTimesWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              const HomeAzanSettingsButton(),
+              4.hor,
               Material(
                 color: AppColors.transparent,
                 borderRadius: BorderRadius.circular(8.r),
@@ -83,10 +89,14 @@ class HomePrayerTimesWidget extends StatelessWidget {
                 prev.sunriseTime != curr.sunriseTime,
             builder: (context, state) {
               final now = DateTime.now();
+              final coords = UserHiveHelper.getCachedCoordinates();
               final sunriseTime =
                   state.sunriseTime ??
                   PrayersHelper(
-                    coordinates: UserHiveHelper.getCachedCoordinates(),
+                    coordinates: coords,
+                    parameters: UserHiveHelper.getPrayerCalculationParameters(
+                      coords,
+                    ),
                   ).getSunriseDateTime(state.selectedPrayerDate ?? now);
               final isToday = state.selectedPrayerDayOffset == 0;
               final fajrPrayer = state.prayerTimes
@@ -99,8 +109,11 @@ class HomePrayerTimesWidget extends StatelessWidget {
                   !fajrPrayer.isCurrent &&
                   now.isBefore(sunriseTime);
 
-              return Container(
-                decoration: BoxDecoration(
+              return LiquidGlassContainer(
+                variant: LiquidGlassSurfaceVariant.card,
+                borderRadius: BorderRadius.circular(20.r),
+                padding: EdgeInsets.symmetric(vertical: 6.h),
+                fallbackDecoration: BoxDecoration(
                   color: isDark
                       ? AppColors.darkCardUnselected
                       : AppColors.lightSurface,
@@ -111,7 +124,6 @@ class HomePrayerTimesWidget extends StatelessWidget {
                         : AppColors.lightBorderUnselected,
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: Column(
                   children: [
                     for (

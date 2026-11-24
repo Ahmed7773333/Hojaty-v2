@@ -3,6 +3,7 @@ import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/data/mocks/athkar_mock_data.dart';
 import 'package:hojaty/features/homelayout/data/datasources/local/athkar_local_data_source.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
@@ -97,8 +98,9 @@ class _AthkarGridViewState extends State<AthkarGridView> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           const AthkarHeaderWidget(),
           Padding(
             padding: EdgeInsets.fromLTRB(16.w, 14.h, 16.w, 6.h),
@@ -120,8 +122,9 @@ class _AthkarGridViewState extends State<AthkarGridView> {
                     allCategories: _allCategories,
                     onCategoryTap: _onCategoryTap,
                   ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

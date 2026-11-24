@@ -5,6 +5,7 @@ import 'package:hojaty/features/homelayout/data/models/notification_item_model.d
 import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 import 'package:hojaty/features/homelayout/data/models/ramadan_check_response_model.dart';
+import 'package:hojaty/features/homelayout/domain/entities/active_adhkar_window.dart';
 
 enum HomelayoutStatus { initial, loading, success, failure }
 
@@ -32,6 +33,7 @@ class HomelayoutState extends Equatable {
   final int activeHijriYear;
   final int activeGregorianMonth;
   final int activeGregorianYear;
+  final ActiveAdhkarWindow? activeAdhkar;
   final String? errorMessage;
 
   const HomelayoutState({
@@ -58,6 +60,7 @@ class HomelayoutState extends Equatable {
     this.activeHijriYear = 1448,
     this.activeGregorianMonth = 8,
     this.activeGregorianYear = 2026,
+    this.activeAdhkar,
     this.errorMessage,
   });
 
@@ -85,6 +88,7 @@ class HomelayoutState extends Equatable {
     int? activeHijriYear,
     int? activeGregorianMonth,
     int? activeGregorianYear,
+    ActiveAdhkarWindow? activeAdhkar,
     String? errorMessage,
     bool clearError = false,
   }) {
@@ -113,6 +117,7 @@ class HomelayoutState extends Equatable {
       activeHijriYear: activeHijriYear ?? this.activeHijriYear,
       activeGregorianMonth: activeGregorianMonth ?? this.activeGregorianMonth,
       activeGregorianYear: activeGregorianYear ?? this.activeGregorianYear,
+      activeAdhkar: activeAdhkar ?? this.activeAdhkar,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }
@@ -142,6 +147,7 @@ class HomelayoutState extends Equatable {
         activeHijriYear,
         activeGregorianMonth,
         activeGregorianYear,
+        activeAdhkar,
         errorMessage,
       ];
 }

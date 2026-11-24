@@ -5,6 +5,7 @@ import 'package:hojaty/features/hojaty_ai/data/datasources/hojaty_chat_history_l
 import 'package:hojaty/features/hojaty_ai/data/datasources/rag_database_service.dart';
 import 'package:hojaty/features/hojaty_ai/data/repositories/hojaty_ai_repository.dart';
 import 'package:hojaty/features/hojaty_ai/domain/services/app_action_dispatcher.dart';
+import 'package:hojaty/features/hojaty_ai/domain/services/hojaty_query_router.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
 
 Future<void> initHojatyAiInjector() async {
@@ -16,6 +17,9 @@ Future<void> initHojatyAiInjector() async {
   );
   injector.registerLazySingleton<AppActionDispatcher>(
     () => AppActionDispatcher(),
+  );
+  injector.registerLazySingleton<HojatyQueryRouter>(
+    () => const HojatyQueryRouter(),
   );
 
   // Repository
@@ -39,6 +43,7 @@ Future<void> initHojatyAiInjector() async {
       injector<HojatyAiRepository>(),
       injector<HojatyChatHistoryLocalDataSource>(),
       actionDispatcher: injector<AppActionDispatcher>(),
+      router: injector<HojatyQueryRouter>(),
     ),
   );
 }

@@ -1,6 +1,8 @@
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:material_ui/material_ui.dart';
 
 class BooksHeaderWidget extends StatelessWidget {
@@ -12,14 +14,16 @@ class BooksHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r)),
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 12.h,
         bottom: 14.h,
         left: 20.w,
         right: 20.w,
       ),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.primaryDarkHeader : AppColors.primaryDark,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r)),
       ),

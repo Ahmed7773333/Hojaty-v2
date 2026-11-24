@@ -11,4 +11,8 @@ class SceneDelegate: FlutterSceneDelegate {
             appDelegate.setupChannels(messenger: controller.binaryMessenger)
         }
     }
+
+    override func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        super.scene(scene, openURLContexts: URLContexts)
+    }
 }

@@ -99,38 +99,10 @@ class AppActionDispatcher {
     }
   }
 
-  // 1. Tool: Play Quran Audio or Live Radio
+  // 1. Tool: Play Quran Surah Audio
   Future<AiToolActionResultModel> _handlePlayQuranAudio(
     Map<String, dynamic> args,
   ) async {
-    final isLiveStream = args['isLiveStream'] as bool? ?? false;
-    final streamType = (args['streamType'] as String? ?? '').toLowerCase();
-
-    if (isLiveStream) {
-      String streamUrl = 'https://stream.radiojar.com/8s5u8tpdtwzuv';
-      String title = 'إذاعة القرآن الكريم - القاهرة';
-
-      if (streamType.contains('makkah') || streamType.contains('مكة')) {
-        streamUrl = 'https://stream.radiojar.com/0t5u8tpdtwzuv';
-        title = 'إذاعة القرآن الكريم - مكة المكرمة';
-      } else if (streamType.contains('madinah') || streamType.contains('المدينة')) {
-        streamUrl = 'https://stream.radiojar.com/4t5u8tpdtwzuv';
-        title = 'إذاعة القرآن الكريم - المدينة المنورة';
-      }
-
-      await _audioPlayerService.playUrl(
-        url: streamUrl,
-        reciterName: title,
-      );
-
-      return AiToolActionResultModel(
-        toolName: HojatyToolRegistry.toolPlayQuranAudio,
-        arguments: args,
-        result: {'type': 'live_stream', 'title': title, 'streamUrl': streamUrl},
-        displayText: 'تم تشغيل $title الآن في الخلفية.',
-      );
-    }
-
     // Surah recitation
     int surahNumber = 1;
     final rawNumber = args['surahNumber'];

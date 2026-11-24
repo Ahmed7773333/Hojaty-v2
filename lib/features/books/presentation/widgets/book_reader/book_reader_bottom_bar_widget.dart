@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/books/data/models/book_reader_theme_model.dart';
 
 class BookReaderBottomBarWidget extends StatelessWidget {
@@ -28,19 +30,21 @@ class BookReaderBottomBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       padding: EdgeInsets.only(
         top: 8.h,
         bottom: MediaQuery.of(context).padding.bottom + 10.h,
         left: 16.w,
         right: 16.w,
       ),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.primaryDarkHeader : AppColors.primaryDark,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
             blurRadius: 8,
             offset: const Offset(0, -3),
           ),

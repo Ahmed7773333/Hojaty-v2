@@ -2,35 +2,43 @@ import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hojaty_ai/data/models/hojaty_starter_prompt_model.dart';
 
 class HojatyAiStarterChipWidget extends StatelessWidget {
-  final String text;
+  final HojatyStarterPromptModel item;
   final ValueChanged<String> onTap;
 
   const HojatyAiStarterChipWidget({
     super.key,
-    required this.text,
+    required this.item,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final accentColor =
+        isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark;
 
     return Material(
       color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
       borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
-        onTap: () => onTap(text),
+        onTap: () => onTap(item.prompt),
         borderRadius: BorderRadius.circular(16.r),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: 14.w,
+            vertical: 12.h,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: isDark
-                  ? AppColors.darkBorderUnselected
-                  : AppColors.lightBorderUnselected,
+              color: item.isAction
+                  ? AppColors.accentGold.withValues(alpha: 0.35)
+                  : (isDark
+                        ? AppColors.darkBorderUnselected
+                        : AppColors.lightBorderUnselected),
             ),
           ),
           child: Row(
@@ -43,17 +51,15 @@ class HojatyAiStarterChipWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
-                  Icons.chat_bubble_outline_rounded,
-                  color: isDark
-                      ? AppColors.accentGoldLight
-                      : AppColors.accentGoldDark,
+                  item.icon,
+                  color: accentColor,
                   size: 16.r,
                 ),
               ),
               12.hor,
               Expanded(
                 child: Text(
-                  text,
+                  item.label,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: isDark
                         ? AppColors.darkTextPrimary

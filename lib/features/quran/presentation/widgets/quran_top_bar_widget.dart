@@ -1,7 +1,10 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/quran/presentation/widgets/quran_bar_item_widget.dart';
 
 class QuranTopBarWidget extends StatelessWidget {
@@ -32,20 +35,22 @@ class QuranTopBarWidget extends StatelessWidget {
       top: isVisible ? 0 : -140,
       left: 0,
       right: 0,
-      child: Container(
+      child: LiquidGlassContainer(
+        variant: LiquidGlassSurfaceVariant.surface,
+        borderEdges: LiquidGlassBorderEdges.bottomOnly,
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 8.h,
           bottom: 12.h,
           left: 16.w,
           right: 16.w,
         ),
-        decoration: BoxDecoration(
+        fallbackDecoration: BoxDecoration(
           color: isDark
               ? AppColors.darkSurface.withValues(alpha: 0.95)
               : AppColors.lightSurface.withValues(alpha: 0.95),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColors.black.withValues(alpha: 0.08),
               blurRadius: 10,
               offset: const Offset(0, 3),
             ),

@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
-import 'package:hojaty/data/mocks/hojaty_ai_mock_data.dart';
+import 'package:hojaty/features/hojaty_ai/domain/services/hojaty_starter_prompts_provider.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_starter_chip_widget.dart';
 
 class HojatyAiEmptyStateWidget extends StatelessWidget {
@@ -13,9 +13,13 @@ class HojatyAiEmptyStateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final prompts = HojatyStarterPromptsProvider.getPrompts(context.strings);
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: 20.w,
+        vertical: 24.h,
+      ),
       child: Column(
         children: [
           16.ver,
@@ -64,11 +68,11 @@ class HojatyAiEmptyStateWidget extends StatelessWidget {
           ),
           24.ver,
           Column(
-            children: HojatyAiMockData.starterPrompts.map((prompt) {
+            children: prompts.map((item) {
               return Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
+                padding: EdgeInsetsDirectional.only(bottom: 10.h),
                 child: HojatyAiStarterChipWidget(
-                  text: prompt,
+                  item: item,
                   onTap: onSelectStarter,
                 ),
               );

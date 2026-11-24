@@ -5,6 +5,8 @@ import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/hojaty_tool_registry.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/ai_tool_call_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
+import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
 
 class HojatyAiStatusActionCardWidget extends StatelessWidget {
   final AiToolActionResultModel action;
@@ -17,53 +19,97 @@ class HojatyAiStatusActionCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
+    final strings = context.strings;
     final text = action.displayText ??
-        (action.isSuccess ? 'تم تنفيذ الإجراء بنجاح.' : 'تعذر تنفيذ الإجراء.');
+        (action.isSuccess
+            ? strings.hojatyAiActionDone
+            : strings.hojatyAiActionFailed);
 
     IconData iconData = Icons.check_circle_outline_rounded;
-    String buttonText = 'عرض';
+    String buttonText = strings.hojatyAiActionView;
     String? targetRoute;
+    Object? routeArgs;
 
     switch (action.toolName) {
       case HojatyToolRegistry.toolControlSebhaCounter:
         iconData = Icons.touch_app_outlined;
-        buttonText = 'السبحة';
+        buttonText = strings.hojatyAiActionSebha;
         targetRoute = AppRoutes.sebha;
         break;
       case HojatyToolRegistry.toolOpenQiblaCompass:
         iconData = Icons.explore_outlined;
-        buttonText = 'القبلة';
+        buttonText = strings.hojatyAiActionQibla;
         targetRoute = AppRoutes.qibla;
         break;
       case HojatyToolRegistry.toolOpenAthkarCategory:
         iconData = Icons.auto_stories_outlined;
-        buttonText = 'الأذكار';
+        buttonText = strings.hojatyAiActionAthkar;
         targetRoute = AppRoutes.athkarDetail;
+        final typeName = action.result['type'] as String? ?? 'morning';
+        final catType = AthkarCategoryType.values.firstWhere(
+          (e) => e.name == typeName,
+          orElse: () => AthkarCategoryType.morning,
+        );
+        routeArgs = AthkarDetailArgs(
+          title: action.result['category'] as String? ?? strings.hojatyAiActionAthkar,
+          categoryType: catType,
+        );
         break;
       case HojatyToolRegistry.toolConfigurePrayerAlerts:
         iconData = Icons.notifications_active_outlined;
-        buttonText = 'الإعدادات';
+        buttonText = strings.hojatyAiActionSettings;
         targetRoute = AppRoutes.notifications;
         break;
       case HojatyToolRegistry.toolUpdateAppPreferences:
-        iconData = Icons.palette_outlined;
-        buttonText = 'المظهر';
-        targetRoute = AppRoutes.themeSettings;
+        final args = action.arguments;
+        if (args['fontSize'] != null) {
+          iconData = Icons.text_fields_rounded;
+          buttonText = strings.hojatyAiActionSettings;
+          targetRoute = AppRoutes.fontSettings;
+        } else if (args['enableAnaOsalyQuiet'] != null &&
+            (args['themeMode'] as String? ?? '').isEmpty) {
+          iconData = Icons.notifications_paused_outlined;
+          buttonText = strings.hojatyAiActionSettings;
+          targetRoute = AppRoutes.notifications;
+        } else {
+          iconData = Icons.palette_outlined;
+          buttonText = strings.hojatyAiActionTheme;
+          targetRoute = AppRoutes.themeSettings;
+        }
         break;
       case HojatyToolRegistry.toolOpenHadithReader:
         iconData = Icons.library_books_outlined;
-        buttonText = 'المكتبة';
+        buttonText = strings.hojatyAiActionLibrary;
         targetRoute = AppRoutes.books;
+        break;
+      case HojatyToolRegistry.toolManageQuranBookmark:
+        iconData = Icons.bookmark_added_outlined;
+        final pageNumber = (action.result['pageNumber'] as num?)?.toInt();
+        final verseIndex = (action.result['verseIndex'] as num?)?.toInt();
+        if (pageNumber != null) {
+          buttonText = strings.hojatyAiActionOpen;
+          targetRoute = AppRoutes.quranReader;
+          routeArgs = {
+            'initialPage': pageNumber,
+            'highlightVerseIndex': verseIndex,
+          };
+        } else {
+          buttonText = strings.hojatyAiActionBookmarks;
+          targetRoute = AppRoutes.quranCheckpoints;
+        }
         break;
       default:
         iconData = Icons.check_circle_outline_rounded;
-        buttonText = 'عرض';
+        buttonText = strings.hojatyAiActionView;
         targetRoute = null;
     }
 
+    final accentColor =
+        isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark;
+
     return Container(
-      margin: EdgeInsets.only(top: 8.h),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+      margin: EdgeInsetsDirectional.only(top: 8.h),
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: isDark
             ? AppColors.darkCardUnselected
@@ -79,11 +125,7 @@ class HojatyAiStatusActionCardWidget extends StatelessWidget {
         children: [
           Icon(
             iconData,
-            color: action.isSuccess
-                ? (isDark
-                    ? AppColors.accentGoldLight
-                    : AppColors.accentGoldDark)
-                : context.colors.error,
+            color: action.isSuccess ? accentColor : context.colors.error,
             size: 20.r,
           ),
           10.hor,
@@ -103,21 +145,33 @@ class HojatyAiStatusActionCardWidget extends StatelessWidget {
           if (targetRoute != null) ...[
             8.hor,
             GestureDetector(
-              onTap: () => context.pushNamed(targetRoute!),
+              onTap: () => context.pushNamed(targetRoute!, extra: routeArgs),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 8.w,
+                  vertical: 4.h,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.accentGold.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                child: Text(
-                  buttonText,
-                  style: context.textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: isDark
-                        ? AppColors.accentGoldLight
-                        : AppColors.accentGoldDark,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      buttonText,
+                      style: context.textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: accentColor,
+                      ),
+                    ),
+                    4.hor,
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 10.r,
+                      color: accentColor,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -127,4 +181,3 @@ class HojatyAiStatusActionCardWidget extends StatelessWidget {
     );
   }
 }
-

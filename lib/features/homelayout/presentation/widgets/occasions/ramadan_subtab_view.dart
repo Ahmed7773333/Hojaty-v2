@@ -9,7 +9,12 @@ class RamadanSubtabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      padding: EdgeInsets.fromLTRB(
+        20.w,
+        16.h,
+        20.w,
+        16.h + MediaQuery.paddingOf(context).bottom,
+      ),
       child: Column(
         children: [
           const RamadanHeroCardWidget(),

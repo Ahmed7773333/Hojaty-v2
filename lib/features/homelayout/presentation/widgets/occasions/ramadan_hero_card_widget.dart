@@ -1,9 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/assets.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/live_time_helper.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
@@ -38,9 +40,11 @@ class RamadanHeroCardWidget extends StatelessWidget {
         final remainingDays = targetEnd.difference(DateTime.now()).inDays;
 
         return RepaintBoundary(
-          child: Container(
+          child: LiquidGlassContainer(
+            variant: LiquidGlassSurfaceVariant.brandCard,
+            borderRadius: BorderRadius.circular(24.r),
             padding: EdgeInsets.all(22.r),
-            decoration: BoxDecoration(
+            fallbackDecoration: BoxDecoration(
               color: AppColors.primaryDark,
               borderRadius: BorderRadius.circular(22.r),
               boxShadow: [

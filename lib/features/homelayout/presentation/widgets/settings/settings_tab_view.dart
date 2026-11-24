@@ -8,14 +8,22 @@ import 'package:hojaty/core/utils/app_share_helper.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/rate_app_helper.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
+import 'package:hojaty/features/homelayout/data/datasources/local/settings_search_index.dart';
+import 'package:hojaty/features/homelayout/data/models/prayer_times_route_args.dart';
+import 'package:hojaty/features/homelayout/domain/entities/setting_search_item.dart';
 import 'package:hojaty/features/homelayout/presentation/pages/app_info_content_page.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/liquid_glass_settings_tile_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/salawat_settings_tile_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_adhan_shortcut_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_app_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_header_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_qr_button_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_search_bar_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_section_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tile_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_settings_tile_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/shared/highlightable_section_widget.dart';
 
 class SettingsTabView extends StatefulWidget {
   const SettingsTabView({super.key});
@@ -30,6 +38,16 @@ class _SettingsTabViewState extends State<SettingsTabView> {
   late bool _occasionsNotifications;
   late bool _athkarNotifications;
 
+  final Map<String, GlobalKey> _sectionKeys = {
+    SettingsSearchIndex.keySettingsAdhanShortcut: GlobalKey(),
+    SettingsSearchIndex.keySettingsSalawat: GlobalKey(),
+    SettingsSearchIndex.keySettingsThemeLanguage: GlobalKey(),
+    SettingsSearchIndex.keySettingsAbout: GlobalKey(),
+  };
+
+  String? _highlightedSectionKey;
+  int _highlightTrigger = 0;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +55,53 @@ class _SettingsTabViewState extends State<SettingsTabView> {
     _generalNotifications = UserHiveHelper.getGeneralNotificationsEnabled();
     _occasionsNotifications = UserHiveHelper.getOccasionsNotificationsEnabled();
     _athkarNotifications = UserHiveHelper.getAthkarNotificationsEnabled();
+  }
+
+  void _scrollAndHighlight(String sectionKey) {
+    final key = _sectionKeys[sectionKey];
+    if (key == null) return;
+
+    setState(() {
+      _highlightedSectionKey = sectionKey;
+      _highlightTrigger++;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targetContext = key.currentContext;
+      if (targetContext != null && targetContext.mounted) {
+        Scrollable.ensureVisible(
+          targetContext,
+          duration: const Duration(milliseconds: 420),
+          curve: Curves.easeInOut,
+          alignment: 0.15,
+        );
+      }
+    });
+  }
+
+  void _onSearchResultSelected(SettingSearchItem item) {
+    switch (item.destination) {
+      case SettingSearchDestination.adhanSettingsTab:
+        context.pushNamed(
+          AppRoutes.prayerTimes,
+          extra: PrayerTimesRouteArgs(
+            initialTabIndex: 1,
+            highlightSectionKey: item.routeOrSectionKey,
+          ),
+        );
+      case SettingSearchDestination.locationSettingsPage:
+        context.pushNamed(AppRoutes.locationSettings);
+      case SettingSearchDestination.adhanSoundsLibraryPage:
+        context.pushNamed(AppRoutes.adhanSoundsLibrary);
+      case SettingSearchDestination.salawatSettingsPage:
+        context.pushNamed(AppRoutes.salawatSettings);
+      case SettingSearchDestination.themeSettingsPage:
+        context.pushNamed(AppRoutes.themeSettings);
+      case SettingSearchDestination.languageSettingsPage:
+        context.pushNamed(AppRoutes.languageSettings);
+      case SettingSearchDestination.settingsTab:
+        _scrollAndHighlight(item.routeOrSectionKey);
+    }
   }
 
   @override
@@ -47,198 +112,145 @@ class _SettingsTabViewState extends State<SettingsTabView> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           const SettingsHeaderWidget(),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              padding: EdgeInsets.fromLTRB(
+                20.w,
+                16.h,
+                20.w,
+                16.h + MediaQuery.paddingOf(context).bottom,
+              ),
               child: Column(
                 children: [
+                  SettingsSearchBarWidget(
+                    adhanTabOnly: false,
+                    onResultSelected: _onSearchResultSelected,
+                  ),
+                  16.ver,
                   const SettingsAppCardWidget(),
                   18.ver,
-                  // SettingsSectionCardWidget(
-                  //   title: context.strings.locationAndGovSection,
-                  //   children: [
-                  //     SettingsTileWidget(
-                  //       title: context.strings.currentLocationLabel,
-                  //       subtitle: context.strings.cairoLocation,
-                  //       onTap: () {
-                  //         context.pushNamed(AppRoutes.locationSettings);
-                  //       },
-                  //     ),
-                  //     SettingsTileWidget(
-                  //       title: context.strings.governorateLabel,
-                  //       subtitle: context.strings.cairoGov,
-                  //       onTap: () {
-                  //         context.pushNamed(AppRoutes.locationSettings);
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  // 18.ver,
-                  // SettingsSectionCardWidget(
-                  //   title: context.strings.prayerTimesAndAdhanSection,
-                  //   children: [
-                  //     // SettingsTileWidget(
-                  //     //   title: context.strings.prayerTimesCalcSettings,
-                  //     //   subtitle: context.strings.egyptSurveyAuthority,
-                  //     //   onTap: () {
-                  //     //     context.pushNamed(
-                  //     //       AppRoutes.prayerCalculationSettings,
-                  //     //     );
-                  //     //   },
-                  //     // ),
-                  //     SettingsTileWidget(
-                  //       title: context.strings.notificationTypeLabel,
-                  //       subtitle: context.strings.fullAdhanTitle,
-                  //       onTap: () {
-                  //         context.pushNamed(
-                  //           AppRoutes.prayerCalculationSettings,
-                  //         );
-                  //       },
-                  //     ),
-                  //     SettingsSwitchTileWidget(
-                  //       title: context.strings.prayerAlertsLabel,
-                  //       value: _prayerAlerts,
-                  //       onChanged: (val) {
-                  //         setState(() => _prayerAlerts = val);
-                  //         context.read<HomelayoutBloc>().add(
-                  //           TogglePrayerAlertsEvent(val),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  18.ver,
-                  SettingsSectionCardWidget(
-                    title: context.strings.salawatSectionTitle,
-                    children: const [SalawatSettingsTileWidget()],
+                  KeyedSubtree(
+                    key: _sectionKeys[
+                        SettingsSearchIndex.keySettingsAdhanShortcut],
+                    child: HighlightableSectionWidget(
+                      isHighlighted:
+                          _highlightedSectionKey ==
+                          SettingsSearchIndex.keySettingsAdhanShortcut,
+                      highlightTrigger: _highlightTrigger,
+                      child: const SettingsAdhanShortcutCardWidget(),
+                    ),
                   ),
                   18.ver,
-                  // SettingsSectionCardWidget(
-                  //   title: context.strings.notificationsSection,
-                  //   children: [
-                  //     SettingsSwitchTileWidget(
-                  //       title: context.strings.generalNotificationsLabel,
-                  //       value: _generalNotifications,
-                  //       onChanged: (val) {
-                  //         setState(() => _generalNotifications = val);
-                  //         context.read<HomelayoutBloc>().add(
-                  //           ToggleGeneralNotificationsEvent(val),
-                  //         );
-                  //       },
-                  //     ),
-                  //     SettingsSwitchTileWidget(
-                  //       title: context.strings.occasionsNotificationsLabel,
-                  //       value: _occasionsNotifications,
-                  //       onChanged: (val) {
-                  //         setState(() => _occasionsNotifications = val);
-                  //         context.read<HomelayoutBloc>().add(
-                  //           ToggleOccasionsNotificationsEvent(val),
-                  //         );
-                  //       },
-                  //     ),
-                  //     SettingsSwitchTileWidget(
-                  //       title: context.strings.athkarNotificationsLabel,
-                  //       value: _athkarNotifications,
-                  //       onChanged: (val) {
-                  //         setState(() => _athkarNotifications = val);
-                  //         context.read<HomelayoutBloc>().add(
-                  //           ToggleAthkarNotificationsEvent(val),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  // // 18.ver,
-                  // SettingsSectionCardWidget(
-                  //   title: context.strings.fontSection,
-                  //   children: [
-                  //     SettingsTileWidget(
-                  //       title: context.strings.fontSizeLabel,
-                  //       subtitle: '24',
-                  //       onTap: () {
-                  //         context.pushNamed(AppRoutes.fontSettings);
-                  //       },
-                  //     ),
-                  //     SettingsTileWidget(
-                  //       title: context.strings.fontTypeLabel,
-                  //       subtitle: context.strings.naskhFont,
-                  //       onTap: () {
-                  //         context.pushNamed(AppRoutes.fontTypeSettings);
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  18.ver,
-                  SettingsSectionCardWidget(
-                    title: context.strings.languageAndThemeSection,
-                    children: [
-                      const ThemeSettingsTileWidget(),
-                      SettingsTileWidget(
-                        title: context.strings.languageLabel,
-                        subtitle: UserHiveHelper.getUser()?.language == 'en'
-                            ? context.strings.englishLanguage
-                            : context.strings.arabicLanguage,
-                        onTap: () {
-                          context.pushNamed(AppRoutes.languageSettings);
-                        },
+                  KeyedSubtree(
+                    key: _sectionKeys[SettingsSearchIndex.keySettingsSalawat],
+                    child: HighlightableSectionWidget(
+                      isHighlighted:
+                          _highlightedSectionKey ==
+                          SettingsSearchIndex.keySettingsSalawat,
+                      highlightTrigger: _highlightTrigger,
+                      child: SettingsSectionCardWidget(
+                        title: context.strings.salawatSectionTitle,
+                        children: const [SalawatSettingsTileWidget()],
                       ),
-                    ],
+                    ),
                   ),
                   18.ver,
-                  SettingsSectionCardWidget(
-                    title: context.strings.aboutAppSection,
-                    children: [
-                      SettingsTileWidget(
-                        title: context.strings.shareApp,
-                        trailing: const SettingsQrButtonWidget(),
-                        onTap: () {
-                          AppShareHelper.shareApp(context);
-                        },
-                      ),
-                      SettingsTileWidget(
-                        title: context.strings.rateAppLabel,
-                        onTap: () {
-                          RateAppHelper.openStoreForRating();
-                        },
-                      ),
-                      SettingsTileWidget(
-                        title: context.strings.privacyPolicyLabel,
-                        onTap: () {
-                          context.pushNamed(
-                            AppRoutes.appInfoContent,
-                            extra: {
-                              'contentType': AppContentType.privacyPolicy,
-                              'title': context.strings.privacyPolicyLabel,
-                              'content': context.strings.privacyPolicyContent,
+                  KeyedSubtree(
+                    key: _sectionKeys[
+                        SettingsSearchIndex.keySettingsThemeLanguage],
+                    child: HighlightableSectionWidget(
+                      isHighlighted:
+                          _highlightedSectionKey ==
+                          SettingsSearchIndex.keySettingsThemeLanguage,
+                      highlightTrigger: _highlightTrigger,
+                      child: SettingsSectionCardWidget(
+                        title: context.strings.languageAndThemeSection,
+                        children: [
+                          const ThemeSettingsTileWidget(),
+                          const LiquidGlassSettingsTileWidget(),
+                          SettingsTileWidget(
+                            title: context.strings.languageLabel,
+                            subtitle: UserHiveHelper.getUser()?.language == 'en'
+                                ? context.strings.englishLanguage
+                                : context.strings.arabicLanguage,
+                            onTap: () {
+                              context.pushNamed(AppRoutes.languageSettings);
                             },
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                      SettingsTileWidget(
-                        title: context.strings.termsAndConditionsLabel,
-                        onTap: () {
-                          context.pushNamed(
-                            AppRoutes.appInfoContent,
-                            extra: {
-                              'contentType': AppContentType.termsAndConditions,
-                              'title': context.strings.termsAndConditionsLabel,
-                              'content':
-                                  context.strings.termsAndConditionsContent,
+                    ),
+                  ),
+                  18.ver,
+                  KeyedSubtree(
+                    key: _sectionKeys[SettingsSearchIndex.keySettingsAbout],
+                    child: HighlightableSectionWidget(
+                      isHighlighted:
+                          _highlightedSectionKey ==
+                          SettingsSearchIndex.keySettingsAbout,
+                      highlightTrigger: _highlightTrigger,
+                      child: SettingsSectionCardWidget(
+                        title: context.strings.aboutAppSection,
+                        children: [
+                          SettingsTileWidget(
+                            title: context.strings.shareApp,
+                            trailing: const SettingsQrButtonWidget(),
+                            onTap: () {
+                              AppShareHelper.shareApp(context);
                             },
-                          );
-                        },
+                          ),
+                          SettingsTileWidget(
+                            title: context.strings.rateAppLabel,
+                            onTap: () {
+                              RateAppHelper.openStoreForRating();
+                            },
+                          ),
+                          SettingsTileWidget(
+                            title: context.strings.privacyPolicyLabel,
+                            onTap: () {
+                              context.pushNamed(
+                                AppRoutes.appInfoContent,
+                                extra: {
+                                  'contentType': AppContentType.privacyPolicy,
+                                  'title': context.strings.privacyPolicyLabel,
+                                  'content':
+                                      context.strings.privacyPolicyContent,
+                                },
+                              );
+                            },
+                          ),
+                          SettingsTileWidget(
+                            title: context.strings.termsAndConditionsLabel,
+                            onTap: () {
+                              context.pushNamed(
+                                AppRoutes.appInfoContent,
+                                extra: {
+                                  'contentType':
+                                      AppContentType.termsAndConditions,
+                                  'title':
+                                      context.strings.termsAndConditionsLabel,
+                                  'content': context
+                                      .strings
+                                      .termsAndConditionsContent,
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   28.ver,
                 ],
               ),
             ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

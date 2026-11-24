@@ -37,11 +37,14 @@ class HojatyAzanPlayer: NSObject, AVAudioPlayerDelegate {
                 resName = "madina_azan"
             case "azan", "traditional":
                 resName = "azan"
+            case "short_reminder":
+                resName = "short_reminder"
             default:
                 resName = "makka_azan"
             }
 
-            if let url = Bundle.main.url(forResource: resName, withExtension: "mp3") {
+            if let url = Bundle.main.url(forResource: resName, withExtension: "mp3")
+                ?? Bundle.main.url(forResource: resName, withExtension: "wav") {
                 player = try? AVAudioPlayer(contentsOf: url)
             }
         }

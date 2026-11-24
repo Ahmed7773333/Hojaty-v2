@@ -1,6 +1,8 @@
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:material_ui/material_ui.dart';
 
 class RadioHeaderWidget extends StatelessWidget {
@@ -10,20 +12,24 @@ class RadioHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    const headerRadius = BorderRadius.only(
+      bottomLeft: Radius.circular(24.0),
+      bottomRight: Radius.circular(24.0),
+    );
+
+    return LiquidGlassContainer(
       width: double.infinity,
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderRadius: headerRadius,
       padding: EdgeInsets.only(
         top: MediaQuery.paddingOf(context).top + 12.h,
         bottom: 20.h,
         left: 20.w,
         right: 20.w,
       ),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: AppColors.primaryDarkBackground,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(24.0),
-          bottomRight: Radius.circular(24.0),
-        ),
+        borderRadius: headerRadius,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

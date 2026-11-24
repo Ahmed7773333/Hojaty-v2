@@ -293,65 +293,103 @@ class CalculationParameters {
   factory CalculationParameters.forCoordinates(
     GeoCoordinates coords, {
     AsrMadhab? madhab,
+    PrayerAdjustments? adjustments,
   }) {
     final lat = coords.latitude;
     final lng = coords.longitude;
+    final adj = adjustments ?? const PrayerAdjustments();
 
     // 1. Egypt & Sudan (lat: 10..31.8, lng: 24.5..35.0)
     if (lat >= 10.0 && lat <= 31.8 && lng >= 24.5 && lng <= 35.0) {
-      return CalculationParameters.egyptian(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.egyptian(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 2. Qatar (lat: 24.4..26.5, lng: 50.7..51.65)
     if (lat >= 24.4 && lat <= 26.5 && lng >= 50.7 && lng <= 51.65) {
-      return CalculationParameters.qatar(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.qatar(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 3. UAE & Oman (lat: 16..26.5, lng: 51.65..60.0)
     if (lat >= 16.0 && lat <= 26.5 && lng > 51.65 && lng <= 60.0) {
-      return CalculationParameters.dubai(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.dubai(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 4. Kuwait (lat: 28.5..30.2, lng: 46.5..48.5)
     if (lat >= 28.5 && lat <= 30.2 && lng >= 46.5 && lng <= 48.5) {
-      return CalculationParameters.kuwait(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.kuwait(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 5. Saudi Arabia, Bahrain, Yemen (Arabian Peninsula)
     if (lat >= 12.0 && lat <= 32.2 && lng > 35.0 && lng <= 55.5) {
-      return CalculationParameters.ummAlQura(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.ummAlQura(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 6. North Africa - Morocco, Algeria, Tunisia, Libya (lat: 19..37.6, lng: -17.5..24.5)
     if (lat >= 19.0 && lat <= 37.6 && lng >= -17.5 && lng < 24.5) {
       return CalculationParameters.northAfrica(
         madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
       );
     }
 
     // 7. Turkey (lat: 35.8..42.2, lng: 25.6..44.9)
     if (lat >= 35.8 && lat <= 42.2 && lng >= 25.6 && lng <= 44.9) {
-      return CalculationParameters.turkey(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.turkey(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: PrayerAdjustments(
+          fajr: adj.fajr,
+          sunrise: -7 + adj.sunrise,
+          dhuhr: 5 + adj.dhuhr,
+          asr: 4 + adj.asr,
+          maghrib: 7 + adj.maghrib,
+          isha: adj.isha,
+        ),
+      );
     }
 
     // 8. North America - USA & Canada (lat: 15..75, lng: -170..-50)
     if (lat >= 15.0 && lat <= 75.0 && lng >= -170.0 && lng <= -50.0) {
-      return CalculationParameters.isna(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.isna(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 9. South Asia - Pakistan, India, Bangladesh, Afghanistan (lat: 5..38, lng: 60..93)
     if (lat >= 5.0 && lat <= 38.0 && lng > 60.0 && lng <= 93.0) {
-      return CalculationParameters.karachi(madhab: madhab ?? AsrMadhab.hanafi);
+      return CalculationParameters.karachi(
+        madhab: madhab ?? AsrMadhab.hanafi,
+        adjustments: adj,
+      );
     }
 
     // 10. Southeast Asia - Malaysia, Singapore, Indonesia, Brunei (lat: -11..8, lng: 95..141)
     if (lat >= -11.0 && lat <= 8.0 && lng >= 95.0 && lng <= 141.0) {
-      return CalculationParameters.singapore(madhab: madhab ?? AsrMadhab.shafi);
+      return CalculationParameters.singapore(
+        madhab: madhab ?? AsrMadhab.shafi,
+        adjustments: adj,
+      );
     }
 
     // 11. Default global standard (Europe, Levant, East Asia, Sub-Saharan Africa, South America, Australia)
     return CalculationParameters.muslimWorldLeague(
       madhab: madhab ?? AsrMadhab.shafi,
+      adjustments: adj,
     );
   }
 }

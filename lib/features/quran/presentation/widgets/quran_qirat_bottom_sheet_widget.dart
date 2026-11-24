@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
 import 'package:hojaty/features/quran/presentation/bloc/quran_bloc.dart';
 import 'package:hojaty/features/quran/presentation/bloc/quran_event.dart';
@@ -17,9 +20,12 @@ class QuranQiratBottomSheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Container(
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.surface,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+      blurSigma: LiquidGlassStyle.maxBlurSigma,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
       ),

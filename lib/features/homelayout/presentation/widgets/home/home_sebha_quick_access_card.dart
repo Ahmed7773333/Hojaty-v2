@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class HomeSebhaQuickAccessCard extends StatelessWidget {
   const HomeSebhaQuickAccessCard({super.key});
@@ -20,32 +22,37 @@ class HomeSebhaQuickAccessCard extends StatelessWidget {
       builder: (context, _, __) {
         final counter = UserHiveHelper.getSebhaCounter();
 
-        return InkWell(
-          onTap: () {
-            context.pushNamed(AppRoutes.sebha);
-          },
-          borderRadius: BorderRadius.circular(16.r),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-            decoration: BoxDecoration(
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.card,
+          borderRadius: BorderRadius.circular(20.r),
+          fallbackDecoration: BoxDecoration(
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightSurface,
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
               color: isDark
-                  ? AppColors.darkCardUnselected
-                  : AppColors.lightSurface,
-              borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(
-                color: isDark
-                    ? AppColors.darkBorderUnselected
-                    : AppColors.lightBorderUnselected,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
             ),
-            child: Column(
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Material(
+            color: AppColors.transparent,
+            child: InkWell(
+              onTap: () {
+                context.pushNamed(AppRoutes.sebha);
+              },
+              borderRadius: BorderRadius.circular(20.r),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -120,7 +127,9 @@ class HomeSebhaQuickAccessCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-              ],
+                ],
+              ),
+              ),
             ),
           ),
         );

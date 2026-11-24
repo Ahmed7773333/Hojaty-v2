@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
+import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
 import 'package:hojaty/core/utils/rate_app_helper.dart';
+import 'package:hojaty/features/homelayout/data/services/prayer_widget_service.dart';
+import 'package:hojaty/features/homelayout/domain/repositories/prayer_widget_repository.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
@@ -13,6 +20,7 @@ import 'package:hojaty/features/homelayout/presentation/widgets/shared/app_upgra
 import 'package:hojaty/features/homelayout/presentation/widgets/shared/exit_app_dialog.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_bottom_nav_bar_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_dashboard_view.dart';
+import 'package:hojaty/hojaty_app.dart';
 import 'package:hojaty/shared/widgets/app_mini_player_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_tab_view.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_tab_view.dart';
@@ -25,13 +33,23 @@ class HomelayoutPage extends StatefulWidget {
   State<HomelayoutPage> createState() => _HomelayoutPageState();
 }
 
-class _HomelayoutPageState extends State<HomelayoutPage> {
+class _HomelayoutPageState extends State<HomelayoutPage>
+    with WidgetsBindingObserver {
   late final Upgrader _upgrader;
   bool _isUpdatePromptScheduled = false;
+  StreamSubscription<Uri?>? _widgetClickSubscription;
+  bool _isOpeningWidgetRoute = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+    final widgetRepository = injector<PrayerWidgetRepository>();
+    _widgetClickSubscription = widgetRepository.widgetClickStream.listen(
+      _handleWidgetUri,
+    );
+
     final lang = UserHiveHelper.getUser()?.language ?? 'ar';
     _upgrader = Upgrader(
       languageCode: lang,
@@ -50,6 +68,12 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final initialUri = await widgetRepository.getInitialWidgetLaunchUri();
+      if (!mounted) return;
+      if (initialUri != null) {
+        _handleWidgetUri(initialUri);
+      }
+
       final granted = await LocalNotificationService.requestPermission();
       if (!mounted) return;
       if (granted) {
@@ -64,6 +88,38 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
       if (!_isUpdatePromptScheduled && isCurrentRoute) {
         await RateAppHelper.maybeShowDailyRateDialog(context);
       }
+    });
+  }
+
+  @override
+  void dispose() {
+    _widgetClickSubscription?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      context.read<HomelayoutBloc>().add(const RefreshPrayerTimesEvent());
+    }
+  }
+
+  void _handleWidgetUri(Uri? uri) {
+    if (!mounted || uri == null) return;
+    if (uri.scheme != PrayerWidgetService.deepLinkScheme ||
+        uri.host != PrayerWidgetService.deepLinkPrayerTimesHost) {
+      return;
+    }
+    if (_isOpeningWidgetRoute) return;
+    _isOpeningWidgetRoute = true;
+    final navigator = HojatyApp.navigatorKey.currentState;
+    if (navigator == null) {
+      _isOpeningWidgetRoute = false;
+      return;
+    }
+    navigator.pushNamed(AppRoutes.prayerTimes).whenComplete(() {
+      _isOpeningWidgetRoute = false;
     });
   }
 
@@ -101,6 +157,7 @@ class _HomelayoutPageState extends State<HomelayoutPage> {
             upgrader: _upgrader,
             barrierDismissible: true,
             child: Scaffold(
+              extendBody: context.isLiquidGlassEnabled,
               body: IndexedStack(index: state.currentTabIndex, children: tabs),
               bottomNavigationBar: Column(
                 mainAxisSize: MainAxisSize.min,

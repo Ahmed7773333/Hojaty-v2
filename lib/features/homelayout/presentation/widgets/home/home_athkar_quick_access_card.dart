@@ -2,43 +2,47 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
+import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/assets.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/data/mocks/athkar_mock_data.dart';
 import 'package:hojaty/features/homelayout/data/datasources/local/athkar_local_data_source.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
-import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 import 'package:hojaty/features/homelayout/data/models/thikr_item_model.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/resolve_active_adhkar_usecase.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 
 class HomeAthkarQuickAccessCard extends StatelessWidget {
   const HomeAthkarQuickAccessCard({super.key});
 
-  void _onTapCard(
+  Future<void> _onTapCard(
     BuildContext context, {
     required AthkarCategoryType type,
     required String title,
     required int categoryId,
   }) async {
-    List<ThikrItemModel> items;
+    final List<ThikrItemModel> items;
     switch (type) {
       case AthkarCategoryType.evening:
-        items = await const AthkarLocalDataSource().getEveningAthkar();
-        if (items.isEmpty) items = AthkarMockData.eveningAthkar;
-        break;
+        final loaded = await const AthkarLocalDataSource().getEveningAthkar();
+        items = loaded.isNotEmpty ? loaded : AthkarMockData.eveningAthkar;
       case AthkarCategoryType.sleep:
-        items = await const AthkarLocalDataSource().getSleepAthkar();
-        if (items.isEmpty) items = AthkarMockData.sleepAthkar;
-        break;
+        final loaded = await const AthkarLocalDataSource().getSleepAthkar();
+        items = loaded.isNotEmpty ? loaded : AthkarMockData.sleepAthkar;
+      case AthkarCategoryType.afterPrayer:
+        final loaded =
+            await const AthkarLocalDataSource().getAfterPrayerAthkar();
+        items = loaded.isNotEmpty ? loaded : AthkarMockData.afterPrayerAthkar;
       case AthkarCategoryType.morning:
       default:
-        items = await const AthkarLocalDataSource().getMorningAthkar();
-        if (items.isEmpty) items = AthkarMockData.morningAthkar;
-        break;
+        final loaded = await const AthkarLocalDataSource().getMorningAthkar();
+        items = loaded.isNotEmpty ? loaded : AthkarMockData.morningAthkar;
     }
 
     if (!context.mounted) return;
@@ -54,91 +58,98 @@ class HomeAthkarQuickAccessCard extends StatelessWidget {
     );
   }
 
+  (String title, String iconAsset, int categoryId) _resolveDisplay(
+    BuildContext context,
+    AthkarCategoryType type,
+  ) {
+    switch (type) {
+      case AthkarCategoryType.afterPrayer:
+        return (
+          context.strings.afterPrayerAthkar,
+          Assets.afterPrayerAzkharIcon,
+          27,
+        );
+      case AthkarCategoryType.evening:
+        return (
+          context.strings.eveningAthkar,
+          Assets.eveningAzkharIcon,
+          133,
+        );
+      case AthkarCategoryType.sleep:
+        return (
+          context.strings.sleepAthkar,
+          Assets.beforeSleepAzkharIcon,
+          2,
+        );
+      case AthkarCategoryType.morning:
+      default:
+        return (
+          context.strings.morningAthkar,
+          Assets.morningAzkharIcon,
+          1,
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
     return BlocBuilder<HomelayoutBloc, HomelayoutState>(
-      buildWhen: (prev, curr) => prev.nextPrayerType != curr.nextPrayerType,
+      buildWhen: (prev, curr) =>
+          prev.activeAdhkar != curr.activeAdhkar ||
+          prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
-        final nextPrayer = state.nextPrayerType;
-        final AthkarCategoryType athkarType;
-        final String title;
-        final String iconAsset;
-        final int categoryId;
-
-        if (nextPrayer != null) {
-          switch (nextPrayer) {
-            case PrayerType.maghrib:
-            case PrayerType.isha:
-              athkarType = AthkarCategoryType.evening;
-              title = context.strings.eveningAthkar;
-              iconAsset = Assets.eveningAzkharIcon;
-              categoryId = 133;
-              break;
-            case PrayerType.fajr:
-              athkarType = AthkarCategoryType.sleep;
-              title = context.strings.sleepAthkar;
-              iconAsset = Assets.beforeSleepAzkharIcon;
-              categoryId = 2;
-              break;
-            case PrayerType.dhuhr:
-            case PrayerType.asr:
-              athkarType = AthkarCategoryType.morning;
-              title = context.strings.morningAthkar;
-              iconAsset = Assets.morningAzkharIcon;
-              categoryId = 1;
-              break;
-          }
-        } else {
-          final hour = DateTime.now().hour;
-          if (hour >= 17 && hour < 23) {
-            athkarType = AthkarCategoryType.evening;
-            title = context.strings.eveningAthkar;
-            iconAsset = Assets.eveningAzkharIcon;
-            categoryId = 133;
-          } else if (hour >= 23 || hour < 4) {
-            athkarType = AthkarCategoryType.sleep;
-            title = context.strings.sleepAthkar;
-            iconAsset = Assets.beforeSleepAzkharIcon;
-            categoryId = 2;
-          } else {
-            athkarType = AthkarCategoryType.morning;
-            title = context.strings.morningAthkar;
-            iconAsset = Assets.morningAzkharIcon;
-            categoryId = 1;
-          }
-        }
-
-        return InkWell(
-          onTap: () => _onTapCard(
-            context,
-            type: athkarType,
-            title: title,
-            categoryId: categoryId,
-          ),
-          borderRadius: BorderRadius.circular(16.r),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.darkCardUnselected
-                  : AppColors.lightSurface,
-              borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(
-                color: isDark
-                    ? AppColors.darkBorderUnselected
-                    : AppColors.lightBorderUnselected,
+        final activeWindow =
+            state.activeAdhkar ??
+            const ResolveActiveAdhkarUseCase()(
+              now: DateTime.now(),
+              coordinates: UserHiveHelper.getCachedCoordinates(),
+              parameters: UserHiveHelper.getPrayerCalculationParameters(
+                UserHiveHelper.getCachedCoordinates(),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+            );
+
+        final athkarType = activeWindow.categoryType;
+        final (title, iconAsset, categoryId) = _resolveDisplay(
+          context,
+          athkarType,
+        );
+
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.card,
+          borderRadius: BorderRadius.circular(20.r),
+          fallbackDecoration: BoxDecoration(
+            color: isDark
+                ? AppColors.darkCardUnselected
+                : AppColors.lightSurface,
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              color: isDark
+                  ? AppColors.darkBorderUnselected
+                  : AppColors.lightBorderUnselected,
             ),
-            child: Column(
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Material(
+            color: AppColors.transparent,
+            child: InkWell(
+              onTap: () => _onTapCard(
+                context,
+                type: athkarType,
+                title: title,
+                categoryId: categoryId,
+              ),
+              borderRadius: BorderRadius.circular(20.r),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -237,7 +248,9 @@ class HomeAthkarQuickAccessCard extends StatelessWidget {
                     fontSize: 11.sp,
                   ),
                 ),
-              ],
+                ],
+              ),
+              ),
             ),
           ),
         );

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
+import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 
 class AdhanSettingModel extends Equatable {
   final bool isFullAdhan;
@@ -14,6 +15,8 @@ class AdhanSettingModel extends Equatable {
   final int preAdhanReminderMinutes;
   final Map<String, int> prayerPreAdhanReminderMinutes;
   final bool isSalawatReminderEnabled;
+  final AsrMadhab asrMadhab;
+  final Map<String, int> prayerTimeOffsets;
 
   const AdhanSettingModel({
     this.isFullAdhan = true,
@@ -28,6 +31,8 @@ class AdhanSettingModel extends Equatable {
     this.preAdhanReminderMinutes = 5,
     this.prayerPreAdhanReminderMinutes = const {},
     this.isSalawatReminderEnabled = true,
+    this.asrMadhab = AsrMadhab.shafi,
+    this.prayerTimeOffsets = const {},
   });
 
   String get activeMessage =>
@@ -39,6 +44,10 @@ class AdhanSettingModel extends Equatable {
 
   int getPreAdhanReminderMinutesForPrayer(PrayerType type) {
     return prayerPreAdhanReminderMinutes[type.name] ?? preAdhanReminderMinutes;
+  }
+
+  int getTimeOffsetForPrayer(PrayerType type) {
+    return prayerTimeOffsets[type.name] ?? 0;
   }
 
   AdhanSettingModel copyWith({
@@ -54,6 +63,8 @@ class AdhanSettingModel extends Equatable {
     int? preAdhanReminderMinutes,
     Map<String, int>? prayerPreAdhanReminderMinutes,
     bool? isSalawatReminderEnabled,
+    AsrMadhab? asrMadhab,
+    Map<String, int>? prayerTimeOffsets,
   }) {
     return AdhanSettingModel(
       isFullAdhan: isFullAdhan ?? this.isFullAdhan,
@@ -72,6 +83,8 @@ class AdhanSettingModel extends Equatable {
           prayerPreAdhanReminderMinutes ?? this.prayerPreAdhanReminderMinutes,
       isSalawatReminderEnabled:
           isSalawatReminderEnabled ?? this.isSalawatReminderEnabled,
+      asrMadhab: asrMadhab ?? this.asrMadhab,
+      prayerTimeOffsets: prayerTimeOffsets ?? this.prayerTimeOffsets,
     );
   }
 
@@ -89,5 +102,7 @@ class AdhanSettingModel extends Equatable {
     preAdhanReminderMinutes,
     prayerPreAdhanReminderMinutes,
     isSalawatReminderEnabled,
+    asrMadhab,
+    prayerTimeOffsets,
   ];
 }

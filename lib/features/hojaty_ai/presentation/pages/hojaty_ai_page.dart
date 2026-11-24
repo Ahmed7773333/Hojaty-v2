@@ -85,10 +85,14 @@ class _HojatyAiBodyState extends State<_HojatyAiBody> {
           Expanded(
             child: BlocBuilder<HojatyAiCubit, HojatyAiState>(
               builder: (context, state) {
+                final localeCode = Localizations.localeOf(context).languageCode;
                 if (state.messages.isEmpty && !state.isStreaming) {
                   return HojatyAiEmptyStateWidget(
                     onSelectStarter: (starterPrompt) {
-                      context.read<HojatyAiCubit>().sendMessage(starterPrompt);
+                      context.read<HojatyAiCubit>().sendMessage(
+                            starterPrompt,
+                            localeCode: localeCode,
+                          );
                     },
                   );
                 }
@@ -96,6 +100,7 @@ class _HojatyAiBodyState extends State<_HojatyAiBody> {
                 return HojatyAiMessagesListWidget(
                   messages: state.messages,
                   isStreaming: state.isStreaming,
+                  processingStage: state.processingStage,
                   streamingText: state.currentStreamingText,
                   currentSources: state.currentSources,
                 );
@@ -105,10 +110,14 @@ class _HojatyAiBodyState extends State<_HojatyAiBody> {
           BlocBuilder<HojatyAiCubit, HojatyAiState>(
             buildWhen: (prev, curr) => prev.isStreaming != curr.isStreaming,
             builder: (context, state) {
+              final localeCode = Localizations.localeOf(context).languageCode;
               return HojatyAiInputBarWidget(
                 isStreaming: state.isStreaming,
                 onSend: (text) {
-                  context.read<HojatyAiCubit>().sendMessage(text);
+                  context.read<HojatyAiCubit>().sendMessage(
+                        text,
+                        localeCode: localeCode,
+                      );
                 },
               );
             },

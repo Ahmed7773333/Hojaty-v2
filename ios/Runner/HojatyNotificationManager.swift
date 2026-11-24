@@ -2,6 +2,7 @@ import Flutter
 import Foundation
 import UserNotifications
 import UIKit
+import WidgetKit
 
 class HojatyNotificationManager: NSObject, UNUserNotificationCenterDelegate {
     static let shared = HojatyNotificationManager()
@@ -124,6 +125,8 @@ class HojatyNotificationManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Error scheduling prayer notification ID \(id): \(error)")
+            } else if #available(iOS 14.0, *) {
+                WidgetCenter.shared.reloadTimelines(ofKind: "HojatyPrayerWidget")
             }
         }
     }
@@ -292,6 +295,11 @@ class HojatyNotificationManager: NSObject, UNUserNotificationCenterDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
+        if let notifType = notification.request.content.userInfo["type"] as? String,
+           notifType == "prayer",
+           #available(iOS 14.0, *) {
+            WidgetCenter.shared.reloadTimelines(ofKind: "HojatyPrayerWidget")
+        }
         // Display notification banner, sound, badge, AND keep it in Notification Center list (.list)
         if #available(iOS 14.0, *) {
             completionHandler([.banner, .list, .sound, .badge])

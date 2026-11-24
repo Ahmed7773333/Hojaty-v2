@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class SalawatToggleCardWidget extends StatelessWidget {
   final bool isEnabled;
@@ -17,10 +19,12 @@ class SalawatToggleCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Container(
+    return LiquidGlassContainer(
       width: double.infinity,
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(20.r),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(
+      fallbackDecoration: BoxDecoration(
         color: isDark ? AppColors.darkCardUnselected : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(

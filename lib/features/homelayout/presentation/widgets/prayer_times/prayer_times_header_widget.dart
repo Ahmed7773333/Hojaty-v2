@@ -1,15 +1,27 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class PrayerTimesHeaderWidget extends StatelessWidget {
-  const PrayerTimesHeaderWidget({super.key});
+  final VoidCallback? onOpenAdhanSettings;
+
+  const PrayerTimesHeaderWidget({
+    super.key,
+    this.onOpenAdhanSettings,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryDarkBackground,
+    return LiquidGlassContainer(
+      width: double.infinity,
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderEdges: LiquidGlassBorderEdges.bottomOnly,
+      showShadow: false,
+      fallbackColor: AppColors.primaryDarkBackground,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       child: SafeArea(
         bottom: false,
@@ -20,22 +32,36 @@ class PrayerTimesHeaderWidget extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () => context.pop(),
-
                   icon: Icon(
                     Icons.arrow_back_ios,
                     color: AppColors.white,
                     size: 18.r,
                   ),
                 ),
-                Text(
-                  context.strings.fullPrayerTimesTitle,
-                  style: context.textTheme.titleLarge?.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20.sp,
+                Expanded(
+                  child: Text(
+                    context.strings.fullPrayerTimesTitle,
+                    style: context.textTheme.titleLarge?.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20.sp,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 25),
+                if (onOpenAdhanSettings != null)
+                  IconButton(
+                    onPressed: onOpenAdhanSettings,
+                    tooltip: context.strings.tabAdhanSettings,
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.white.withValues(alpha: 0.12),
+                      shape: const CircleBorder(),
+                    ),
+                    icon: Icon(
+                      Icons.tune_rounded,
+                      color: AppColors.accentGoldLight,
+                      size: 20.r,
+                    ),
+                  ),
               ],
             ),
 

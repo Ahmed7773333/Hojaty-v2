@@ -18,11 +18,19 @@ enum HojatyAiAssetStatus {
   failed,
 }
 
+enum HojatyAiProcessingStage {
+  idle,
+  searchingSources,
+  executingTool,
+  generating,
+}
+
 class HojatyAiState extends Equatable {
   final HojatyAiStatus status;
   final List<ChatMessageModel> messages;
   final String? errorMessage;
   final bool isStreaming;
+  final HojatyAiProcessingStage processingStage;
   final String currentStreamingText;
   final List<RagChunkModel> currentSources;
 
@@ -41,6 +49,7 @@ class HojatyAiState extends Equatable {
     this.messages = const [],
     this.errorMessage,
     this.isStreaming = false,
+    this.processingStage = HojatyAiProcessingStage.idle,
     this.currentStreamingText = '',
     this.currentSources = const [],
     this.currentSessionId,
@@ -57,6 +66,7 @@ class HojatyAiState extends Equatable {
     String? errorMessage,
     bool clearErrorMessage = false,
     bool? isStreaming,
+    HojatyAiProcessingStage? processingStage,
     String? currentStreamingText,
     List<RagChunkModel>? currentSources,
     String? currentSessionId,
@@ -72,6 +82,7 @@ class HojatyAiState extends Equatable {
       messages: messages ?? this.messages,
       errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
       isStreaming: isStreaming ?? this.isStreaming,
+      processingStage: processingStage ?? this.processingStage,
       currentStreamingText: currentStreamingText ?? this.currentStreamingText,
       currentSources: currentSources ?? this.currentSources,
       currentSessionId: clearCurrentSessionId
@@ -91,6 +102,7 @@ class HojatyAiState extends Equatable {
         messages,
         errorMessage,
         isStreaming,
+        processingStage,
         currentStreamingText,
         currentSources,
         currentSessionId,

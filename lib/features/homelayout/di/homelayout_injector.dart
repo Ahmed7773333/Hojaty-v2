@@ -8,18 +8,23 @@ import 'package:hojaty/features/homelayout/data/datasources/remote/occasions_rem
 import 'package:hojaty/features/homelayout/data/repositories/app_content_repository_impl.dart';
 import 'package:hojaty/features/homelayout/data/repositories/homelayout_repository_impl.dart';
 import 'package:hojaty/features/homelayout/data/repositories/occasions_repository_impl.dart';
+import 'package:hojaty/features/homelayout/data/repositories/prayer_widget_repository_impl.dart';
 import 'package:hojaty/features/homelayout/data/services/azan_audio_service.dart';
+import 'package:hojaty/features/homelayout/data/services/prayer_widget_service.dart';
 import 'package:hojaty/features/homelayout/domain/datasources/app_content_remote_data_source.dart';
 import 'package:hojaty/features/homelayout/domain/datasources/occasions_local_data_source.dart';
 import 'package:hojaty/features/homelayout/domain/datasources/occasions_remote_data_source.dart';
 import 'package:hojaty/features/homelayout/domain/repositories/app_content_repository.dart';
 import 'package:hojaty/features/homelayout/domain/repositories/homelayout_repository.dart';
 import 'package:hojaty/features/homelayout/domain/repositories/occasions_repository.dart';
+import 'package:hojaty/features/homelayout/domain/repositories/prayer_widget_repository.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_banners_use_case.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_homelayout.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_privacy_policy_use_case.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/get_terms_and_conditions_use_case.dart';
 import 'package:hojaty/features/homelayout/domain/usecases/occasions_use_cases.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/sync_prayer_widget_use_case.dart';
+import 'package:hojaty/features/homelayout/domain/usecases/resolve_active_adhkar_usecase.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/domain/datasources/homelayout_local_data_source.dart'
     as local_ds;
@@ -35,10 +40,13 @@ Future<void> initHomelayoutInjector() async {
       getOccasionsList: injector(),
       syncOccasionsData: injector(),
       getBanners: injector(),
+      resolveActiveAdhkar: injector(),
+      syncPrayerWidget: injector(),
     ),
   );
 
   // UseCases
+  injector.registerLazySingleton(() => const ResolveActiveAdhkarUseCase());
   injector.registerLazySingleton(() => GetHomelayoutUseCase(injector()));
   injector.registerLazySingleton(() => GetRamadanCheckUseCase(injector()));
   injector.registerLazySingleton(() => GetOccasionsListUseCase(injector()));
@@ -46,6 +54,7 @@ Future<void> initHomelayoutInjector() async {
   injector.registerLazySingleton(() => GetPrivacyPolicyUseCase(injector()));
   injector.registerLazySingleton(() => GetTermsAndConditionsUseCase(injector()));
   injector.registerLazySingleton(() => GetBannersUseCase(injector()));
+  injector.registerLazySingleton(() => SyncPrayerWidgetUseCase(injector()));
 
   // Repositories
   injector.registerLazySingleton<HomelayoutRepository>(
@@ -64,6 +73,9 @@ Future<void> initHomelayoutInjector() async {
     () => AppContentRepositoryImpl(
       remote: injector(),
     ),
+  );
+  injector.registerLazySingleton<PrayerWidgetRepository>(
+    () => PrayerWidgetRepositoryImpl(injector()),
   );
 
   // DataSources
@@ -88,5 +100,8 @@ Future<void> initHomelayoutInjector() async {
   // Services
   injector.registerLazySingleton<AzanAudioService>(
     () => AzanAudioService(injector<Dio>()),
+  );
+  injector.registerLazySingleton<PrayerWidgetService>(
+    () => PrayerWidgetService(),
   );
 }

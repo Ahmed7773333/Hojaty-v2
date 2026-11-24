@@ -1,9 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/prayer_time_model.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
@@ -66,8 +69,12 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
             .getPreAdhanReminderMinutesForPrayer(prayer.type);
         final prayerName = _getPrayerName(context, prayer.type);
 
-        return Container(
-          decoration: BoxDecoration(
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.surface,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+          blurSigma: LiquidGlassStyle.maxBlurSigma,
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+          fallbackDecoration: BoxDecoration(
             color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
             border: Border.all(
@@ -76,7 +83,6 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
                   : AppColors.lightBorderUnselected,
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: SafeArea(
             top: false,
             child: Padding(

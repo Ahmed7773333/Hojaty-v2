@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prayer_widget_label">حچتي - الصلاة القادمة</string>
+    <string name="prayer_widget_description">عدّاد تنازلي مباشر لموعد الصلاة القادمة</string>
+</resources>

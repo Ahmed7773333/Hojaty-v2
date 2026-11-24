@@ -2,14 +2,19 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/prayers_helper.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_prayer_progress_widget.dart';
+import 'package:hojaty/features/homelayout/presentation/widgets/home/home_widget_pin_button.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/live_timer_display.dart';
 
 class HomeNextPrayerCardWidget extends StatefulWidget {
@@ -49,6 +54,7 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
     _transitionTimer = Timer(remaining + const Duration(milliseconds: 200), () {
       if (mounted) {
         setState(() {});
+        context.read<HomelayoutBloc>().add(const RefreshPrayerTimesEvent());
       }
     });
   }
@@ -58,7 +64,10 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
     final lang = Localizations.localeOf(context).languageCode;
     final now = DateTime.now();
     final coords = UserHiveHelper.getCachedCoordinates();
-    final helper = PrayersHelper(coordinates: coords);
+    final helper = PrayersHelper(
+      coordinates: coords,
+      parameters: UserHiveHelper.getPrayerCalculationParameters(coords),
+    );
     final activeWindow = helper.getActivePrayerWindow(now);
     final nextPrayerInfo = helper.getNextPrayerInfo(now);
 
@@ -100,10 +109,13 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
           prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
         return RepaintBoundary(
-          child: Container(
+          child: LiquidGlassContainer(
+            variant: LiquidGlassSurfaceVariant.floatingCard,
+            borderRadius: BorderRadius.circular(20.r),
+            blurSigma: LiquidGlassStyle.minBlurSigma,
             margin: EdgeInsets.symmetric(horizontal: 20.w),
             padding: EdgeInsets.all(20.r),
-            decoration: BoxDecoration(
+            fallbackDecoration: BoxDecoration(
               color: AppColors.white.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
@@ -153,13 +165,20 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          context.strings.nextPrayerRemaining,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: AppColors.accentGoldLight,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              context.strings.nextPrayerRemaining,
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: AppColors.accentGoldLight,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                            8.hor,
+                            const HomeWidgetPinButton(),
+                          ],
                         ),
                         4.ver,
                         LiveTimerDisplay(

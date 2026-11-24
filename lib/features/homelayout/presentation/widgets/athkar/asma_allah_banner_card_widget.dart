@@ -1,8 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class AsmaAllahBannerCardWidget extends StatelessWidget {
   const AsmaAllahBannerCardWidget({super.key});
@@ -11,34 +13,38 @@ class AsmaAllahBannerCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          context.pushNamed(AppRoutes.asmaAllah);
-        },
+    return LiquidGlassContainer(
+      variant: LiquidGlassSurfaceVariant.card,
+      borderRadius: BorderRadius.circular(20.r),
+      customBorderColor: AppColors.accentGold.withValues(alpha: 0.50),
+      fallbackDecoration: BoxDecoration(
+        color: isDark
+            ? AppColors.darkCardUnselected
+            : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16.r),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-          decoration: BoxDecoration(
-            color: isDark
-                ? AppColors.darkCardUnselected
-                : AppColors.lightSurface,
-            borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(
-              color: isDark
-                  ? AppColors.accentGold.withValues(alpha: 0.3)
-                  : AppColors.accentGold.withValues(alpha: 0.35),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
+        border: Border.all(
+          color: isDark
+              ? AppColors.accentGold.withValues(alpha: 0.3)
+              : AppColors.accentGold.withValues(alpha: 0.35),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          child: Row(
+        ],
+      ),
+      child: Material(
+        color: AppColors.transparent,
+        child: InkWell(
+          onTap: () {
+            context.pushNamed(AppRoutes.asmaAllah);
+          },
+          borderRadius: BorderRadius.circular(20.r),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            child: Row(
             children: [
               Container(
                 width: 44.w,
@@ -107,7 +113,8 @@ class AsmaAllahBannerCardWidget extends StatelessWidget {
                     ? AppColors.darkTextMuted
                     : AppColors.lightTextMuted,
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

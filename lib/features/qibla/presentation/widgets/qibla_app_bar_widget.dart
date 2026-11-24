@@ -1,7 +1,10 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/qibla/presentation/widgets/qibla_calibration_dialog.dart';
 
 class QiblaAppBarWidget extends StatelessWidget {
@@ -18,8 +21,12 @@ class QiblaAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryDarkBackground,
+    return LiquidGlassContainer(
+      width: double.infinity,
+      variant: LiquidGlassSurfaceVariant.brandHeader,
+      borderEdges: LiquidGlassBorderEdges.bottomOnly,
+      showShadow: false,
+      fallbackColor: AppColors.primaryDarkBackground,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: SafeArea(
         bottom: false,

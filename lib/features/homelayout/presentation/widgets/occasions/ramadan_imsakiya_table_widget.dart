@@ -36,7 +36,10 @@ class _RamadanImsakiyaTableWidgetState
     }
 
     final coords = UserHiveHelper.getCachedCoordinates();
-    final helper = PrayersHelper(coordinates: coords);
+    final helper = PrayersHelper(
+      coordinates: coords,
+      parameters: UserHiveHelper.getPrayerCalculationParameters(coords),
+    );
     _lastStartDate = ramadanStart;
     _lastComputedDate = now;
     _cachedDays = helper.generateRamadanImsakiya(

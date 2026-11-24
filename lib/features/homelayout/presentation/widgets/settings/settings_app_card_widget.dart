@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/assets.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_state.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_app_version_badge_widget.dart';
@@ -23,9 +25,11 @@ class SettingsAppCardWidget extends StatelessWidget {
             ? state.prayerCityName
             : '';
 
-        return Container(
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.brandCard,
+          borderRadius: BorderRadius.circular(22.r),
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
-          decoration: BoxDecoration(
+          fallbackDecoration: BoxDecoration(
             color: AppColors.primaryDark,
             borderRadius: BorderRadius.circular(18.r),
             boxShadow: [

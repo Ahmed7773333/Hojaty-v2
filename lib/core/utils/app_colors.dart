@@ -86,4 +86,20 @@ class AppColors {
   static const Color mushafNightBackground = Color(0xFF121417);
   static const Color mushafNightText = Color(0xFFECEFF1);
   static const Color mushafNightAccent = Color(0xFFC5A059);
+
+  // Daily Story Card Palettes
+  static const Color storyEmeraldTop = Color(0xFF122C28);
+  static const Color storyEmeraldBottom = Color(0xFF1E4842);
+  static const Color storyEmeraldText = Color(0xFFFDFBF7);
+  static const Color storyEmeraldSubText = Color(0xFFCDE2DD);
+
+  static const Color storyMidnightTop = Color(0xFF0A0F1D);
+  static const Color storyMidnightBottom = Color(0xFF172136);
+  static const Color storyMidnightText = Color(0xFFFAF6EC);
+  static const Color storyMidnightSubText = Color(0xFFBCC5D6);
+  static const Color storyMidnightAccent = Color(0xFFE0BA63);
+
+  static const Color storyParchmentTop = Color(0xFFFBF6EA);
+  static const Color storyParchmentBottom = Color(0xFFF1E4C8);
+  static const Color storyParchmentSubText = Color(0xFF4F5D5A);
 }

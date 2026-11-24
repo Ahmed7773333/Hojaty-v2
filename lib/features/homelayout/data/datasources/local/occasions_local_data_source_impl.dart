@@ -37,6 +37,18 @@ class OccasionsLocalDataSourceImpl implements OccasionsLocalDataSource {
     return null;
   }
 
+  /// Synchronously reads cached [RamadanCheckData] if [boxName] is already open.
+  static RamadanCheckData? getCachedRamadanCheckSync({
+    required String language,
+  }) {
+    if (!Hive.isBoxOpen(boxName)) return null;
+    final raw = Hive.box(boxName).get('ramadanCheck_$language');
+    if (raw is Map) {
+      return RamadanCheckData.fromJson(Map<String, dynamic>.from(raw));
+    }
+    return null;
+  }
+
   @override
   Future<void> saveOccasions(
     List<OccasionItemModel> occasions, {

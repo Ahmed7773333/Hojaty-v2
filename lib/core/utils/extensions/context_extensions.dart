@@ -2,6 +2,9 @@ import 'package:hojaty/l10n/app_localizations.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/theme/app_theme.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/config/theme/liquid_glass_scope.dart';
+import 'package:hojaty/config/theme/liquid_glass_style.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 
 // import 'package:timegates/l10n/app_localizations.dart';
 
@@ -13,6 +16,10 @@ extension LocalizationExtension on BuildContext {
   bool get isDark => Theme.of(this).brightness == Brightness.dark;
   bool get isAmoled => AppTheme.isAmoled;
   AppThemeMode get appThemeMode => AppTheme.currentTheme;
+  bool get isLiquidGlassEnabled => LiquidGlassScope.of(this);
+  LiquidGlassStyle liquidGlassStyle([
+    LiquidGlassSurfaceVariant variant = LiquidGlassSurfaceVariant.surface,
+  ]) => LiquidGlassStyle.resolve(appThemeMode, variant: variant);
 }
 
 /// 🌍 A complete BuildContext extension to handle all navigation types

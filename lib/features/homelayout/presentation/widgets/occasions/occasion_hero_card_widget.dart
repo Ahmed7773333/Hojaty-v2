@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 import 'package:hojaty/features/homelayout/data/models/live_time_helper.dart';
 import 'package:hojaty/features/homelayout/data/models/occasion_item_model.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/live_timer_display.dart';
@@ -25,23 +27,28 @@ class OccasionHeroCardWidget extends StatelessWidget {
         : DateTime(now.year, now.month, now.day + occasion.daysRemaining);
 
     return RepaintBoundary(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18.r),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-          decoration: BoxDecoration(
-            color: AppColors.primaryDark,
-            borderRadius: BorderRadius.circular(18.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryDark.withValues(alpha: 0.2),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
+      child: LiquidGlassContainer(
+        variant: LiquidGlassSurfaceVariant.brandCard,
+        borderRadius: BorderRadius.circular(22.r),
+        fallbackDecoration: BoxDecoration(
+          color: AppColors.primaryDark,
+          borderRadius: BorderRadius.circular(18.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryDark.withValues(alpha: 0.2),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Material(
+          color: AppColors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(22.r),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+              child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
@@ -102,7 +109,9 @@ class OccasionHeroCardWidget extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+              ],
+            ),
+            ),
           ),
         ),
       ),

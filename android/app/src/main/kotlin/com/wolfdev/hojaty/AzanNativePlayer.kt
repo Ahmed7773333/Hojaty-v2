@@ -70,6 +70,7 @@ object AzanNativePlayer {
                 val rawResName = when (soundId.lowercase()) {
                     "madinah", "madina" -> "madina_azan"
                     "azan", "traditional" -> "azan"
+                    "short_reminder" -> "short_reminder"
                     else -> "makka_azan"
                 }
                 val rawResId = appContext.resources.getIdentifier(

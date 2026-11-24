@@ -1633,4 +1633,277 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get noQuranCheckpointsDesc =>
       'يمكنك حفظ أي آية كعلامة مرجعية بالضغط مطولاً عليها في المصحف';
+
+  @override
+  String get hojatyAiStageSearchingSources => 'جاري البحث في المصادر...';
+
+  @override
+  String get hojatyAiStageExecutingTool => 'جاري تنفيذ الإجراء...';
+
+  @override
+  String get hojatyAiStageGenerating => 'جاري صياغة الإجابة...';
+
+  @override
+  String hojatyAiSourcesCount(int count) {
+    return 'المصادر ($count)';
+  }
+
+  @override
+  String get hojatyAiActionViewAll => 'عرض الكل';
+
+  @override
+  String get hojatyAiActionOpen => 'فتح';
+
+  @override
+  String get hojatyAiActionSebha => 'السبحة';
+
+  @override
+  String get hojatyAiActionQibla => 'القبلة';
+
+  @override
+  String get hojatyAiActionAthkar => 'الأذكار';
+
+  @override
+  String get hojatyAiActionSettings => 'الإعدادات';
+
+  @override
+  String get hojatyAiActionTheme => 'المظهر';
+
+  @override
+  String get hojatyAiActionLibrary => 'المكتبة';
+
+  @override
+  String get hojatyAiActionBookmarks => 'العلامات';
+
+  @override
+  String get hojatyAiActionView => 'عرض';
+
+  @override
+  String get hojatyAiActionDone => 'تم تنفيذ الإجراء بنجاح.';
+
+  @override
+  String get hojatyAiActionFailed => 'تعذر تنفيذ الإجراء.';
+
+  @override
+  String get hojatyAiPrayerTimesTitle => 'مواقيت الصلاة';
+
+  @override
+  String get hojatyAiQuranTitle => 'المصحف الشريف';
+
+  @override
+  String hojatyAiRemainingForPrayer(String prayer, String remaining) {
+    return 'المتبقي على صلاة $prayer: $remaining';
+  }
+
+  @override
+  String get hojatyAiStarterFridayKahf => 'تشغيل سورة الكهف (سنة الجمعة)';
+
+  @override
+  String get hojatyAiStarterFridayKahfPrompt => 'شغل سورة الكهف';
+
+  @override
+  String get hojatyAiStarterMorningAthkar => 'فتح أذكار الصباح';
+
+  @override
+  String get hojatyAiStarterMorningAthkarPrompt => 'افتح أذكار الصباح';
+
+  @override
+  String get hojatyAiStarterEveningAthkar => 'فتح أذكار المساء';
+
+  @override
+  String get hojatyAiStarterEveningAthkarPrompt => 'افتح أذكار المساء';
+
+  @override
+  String get hojatyAiStarterSleepAthkar => 'فتح أذكار النوم';
+
+  @override
+  String get hojatyAiStarterSleepAthkarPrompt => 'افتح أذكار النوم';
+
+  @override
+  String get hojatyAiStarterPrayerTimes => 'مواقيت الصلاة اليوم';
+
+  @override
+  String get hojatyAiStarterPrayerTimesPrompt => 'مواقيت الصلاة اليوم';
+
+  @override
+  String get hojatyAiStarterTafsirKursi => 'تفسير آية الكرسي';
+
+  @override
+  String get hojatyAiStarterTafsirKursiPrompt => 'ما تفسير آية الكرسي؟';
+
+  @override
+  String get hojatyAiStarterReliefDua => 'دعاء تفريج الكرب والهم';
+
+  @override
+  String get hojatyAiStarterReliefDuaPrompt => 'دعاء تفريج الكرب والهم';
+
+  @override
+  String get liquidGlassTitle => 'تأثير الزجاج السائل';
+
+  @override
+  String get liquidGlassSubtitle =>
+      'شفافية زجاجية ناعمة للأشرطة والنوافذ العائمة مع جميع المظاهر';
+
+  @override
+  String get visualEffectsSection => 'المؤثرات البصرية';
+
+  @override
+  String get settingsSearchHint =>
+      'ابحث في الإعدادات (مثلاً: المؤذن، الفجر، تأخير...)';
+
+  @override
+  String get settingsSearchNoResults => 'لم يتم العثور على إعدادات مطابقة';
+
+  @override
+  String get adhanSettingsShortcutTitle => 'إعدادات الأذان والمواقيت';
+
+  @override
+  String get adhanSettingsShortcutSubtitle =>
+      'صوت المؤذن، التنبيه المسبق، المذهب، وتعديل الأوقات';
+
+  @override
+  String get adhanMadhabSectionTitle => 'المذهب الفقهي لصلاة العصر';
+
+  @override
+  String get adhanMadhabShafiTitle => 'الجمهور (الشافعي، المالكي، الحنبلي)';
+
+  @override
+  String get adhanMadhabShafiSubtitle => 'يكون ظل الشيء مثله';
+
+  @override
+  String get adhanMadhabHanafiTitle => 'الحنفي';
+
+  @override
+  String get adhanMadhabHanafiSubtitle => 'يكون ظل الشيء مثليه';
+
+  @override
+  String get adhanTimeOffsetsTitle => 'تقديم وتأخير أوقات الصلاة';
+
+  @override
+  String get adhanTimeOffsetsSubtitle =>
+      'ضبط وقت كل صلاة بالدقائق (-30 إلى +30)';
+
+  @override
+  String get adhanTimeOffsetsReset => 'إعادة ضبط';
+
+  @override
+  String get adhanMinutesUnitShort => 'د';
+
+  @override
+  String get adhanPermissionsTitle => 'أذونات الإشعارات والبطارية';
+
+  @override
+  String get adhanPermissionsSubtitle =>
+      'حل مشكلة عدم رنين الفجر أو تأخر تنبيهات الأذان';
+
+  @override
+  String get adhanPermissionsAction => 'فحص وتفعيل الأذونات';
+
+  @override
+  String get adhanPermissionsCheckedSuccess => 'أذونات الإشعارات مفعّلة بنجاح';
+
+  @override
+  String get adhanPermissionsCheckedDenied =>
+      'يرجى السماح بالإشعارات وإلغاء قيود البطارية من إعدادات الهاتف';
+
+  @override
+  String get dailyStoryBannerTitle => 'حالة اليوم';
+
+  @override
+  String get dailyStoryBannerSubtitle =>
+      'بطاقة إسلامية جاهزة للمشاركة على واتساب';
+
+  @override
+  String get dailyStoryBannerBadge => 'جديد';
+
+  @override
+  String get dailyStoryTitle => 'حالة اليوم';
+
+  @override
+  String get dailyStorySubtitle => 'صمّم وشارك بطاقتك الإيمانية على واتساب';
+
+  @override
+  String get dailyStoryCategoryAll => 'الكل';
+
+  @override
+  String get dailyStoryCategoryAyah => 'آيات';
+
+  @override
+  String get dailyStoryCategorySalawat => 'صلاة على النبي';
+
+  @override
+  String get dailyStoryCategoryDhikr => 'أذكار';
+
+  @override
+  String get dailyStoryCategoryDua => 'أدعية';
+
+  @override
+  String get dailyStoryPaletteEmerald => 'فجر زمردي';
+
+  @override
+  String get dailyStoryPaletteMidnight => 'ذهب الليل';
+
+  @override
+  String get dailyStoryPaletteParchment => 'رقّ دافئ';
+
+  @override
+  String get dailyStoryShuffle => 'تغيير البطاقة';
+
+  @override
+  String get dailyStoryShare => 'مشاركة الحالة';
+
+  @override
+  String get dailyStoryFooterBrand => 'تطبيق حُجَّتي';
+
+  @override
+  String get dailyStoryLoadError =>
+      'تعذر تحميل البطاقات اليومية، يرجى المحاولة مجدداً';
+
+  @override
+  String get dailyStoryShareError =>
+      'تعذر مشاركة البطاقة، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get homeWidgetShowcaseTitle => 'أضف عدّاد الصلاة لشاشة هاتفك';
+
+  @override
+  String get homeWidgetShowcaseBody =>
+      'اضغط هنا لإضافة ويدجت مواقيت الصلاة على الشاشة الرئيسية ومتابعة الوقت المتبقي بالثواني.';
+
+  @override
+  String get homeWidgetShowcaseDismiss => 'فهمت';
+
+  @override
+  String get homeWidgetGuideTitle => 'إضافة ويدجت مواقيت الصلاة';
+
+  @override
+  String get homeWidgetGuideStep1Android =>
+      '1. اضغط مطوّلاً على مساحة فارغة في الشاشة الرئيسية لهاتفك.';
+
+  @override
+  String get homeWidgetGuideStep2Android =>
+      '2. اختر «الأدوات» (Widgets) ثم ابحث عن «حُجَّتي».';
+
+  @override
+  String get homeWidgetGuideStep3Android =>
+      '3. اسحب ويدجت «الصلاة القادمة» وضعها على شاشتك.';
+
+  @override
+  String get homeWidgetGuideStep1Ios =>
+      '1. اضغط مطوّلاً على الشاشة الرئيسية حتى تهتز الأيقونات.';
+
+  @override
+  String get homeWidgetGuideStep2Ios =>
+      '2. اضغط على علامة (+) في الأعلى ثم ابحث عن «حُجَّتي».';
+
+  @override
+  String get homeWidgetGuideStep3Ios =>
+      '3. اختر الحجم المناسب واضغط «إضافة أداة» (Add Widget).';
+
+  @override
+  String get azanSettingsShowcaseTitle => 'تخصيص الأذان والتنبيهات';
+
+  @override
+  String get azanSettingsShowcaseBody =>
+      'اضغط هنا لتغيير صوت المؤذن، ضبط التنبيه قبل الأذان، وتعديل فروق التوقيت.';
 }

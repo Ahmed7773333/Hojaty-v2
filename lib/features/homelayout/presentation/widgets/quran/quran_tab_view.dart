@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_qirat_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_tab_header_widget.dart';
 import 'package:hojaty/features/quran/domain/entities/qirat_type.dart';
@@ -35,12 +36,18 @@ class _QuranTabViewState extends State<QuranTabView> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
           const QuranTabHeaderWidget(),
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              padding: EdgeInsets.fromLTRB(
+                20.w,
+                16.h,
+                20.w,
+                16.h + MediaQuery.paddingOf(context).bottom,
+              ),
               itemCount: QiratType.values.length,
               separatorBuilder: (_, __) => 12.ver,
               itemBuilder: (context, index) {
@@ -48,8 +55,9 @@ class _QuranTabViewState extends State<QuranTabView> {
                 return QuranQiratCardWidget(qirat: qirat);
               },
             ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

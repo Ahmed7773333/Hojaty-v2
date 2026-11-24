@@ -69,7 +69,7 @@ class HojatyAiQuranActionCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'المصحف الشريف',
+                  context.strings.hojatyAiQuranTitle,
                   style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: isDark
@@ -112,7 +112,7 @@ class HojatyAiQuranActionCardWidget extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_forward_rounded, size: 16.r),
             label: Text(
-              'فتح',
+              context.strings.hojatyAiActionOpen,
               style: context.textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.white,

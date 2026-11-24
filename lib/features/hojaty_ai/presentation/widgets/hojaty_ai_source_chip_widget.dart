@@ -7,8 +7,13 @@ import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_source_
 
 class HojatyAiSourceChipWidget extends StatelessWidget {
   final RagChunkModel source;
+  final int footnoteIndex;
 
-  const HojatyAiSourceChipWidget({super.key, required this.source});
+  const HojatyAiSourceChipWidget({
+    super.key,
+    required this.source,
+    this.footnoteIndex = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,10 @@ class HojatyAiSourceChipWidget extends StatelessWidget {
         },
         borderRadius: BorderRadius.circular(12.r),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: 10.w,
+            vertical: 6.h,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
@@ -36,12 +44,26 @@ class HojatyAiSourceChipWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.menu_book_rounded,
-                size: 14.r,
-                color: isDark
-                    ? AppColors.accentGoldLight
-                    : AppColors.primaryDark,
+              Container(
+                width: 18.r,
+                height: 18.r,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.accentGold.withValues(alpha: 0.2)
+                      : AppColors.primaryDark.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '$footnoteIndex',
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: isDark
+                        ? AppColors.accentGoldLight
+                        : AppColors.primaryDark,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 10.sp,
+                  ),
+                ),
               ),
               6.hor,
               ConstrainedBox(

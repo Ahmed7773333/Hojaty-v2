@@ -3133,6 +3133,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can bookmark any ayah by long pressing it in the Quran'**
   String get noQuranCheckpointsDesc;
+
+  /// No description provided for @hojatyAiStageSearchingSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching sources...'**
+  String get hojatyAiStageSearchingSources;
+
+  /// No description provided for @hojatyAiStageExecutingTool.
+  ///
+  /// In en, this message translates to:
+  /// **'Executing action...'**
+  String get hojatyAiStageExecutingTool;
+
+  /// No description provided for @hojatyAiStageGenerating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating answer...'**
+  String get hojatyAiStageGenerating;
+
+  /// No description provided for @hojatyAiSourcesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources ({count})'**
+  String hojatyAiSourcesCount(int count);
+
+  /// No description provided for @hojatyAiActionViewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get hojatyAiActionViewAll;
+
+  /// No description provided for @hojatyAiActionOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get hojatyAiActionOpen;
+
+  /// No description provided for @hojatyAiActionSebha.
+  ///
+  /// In en, this message translates to:
+  /// **'Sebha'**
+  String get hojatyAiActionSebha;
+
+  /// No description provided for @hojatyAiActionQibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla'**
+  String get hojatyAiActionQibla;
+
+  /// No description provided for @hojatyAiActionAthkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Athkar'**
+  String get hojatyAiActionAthkar;
+
+  /// No description provided for @hojatyAiActionSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get hojatyAiActionSettings;
+
+  /// No description provided for @hojatyAiActionTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get hojatyAiActionTheme;
+
+  /// No description provided for @hojatyAiActionLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get hojatyAiActionLibrary;
+
+  /// No description provided for @hojatyAiActionBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get hojatyAiActionBookmarks;
+
+  /// No description provided for @hojatyAiActionView.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get hojatyAiActionView;
+
+  /// No description provided for @hojatyAiActionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Action completed successfully.'**
+  String get hojatyAiActionDone;
+
+  /// No description provided for @hojatyAiActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete action.'**
+  String get hojatyAiActionFailed;
+
+  /// No description provided for @hojatyAiPrayerTimesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Times'**
+  String get hojatyAiPrayerTimesTitle;
+
+  /// No description provided for @hojatyAiQuranTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Holy Quran'**
+  String get hojatyAiQuranTitle;
+
+  /// No description provided for @hojatyAiRemainingForPrayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining until {prayer}: {remaining}'**
+  String hojatyAiRemainingForPrayer(String prayer, String remaining);
+
+  /// No description provided for @hojatyAiStarterFridayKahf.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Surah Al-Kahf (Friday Sunnah)'**
+  String get hojatyAiStarterFridayKahf;
+
+  /// No description provided for @hojatyAiStarterFridayKahfPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Surah Al-Kahf'**
+  String get hojatyAiStarterFridayKahfPrompt;
+
+  /// No description provided for @hojatyAiStarterMorningAthkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Morning Athkar'**
+  String get hojatyAiStarterMorningAthkar;
+
+  /// No description provided for @hojatyAiStarterMorningAthkarPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Open morning athkar'**
+  String get hojatyAiStarterMorningAthkarPrompt;
+
+  /// No description provided for @hojatyAiStarterEveningAthkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Evening Athkar'**
+  String get hojatyAiStarterEveningAthkar;
+
+  /// No description provided for @hojatyAiStarterEveningAthkarPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Open evening athkar'**
+  String get hojatyAiStarterEveningAthkarPrompt;
+
+  /// No description provided for @hojatyAiStarterSleepAthkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Sleep Athkar'**
+  String get hojatyAiStarterSleepAthkar;
+
+  /// No description provided for @hojatyAiStarterSleepAthkarPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Open sleep athkar'**
+  String get hojatyAiStarterSleepAthkarPrompt;
+
+  /// No description provided for @hojatyAiStarterPrayerTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Prayer Times'**
+  String get hojatyAiStarterPrayerTimes;
+
+  /// No description provided for @hojatyAiStarterPrayerTimesPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times today'**
+  String get hojatyAiStarterPrayerTimesPrompt;
+
+  /// No description provided for @hojatyAiStarterTafsirKursi.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir of Ayat Al-Kursi'**
+  String get hojatyAiStarterTafsirKursi;
+
+  /// No description provided for @hojatyAiStarterTafsirKursiPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the tafsir of Ayat Al-Kursi?'**
+  String get hojatyAiStarterTafsirKursiPrompt;
+
+  /// No description provided for @hojatyAiStarterReliefDua.
+  ///
+  /// In en, this message translates to:
+  /// **'Dua for relief from anxiety & hardship'**
+  String get hojatyAiStarterReliefDua;
+
+  /// No description provided for @hojatyAiStarterReliefDuaPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Dua for relief from anxiety and hardship'**
+  String get hojatyAiStarterReliefDuaPrompt;
+
+  /// No description provided for @liquidGlassTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Liquid Glass'**
+  String get liquidGlassTitle;
+
+  /// No description provided for @liquidGlassSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Translucent glass blur for bars, sheets, and floating surfaces'**
+  String get liquidGlassSubtitle;
+
+  /// No description provided for @visualEffectsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Visual Effects'**
+  String get visualEffectsSection;
+
+  /// No description provided for @settingsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings (e.g. muezzin, Fajr, offset...)'**
+  String get settingsSearchHint;
+
+  /// No description provided for @settingsSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching settings found'**
+  String get settingsSearchNoResults;
+
+  /// No description provided for @adhanSettingsShortcutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer & Adhan Settings'**
+  String get adhanSettingsShortcutTitle;
+
+  /// No description provided for @adhanSettingsShortcutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Muezzin voice, pre-adhan alerts, Madhab & time offsets'**
+  String get adhanSettingsShortcutSubtitle;
+
+  /// No description provided for @adhanMadhabSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Asr Calculation (Madhab)'**
+  String get adhanMadhabSectionTitle;
+
+  /// No description provided for @adhanMadhabShafiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard (Shafi\'i, Maliki, Hanbali)'**
+  String get adhanMadhabShafiTitle;
+
+  /// No description provided for @adhanMadhabShafiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shadow length equals object height'**
+  String get adhanMadhabShafiSubtitle;
+
+  /// No description provided for @adhanMadhabHanafiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hanafi'**
+  String get adhanMadhabHanafiTitle;
+
+  /// No description provided for @adhanMadhabHanafiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shadow length equals twice object height'**
+  String get adhanMadhabHanafiSubtitle;
+
+  /// No description provided for @adhanTimeOffsetsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Prayer Time Offsets'**
+  String get adhanTimeOffsetsTitle;
+
+  /// No description provided for @adhanTimeOffsetsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust each prayer time by minutes (-30 to +30)'**
+  String get adhanTimeOffsetsSubtitle;
+
+  /// No description provided for @adhanTimeOffsetsReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get adhanTimeOffsetsReset;
+
+  /// No description provided for @adhanMinutesUnitShort.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get adhanMinutesUnitShort;
+
+  /// No description provided for @adhanPermissionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification & Battery Optimization'**
+  String get adhanPermissionsTitle;
+
+  /// No description provided for @adhanPermissionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix delayed or silent Fajr & Adhan alerts on your device'**
+  String get adhanPermissionsSubtitle;
+
+  /// No description provided for @adhanPermissionsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Permissions'**
+  String get adhanPermissionsAction;
+
+  /// No description provided for @adhanPermissionsCheckedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permissions are active'**
+  String get adhanPermissionsCheckedSuccess;
+
+  /// No description provided for @adhanPermissionsCheckedDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Please allow notifications and disable battery restrictions in system settings'**
+  String get adhanPermissionsCheckedDenied;
+
+  /// No description provided for @dailyStoryBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Story'**
+  String get dailyStoryBannerTitle;
+
+  /// No description provided for @dailyStoryBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready-to-share Islamic WhatsApp Status card'**
+  String get dailyStoryBannerSubtitle;
+
+  /// No description provided for @dailyStoryBannerBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get dailyStoryBannerBadge;
+
+  /// No description provided for @dailyStoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Story'**
+  String get dailyStoryTitle;
+
+  /// No description provided for @dailyStorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Design & share your daily faith card'**
+  String get dailyStorySubtitle;
+
+  /// No description provided for @dailyStoryCategoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get dailyStoryCategoryAll;
+
+  /// No description provided for @dailyStoryCategoryAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Verses'**
+  String get dailyStoryCategoryAyah;
+
+  /// No description provided for @dailyStoryCategorySalawat.
+  ///
+  /// In en, this message translates to:
+  /// **'Salawat'**
+  String get dailyStoryCategorySalawat;
+
+  /// No description provided for @dailyStoryCategoryDhikr.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhkar'**
+  String get dailyStoryCategoryDhikr;
+
+  /// No description provided for @dailyStoryCategoryDua.
+  ///
+  /// In en, this message translates to:
+  /// **'Duas'**
+  String get dailyStoryCategoryDua;
+
+  /// No description provided for @dailyStoryPaletteEmerald.
+  ///
+  /// In en, this message translates to:
+  /// **'Emerald Dawn'**
+  String get dailyStoryPaletteEmerald;
+
+  /// No description provided for @dailyStoryPaletteMidnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Midnight Gold'**
+  String get dailyStoryPaletteMidnight;
+
+  /// No description provided for @dailyStoryPaletteParchment.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm Parchment'**
+  String get dailyStoryPaletteParchment;
+
+  /// No description provided for @dailyStoryShuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle Card'**
+  String get dailyStoryShuffle;
+
+  /// No description provided for @dailyStoryShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Status'**
+  String get dailyStoryShare;
+
+  /// No description provided for @dailyStoryFooterBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Hojaty App'**
+  String get dailyStoryFooterBrand;
+
+  /// No description provided for @dailyStoryLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load daily stories, please try again'**
+  String get dailyStoryLoadError;
+
+  /// No description provided for @dailyStoryShareError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not share story card, please try again'**
+  String get dailyStoryShareError;
+
+  /// No description provided for @homeWidgetShowcaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Prayer Widget to Home Screen'**
+  String get homeWidgetShowcaseTitle;
+
+  /// No description provided for @homeWidgetShowcaseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to add the live prayer countdown widget to your phone\'s home screen.'**
+  String get homeWidgetShowcaseBody;
+
+  /// No description provided for @homeWidgetShowcaseDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get homeWidgetShowcaseDismiss;
+
+  /// No description provided for @homeWidgetGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Prayer Countdown Widget'**
+  String get homeWidgetGuideTitle;
+
+  /// No description provided for @homeWidgetGuideStep1Android.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Long-press an empty area on your phone\'s Home Screen.'**
+  String get homeWidgetGuideStep1Android;
+
+  /// No description provided for @homeWidgetGuideStep2Android.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Tap Widgets and search for \"Hojaty\".'**
+  String get homeWidgetGuideStep2Android;
+
+  /// No description provided for @homeWidgetGuideStep3Android.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Drag the Next Prayer widget onto your Home Screen.'**
+  String get homeWidgetGuideStep3Android;
+
+  /// No description provided for @homeWidgetGuideStep1Ios.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Long-press your Home Screen until the icons jiggle.'**
+  String get homeWidgetGuideStep1Ios;
+
+  /// No description provided for @homeWidgetGuideStep2Ios.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Tap the (+) button at the top and search for \"Hojaty\".'**
+  String get homeWidgetGuideStep2Ios;
+
+  /// No description provided for @homeWidgetGuideStep3Ios.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Choose your preferred size and tap Add Widget.'**
+  String get homeWidgetGuideStep3Ios;
+
+  /// No description provided for @azanSettingsShowcaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize Adhan & Alerts'**
+  String get azanSettingsShowcaseTitle;
+
+  /// No description provided for @azanSettingsShowcaseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets.'**
+  String get azanSettingsShowcaseBody;
 }
 
 class _AppLocalizationsDelegate

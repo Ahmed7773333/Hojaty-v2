@@ -1651,4 +1651,282 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noQuranCheckpointsDesc =>
       'You can bookmark any ayah by long pressing it in the Quran';
+
+  @override
+  String get hojatyAiStageSearchingSources => 'Searching sources...';
+
+  @override
+  String get hojatyAiStageExecutingTool => 'Executing action...';
+
+  @override
+  String get hojatyAiStageGenerating => 'Generating answer...';
+
+  @override
+  String hojatyAiSourcesCount(int count) {
+    return 'Sources ($count)';
+  }
+
+  @override
+  String get hojatyAiActionViewAll => 'View All';
+
+  @override
+  String get hojatyAiActionOpen => 'Open';
+
+  @override
+  String get hojatyAiActionSebha => 'Sebha';
+
+  @override
+  String get hojatyAiActionQibla => 'Qibla';
+
+  @override
+  String get hojatyAiActionAthkar => 'Athkar';
+
+  @override
+  String get hojatyAiActionSettings => 'Settings';
+
+  @override
+  String get hojatyAiActionTheme => 'Theme';
+
+  @override
+  String get hojatyAiActionLibrary => 'Library';
+
+  @override
+  String get hojatyAiActionBookmarks => 'Bookmarks';
+
+  @override
+  String get hojatyAiActionView => 'View';
+
+  @override
+  String get hojatyAiActionDone => 'Action completed successfully.';
+
+  @override
+  String get hojatyAiActionFailed => 'Could not complete action.';
+
+  @override
+  String get hojatyAiPrayerTimesTitle => 'Prayer Times';
+
+  @override
+  String get hojatyAiQuranTitle => 'Holy Quran';
+
+  @override
+  String hojatyAiRemainingForPrayer(String prayer, String remaining) {
+    return 'Remaining until $prayer: $remaining';
+  }
+
+  @override
+  String get hojatyAiStarterFridayKahf => 'Play Surah Al-Kahf (Friday Sunnah)';
+
+  @override
+  String get hojatyAiStarterFridayKahfPrompt => 'Play Surah Al-Kahf';
+
+  @override
+  String get hojatyAiStarterMorningAthkar => 'Open Morning Athkar';
+
+  @override
+  String get hojatyAiStarterMorningAthkarPrompt => 'Open morning athkar';
+
+  @override
+  String get hojatyAiStarterEveningAthkar => 'Open Evening Athkar';
+
+  @override
+  String get hojatyAiStarterEveningAthkarPrompt => 'Open evening athkar';
+
+  @override
+  String get hojatyAiStarterSleepAthkar => 'Open Sleep Athkar';
+
+  @override
+  String get hojatyAiStarterSleepAthkarPrompt => 'Open sleep athkar';
+
+  @override
+  String get hojatyAiStarterPrayerTimes => 'Today\'s Prayer Times';
+
+  @override
+  String get hojatyAiStarterPrayerTimesPrompt => 'Prayer times today';
+
+  @override
+  String get hojatyAiStarterTafsirKursi => 'Tafsir of Ayat Al-Kursi';
+
+  @override
+  String get hojatyAiStarterTafsirKursiPrompt =>
+      'What is the tafsir of Ayat Al-Kursi?';
+
+  @override
+  String get hojatyAiStarterReliefDua =>
+      'Dua for relief from anxiety & hardship';
+
+  @override
+  String get hojatyAiStarterReliefDuaPrompt =>
+      'Dua for relief from anxiety and hardship';
+
+  @override
+  String get liquidGlassTitle => 'Liquid Glass';
+
+  @override
+  String get liquidGlassSubtitle =>
+      'Translucent glass blur for bars, sheets, and floating surfaces';
+
+  @override
+  String get visualEffectsSection => 'Visual Effects';
+
+  @override
+  String get settingsSearchHint =>
+      'Search settings (e.g. muezzin, Fajr, offset...)';
+
+  @override
+  String get settingsSearchNoResults => 'No matching settings found';
+
+  @override
+  String get adhanSettingsShortcutTitle => 'Prayer & Adhan Settings';
+
+  @override
+  String get adhanSettingsShortcutSubtitle =>
+      'Muezzin voice, pre-adhan alerts, Madhab & time offsets';
+
+  @override
+  String get adhanMadhabSectionTitle => 'Asr Calculation (Madhab)';
+
+  @override
+  String get adhanMadhabShafiTitle => 'Standard (Shafi\'i, Maliki, Hanbali)';
+
+  @override
+  String get adhanMadhabShafiSubtitle => 'Shadow length equals object height';
+
+  @override
+  String get adhanMadhabHanafiTitle => 'Hanafi';
+
+  @override
+  String get adhanMadhabHanafiSubtitle =>
+      'Shadow length equals twice object height';
+
+  @override
+  String get adhanTimeOffsetsTitle => 'Manual Prayer Time Offsets';
+
+  @override
+  String get adhanTimeOffsetsSubtitle =>
+      'Adjust each prayer time by minutes (-30 to +30)';
+
+  @override
+  String get adhanTimeOffsetsReset => 'Reset';
+
+  @override
+  String get adhanMinutesUnitShort => 'min';
+
+  @override
+  String get adhanPermissionsTitle => 'Notification & Battery Optimization';
+
+  @override
+  String get adhanPermissionsSubtitle =>
+      'Fix delayed or silent Fajr & Adhan alerts on your device';
+
+  @override
+  String get adhanPermissionsAction => 'Check Permissions';
+
+  @override
+  String get adhanPermissionsCheckedSuccess =>
+      'Notification permissions are active';
+
+  @override
+  String get adhanPermissionsCheckedDenied =>
+      'Please allow notifications and disable battery restrictions in system settings';
+
+  @override
+  String get dailyStoryBannerTitle => 'Daily Story';
+
+  @override
+  String get dailyStoryBannerSubtitle =>
+      'Ready-to-share Islamic WhatsApp Status card';
+
+  @override
+  String get dailyStoryBannerBadge => 'New';
+
+  @override
+  String get dailyStoryTitle => 'Daily Story';
+
+  @override
+  String get dailyStorySubtitle => 'Design & share your daily faith card';
+
+  @override
+  String get dailyStoryCategoryAll => 'All';
+
+  @override
+  String get dailyStoryCategoryAyah => 'Verses';
+
+  @override
+  String get dailyStoryCategorySalawat => 'Salawat';
+
+  @override
+  String get dailyStoryCategoryDhikr => 'Adhkar';
+
+  @override
+  String get dailyStoryCategoryDua => 'Duas';
+
+  @override
+  String get dailyStoryPaletteEmerald => 'Emerald Dawn';
+
+  @override
+  String get dailyStoryPaletteMidnight => 'Midnight Gold';
+
+  @override
+  String get dailyStoryPaletteParchment => 'Warm Parchment';
+
+  @override
+  String get dailyStoryShuffle => 'Shuffle Card';
+
+  @override
+  String get dailyStoryShare => 'Share Status';
+
+  @override
+  String get dailyStoryFooterBrand => 'Hojaty App';
+
+  @override
+  String get dailyStoryLoadError =>
+      'Could not load daily stories, please try again';
+
+  @override
+  String get dailyStoryShareError =>
+      'Could not share story card, please try again';
+
+  @override
+  String get homeWidgetShowcaseTitle => 'Add Prayer Widget to Home Screen';
+
+  @override
+  String get homeWidgetShowcaseBody =>
+      'Tap here to add the live prayer countdown widget to your phone\'s home screen.';
+
+  @override
+  String get homeWidgetShowcaseDismiss => 'Got it';
+
+  @override
+  String get homeWidgetGuideTitle => 'Add Prayer Countdown Widget';
+
+  @override
+  String get homeWidgetGuideStep1Android =>
+      '1. Long-press an empty area on your phone\'s Home Screen.';
+
+  @override
+  String get homeWidgetGuideStep2Android =>
+      '2. Tap Widgets and search for \"Hojaty\".';
+
+  @override
+  String get homeWidgetGuideStep3Android =>
+      '3. Drag the Next Prayer widget onto your Home Screen.';
+
+  @override
+  String get homeWidgetGuideStep1Ios =>
+      '1. Long-press your Home Screen until the icons jiggle.';
+
+  @override
+  String get homeWidgetGuideStep2Ios =>
+      '2. Tap the (+) button at the top and search for \"Hojaty\".';
+
+  @override
+  String get homeWidgetGuideStep3Ios =>
+      '3. Choose your preferred size and tap Add Widget.';
+
+  @override
+  String get azanSettingsShowcaseTitle => 'Customize Adhan & Alerts';
+
+  @override
+  String get azanSettingsShowcaseBody =>
+      'Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets.';
 }

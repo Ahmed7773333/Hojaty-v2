@@ -19,6 +19,9 @@ class HojatyBootReceiver : BroadcastReceiver() {
             HojatyAlarmScheduler.scheduleNextHourlySalawat(context)
             Log.i(TAG, "Re-armed hourly Salawat reminder after boot.")
         }
+
+        // Refresh Home Screen Prayer Widget (re-bases Chronometer & re-arms rollover alarm)
+        PrayerWidgetProvider.refreshAllWidgets(context)
     }
 }
 

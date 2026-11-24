@@ -19,17 +19,13 @@ class HojatyAiAudioActionCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
     final res = action.result;
-    final isLiveStream = res['type'] == 'live_stream';
-    final title = isLiveStream
-        ? (res['title'] as String? ?? 'إذاعة القرآن الكريم')
-        : 'سورة ${res['surahName'] ?? ''}';
-    final subtitle = isLiveStream
-        ? 'بث مباشر'
-        : (res['reciterName'] as String? ?? 'الشيخ عبد الباسط عبد الصمد');
+    final title = 'سورة ${res['surahName'] ?? ''}';
+    final subtitle =
+        res['reciterName'] as String? ?? 'عبد الباسط عبد الصمد';
 
     return Container(
-      margin: EdgeInsets.only(top: 8.h),
-      padding: EdgeInsets.all(12.r),
+      margin: EdgeInsetsDirectional.only(top: 8.h),
+      padding: EdgeInsetsDirectional.all(12.r),
       decoration: BoxDecoration(
         color: isDark
             ? AppColors.darkCardUnselected
@@ -49,8 +45,9 @@ class HojatyAiAudioActionCardWidget extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              isLiveStream ? Icons.radio_outlined : Icons.music_note_outlined,
-              color: isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark,
+              Icons.graphic_eq_rounded,
+              color:
+                  isDark ? AppColors.accentGoldLight : AppColors.accentGoldDark,
               size: 22.r,
             ),
           ),
@@ -86,7 +83,9 @@ class HojatyAiAudioActionCardWidget extends StatelessWidget {
           ),
           8.hor,
           StreamBuilder<bool>(
-            stream: RadioAudioPlayerService().playerStateStream.map((s) => s.playing),
+            stream: RadioAudioPlayerService()
+                .playerStateStream
+                .map((s) => s.playing),
             initialData: RadioAudioPlayerService().isPlaying,
             builder: (context, snapshot) {
               final isPlaying = snapshot.data ?? false;
@@ -115,7 +114,7 @@ class HojatyAiAudioActionCardWidget extends StatelessWidget {
               final currentArgs = RadioAudioPlayerService().currentArgs;
               if (currentArgs != null) {
                 context.pushNamed(AppRoutes.surahAudio, extra: currentArgs);
-              } else if (!isLiveStream) {
+              } else {
                 final surahNum = (res['surahNumber'] as num?)?.toInt() ?? 1;
                 final fallbackArgs = SurahAudioArgs(
                   surahNumber: surahNum,
@@ -141,4 +140,3 @@ class HojatyAiAudioActionCardWidget extends StatelessWidget {
     );
   }
 }
-

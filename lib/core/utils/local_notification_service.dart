@@ -89,7 +89,10 @@ class LocalNotificationService {
 
       final now = DateTime.now();
       final coords = UserHiveHelper.getCachedCoordinates();
-      final helper = PrayersHelper(coordinates: coords);
+      final helper = PrayersHelper(
+        coordinates: coords,
+        parameters: UserHiveHelper.getPrayerCalculationParameters(coords),
+      );
 
       final todayDate = DateTime(now.year, now.month, now.day);
       final tomorrowDate = todayDate.add(const Duration(days: 1));
@@ -146,7 +149,7 @@ class LocalNotificationService {
             'triggerTimeMillis': targetTime.millisecondsSinceEpoch,
             'title': title,
             'body': body,
-            'soundId': prayerSoundId,
+            'soundId': isFullAdhan ? prayerSoundId : 'short_reminder',
             'soundPath': (isFullAdhan && localSoundPath != null)
                 ? localSoundPath
                 : '',
@@ -236,7 +239,7 @@ class LocalNotificationService {
       if (Platform.isAndroid || Platform.isIOS) {
         await _notifChannel.invokeMethod('showTestNotification', {
           'isFullAdhan': isFullAdhan,
-          'soundId': effectiveSoundId,
+          'soundId': isFullAdhan ? effectiveSoundId : 'short_reminder',
           'soundPath': (isFullAdhan && localSoundPath != null)
               ? localSoundPath
               : '',

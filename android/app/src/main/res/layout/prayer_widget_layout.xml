@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/prayer_widget_background"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <!-- Active Prayer Content -->
+    <LinearLayout
+        android:id="@+id/widget_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!-- Top Metadata Row: Location & Hijri Date -->
+        <LinearLayout
+            android:id="@+id/widget_meta_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:id="@+id/widget_location_icon"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_widget_location" />
+
+            <TextView
+                android:id="@+id/widget_location_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                tools:text="القاهرة، مصر" />
+
+            <TextView
+                android:id="@+id/widget_hijri_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/widget_gold_light"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                tools:text="12 ربيع الأول 1448 هـ" />
+        </LinearLayout>
+
+        <!-- Main Row: Prayer Info + Live Native Chronometer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Prayer Icon Badge -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/prayer_widget_badge_bg">
+
+                <ImageView
+                    android:id="@+id/widget_prayer_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_widget_asr" />
+            </FrameLayout>
+
+            <!-- Prayer Name & Formatted Adhan Time -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/widget_next_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/widget_text_secondary"
+                    android:textSize="11sp"
+                    tools:text="الصلاة القادمة" />
+
+                <TextView
+                    android:id="@+id/widget_prayer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/widget_text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="صلاة العصر" />
+
+                <TextView
+                    android:id="@+id/widget_prayer_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/widget_text_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="03:18 م" />
+            </LinearLayout>
+
+            <!-- Live Countdown Column -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/widget_remaining_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/widget_gold_light"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="المتبقي" />
+
+                <Chronometer
+                    android:id="@+id/widget_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:countDown="true"
+                    android:fontFeatureSettings="tnum"
+                    android:layoutDirection="ltr"
+                    android:textColor="@color/widget_text_primary"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    tools:targetApi="n"
+                    tools:text="01:24:15" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Fallback State (Uncached / Expired) -->
+    <LinearLayout
+        android:id="@+id/widget_fallback_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_widget_fajr" />
+
+        <TextView
+            android:id="@+id/widget_fallback_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="افتح التطبيق لتحديث المواقيت"
+            android:textColor="@color/widget_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</FrameLayout>

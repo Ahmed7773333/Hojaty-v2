@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/chat_message_model.dart';
 import 'package:hojaty/features/hojaty_ai/data/models/rag_chunk_model.dart';
+import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_bot_bubble_widget.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_streaming_bubble_widget.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_user_bubble_widget.dart';
@@ -9,6 +10,7 @@ import 'package:hojaty/features/hojaty_ai/presentation/widgets/hojaty_ai_user_bu
 class HojatyAiMessagesListWidget extends StatefulWidget {
   final List<ChatMessageModel> messages;
   final bool isStreaming;
+  final HojatyAiProcessingStage processingStage;
   final String streamingText;
   final List<RagChunkModel> currentSources;
 
@@ -16,6 +18,7 @@ class HojatyAiMessagesListWidget extends StatefulWidget {
     super.key,
     required this.messages,
     required this.isStreaming,
+    required this.processingStage,
     required this.streamingText,
     required this.currentSources,
   });
@@ -76,6 +79,7 @@ class _HojatyAiMessagesListWidgetState
           return HojatyAiStreamingBubbleWidget(
             text: widget.streamingText,
             sources: widget.currentSources,
+            processingStage: widget.processingStage,
           );
         }
       },

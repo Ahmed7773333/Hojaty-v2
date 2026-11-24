@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_container.dart';
 
 class SettingsSectionCardWidget extends StatelessWidget {
   final String title;
@@ -31,8 +33,10 @@ class SettingsSectionCardWidget extends StatelessWidget {
           ),
         ),
         8.ver,
-        Container(
-          decoration: BoxDecoration(
+        LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.card,
+          borderRadius: BorderRadius.circular(20.r),
+          fallbackDecoration: BoxDecoration(
             color: isDark
                 ? AppColors.darkCardUnselected
                 : AppColors.lightSurface,
