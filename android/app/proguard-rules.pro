@@ -35,11 +35,11 @@
 -keep class com.wolfdev.hojaty.** { *; }
 
 # WorkManager & Room Database (required for home_widget / glance in release builds)
--keep class * extends androidx.room.RoomDatabase {
-    <init>();
-}
+-keep class * extends androidx.room.RoomDatabase { *; <init>(); }
 -keep class androidx.room.RoomDatabase$Builder { *; }
 -keep class androidx.room.RoomDatabase { *; }
+-keep class androidx.work.impl.WorkDatabase { *; }
+-keep class androidx.work.impl.WorkDatabase_Impl { *; }
 -keep class androidx.work.** { *; }
 -keep class androidx.work.impl.** { *; }
 -dontwarn androidx.work.**
