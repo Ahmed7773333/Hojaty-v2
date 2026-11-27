@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -36,7 +35,6 @@ class QuranTopBarWidget extends StatelessWidget {
       left: 0,
       right: 0,
       child: LiquidGlassContainer(
-        variant: LiquidGlassSurfaceVariant.surface,
         borderEdges: LiquidGlassBorderEdges.bottomOnly,
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 8.h,

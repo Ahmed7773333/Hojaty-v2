@@ -82,7 +82,7 @@ void main() {
   debugPrint('✓ KNOWLEDGE_RAG routing passed');
 
   // 5. Context-aware starter prompts (Arabic & English, Friday vs Weekday)
-  final fridayMorning = DateTime(2026, 11, 20, 9, 0); // Friday
+  final fridayMorning = DateTime(2026, 11, 20, 9); // Friday
   assert(fridayMorning.weekday == DateTime.friday);
   final arFridayPrompts = HojatyStarterPromptsProvider.getPrompts(
     AppLocalizationsAr(),
@@ -94,7 +94,7 @@ void main() {
     'Friday morning should suggest Surah Al-Kahf',
   );
 
-  final enEvening = DateTime(2026, 11, 24, 18, 0); // Tuesday evening
+  final enEvening = DateTime(2026, 11, 24, 18); // Tuesday evening
   final enEveningPrompts = HojatyStarterPromptsProvider.getPrompts(
     AppLocalizationsEn(),
     now: enEvening,

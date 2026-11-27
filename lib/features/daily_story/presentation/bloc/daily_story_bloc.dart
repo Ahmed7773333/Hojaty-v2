@@ -13,13 +13,10 @@ class DailyStoryBloc extends Bloc<DailyStoryEvent, DailyStoryState> {
   final StoryPaletteUseCase _palette;
 
   DailyStoryBloc({
-    required GetDailyStoriesUseCase getStories,
-    required SelectDailyStoryUseCase selectStory,
-    required StoryPaletteUseCase palette,
-  })  : _getStories = getStories,
-        _selectStory = selectStory,
-        _palette = palette,
-        super(const DailyStoryState()) {
+    required this._getStories,
+    required this._selectStory,
+    required this._palette,
+  })  : super(const DailyStoryState()) {
     on<LoadDailyStoryEvent>(_onLoad);
     on<SelectStoryCategoryEvent>(_onSelectCategory);
     on<ShuffleDailyStoryEvent>(_onShuffle);

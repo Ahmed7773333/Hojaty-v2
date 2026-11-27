@@ -11,7 +11,7 @@ void main() {
   group('ResolveActiveAdhkarUseCase', () {
     const useCase = ResolveActiveAdhkarUseCase();
     const coords = GeoCoordinates.cairo;
-    final helper = PrayersHelper(coordinates: coords);
+    const helper = PrayersHelper();
     final baseDate = DateTime(2026, 11, 24);
     final times = helper.getPrayerDateTimes(baseDate);
 

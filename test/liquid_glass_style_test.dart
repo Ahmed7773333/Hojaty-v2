@@ -24,29 +24,38 @@ void main() {
       );
     });
 
-    test('clampSigma enforces 14.0–24.0 optical blur bounds', () {
-      expect(LiquidGlassStyle.clampSigma(4.0), 14.0);
-      expect(LiquidGlassStyle.clampSigma(14.0), 14.0);
-      expect(LiquidGlassStyle.clampSigma(18.0), 18.0);
-      expect(LiquidGlassStyle.clampSigma(24.0), 24.0);
-      expect(LiquidGlassStyle.clampSigma(36.0), 24.0);
+    test('clampSigma enforces 6.0-14.0 optical blur bounds', () {
+      expect(
+        LiquidGlassStyle.clampSigma(2.0),
+        LiquidGlassStyle.minBlurSigma,
+      );
+      expect(
+        LiquidGlassStyle.clampSigma(LiquidGlassStyle.minBlurSigma),
+        LiquidGlassStyle.minBlurSigma,
+      );
+      expect(
+        LiquidGlassStyle.clampSigma(LiquidGlassStyle.defaultBlurSigma),
+        LiquidGlassStyle.defaultBlurSigma,
+      );
+      expect(
+        LiquidGlassStyle.clampSigma(LiquidGlassStyle.maxBlurSigma),
+        LiquidGlassStyle.maxBlurSigma,
+      );
+      expect(
+        LiquidGlassStyle.clampSigma(36.0),
+        LiquidGlassStyle.maxBlurSigma,
+      );
     });
 
     test(
-      'resolve produces calibrated translucent tokens for every theme and variant',
+      'resolve returns cached calibrated optical tokens for every theme and variant',
       () {
         for (final mode in AppThemeMode.values) {
           for (final variant in LiquidGlassSurfaceVariant.values) {
             final style = LiquidGlassStyle.resolve(mode, variant: variant);
+            final cached = LiquidGlassStyle.resolve(mode, variant: variant);
 
-            expect(
-              style.defaultSigma,
-              inInclusiveRange(
-                LiquidGlassStyle.minBlurSigma,
-                LiquidGlassStyle.maxBlurSigma,
-              ),
-            );
-            expect(style.sheenColors.length, 3);
+            expect(identical(style, cached), isTrue);
             expect(style.borderGradientColors.length, 3);
             expect(style.tintColor.a, greaterThan(0.0));
             expect(style.tintColor.a, lessThan(1.0));

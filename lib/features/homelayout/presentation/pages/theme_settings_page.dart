@@ -5,37 +5,16 @@ import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
 import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
-import 'package:hojaty/features/homelayout/presentation/widgets/settings/liquid_glass_settings_tile_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_page_header_widget.dart';
-import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_section_card_widget.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/theme_radio_card_widget.dart';
 
-class ThemeSettingsPage extends StatefulWidget {
+class ThemeSettingsPage extends StatelessWidget {
   const ThemeSettingsPage({super.key});
 
   @override
-  State<ThemeSettingsPage> createState() => _ThemeSettingsPageState();
-}
-
-class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
-  late AppThemeMode _selectedTheme;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedTheme = AppTheme.currentTheme;
-  }
-
-  void _onThemeSelected(AppThemeMode mode) {
-    setState(() {
-      _selectedTheme = mode;
-    });
-    AppTheme.setThemeMode(mode);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final isDark = context.isDark;
+    final selectedTheme = context.appThemeMode;
+    final isDark = selectedTheme != AppThemeMode.light;
 
     return Scaffold(
       backgroundColor: isDark
@@ -57,28 +36,23 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
                       title: context.strings.lightThemeTitle,
                       subtitle: context.strings.lightThemeSubtitle,
                       mode: AppThemeMode.light,
-                      isSelected: _selectedTheme == AppThemeMode.light,
-                      onTap: () => _onThemeSelected(AppThemeMode.light),
+                      isSelected: selectedTheme == AppThemeMode.light,
+                      onTap: () => AppTheme.setThemeMode(AppThemeMode.light),
                     ),
                     ThemeRadioCardWidget(
                       title: context.strings.darkThemeTitle,
                       subtitle: context.strings.darkThemeSubtitle,
                       mode: AppThemeMode.dark,
-                      isSelected: _selectedTheme == AppThemeMode.dark,
-                      onTap: () => _onThemeSelected(AppThemeMode.dark),
+                      isSelected: selectedTheme == AppThemeMode.dark,
+                      onTap: () => AppTheme.setThemeMode(AppThemeMode.dark),
                     ),
                     ThemeRadioCardWidget(
                       title: context.strings.amoledThemeTitle,
                       subtitle: context.strings.amoledThemeSubtitle,
                       mode: AppThemeMode.amoled,
-                      isSelected: _selectedTheme == AppThemeMode.amoled,
-                      onTap: () => _onThemeSelected(AppThemeMode.amoled),
+                      isSelected: selectedTheme == AppThemeMode.amoled,
+                      onTap: () => AppTheme.setThemeMode(AppThemeMode.amoled),
                     ),
-                    // 10.ver,
-                    // SettingsSectionCardWidget(
-                    //   title: context.strings.visualEffectsSection,
-                    //   children: const [LiquidGlassSettingsTileWidget()],
-                    // ),
                   ],
                 ),
               ),

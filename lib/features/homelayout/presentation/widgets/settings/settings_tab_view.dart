@@ -127,7 +127,6 @@ class _SettingsTabViewState extends State<SettingsTabView> {
               child: Column(
                 children: [
                   SettingsSearchBarWidget(
-                    adhanTabOnly: false,
                     onResultSelected: _onSearchResultSelected,
                   ),
                   16.ver,

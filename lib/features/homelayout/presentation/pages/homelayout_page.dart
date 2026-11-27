@@ -159,19 +159,21 @@ class _HomelayoutPageState extends State<HomelayoutPage>
             child: Scaffold(
               extendBody: context.isLiquidGlassEnabled,
               body: IndexedStack(index: state.currentTabIndex, children: tabs),
-              bottomNavigationBar: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const AppMiniPlayerWidget(),
-                  HomeBottomNavBarWidget(
-                    currentIndex: state.currentTabIndex,
-                    onTabSelected: (index) {
-                      context.read<HomelayoutBloc>().add(
-                        ChangeBottomNavTabEvent(index),
-                      );
-                    },
-                  ),
-                ],
+              bottomNavigationBar: BackdropGroup(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const AppMiniPlayerWidget(),
+                    HomeBottomNavBarWidget(
+                      currentIndex: state.currentTabIndex,
+                      onTabSelected: (index) {
+                        context.read<HomelayoutBloc>().add(
+                          ChangeBottomNavTabEvent(index),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

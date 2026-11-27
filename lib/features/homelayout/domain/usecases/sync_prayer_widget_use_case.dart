@@ -84,13 +84,13 @@ class SyncPrayerWidgetUseCase {
   }
 
   PrayerWidgetSlot _createPrayerSlot(PrayerType type, DateTime time) {
-    final baseNameAr = PrayersHelper.getPrayerName(type, language: 'ar');
+    final baseNameAr = PrayersHelper.getPrayerName(type);
     final nameEn = PrayersHelper.getPrayerName(type, language: 'en');
     return PrayerWidgetSlot(
       key: type.name,
       nameAr: 'صلاة $baseNameAr',
       nameEn: nameEn,
-      timeFormattedAr: PrayersHelper.formatTimeTo12Hour(time, language: 'ar'),
+      timeFormattedAr: PrayersHelper.formatTimeTo12Hour(time),
       timeFormattedEn: PrayersHelper.formatTimeTo12Hour(time, language: 'en'),
       timestampMs: time.millisecondsSinceEpoch,
     );
@@ -101,7 +101,7 @@ class SyncPrayerWidgetUseCase {
       key: 'sunrise',
       nameAr: 'الشروق',
       nameEn: 'Sunrise',
-      timeFormattedAr: PrayersHelper.formatTimeTo12Hour(time, language: 'ar'),
+      timeFormattedAr: PrayersHelper.formatTimeTo12Hour(time),
       timeFormattedEn: PrayersHelper.formatTimeTo12Hour(time, language: 'en'),
       timestampMs: time.millisecondsSinceEpoch,
     );

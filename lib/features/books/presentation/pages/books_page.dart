@@ -6,6 +6,7 @@ import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/books/data/models/book_download_state.dart';
 import 'package:hojaty/features/books/data/models/book_info_model.dart';
 import 'package:hojaty/features/books/data/repositories/books_repository.dart';
@@ -158,9 +159,10 @@ class _BooksPageState extends State<BooksPage> {
         backgroundColor: isDark
             ? AppColors.darkBackground
             : AppColors.lightBackground,
-        body: Column(
-          children: [
-            BooksHeaderWidget(onBack: () => context.pop()),
+        body: LiquidGlassBackdrop(
+          child: Column(
+            children: [
+              BooksHeaderWidget(onBack: () => context.pop()),
             12.ver,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -243,7 +245,8 @@ class _BooksPageState extends State<BooksPage> {
                 },
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );

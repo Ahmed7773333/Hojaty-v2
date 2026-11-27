@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/hojaty_ai/domain/services/app_action_dispatcher.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_cubit.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/bloc/hojaty_ai_state.dart';
@@ -79,9 +80,10 @@ class _HojatyAiBodyState extends State<_HojatyAiBody> {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
-          const HojatyAiHeaderWidget(),
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
+            const HojatyAiHeaderWidget(),
           Expanded(
             child: BlocBuilder<HojatyAiCubit, HojatyAiState>(
               builder: (context, state) {
@@ -122,7 +124,8 @@ class _HojatyAiBodyState extends State<_HojatyAiBody> {
               );
             },
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

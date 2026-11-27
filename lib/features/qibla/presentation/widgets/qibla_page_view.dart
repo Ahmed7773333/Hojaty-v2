@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/qibla/presentation/bloc/qibla_bloc.dart';
 import 'package:hojaty/features/qibla/presentation/bloc/qibla_event.dart';
 import 'package:hojaty/features/qibla/presentation/bloc/qibla_state.dart';
@@ -25,9 +26,10 @@ class QiblaPageView extends StatelessWidget {
       backgroundColor: isDark
           ? AppColors.darkBackground
           : AppColors.lightBackground,
-      body: Column(
-        children: [
-          const QiblaAppBarWidget(),
+      body: LiquidGlassBackdrop(
+        child: Column(
+          children: [
+            const QiblaAppBarWidget(),
           Expanded(
             child: BlocBuilder<QiblaBloc, QiblaState>(
               builder: (context, state) {
@@ -83,7 +85,8 @@ class QiblaPageView extends StatelessWidget {
               },
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

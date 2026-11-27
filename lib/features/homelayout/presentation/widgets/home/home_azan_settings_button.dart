@@ -47,7 +47,7 @@ class _HomeAzanSettingsButtonState extends State<HomeAzanSettingsButton> {
     final buttonSize = renderBox.size;
     final screenWidth = MediaQuery.sizeOf(context).width;
     final horizontalMargin = 20.w;
-    final bubbleWidth = (250.w).clamp(220.0, screenWidth - horizontalMargin * 2);
+    final bubbleWidth = 250.w.clamp(220.0, screenWidth - horizontalMargin * 2);
 
     final idealLeft =
         buttonOffset.dx + (buttonSize.width / 2) - (bubbleWidth / 2);

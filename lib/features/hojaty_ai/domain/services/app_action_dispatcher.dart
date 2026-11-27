@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:hojaty/config/routes/app_router.dart';
+import 'package:hojaty/config/theme/app_theme.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/features/hojaty_ai/data/datasources/hojaty_tool_registry.dart';
@@ -515,13 +516,13 @@ class AppActionDispatcher {
 
     if (themeStr.isNotEmpty) {
       if (themeStr.contains('dark') || themeStr.contains('داكن')) {
-        UserHiveHelper.setThemeMode(AppThemeMode.dark);
+        AppTheme.setThemeMode(AppThemeMode.dark);
         updates.add('تفعيل الوضع الداكن');
       } else if (themeStr.contains('amoled') || themeStr.contains('أسود')) {
-        UserHiveHelper.setThemeMode(AppThemeMode.amoled);
+        AppTheme.setThemeMode(AppThemeMode.amoled);
         updates.add('تفعيل وضع أموليد شديد السواد');
       } else if (themeStr.contains('light') || themeStr.contains('فاتح')) {
-        UserHiveHelper.setThemeMode(AppThemeMode.light);
+        AppTheme.setThemeMode(AppThemeMode.light);
         updates.add('تفعيل الوضع الفاتح');
       }
     }

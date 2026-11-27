@@ -84,103 +84,113 @@ class _QuranReaderPageState extends State<QuranReaderPage> {
                   MediaQuery.orientationOf(context) == Orientation.landscape;
               final isTwoPageMode = isLandscape && constraints.maxWidth > 600;
 
-              return Stack(
-                children: [
-                  QuranReaderViewWidget(
-                    initialPage: state.currentPage,
-                    isTwoPageMode: isTwoPageMode,
-                    basePath: state.assetsPath,
-                    qirat: state.selectedQirat,
-                    quranPages: state.quranPages,
-                    highlightPage: _highlightPage,
-                    highlightVerseIndex: _highlightVerseIndex,
-                    onPageChanged: (page) {
-                      if (_highlightPage != page) {
-                        setState(() {
-                          _highlightPage = null;
-                          _highlightVerseIndex = null;
-                        });
-                      }
-                      context.read<QuranBloc>().add(PageChangedEvent(page));
-                    },
-                    onToggleOverlay: () {
-                      context.read<QuranBloc>().add(const ToggleOverlayEvent());
-                    },
-                  ),
-                  QuranTopBarWidget(
-                    isVisible: state.isOverlayVisible,
-                    currentPage: state.currentPage,
-                    onSearchTap: () async {
-                      final pageNum = await context.pushNamed<int>(
-                        AppRoutes.quranSearch,
-                      );
-                      if (pageNum != null && context.mounted) {
-                        context.read<QuranBloc>().add(JumpToPageEvent(pageNum));
-                      }
-                    },
-                    onJuzsTap: () async {
-                      final pageNum = await context.pushNamed<int>(
-                        AppRoutes.quranJuzs,
-                      );
-                      if (pageNum != null && context.mounted) {
-                        context.read<QuranBloc>().add(JumpToPageEvent(pageNum));
-                      }
-                    },
-                    onFehresTap: () async {
-                      final pageNum = await context.pushNamed<int>(
-                        AppRoutes.quranFehres,
-                      );
-                      if (pageNum != null && context.mounted) {
-                        context.read<QuranBloc>().add(JumpToPageEvent(pageNum));
-                      }
-                    },
-                    onTafseerTap: () {
-                      final pageData = state.quranPages[state.currentPage];
-                      context.pushNamed(
-                        AppRoutes.quranTafseer,
-                        extra: {
-                          'pageData': pageData,
-                          'pageNum': state.currentPage,
-                        },
-                      );
-                    },
-                  ),
-                  QuranBottomBarWidget(
-                    isVisible: state.isOverlayVisible,
-                    currentPage: state.currentPage,
-                    onHomeTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    onCheckpointsTap: () async {
-                      final result = await context
-                          .pushNamed<Map<String, dynamic>>(
-                            AppRoutes.quranCheckpoints,
-                          );
-                      if (result != null && context.mounted) {
-                        final pageNum = result['pageNum'] as int?;
-                        final verseIndex = result['verseIndex'] as int?;
-                        if (pageNum != null) {
+              return BackdropGroup(
+                child: Stack(
+                  children: [
+                    QuranReaderViewWidget(
+                      initialPage: state.currentPage,
+                      isTwoPageMode: isTwoPageMode,
+                      basePath: state.assetsPath,
+                      qirat: state.selectedQirat,
+                      quranPages: state.quranPages,
+                      highlightPage: _highlightPage,
+                      highlightVerseIndex: _highlightVerseIndex,
+                      onPageChanged: (page) {
+                        if (_highlightPage != page) {
                           setState(() {
-                            _highlightPage = pageNum;
-                            _highlightVerseIndex = verseIndex;
+                            _highlightPage = null;
+                            _highlightVerseIndex = null;
                           });
-                          context
-                              .read<QuranBloc>()
-                              .add(JumpToPageEvent(pageNum));
                         }
-                      }
-                    },
-                    onListenTap: () {
-                      final surah = QuranTextHelper.getSurahByPage(
-                        state.currentPage,
-                      );
-                      if (surah != null) {
-                        context.pushNamed(AppRoutes.radio, extra: surah);
-                      }
-                    },
-                    onQiraatTap: () {},
-                  ),
-                ],
+                        context.read<QuranBloc>().add(PageChangedEvent(page));
+                      },
+                      onToggleOverlay: () {
+                        context.read<QuranBloc>().add(
+                          const ToggleOverlayEvent(),
+                        );
+                      },
+                    ),
+                    QuranTopBarWidget(
+                      isVisible: state.isOverlayVisible,
+                      currentPage: state.currentPage,
+                      onSearchTap: () async {
+                        final pageNum = await context.pushNamed<int>(
+                          AppRoutes.quranSearch,
+                        );
+                        if (pageNum != null && context.mounted) {
+                          context.read<QuranBloc>().add(
+                            JumpToPageEvent(pageNum),
+                          );
+                        }
+                      },
+                      onJuzsTap: () async {
+                        final pageNum = await context.pushNamed<int>(
+                          AppRoutes.quranJuzs,
+                        );
+                        if (pageNum != null && context.mounted) {
+                          context.read<QuranBloc>().add(
+                            JumpToPageEvent(pageNum),
+                          );
+                        }
+                      },
+                      onFehresTap: () async {
+                        final pageNum = await context.pushNamed<int>(
+                          AppRoutes.quranFehres,
+                        );
+                        if (pageNum != null && context.mounted) {
+                          context.read<QuranBloc>().add(
+                            JumpToPageEvent(pageNum),
+                          );
+                        }
+                      },
+                      onTafseerTap: () {
+                        final pageData = state.quranPages[state.currentPage];
+                        context.pushNamed(
+                          AppRoutes.quranTafseer,
+                          extra: {
+                            'pageData': pageData,
+                            'pageNum': state.currentPage,
+                          },
+                        );
+                      },
+                    ),
+                    QuranBottomBarWidget(
+                      isVisible: state.isOverlayVisible,
+                      currentPage: state.currentPage,
+                      onHomeTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      onCheckpointsTap: () async {
+                        final result = await context
+                            .pushNamed<Map<String, dynamic>>(
+                              AppRoutes.quranCheckpoints,
+                            );
+                        if (result != null && context.mounted) {
+                          final pageNum = result['pageNum'] as int?;
+                          final verseIndex = result['verseIndex'] as int?;
+                          if (pageNum != null) {
+                            setState(() {
+                              _highlightPage = pageNum;
+                              _highlightVerseIndex = verseIndex;
+                            });
+                            context.read<QuranBloc>().add(
+                              JumpToPageEvent(pageNum),
+                            );
+                          }
+                        }
+                      },
+                      onListenTap: () {
+                        final surah = QuranTextHelper.getSurahByPage(
+                          state.currentPage,
+                        );
+                        if (surah != null) {
+                          context.pushNamed(AppRoutes.radio, extra: surah);
+                        }
+                      },
+                      onQiraatTap: () {},
+                    ),
+                  ],
+                ),
               );
             },
           );

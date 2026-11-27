@@ -39,161 +39,159 @@ class RamadanHeroCardWidget extends StatelessWidget {
 
         final remainingDays = targetEnd.difference(DateTime.now()).inDays;
 
-        return RepaintBoundary(
-          child: LiquidGlassContainer(
-            variant: LiquidGlassSurfaceVariant.brandCard,
-            borderRadius: BorderRadius.circular(24.r),
-            padding: EdgeInsets.all(22.r),
-            fallbackDecoration: BoxDecoration(
-              color: AppColors.primaryDark,
-              borderRadius: BorderRadius.circular(22.r),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primaryDark.withValues(alpha: 0.25),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.brandCard,
+          borderRadius: BorderRadius.circular(24.r),
+          padding: EdgeInsets.all(22.r),
+          fallbackDecoration: BoxDecoration(
+            color: AppColors.primaryDark,
+            borderRadius: BorderRadius.circular(22.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryDark.withValues(alpha: 0.25),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(Assets.ramadanIcon),
+                  8.hor,
+                  Text(
+                    context.strings.ramadanKareem,
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: AppColors.accentGoldLight,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              ),
+              8.ver,
+              Text(
+                isRamadan
+                    ? (isArabic
+                          ? 'اليوم ${hijriDate?.dayNumber ?? 1} من رمضان'
+                          : 'Day ${hijriDate?.dayNumber ?? 1} of Ramadan')
+                    : context.strings.ramadanDay1Title,
+                style: context.textTheme.headlineMedium?.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 24.sp,
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+              ),
+              4.ver,
+              Text(
+                ramadanDateStr,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: AppColors.darkTextSecondary,
+                  fontSize: 13.sp,
+                ),
+              ),
+              20.ver,
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 20.h,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.black.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Column(
                   children: [
-                    Image.asset(Assets.ramadanIcon),
-                    8.hor,
-                    Text(
-                      context.strings.ramadanKareem,
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: AppColors.accentGoldLight,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12.sp,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            isRamadan
+                                ? (isArabic
+                                      ? 'متبقى على الإفطار'
+                                      : 'Time until Iftar')
+                                : context.strings.remainingOnRamadan,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.darkTextSecondary,
+                              fontSize: 13.sp,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        8.hor,
+                        if (!isRamadan)
+                          Text(
+                            nextRamadan?.formattedTimeLeft(
+                                  language: isArabic ? 'ar' : 'en',
+                                ) ??
+                                (isArabic
+                                    ? '5 أشهر و 12 يوم'
+                                    : '5 months 12 days'),
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.accentGoldLight,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                      ],
+                    ),
+                    12.ver,
+                    Center(
+                      child: LiveTimerDisplay(
+                        end: targetEnd,
+                        format: LiveTimeFormat.short,
+                        style: context.textTheme.headlineLarge?.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 32.sp,
+                          letterSpacing: 1.5,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                8.ver,
-                Text(
-                  isRamadan
-                      ? (isArabic
-                            ? 'اليوم ${hijriDate?.dayNumber ?? 1} من رمضان'
-                            : 'Day ${hijriDate?.dayNumber ?? 1} of Ramadan')
-                      : context.strings.ramadanDay1Title,
-                  style: context.textTheme.headlineMedium?.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 24.sp,
-                  ),
-                ),
-                4.ver,
-                Text(
-                  ramadanDateStr,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.darkTextSecondary,
-                    fontSize: 13.sp,
-                  ),
-                ),
-                20.ver,
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 20.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.black.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Column(
-                    children: [
+                    4.ver,
+                    if (!isRamadan)
+                      Center(
+                        child: Text(
+                          context.strings.daysRemainingUnit(remainingDays),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkTextSecondary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                      ),
+                    if (isRamadan) ...[
+                      12.ver,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
-                            child: Text(
-                              isRamadan
-                                  ? (isArabic
-                                        ? 'متبقى على الإفطار'
-                                        : 'Time until Iftar')
-                                  : context.strings.remainingOnRamadan,
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: AppColors.darkTextSecondary,
-                                fontSize: 13.sp,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          8.hor,
-                          if (!isRamadan)
-                            Text(
-                              nextRamadan?.formattedTimeLeft(
-                                    language: isArabic ? 'ar' : 'en',
-                                  ) ??
-                                  (isArabic
-                                      ? '5 أشهر و 12 يوم'
-                                      : '5 months 12 days'),
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: AppColors.accentGoldLight,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                        ],
-                      ),
-                      12.ver,
-                      Center(
-                        child: LiveTimerDisplay(
-                          end: targetEnd,
-                          format: LiveTimeFormat.short,
-                          style: context.textTheme.headlineLarge?.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 32.sp,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                      ),
-                      4.ver,
-                      if (!isRamadan)
-                        Center(
-                          child: Text(
-                            context.strings.daysRemainingUnit(remainingDays),
+                          Text(
+                            isArabic ? 'المغرب 07:10 م' : 'Maghrib 07:10 PM',
                             style: context.textTheme.bodySmall?.copyWith(
                               color: AppColors.darkTextSecondary,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.sp,
+                              fontSize: 12.sp,
                             ),
                           ),
-                        ),
-                      if (isRamadan) ...[
-                        12.ver,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              isArabic ? 'المغرب 07:10 م' : 'Maghrib 07:10 PM',
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: AppColors.darkTextSecondary,
-                                fontSize: 12.sp,
-                              ),
+                          Text(
+                            isArabic ? 'الفجر 05:10 ص' : 'Fajr 05:10 AM',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.darkTextSecondary,
+                              fontSize: 12.sp,
                             ),
-                            Text(
-                              isArabic ? 'الفجر 05:10 ص' : 'Fajr 05:10 AM',
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: AppColors.darkTextSecondary,
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ],
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

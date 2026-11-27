@@ -73,6 +73,12 @@ class HomeOccasionQuickAccessCard extends StatelessWidget {
                         Assets.crescentIcon,
                         width: 18.w,
                         height: 18.h,
+                        colorFilter: ColorFilter.mode(
+                          isDark
+                              ? AppColors.accentGoldLight
+                              : AppColors.accentGoldDark,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                     Container(

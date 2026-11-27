@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:hojaty/config/theme/liquid_glass_style.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
@@ -28,7 +27,6 @@ class HojatyAiSourceDetailSheetWidget extends StatelessWidget {
     final isDark = context.isDark;
 
     return LiquidGlassContainer(
-      variant: LiquidGlassSurfaceVariant.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
       blurSigma: LiquidGlassStyle.maxBlurSigma,
       constraints: BoxConstraints(

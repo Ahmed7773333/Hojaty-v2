@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/theme/liquid_glass_style.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/local_notification_service.dart';
@@ -70,7 +69,6 @@ class PrayerAlertSettingsBottomSheetWidget extends StatelessWidget {
         final prayerName = _getPrayerName(context, prayer.type);
 
         return LiquidGlassContainer(
-          variant: LiquidGlassSurfaceVariant.surface,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           blurSigma: LiquidGlassStyle.maxBlurSigma,
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),

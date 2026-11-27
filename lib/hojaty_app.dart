@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/config/theme/app_theme.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/config/theme/app_theme_scope.dart';
 import 'package:hojaty/config/theme/liquid_glass_controller.dart';
 import 'package:hojaty/config/theme/liquid_glass_scope.dart';
 import 'package:hojaty/core/di/injector.dart';
@@ -58,6 +59,7 @@ class HojatyApp extends StatelessWidget {
                   themeMode: currentMode == AppThemeMode.light
                       ? ThemeMode.light
                       : ThemeMode.dark,
+                  themeAnimationStyle: AnimationStyle.noAnimation,
                   localizationsDelegates: const [
                     AppLocalizations.delegate,
                     ...GlobalMaterialLocalizations.delegates,
@@ -74,9 +76,12 @@ class HojatyApp extends StatelessWidget {
                     if (child != null) {
                       ScreenUtil.init(context: context);
                     }
-                    return LiquidGlassScope(
-                      notifier: LiquidGlassController.enabledNotifier,
-                      child: child!,
+                    return AppThemeScope(
+                      notifier: AppTheme.themeModeNotifier,
+                      child: LiquidGlassScope(
+                        notifier: LiquidGlassController.enabledNotifier,
+                        child: child!,
+                      ),
                     );
                   },
                 ),

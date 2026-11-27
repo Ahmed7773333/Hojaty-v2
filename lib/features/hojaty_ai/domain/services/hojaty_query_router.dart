@@ -200,7 +200,7 @@ class HojatyQueryRouter {
   /// Detects whether the user's message is primarily Arabic or English.
   static bool _isArabicInput(String raw, String fallbackLocale) {
     if (RegExp(r'[\u0600-\u06FF]').hasMatch(raw)) return true;
-    if (RegExp(r'[a-zA-Z]').hasMatch(raw)) return false;
+    if (RegExp('[a-zA-Z]').hasMatch(raw)) return false;
     return fallbackLocale.toLowerCase().startsWith('ar');
   }
 
@@ -351,8 +351,8 @@ class HojatyQueryRouter {
           !_thanksPhrases.contains(norm)) {
         return true;
       }
-      final lettersOnly = compact.replaceAll(RegExp(r'[^a-z]'), '');
-      if (lettersOnly.length >= 5 && !RegExp(r'[aeiouy]').hasMatch(lettersOnly)) {
+      final lettersOnly = compact.replaceAll(RegExp('[^a-z]'), '');
+      if (lettersOnly.length >= 5 && !RegExp('[aeiouy]').hasMatch(lettersOnly)) {
         return true;
       }
       // Keyboard row mash check

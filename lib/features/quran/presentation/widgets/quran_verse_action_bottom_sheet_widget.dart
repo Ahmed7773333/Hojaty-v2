@@ -3,7 +3,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:hojaty/config/routes/app_router.dart';
 import 'package:hojaty/config/theme/liquid_glass_style.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
@@ -151,7 +150,6 @@ class _QuranVerseActionBottomSheetWidgetState
             : '';
 
     return LiquidGlassContainer(
-      variant: LiquidGlassSurfaceVariant.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
       blurSigma: LiquidGlassStyle.maxBlurSigma,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),

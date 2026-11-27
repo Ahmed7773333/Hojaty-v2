@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/theme/liquid_glass_style.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/app_share_helper.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
@@ -34,7 +33,6 @@ class AppQrCodeDialog extends StatelessWidget {
       ),
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: LiquidGlassContainer(
-        variant: LiquidGlassSurfaceVariant.surface,
         borderRadius: BorderRadius.circular(20.r),
         blurSigma: LiquidGlassStyle.maxBlurSigma,
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),

@@ -6,6 +6,7 @@ import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/shared/widgets/custom_elevated_button.dart';
 import 'package:hojaty/features/radio/data/models/surah_audio_args.dart';
 import 'package:hojaty/features/radio/services/radio_audio_player_service.dart';
@@ -211,9 +212,10 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
         backgroundColor: isDark
             ? AppColors.darkBackground
             : AppColors.lightBackground,
-        body: Column(
-          children: [
-            BlocBuilder<RadioBloc, RadioState>(
+        body: LiquidGlassBackdrop(
+          child: Column(
+            children: [
+              BlocBuilder<RadioBloc, RadioState>(
               builder: (context, state) {
                 final isFav = state.isFavorite(
                   _activeArgs.surahNumber,
@@ -265,7 +267,8 @@ class _SurahAudioPageState extends State<SurahAudioPage> {
                 ),
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );

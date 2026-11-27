@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:hojaty/config/routes/app_router.dart';
-import 'package:hojaty/config/theme/liquid_glass_style.dart';
 import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
@@ -18,7 +17,6 @@ class HomeQiblaBannerWidget extends StatelessWidget {
       child: LiquidGlassContainer(
         variant: LiquidGlassSurfaceVariant.floatingCard,
         borderRadius: BorderRadius.circular(14.r),
-        blurSigma: LiquidGlassStyle.minBlurSigma,
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         fallbackDecoration: BoxDecoration(

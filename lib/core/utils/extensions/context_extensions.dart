@@ -1,21 +1,19 @@
 import 'package:hojaty/l10n/app_localizations.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:hojaty/config/theme/app_theme.dart';
 import 'package:hojaty/config/theme/app_theme_mode.dart';
+import 'package:hojaty/config/theme/app_theme_scope.dart';
 import 'package:hojaty/config/theme/liquid_glass_scope.dart';
 import 'package:hojaty/config/theme/liquid_glass_style.dart';
 import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
-
-// import 'package:timegates/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
   AppLocalizations get strings => AppLocalizations.of(this)!;
   ColorScheme get colors => Theme.of(this).colorScheme;
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
-  bool get isDark => Theme.of(this).brightness == Brightness.dark;
-  bool get isAmoled => AppTheme.isAmoled;
-  AppThemeMode get appThemeMode => AppTheme.currentTheme;
+  AppThemeMode get appThemeMode => AppThemeScope.of(this);
+  bool get isDark => appThemeMode != AppThemeMode.light;
+  bool get isAmoled => appThemeMode == AppThemeMode.amoled;
   bool get isLiquidGlassEnabled => LiquidGlassScope.of(this);
   LiquidGlassStyle liquidGlassStyle([
     LiquidGlassSurfaceVariant variant = LiquidGlassSurfaceVariant.surface,

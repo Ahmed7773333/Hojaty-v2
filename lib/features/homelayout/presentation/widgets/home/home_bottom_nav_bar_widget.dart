@@ -1,6 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:hojaty/config/theme/liquid_glass_border_edges.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/assets.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
@@ -82,10 +80,7 @@ class HomeBottomNavBarWidget extends StatelessWidget {
         top: false,
         minimum: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
         child: LiquidGlassContainer(
-          variant: LiquidGlassSurfaceVariant.surface,
           borderRadius: BorderRadius.circular(28.r),
-          borderEdges: LiquidGlassBorderEdges.all,
-          blurSigma: 20.0,
           padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 6.w),
           child: navItemsRow,
         ),

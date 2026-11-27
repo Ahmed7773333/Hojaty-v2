@@ -1,5 +1,7 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:hojaty/config/theme/app_theme.dart';
+import 'package:hojaty/config/theme/liquid_glass_controller.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_audio_art_helper.dart';
@@ -26,7 +28,11 @@ void main() async {
     ),
     UserHiveHelper.init(),
   ]);
-  await UserHiveHelper.initNotifications();
-  await setupInjector();
+  AppTheme.syncFromStorage();
+  await Future.wait([
+    LiquidGlassController.init(),
+    UserHiveHelper.initNotifications(),
+    setupInjector(),
+  ]);
   runApp(const HojatyApp());
 }

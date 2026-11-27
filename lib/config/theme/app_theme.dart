@@ -13,9 +13,18 @@ class AppTheme {
   static bool get isLight => currentTheme == AppThemeMode.light;
   static bool get isAnyDark => currentTheme != AppThemeMode.light;
 
+  static void syncFromStorage() {
+    final stored = UserHiveHelper.getThemeMode();
+    if (themeModeNotifier.value != stored) {
+      themeModeNotifier.value = stored;
+    }
+  }
+
   static void setThemeMode(AppThemeMode mode) {
-    themeModeNotifier.value = mode;
     UserHiveHelper.setThemeMode(mode);
+    if (themeModeNotifier.value != mode) {
+      themeModeNotifier.value = mode;
+    }
   }
 
   static void toggleTheme() {

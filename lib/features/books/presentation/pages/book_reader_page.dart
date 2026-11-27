@@ -230,65 +230,67 @@ class _BookReaderPageState extends State<BookReaderPage> {
                 ),
               ),
             )
-          : Stack(
-              children: [
-                // Horizontal Page View for reading
-                PageView.builder(
-                  controller: _pageController,
-                  itemCount: totalPages,
-                  onPageChanged: (index) {
-                    setState(() => _currentPage = index + 1);
-                  },
-                  itemBuilder: (context, index) {
-                    final page = _paginationResult.pages[index];
-                    return BookPageLeafWidget(
-                      page: page,
-                      totalPages: totalPages,
-                      bookTitle: widget.book.getDisplayTitle(isAr),
-                      fontSize: _fontSize,
-                      theme: theme,
-                      showEnglish: _showEnglish,
-                      onTap: _toggleOverlay,
-                    );
-                  },
-                ),
-
-                // Top Header Overlay
-                if (_showOverlay)
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: BookReaderHeaderWidget(
-                      title: widget.book.getDisplayTitle(isAr),
-                      chapterTitle: currentPageModel?.chapterTitle ?? '',
-                      theme: theme,
-                      onBack: () => Navigator.of(context).pop(),
-                      onSearch: _openSearch,
-                      onToc: _openToc,
-                      onSettings: _openSettings,
-                      onShare: _openShare,
-                      onOpenPdf: widget.book.hasPdf ? _openPdf : null,
-                    ),
+          : BackdropGroup(
+              child: Stack(
+                children: [
+                  // Horizontal Page View for reading
+                  PageView.builder(
+                    controller: _pageController,
+                    itemCount: totalPages,
+                    onPageChanged: (index) {
+                      setState(() => _currentPage = index + 1);
+                    },
+                    itemBuilder: (context, index) {
+                      final page = _paginationResult.pages[index];
+                      return BookPageLeafWidget(
+                        page: page,
+                        totalPages: totalPages,
+                        bookTitle: widget.book.getDisplayTitle(isAr),
+                        fontSize: _fontSize,
+                        theme: theme,
+                        showEnglish: _showEnglish,
+                        onTap: _toggleOverlay,
+                      );
+                    },
                   ),
 
-                // Bottom Navigation Overlay
-                if (_showOverlay)
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: BookReaderBottomBarWidget(
-                      currentPage: _currentPage,
-                      totalPages: totalPages,
-                      theme: theme,
-                      onPageChanged: _jumpToPage,
-                      onPreviousPage: _previousPage,
-                      onNextPage: _nextPage,
-                      onJumpToPage: _openJumpDialog,
+                  // Top Header Overlay
+                  if (_showOverlay)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: BookReaderHeaderWidget(
+                        title: widget.book.getDisplayTitle(isAr),
+                        chapterTitle: currentPageModel?.chapterTitle ?? '',
+                        theme: theme,
+                        onBack: () => Navigator.of(context).pop(),
+                        onSearch: _openSearch,
+                        onToc: _openToc,
+                        onSettings: _openSettings,
+                        onShare: _openShare,
+                        onOpenPdf: widget.book.hasPdf ? _openPdf : null,
+                      ),
                     ),
-                  ),
-              ],
+
+                  // Bottom Navigation Overlay
+                  if (_showOverlay)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: BookReaderBottomBarWidget(
+                        currentPage: _currentPage,
+                        totalPages: totalPages,
+                        theme: theme,
+                        onPageChanged: _jumpToPage,
+                        onPreviousPage: _previousPage,
+                        onNextPage: _nextPage,
+                        onJumpToPage: _openJumpDialog,
+                      ),
+                    ),
+                ],
+              ),
             ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:hojaty/config/routes/app_router.dart';
-import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
@@ -55,9 +54,7 @@ class _AppMiniPlayerWidgetState extends State<AppMiniPlayerWidget> {
             final reciterName = _playerService.currentReciterName ?? '';
 
             return LiquidGlassContainer(
-              variant: LiquidGlassSurfaceVariant.surface,
               borderRadius: BorderRadius.circular(22.r),
-              blurSigma: 20.0,
               margin: EdgeInsets.only(left: 14.w, right: 14.w, bottom: 8.h),
               fallbackDecoration: BoxDecoration(
                 color: isDark ? AppColors.darkSurface : AppColors.white,

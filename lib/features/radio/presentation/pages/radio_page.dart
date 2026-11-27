@@ -5,6 +5,7 @@ import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
 import 'package:hojaty/core/utils/extensions/context_extensions.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/core/widgets/liquid_glass_backdrop.dart';
 import 'package:hojaty/features/quran/data/models/surah_info_model.dart';
 import 'package:hojaty/features/radio/presentation/bloc/radio_bloc.dart';
 import 'package:hojaty/features/radio/presentation/bloc/radio_event.dart';
@@ -76,9 +77,10 @@ class _RadioPageState extends State<RadioPage> {
         backgroundColor: isDark
             ? AppColors.darkBackground
             : AppColors.lightBackground,
-        body: Column(
-          children: [
-            RadioHeaderWidget(onBack: () => context.pop()),
+        body: LiquidGlassBackdrop(
+          child: Column(
+            children: [
+              RadioHeaderWidget(onBack: () => context.pop()),
             Expanded(
               child: CustomScrollView(
                 scrollCacheExtent: const ScrollCacheExtent.pixels(400),
@@ -122,7 +124,8 @@ class _RadioPageState extends State<RadioPage> {
                 ],
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );

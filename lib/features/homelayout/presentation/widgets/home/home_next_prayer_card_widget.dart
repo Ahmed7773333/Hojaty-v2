@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hojaty/config/theme/liquid_glass_style.dart';
 import 'package:hojaty/config/theme/liquid_glass_surface_variant.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/app_colors.dart';
@@ -108,99 +107,96 @@ class _HomeNextPrayerCardWidgetState extends State<HomeNextPrayerCardWidget> {
           prev.sunriseTime != curr.sunriseTime ||
           prev.currentLanguage != curr.currentLanguage,
       builder: (context, state) {
-        return RepaintBoundary(
-          child: LiquidGlassContainer(
-            variant: LiquidGlassSurfaceVariant.floatingCard,
+        return LiquidGlassContainer(
+          variant: LiquidGlassSurfaceVariant.floatingCard,
+          borderRadius: BorderRadius.circular(20.r),
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.all(20.r),
+          fallbackDecoration: BoxDecoration(
+            color: AppColors.white.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(20.r),
-            blurSigma: LiquidGlassStyle.minBlurSigma,
-            margin: EdgeInsets.symmetric(horizontal: 20.w),
-            padding: EdgeInsets.all(20.r),
-            fallbackDecoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(
-                color: AppColors.white.withValues(alpha: 0.12),
-              ),
+            border: Border.all(
+              color: AppColors.white.withValues(alpha: 0.12),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          cardTitle,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: isPostAdhan
-                                ? AppColors.accentGoldLight
-                                : AppColors.darkTextSecondary,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                          ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cardTitle,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: isPostAdhan
+                              ? AppColors.accentGoldLight
+                              : AppColors.darkTextSecondary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
                         ),
-                        2.ver,
-                        Text(
-                          prayerName,
-                          style: context.textTheme.headlineMedium?.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 26.sp,
-                          ),
+                      ),
+                      2.ver,
+                      Text(
+                        prayerName,
+                        style: context.textTheme.headlineMedium?.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 26.sp,
                         ),
-                        2.ver,
-                        Text(
-                          formattedTime,
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: AppColors.darkTextSecondary,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                          ),
+                      ),
+                      2.ver,
+                      Text(
+                        formattedTime,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.darkTextSecondary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
                         ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              context.strings.nextPrayerRemaining,
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: AppColors.accentGoldLight,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.sp,
-                              ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            context.strings.nextPrayerRemaining,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.accentGoldLight,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.sp,
                             ),
-                            8.hor,
-                            const HomeWidgetPinButton(),
-                          ],
-                        ),
-                        4.ver,
-                        LiveTimerDisplay(
-                          end: targetTime,
-                          style: context.textTheme.headlineMedium?.copyWith(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 24.sp,
-                            letterSpacing: 0.5,
                           ),
+                          8.hor,
+                          const HomeWidgetPinButton(),
+                        ],
+                      ),
+                      4.ver,
+                      LiveTimerDisplay(
+                        end: targetTime,
+                        style: context.textTheme.headlineMedium?.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 24.sp,
+                          letterSpacing: 0.5,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                16.ver,
-                HomePrayerProgressWidget(
-                  previousTime: previousTime,
-                  nextTime: targetTime,
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              16.ver,
+              HomePrayerProgressWidget(
+                previousTime: previousTime,
+                nextTime: targetTime,
+              ),
+            ],
           ),
         );
       },
