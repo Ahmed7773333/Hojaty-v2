@@ -1929,4 +1929,205 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get azanSettingsShowcaseBody =>
       'Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets.';
+
+  @override
+  String get navHifz => 'Hifz';
+
+  @override
+  String get hifzTitle => 'My Hifz';
+
+  @override
+  String hifzStreakDays(int days) {
+    return '$days day streak';
+  }
+
+  @override
+  String hifzDayProgress(int current, int total) {
+    return 'Day $current of $total';
+  }
+
+  @override
+  String hifzAyahRange(int start, int end) {
+    return 'Ayah $start – $end';
+  }
+
+  @override
+  String get hifzStartTodaySession => 'Start Today\'s Session';
+
+  @override
+  String get hifzTestMemorization => 'Test Recall';
+
+  @override
+  String get hifzReviewRadarTitle => 'Review Radar';
+
+  @override
+  String hifzReviewDueCount(int count, int minutes) {
+    return '$count ayahs due (~$minutes min)';
+  }
+
+  @override
+  String get hifzReviewNow => 'Review Now';
+
+  @override
+  String get hifzCuratedTracks => 'Memorization Journeys';
+
+  @override
+  String get hifzCustomPlan => 'Custom Plan';
+
+  @override
+  String get hifzQuickLoopTitle => 'Quick Free Loop';
+
+  @override
+  String get hifzQuickLoopSubtitle =>
+      'Pick any Surah & Ayah range and start repeating immediately';
+
+  @override
+  String get hifzModeCards => 'Cards';
+
+  @override
+  String get hifzModeMushaf => 'Mushaf';
+
+  @override
+  String get hifzPhaseSingle => 'Single Ayah';
+
+  @override
+  String get hifzPhaseChaining => 'Cumulative Link';
+
+  @override
+  String get hifzPhaseReview => 'Section Review';
+
+  @override
+  String get hifzPhaseBasmalah => 'Basmalah';
+
+  @override
+  String hifzRepeatCounter(int current, String total) {
+    return 'Repeat $current / $total';
+  }
+
+  @override
+  String hifzYourTurnToRepeat(int seconds) {
+    return 'Your turn to repeat... ${seconds}s left';
+  }
+
+  @override
+  String get hifzSkipPause => 'Skip';
+
+  @override
+  String get hifzChainingChip => 'Cumulative Link';
+
+  @override
+  String get hifzPauseChip => 'Pause to Repeat';
+
+  @override
+  String get hifzHideToTest => 'Hide to Test';
+
+  @override
+  String get hifzShowText => 'Show Text';
+
+  @override
+  String get hifzCompleteWird => 'Complete Today\'s Wird';
+
+  @override
+  String get hifzMasteredAction => 'Memorized ✓';
+
+  @override
+  String get hifzNeedsReviewAction => 'Needs Review';
+
+  @override
+  String get hifzFirstWordsHint => 'First Words';
+
+  @override
+  String get hifzAudioHint => '2s Audio Hint';
+
+  @override
+  String get hifzTapToReveal => 'Tap to reveal ayah';
+
+  @override
+  String hifzOfflineBanner(int ayah) {
+    return 'Offline — unable to download Ayah $ayah. You can continue in silent reading & testing mode.';
+  }
+
+  @override
+  String get hifzSwitchToSilentTest => 'Silent Test Mode';
+
+  @override
+  String get hifzStorageTitle => 'Offline Audio Manager';
+
+  @override
+  String hifzTotalCachedSize(String sizeMb) {
+    return 'Total cached: $sizeMb MB';
+  }
+
+  @override
+  String get hifzClearTempCache => 'Clear Temporary Cache';
+
+  @override
+  String get hifzDownloadSurah => 'Download Surah for Offline';
+
+  @override
+  String get hifzPauseSettingsTitle => 'Studio & Audio Settings';
+
+  @override
+  String get hifzPauseDynamic => 'Dynamic (1.15× ayah)';
+
+  @override
+  String hifzPauseFixed(int seconds) {
+    return 'Fixed (${seconds}s)';
+  }
+
+  @override
+  String get hifzAudioQuality => 'Audio Quality';
+
+  @override
+  String get hifzQuality64 => '64 kbps (Data Saver)';
+
+  @override
+  String get hifzQuality128 => '128 kbps (High)';
+
+  @override
+  String get hifzCompletionTitle => 'MashaAllah! Wird Completed';
+
+  @override
+  String get hifzCompletionSubtitle =>
+      'Your progress is saved and spaced repetition reviews are scheduled.';
+
+  @override
+  String get hifzEmptyPlanTitle => 'Start Your Memorization Journey';
+
+  @override
+  String get hifzEmptyPlanSubtitle =>
+      'Choose a structured track below or create your own custom plan.';
+
+  @override
+  String get hifzStartJourney => 'Start Track';
+
+  @override
+  String get hifzAyahRepeatLabel => 'Ayah';
+
+  @override
+  String get hifzRangeRepeatLabel => 'Range';
+
+  @override
+  String get hifzSelectSurah => 'Select Surah';
+
+  @override
+  String get hifzFromAyah => 'From Ayah';
+
+  @override
+  String get hifzToAyah => 'To Ayah';
+
+  @override
+  String get hifzDailyTargetLabel => 'Daily Target (Ayahs)';
+
+  @override
+  String get hifzPlanTitleLabel => 'Plan Title';
+
+  @override
+  String get hifzCreatePlanAction => 'Create Plan';
+
+  @override
+  String get hifzStartQuickLoopAction => 'Start Quick Loop';
+
+  @override
+  String get hifzNoCachedSurahs => 'No downloaded surahs yet';
 }

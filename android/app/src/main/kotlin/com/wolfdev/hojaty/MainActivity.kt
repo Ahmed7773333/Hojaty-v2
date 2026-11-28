@@ -23,6 +23,7 @@ class MainActivity : AudioServiceActivity() {
         private const val COMPASS_CHANNEL = "com.wolfdev.hojaty/compass"
         private const val FLIP_CHANNEL = "com.wolfdev.hojaty/azan_flip"
         private const val NOTIFICATION_CHANNEL = "com.wolfdev.hojaty/notifications"
+        private const val HIFZ_PLATFORM_CHANNEL = "com.wolfdev.hojaty/hifz_platform"
     }
 
     private var assetPackListener: AssetPackStateUpdateListener? = null
@@ -30,6 +31,7 @@ class MainActivity : AudioServiceActivity() {
     private var compassEventChannel: EventChannel? = null
     private var flipMethodChannel: MethodChannel? = null
     private var notificationMethodChannel: MethodChannel? = null
+    private var hifzPlatformChannel: MethodChannel? = null
     private var sensorManager: SensorManager? = null
     private var compassListener: SensorEventListener? = null
 
@@ -446,6 +448,28 @@ class MainActivity : AudioServiceActivity() {
                 flipMethodChannel?.invokeMethod("onAzanStoppedByFlip", mapOf("notificationId" to notifId))
             }
         }
+
+        hifzPlatformChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, HIFZ_PLATFORM_CHANNEL).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "setWakelock" -> {
+                        val enabled = call.argument<Boolean>("enabled") ?: false
+                        runOnUiThread {
+                            if (enabled) {
+                                window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                            } else {
+                                window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                            }
+                        }
+                        result.success(true)
+                    }
+                    "excludeFromBackup" -> {
+                        result.success(true)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -456,6 +480,8 @@ class MainActivity : AudioServiceActivity() {
         flipMethodChannel = null
         notificationMethodChannel?.setMethodCallHandler(null)
         notificationMethodChannel = null
+        hifzPlatformChannel?.setMethodCallHandler(null)
+        hifzPlatformChannel = null
 
         compassListener?.let { listener ->
             try {

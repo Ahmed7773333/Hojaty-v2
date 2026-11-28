@@ -691,5 +691,114 @@
   "homeWidgetGuideStep2Ios": "2. Tap the (+) button at the top and search for \"Hojaty\".",
   "homeWidgetGuideStep3Ios": "3. Choose your preferred size and tap Add Widget.",
   "azanSettingsShowcaseTitle": "Customize Adhan & Alerts",
-  "azanSettingsShowcaseBody": "Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets."
+  "azanSettingsShowcaseBody": "Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets.",
+  "navHifz": "Hifz",
+  "hifzTitle": "My Hifz",
+  "hifzStreakDays": "{days} day streak",
+  "@hifzStreakDays": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "hifzDayProgress": "Day {current} of {total}",
+  "@hifzDayProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "hifzAyahRange": "Ayah {start} – {end}",
+  "@hifzAyahRange": {
+    "placeholders": {
+      "start": { "type": "int" },
+      "end": { "type": "int" }
+    }
+  },
+  "hifzStartTodaySession": "Start Today's Session",
+  "hifzTestMemorization": "Test Recall",
+  "hifzReviewRadarTitle": "Review Radar",
+  "hifzReviewDueCount": "{count} ayahs due (~{minutes} min)",
+  "@hifzReviewDueCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "hifzReviewNow": "Review Now",
+  "hifzCuratedTracks": "Memorization Journeys",
+  "hifzCustomPlan": "Custom Plan",
+  "hifzQuickLoopTitle": "Quick Free Loop",
+  "hifzQuickLoopSubtitle": "Pick any Surah & Ayah range and start repeating immediately",
+  "hifzModeCards": "Cards",
+  "hifzModeMushaf": "Mushaf",
+  "hifzPhaseSingle": "Single Ayah",
+  "hifzPhaseChaining": "Cumulative Link",
+  "hifzPhaseReview": "Section Review",
+  "hifzPhaseBasmalah": "Basmalah",
+  "hifzRepeatCounter": "Repeat {current} / {total}",
+  "@hifzRepeatCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "String" }
+    }
+  },
+  "hifzYourTurnToRepeat": "Your turn to repeat... {seconds}s left",
+  "@hifzYourTurnToRepeat": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "hifzSkipPause": "Skip",
+  "hifzChainingChip": "Cumulative Link",
+  "hifzPauseChip": "Pause to Repeat",
+  "hifzHideToTest": "Hide to Test",
+  "hifzShowText": "Show Text",
+  "hifzCompleteWird": "Complete Today's Wird",
+  "hifzMasteredAction": "Memorized ✓",
+  "hifzNeedsReviewAction": "Needs Review",
+  "hifzFirstWordsHint": "First Words",
+  "hifzAudioHint": "2s Audio Hint",
+  "hifzTapToReveal": "Tap to reveal ayah",
+  "hifzOfflineBanner": "Offline — unable to download Ayah {ayah}. You can continue in silent reading & testing mode.",
+  "@hifzOfflineBanner": {
+    "placeholders": {
+      "ayah": { "type": "int" }
+    }
+  },
+  "hifzSwitchToSilentTest": "Silent Test Mode",
+  "hifzStorageTitle": "Offline Audio Manager",
+  "hifzTotalCachedSize": "Total cached: {sizeMb} MB",
+  "@hifzTotalCachedSize": {
+    "placeholders": {
+      "sizeMb": { "type": "String" }
+    }
+  },
+  "hifzClearTempCache": "Clear Temporary Cache",
+  "hifzDownloadSurah": "Download Surah for Offline",
+  "hifzPauseSettingsTitle": "Studio & Audio Settings",
+  "hifzPauseDynamic": "Dynamic (1.15× ayah)",
+  "hifzPauseFixed": "Fixed ({seconds}s)",
+  "@hifzPauseFixed": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "hifzAudioQuality": "Audio Quality",
+  "hifzQuality64": "64 kbps (Data Saver)",
+  "hifzQuality128": "128 kbps (High)",
+  "hifzCompletionTitle": "MashaAllah! Wird Completed",
+  "hifzCompletionSubtitle": "Your progress is saved and spaced repetition reviews are scheduled.",
+  "hifzEmptyPlanTitle": "Start Your Memorization Journey",
+  "hifzEmptyPlanSubtitle": "Choose a structured track below or create your own custom plan.",
+  "hifzStartJourney": "Start Track",
+  "hifzAyahRepeatLabel": "Ayah",
+  "hifzRangeRepeatLabel": "Range",
+  "hifzSelectSurah": "Select Surah",
+  "hifzFromAyah": "From Ayah",
+  "hifzToAyah": "To Ayah",
+  "hifzDailyTargetLabel": "Daily Target (Ayahs)",
+  "hifzPlanTitleLabel": "Plan Title",
+  "hifzCreatePlanAction": "Create Plan",
+  "hifzStartQuickLoopAction": "Start Quick Loop",
+  "hifzNoCachedSurahs": "No downloaded surahs yet"
 }

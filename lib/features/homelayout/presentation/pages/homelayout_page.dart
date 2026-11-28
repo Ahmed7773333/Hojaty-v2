@@ -22,6 +22,8 @@ import 'package:hojaty/features/homelayout/presentation/widgets/home/home_bottom
 import 'package:hojaty/features/homelayout/presentation/widgets/home/home_dashboard_view.dart';
 import 'package:hojaty/hojaty_app.dart';
 import 'package:hojaty/shared/widgets/app_mini_player_widget.dart';
+import 'package:hojaty/features/hifz/presentation/screens/hifz_hub_screen.dart';
+import 'package:hojaty/features/hifz/presentation/widgets/hifz_mini_player.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/occasions/occasions_tab_view.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/quran/quran_tab_view.dart';
 import 'package:hojaty/features/homelayout/presentation/widgets/settings/settings_tab_view.dart';
@@ -130,6 +132,7 @@ class _HomelayoutPageState extends State<HomelayoutPage>
         final tabs = [
           const HomeDashboardView(),
           const QuranTabView(),
+          const HifzHubScreen(),
           const AthkarGridView(),
           const OccasionsTabView(),
           const SettingsTabView(),
@@ -163,6 +166,7 @@ class _HomelayoutPageState extends State<HomelayoutPage>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    const HifzMiniPlayer(),
                     const AppMiniPlayerWidget(),
                     HomeBottomNavBarWidget(
                       currentIndex: state.currentTabIndex,

@@ -1906,4 +1906,205 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get azanSettingsShowcaseBody =>
       'اضغط هنا لتغيير صوت المؤذن، ضبط التنبيه قبل الأذان، وتعديل فروق التوقيت.';
+
+  @override
+  String get navHifz => 'حِفظي';
+
+  @override
+  String get hifzTitle => 'حِفظي';
+
+  @override
+  String hifzStreakDays(int days) {
+    return '$days أيام متتالية';
+  }
+
+  @override
+  String hifzDayProgress(int current, int total) {
+    return 'اليوم $current من $total';
+  }
+
+  @override
+  String hifzAyahRange(int start, int end) {
+    return 'آية $start ← $end';
+  }
+
+  @override
+  String get hifzStartTodaySession => 'ابدأ جلسة اليوم';
+
+  @override
+  String get hifzTestMemorization => 'اختبر حفظك';
+
+  @override
+  String get hifzReviewRadarTitle => 'مُثبّت الحفظ';
+
+  @override
+  String hifzReviewDueCount(int count, int minutes) {
+    return '$count آيات للمراجعة (~$minutes د)';
+  }
+
+  @override
+  String get hifzReviewNow => 'راجع الآن';
+
+  @override
+  String get hifzCuratedTracks => 'مسارات الحفظ';
+
+  @override
+  String get hifzCustomPlan => 'خطة مخصصة';
+
+  @override
+  String get hifzQuickLoopTitle => 'تكرار حر سريع';
+
+  @override
+  String get hifzQuickLoopSubtitle =>
+      'اختر أي سورة ونطاق آيات وابدأ التكرار فوراً';
+
+  @override
+  String get hifzModeCards => 'بطاقات';
+
+  @override
+  String get hifzModeMushaf => 'مصحف';
+
+  @override
+  String get hifzPhaseSingle => 'حفظ فردي';
+
+  @override
+  String get hifzPhaseChaining => 'ربط تراكمي';
+
+  @override
+  String get hifzPhaseReview => 'مراجعة المقطع';
+
+  @override
+  String get hifzPhaseBasmalah => 'البسملة';
+
+  @override
+  String hifzRepeatCounter(int current, String total) {
+    return 'التكرار $current / $total';
+  }
+
+  @override
+  String hifzYourTurnToRepeat(int seconds) {
+    return 'دورك للترديد... متبقي $seconds ث';
+  }
+
+  @override
+  String get hifzSkipPause => 'تخطي';
+
+  @override
+  String get hifzChainingChip => 'ربط تراكمي';
+
+  @override
+  String get hifzPauseChip => 'سكتة ترديد';
+
+  @override
+  String get hifzHideToTest => 'إخفاء للتسميع';
+
+  @override
+  String get hifzShowText => 'إظهار النص';
+
+  @override
+  String get hifzCompleteWird => 'أتممت حفظ الورد';
+
+  @override
+  String get hifzMasteredAction => 'تم الحفظ ✓';
+
+  @override
+  String get hifzNeedsReviewAction => 'أحتاج مراجعة';
+
+  @override
+  String get hifzFirstWordsHint => 'أول كلمتين';
+
+  @override
+  String get hifzAudioHint => 'تلميح صوتي ٢ث';
+
+  @override
+  String get hifzTapToReveal => 'اضغط لإظهار الآية';
+
+  @override
+  String hifzOfflineBanner(int ayah) {
+    return 'لا يوجد اتصال لتحميل آية $ayah — يمكنك المتابعة في وضع القراءة والتسميع الصامت';
+  }
+
+  @override
+  String get hifzSwitchToSilentTest => 'التسميع الصامت';
+
+  @override
+  String get hifzStorageTitle => 'إدارة الصوتيات المحفوظة';
+
+  @override
+  String hifzTotalCachedSize(String sizeMb) {
+    return 'المساحة المستخدمة: $sizeMb م.ب';
+  }
+
+  @override
+  String get hifzClearTempCache => 'تنظيف الكاش المؤقت';
+
+  @override
+  String get hifzDownloadSurah => 'تحميل سورة كاملة للاستماع بدون إنترنت';
+
+  @override
+  String get hifzPauseSettingsTitle => 'إعدادات الصوت والسكتة';
+
+  @override
+  String get hifzPauseDynamic => 'تلقائي (١.١٥× طول الآية)';
+
+  @override
+  String hifzPauseFixed(int seconds) {
+    return 'ثابت ($seconds ثوانٍ)';
+  }
+
+  @override
+  String get hifzAudioQuality => 'جودة الصوت';
+
+  @override
+  String get hifzQuality64 => '64 kbps (توفير البيانات)';
+
+  @override
+  String get hifzQuality128 => '128 kbps (جودة عالية)';
+
+  @override
+  String get hifzCompletionTitle => 'بارك الله فيك! أتممت ورد اليوم';
+
+  @override
+  String get hifzCompletionSubtitle =>
+      'تم حفظ تقدمك وجدولة المراجعة الذكية تلقائياً.';
+
+  @override
+  String get hifzEmptyPlanTitle => 'ابدأ رحلتك مع حفظ القرآن';
+
+  @override
+  String get hifzEmptyPlanSubtitle =>
+      'اختر مساراً جاهزاً بالأسفل أو أنشئ خطتك المخصصة.';
+
+  @override
+  String get hifzStartJourney => 'ابدأ المسار';
+
+  @override
+  String get hifzAyahRepeatLabel => 'الآية';
+
+  @override
+  String get hifzRangeRepeatLabel => 'المقطع';
+
+  @override
+  String get hifzSelectSurah => 'اختر السورة';
+
+  @override
+  String get hifzFromAyah => 'من آية';
+
+  @override
+  String get hifzToAyah => 'إلى آية';
+
+  @override
+  String get hifzDailyTargetLabel => 'الهدف اليومي (آيات)';
+
+  @override
+  String get hifzPlanTitleLabel => 'اسم الخطة';
+
+  @override
+  String get hifzCreatePlanAction => 'إنشاء الخطة';
+
+  @override
+  String get hifzStartQuickLoopAction => 'بدء التكرار السريع';
+
+  @override
+  String get hifzNoCachedSurahs => 'لا توجد سور محملة بعد';
 }

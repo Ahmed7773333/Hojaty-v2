@@ -1,0 +1,75 @@
+{
+  "tracks": [
+    {
+      "track_key": "baqarah_40_days",
+      "title_ar": "رحلة حفظ سورة البقرة",
+      "title_en": "Surah Al-Baqarah Journey",
+      "subtitle_ar": "40 يوماً • 10 محطات تدريجية مع أيام مراجعة",
+      "subtitle_en": "40 Days • 10 Progressive Milestones with Review Days",
+      "surah_id": 2,
+      "start_global_ayah": 8,
+      "end_global_ayah": 293,
+      "daily_target_ayahs": 7,
+      "review_every_n_days": 4,
+      "estimated_days": 40,
+      "difficulty": "advanced"
+    },
+    {
+      "track_key": "mulk_7_days",
+      "title_ar": "حفظ سورة الملك",
+      "title_en": "Surah Al-Mulk (7 Days)",
+      "subtitle_ar": "7 أيام • المنجية من عذاب القبر (4–5 آيات يومياً)",
+      "subtitle_en": "7 Days • ~5 Ayahs per day",
+      "surah_id": 67,
+      "start_global_ayah": 5242,
+      "end_global_ayah": 5271,
+      "daily_target_ayahs": 5,
+      "review_every_n_days": 3,
+      "estimated_days": 7,
+      "difficulty": "beginner"
+    },
+    {
+      "track_key": "kahf_15_days",
+      "title_ar": "حفظ سورة الكهف",
+      "title_en": "Surah Al-Kahf (15 Days)",
+      "subtitle_ar": "15 يوماً • نور ما بين الجمعتين (~7 آيات يومياً)",
+      "subtitle_en": "15 Days • ~7 Ayahs per day",
+      "surah_id": 18,
+      "start_global_ayah": 2141,
+      "end_global_ayah": 2250,
+      "daily_target_ayahs": 7,
+      "review_every_n_days": 4,
+      "estimated_days": 15,
+      "difficulty": "intermediate"
+    },
+    {
+      "track_key": "yasin_12_days",
+      "title_ar": "حفظ سورة يس",
+      "title_en": "Surah Yasin (12 Days)",
+      "subtitle_ar": "12 يوماً • قلب القرآن (~7 آيات يومياً)",
+      "subtitle_en": "12 Days • ~7 Ayahs per day",
+      "surah_id": 36,
+      "start_global_ayah": 3706,
+      "end_global_ayah": 3788,
+      "daily_target_ayahs": 7,
+      "review_every_n_days": 4,
+      "estimated_days": 12,
+      "difficulty": "intermediate"
+    },
+    {
+      "track_key": "juz_amma_30_days",
+      "title_ar": "حفظ جزء عمّ كاملاً",
+      "title_en": "Juz Amma (30 Days)",
+      "subtitle_ar": "30 يوماً • من سورة النبأ إلى سورة الناس (37 سورة)",
+      "subtitle_en": "30 Days • From An-Naba to An-Nas (37 Surahs)",
+      "surah_id": 0,
+      "start_global_ayah": 5673,
+      "end_global_ayah": 6236,
+      "daily_target_ayahs": 19,
+      "review_every_n_days": 5,
+      "estimated_days": 30,
+      "difficulty": "beginner"
+    }
+  ]
+}
+

@@ -16,6 +16,7 @@ class Assets {
   static const String eveningAzkharIcon = 'assets/svg/evening_azkhar_icon.svg';
   static const String fajrIcon = 'assets/svg/fajr_icon.svg';
   static const String homeNavBarIcon = 'assets/svg/home_nav_bar_icon.svg';
+  static const String hifzNavBarIcon = 'assets/svg/hifz_nav_bar_icon.svg';
   static const String ishaIcon = 'assets/svg/isha_icon.svg';
   static const String maghribIcon = 'assets/svg/maghrib_icon.svg';
   static const String moreNavBarIcon = 'assets/svg/more_nav_bar_icon.svg';

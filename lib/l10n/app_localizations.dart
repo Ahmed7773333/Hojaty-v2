@@ -3637,6 +3637,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap here to change the Muezzin voice, pre-Adhan reminders, and prayer time offsets.'**
   String get azanSettingsShowcaseBody;
+
+  /// No description provided for @navHifz.
+  ///
+  /// In en, this message translates to:
+  /// **'Hifz'**
+  String get navHifz;
+
+  /// No description provided for @hifzTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Hifz'**
+  String get hifzTitle;
+
+  /// No description provided for @hifzStreakDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} day streak'**
+  String hifzStreakDays(int days);
+
+  /// No description provided for @hifzDayProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {current} of {total}'**
+  String hifzDayProgress(int current, int total);
+
+  /// No description provided for @hifzAyahRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah {start} – {end}'**
+  String hifzAyahRange(int start, int end);
+
+  /// No description provided for @hifzStartTodaySession.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Today\'s Session'**
+  String get hifzStartTodaySession;
+
+  /// No description provided for @hifzTestMemorization.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Recall'**
+  String get hifzTestMemorization;
+
+  /// No description provided for @hifzReviewRadarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Radar'**
+  String get hifzReviewRadarTitle;
+
+  /// No description provided for @hifzReviewDueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ayahs due (~{minutes} min)'**
+  String hifzReviewDueCount(int count, int minutes);
+
+  /// No description provided for @hifzReviewNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Now'**
+  String get hifzReviewNow;
+
+  /// No description provided for @hifzCuratedTracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Memorization Journeys'**
+  String get hifzCuratedTracks;
+
+  /// No description provided for @hifzCustomPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Plan'**
+  String get hifzCustomPlan;
+
+  /// No description provided for @hifzQuickLoopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Free Loop'**
+  String get hifzQuickLoopTitle;
+
+  /// No description provided for @hifzQuickLoopSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick any Surah & Ayah range and start repeating immediately'**
+  String get hifzQuickLoopSubtitle;
+
+  /// No description provided for @hifzModeCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get hifzModeCards;
+
+  /// No description provided for @hifzModeMushaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf'**
+  String get hifzModeMushaf;
+
+  /// No description provided for @hifzPhaseSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'Single Ayah'**
+  String get hifzPhaseSingle;
+
+  /// No description provided for @hifzPhaseChaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Cumulative Link'**
+  String get hifzPhaseChaining;
+
+  /// No description provided for @hifzPhaseReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Section Review'**
+  String get hifzPhaseReview;
+
+  /// No description provided for @hifzPhaseBasmalah.
+  ///
+  /// In en, this message translates to:
+  /// **'Basmalah'**
+  String get hifzPhaseBasmalah;
+
+  /// No description provided for @hifzRepeatCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat {current} / {total}'**
+  String hifzRepeatCounter(int current, String total);
+
+  /// No description provided for @hifzYourTurnToRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Your turn to repeat... {seconds}s left'**
+  String hifzYourTurnToRepeat(int seconds);
+
+  /// No description provided for @hifzSkipPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get hifzSkipPause;
+
+  /// No description provided for @hifzChainingChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cumulative Link'**
+  String get hifzChainingChip;
+
+  /// No description provided for @hifzPauseChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause to Repeat'**
+  String get hifzPauseChip;
+
+  /// No description provided for @hifzHideToTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide to Test'**
+  String get hifzHideToTest;
+
+  /// No description provided for @hifzShowText.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Text'**
+  String get hifzShowText;
+
+  /// No description provided for @hifzCompleteWird.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Today\'s Wird'**
+  String get hifzCompleteWird;
+
+  /// No description provided for @hifzMasteredAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Memorized ✓'**
+  String get hifzMasteredAction;
+
+  /// No description provided for @hifzNeedsReviewAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Review'**
+  String get hifzNeedsReviewAction;
+
+  /// No description provided for @hifzFirstWordsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'First Words'**
+  String get hifzFirstWordsHint;
+
+  /// No description provided for @hifzAudioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'2s Audio Hint'**
+  String get hifzAudioHint;
+
+  /// No description provided for @hifzTapToReveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reveal ayah'**
+  String get hifzTapToReveal;
+
+  /// No description provided for @hifzOfflineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline — unable to download Ayah {ayah}. You can continue in silent reading & testing mode.'**
+  String hifzOfflineBanner(int ayah);
+
+  /// No description provided for @hifzSwitchToSilentTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent Test Mode'**
+  String get hifzSwitchToSilentTest;
+
+  /// No description provided for @hifzStorageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Audio Manager'**
+  String get hifzStorageTitle;
+
+  /// No description provided for @hifzTotalCachedSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Total cached: {sizeMb} MB'**
+  String hifzTotalCachedSize(String sizeMb);
+
+  /// No description provided for @hifzClearTempCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Temporary Cache'**
+  String get hifzClearTempCache;
+
+  /// No description provided for @hifzDownloadSurah.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Surah for Offline'**
+  String get hifzDownloadSurah;
+
+  /// No description provided for @hifzPauseSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Studio & Audio Settings'**
+  String get hifzPauseSettingsTitle;
+
+  /// No description provided for @hifzPauseDynamic.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic (1.15× ayah)'**
+  String get hifzPauseDynamic;
+
+  /// No description provided for @hifzPauseFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed ({seconds}s)'**
+  String hifzPauseFixed(int seconds);
+
+  /// No description provided for @hifzAudioQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio Quality'**
+  String get hifzAudioQuality;
+
+  /// No description provided for @hifzQuality64.
+  ///
+  /// In en, this message translates to:
+  /// **'64 kbps (Data Saver)'**
+  String get hifzQuality64;
+
+  /// No description provided for @hifzQuality128.
+  ///
+  /// In en, this message translates to:
+  /// **'128 kbps (High)'**
+  String get hifzQuality128;
+
+  /// No description provided for @hifzCompletionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MashaAllah! Wird Completed'**
+  String get hifzCompletionTitle;
+
+  /// No description provided for @hifzCompletionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress is saved and spaced repetition reviews are scheduled.'**
+  String get hifzCompletionSubtitle;
+
+  /// No description provided for @hifzEmptyPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Your Memorization Journey'**
+  String get hifzEmptyPlanTitle;
+
+  /// No description provided for @hifzEmptyPlanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a structured track below or create your own custom plan.'**
+  String get hifzEmptyPlanSubtitle;
+
+  /// No description provided for @hifzStartJourney.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Track'**
+  String get hifzStartJourney;
+
+  /// No description provided for @hifzAyahRepeatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah'**
+  String get hifzAyahRepeatLabel;
+
+  /// No description provided for @hifzRangeRepeatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Range'**
+  String get hifzRangeRepeatLabel;
+
+  /// No description provided for @hifzSelectSurah.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Surah'**
+  String get hifzSelectSurah;
+
+  /// No description provided for @hifzFromAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'From Ayah'**
+  String get hifzFromAyah;
+
+  /// No description provided for @hifzToAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'To Ayah'**
+  String get hifzToAyah;
+
+  /// No description provided for @hifzDailyTargetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Target (Ayahs)'**
+  String get hifzDailyTargetLabel;
+
+  /// No description provided for @hifzPlanTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan Title'**
+  String get hifzPlanTitleLabel;
+
+  /// No description provided for @hifzCreatePlanAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Plan'**
+  String get hifzCreatePlanAction;
+
+  /// No description provided for @hifzStartQuickLoopAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Quick Loop'**
+  String get hifzStartQuickLoopAction;
+
+  /// No description provided for @hifzNoCachedSurahs.
+  ///
+  /// In en, this message translates to:
+  /// **'No downloaded surahs yet'**
+  String get hifzNoCachedSurahs;
 }
 
 class _AppLocalizationsDelegate

@@ -11,6 +11,8 @@ import 'package:hojaty/config/theme/liquid_glass_scope.dart';
 import 'package:hojaty/core/di/injector.dart';
 import 'package:hojaty/core/local/user_hive_helper.dart';
 import 'package:hojaty/core/utils/screen_util_like.dart';
+import 'package:hojaty/features/hifz/presentation/cubits/hifz_hub_cubit.dart';
+import 'package:hojaty/features/hifz/presentation/cubits/hifz_session_cubit.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:hojaty/features/homelayout/presentation/bloc/homelayout_event.dart';
 import 'package:hojaty/features/onboarding/presentation/bloc/onboarding_bloc.dart';
@@ -36,6 +38,12 @@ class HojatyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => injector<QuranBloc>()..add(const LoadQuranDataEvent()),
+        ),
+        BlocProvider(
+          create: (_) => injector<HifzHubCubit>()..load(),
+        ),
+        BlocProvider(
+          create: (_) => injector<HifzSessionCubit>(),
         ),
       ],
       child: ValueListenableBuilder(

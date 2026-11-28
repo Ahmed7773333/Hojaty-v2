@@ -9,6 +9,7 @@ import 'package:hojaty/features/books/presentation/pages/book_hadiths_page.dart'
 import 'package:hojaty/features/books/presentation/pages/book_reader_page.dart';
 import 'package:hojaty/features/books/presentation/pages/books_page.dart';
 import 'package:hojaty/features/daily_story/presentation/pages/daily_story_preview_page.dart';
+import 'package:hojaty/features/hifz/presentation/screens/hifz_studio_screen.dart';
 import 'package:hojaty/features/hojaty_ai/presentation/pages/hojaty_ai_page.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_category_model.dart';
 import 'package:hojaty/features/homelayout/data/models/athkar_detail_args.dart';
@@ -96,6 +97,7 @@ class AppRoutes {
   static const String adhanSoundsLibrary = '/adhan-sounds-library';
   static const String salawatSettings = '/salawat-settings';
   static const String dailyStory = '/daily-story';
+  static const String hifzStudio = '/hifz-studio';
 }
 
 class AppRouter {
@@ -409,6 +411,11 @@ class AppRouter {
       case AppRoutes.dailyStory:
         return MaterialPageRoute(
           builder: (_) => const DailyStoryPreviewPage(),
+          settings: settings,
+        );
+      case AppRoutes.hifzStudio:
+        return MaterialPageRoute(
+          builder: (_) => const HifzStudioScreen(),
           settings: settings,
         );
       default:

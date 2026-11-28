@@ -48,8 +48,8 @@ class HomeBottomNavBarWidget extends StatelessWidget {
             child: HomeNavItemWidget(
               index: 2,
               isSelected: currentIndex == 2,
-              iconPath: Assets.azkharNavBarIcon,
-              label: context.strings.navAthkar,
+              iconPath: Assets.hifzNavBarIcon,
+              label: context.strings.navHifz,
               onSelected: onTabSelected,
             ),
           ),
@@ -57,8 +57,8 @@ class HomeBottomNavBarWidget extends StatelessWidget {
             child: HomeNavItemWidget(
               index: 3,
               isSelected: currentIndex == 3,
-              iconPath: Assets.occasionsNavBarIcon,
-              label: context.strings.navOccasions,
+              iconPath: Assets.azkharNavBarIcon,
+              label: context.strings.navAthkar,
               onSelected: onTabSelected,
             ),
           ),
@@ -66,6 +66,15 @@ class HomeBottomNavBarWidget extends StatelessWidget {
             child: HomeNavItemWidget(
               index: 4,
               isSelected: currentIndex == 4,
+              iconPath: Assets.occasionsNavBarIcon,
+              label: context.strings.navOccasions,
+              onSelected: onTabSelected,
+            ),
+          ),
+          Flexible(
+            child: HomeNavItemWidget(
+              index: 5,
+              isSelected: currentIndex == 5,
               iconPath: Assets.moreNavBarIcon,
               label: context.strings.navMore,
               onSelected: onTabSelected,

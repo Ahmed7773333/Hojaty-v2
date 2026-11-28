@@ -10,9 +10,11 @@ import AVFoundation
     private static let channelCompass = "com.wolfdev.hojaty/compass"
     private static let channelFlip = "com.wolfdev.hojaty/azan_flip"
     private static let channelNotification = "com.wolfdev.hojaty/notifications"
+    private static let channelHifzPlatform = "com.wolfdev.hojaty/hifz_platform"
 
     private var flipMethodChannel: FlutterMethodChannel?
     private var notificationMethodChannel: FlutterMethodChannel?
+    private var hifzPlatformChannel: FlutterMethodChannel?
     private var channelsConfigured = false
 
     override func application(
@@ -220,6 +222,34 @@ import AVFoundation
                     "onAzanStoppedByFlip",
                     arguments: ["notificationId": notifId as Any]
                 )
+            }
+        }
+
+        // 5. Hifz Platform Channel (Wakelock & iCloud Backup Exclusion)
+        hifzPlatformChannel = FlutterMethodChannel(name: AppDelegate.channelHifzPlatform, binaryMessenger: messenger)
+        hifzPlatformChannel?.setMethodCallHandler { (call, result) in
+            let args = call.arguments as? [String: Any]
+            switch call.method {
+            case "setWakelock":
+                let enabled = args?["enabled"] as? Bool ?? false
+                DispatchQueue.main.async {
+                    UIApplication.shared.isIdleTimerDisabled = enabled
+                }
+                result(true)
+            case "excludeFromBackup":
+                if let path = args?["path"] as? String {
+                    var url = URL(fileURLWithPath: path)
+                    var resourceValues = URLResourceValues()
+                    resourceValues.isExcludedFromBackup = true
+                    do {
+                        try url.setResourceValues(resourceValues)
+                    } catch {
+                        // Ignore if directory does not exist yet
+                    }
+                }
+                result(true)
+            default:
+                result(FlutterMethodNotImplemented)
             }
         }
     }

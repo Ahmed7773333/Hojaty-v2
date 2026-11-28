@@ -691,5 +691,114 @@
   "homeWidgetGuideStep2Ios": "2. اضغط على علامة (+) في الأعلى ثم ابحث عن «حُجَّتي».",
   "homeWidgetGuideStep3Ios": "3. اختر الحجم المناسب واضغط «إضافة أداة» (Add Widget).",
   "azanSettingsShowcaseTitle": "تخصيص الأذان والتنبيهات",
-  "azanSettingsShowcaseBody": "اضغط هنا لتغيير صوت المؤذن، ضبط التنبيه قبل الأذان، وتعديل فروق التوقيت."
+  "azanSettingsShowcaseBody": "اضغط هنا لتغيير صوت المؤذن، ضبط التنبيه قبل الأذان، وتعديل فروق التوقيت.",
+  "navHifz": "حِفظي",
+  "hifzTitle": "حِفظي",
+  "hifzStreakDays": "{days} أيام متتالية",
+  "@hifzStreakDays": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "hifzDayProgress": "اليوم {current} من {total}",
+  "@hifzDayProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "hifzAyahRange": "آية {start} ← {end}",
+  "@hifzAyahRange": {
+    "placeholders": {
+      "start": { "type": "int" },
+      "end": { "type": "int" }
+    }
+  },
+  "hifzStartTodaySession": "ابدأ جلسة اليوم",
+  "hifzTestMemorization": "اختبر حفظك",
+  "hifzReviewRadarTitle": "مُثبّت الحفظ",
+  "hifzReviewDueCount": "{count} آيات للمراجعة (~{minutes} د)",
+  "@hifzReviewDueCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "hifzReviewNow": "راجع الآن",
+  "hifzCuratedTracks": "مسارات الحفظ",
+  "hifzCustomPlan": "خطة مخصصة",
+  "hifzQuickLoopTitle": "تكرار حر سريع",
+  "hifzQuickLoopSubtitle": "اختر أي سورة ونطاق آيات وابدأ التكرار فوراً",
+  "hifzModeCards": "بطاقات",
+  "hifzModeMushaf": "مصحف",
+  "hifzPhaseSingle": "حفظ فردي",
+  "hifzPhaseChaining": "ربط تراكمي",
+  "hifzPhaseReview": "مراجعة المقطع",
+  "hifzPhaseBasmalah": "البسملة",
+  "hifzRepeatCounter": "التكرار {current} / {total}",
+  "@hifzRepeatCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "String" }
+    }
+  },
+  "hifzYourTurnToRepeat": "دورك للترديد... متبقي {seconds} ث",
+  "@hifzYourTurnToRepeat": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "hifzSkipPause": "تخطي",
+  "hifzChainingChip": "ربط تراكمي",
+  "hifzPauseChip": "سكتة ترديد",
+  "hifzHideToTest": "إخفاء للتسميع",
+  "hifzShowText": "إظهار النص",
+  "hifzCompleteWird": "أتممت حفظ الورد",
+  "hifzMasteredAction": "تم الحفظ ✓",
+  "hifzNeedsReviewAction": "أحتاج مراجعة",
+  "hifzFirstWordsHint": "أول كلمتين",
+  "hifzAudioHint": "تلميح صوتي ٢ث",
+  "hifzTapToReveal": "اضغط لإظهار الآية",
+  "hifzOfflineBanner": "لا يوجد اتصال لتحميل آية {ayah} — يمكنك المتابعة في وضع القراءة والتسميع الصامت",
+  "@hifzOfflineBanner": {
+    "placeholders": {
+      "ayah": { "type": "int" }
+    }
+  },
+  "hifzSwitchToSilentTest": "التسميع الصامت",
+  "hifzStorageTitle": "إدارة الصوتيات المحفوظة",
+  "hifzTotalCachedSize": "المساحة المستخدمة: {sizeMb} م.ب",
+  "@hifzTotalCachedSize": {
+    "placeholders": {
+      "sizeMb": { "type": "String" }
+    }
+  },
+  "hifzClearTempCache": "تنظيف الكاش المؤقت",
+  "hifzDownloadSurah": "تحميل سورة كاملة للاستماع بدون إنترنت",
+  "hifzPauseSettingsTitle": "إعدادات الصوت والسكتة",
+  "hifzPauseDynamic": "تلقائي (١.١٥× طول الآية)",
+  "hifzPauseFixed": "ثابت ({seconds} ثوانٍ)",
+  "@hifzPauseFixed": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "hifzAudioQuality": "جودة الصوت",
+  "hifzQuality64": "64 kbps (توفير البيانات)",
+  "hifzQuality128": "128 kbps (جودة عالية)",
+  "hifzCompletionTitle": "بارك الله فيك! أتممت ورد اليوم",
+  "hifzCompletionSubtitle": "تم حفظ تقدمك وجدولة المراجعة الذكية تلقائياً.",
+  "hifzEmptyPlanTitle": "ابدأ رحلتك مع حفظ القرآن",
+  "hifzEmptyPlanSubtitle": "اختر مساراً جاهزاً بالأسفل أو أنشئ خطتك المخصصة.",
+  "hifzStartJourney": "ابدأ المسار",
+  "hifzAyahRepeatLabel": "الآية",
+  "hifzRangeRepeatLabel": "المقطع",
+  "hifzSelectSurah": "اختر السورة",
+  "hifzFromAyah": "من آية",
+  "hifzToAyah": "إلى آية",
+  "hifzDailyTargetLabel": "الهدف اليومي (آيات)",
+  "hifzPlanTitleLabel": "اسم الخطة",
+  "hifzCreatePlanAction": "إنشاء الخطة",
+  "hifzStartQuickLoopAction": "بدء التكرار السريع",
+  "hifzNoCachedSurahs": "لا توجد سور محملة بعد"
 }
